@@ -1,0 +1,130 @@
+$font-stack: 'open sans', sans-serif;
+$dark-gray: #444;
+$light-gray: #c9c9c9;
+$green: #1bcf21;
+
+body {
+  font-size: 14px;
+  font-family: $font-stack;
+  width: 100%;
+  color: $dark-gray;
+  background-color: #972121;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(80, 80, 80, 0.1),
+    rgba(80, 80, 80, 0.1) 10px,
+    rgba(80, 80, 80, 0.2) 10px,
+    rgba(80, 80, 80, 0.2) 20px
+  );
+  padding-top: 70px;
+}
+
+.container{
+  width: 100%;
+}
+
+.btn{
+  cursor: pointer;
+  background-color: $green;
+
+  color: #fff;
+  border: 1px solid #fff;
+  box-shadow: 0 0 0 2px $green; 
+  border-radius: 4px;
+  padding: 9px 17px;
+  &:hover{
+    background-color: $dark-gray;
+    box-shadow: 0 0 0 2px $dark-gray;
+  }
+}
+
+input[type=text]{
+  display: block;
+  width: 94%;
+  padding: 15px 5px;
+  margin: 10px auto 15px auto;
+  border: none;
+  border-left: 4px solid $green;
+  border-top: 1px solid #fff;
+  border-bottom : 1px solid $green;
+  &:focus{
+    border: 1px solid white;
+    width: 100%;
+    margin: 10px 0 15px -7px;
+    box-shadow: 0 0 12px $light-gray;
+  }
+}
+
+label{
+  padding: 8px 0 3px 12px;
+  display: block;
+  font-weight: bold;
+  color: $dark-gray;
+}
+
+.grouping{
+  width: 95%;
+  margin: 0 auto;
+}
+
+.right{
+  display: flex;
+  justify-content: flex-end;
+}
+.row{
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.contentBox{
+  width: 97%;
+  margin: 0 auto 25px auto;
+  padding: 15px 10px;
+  padding-top: 46px;
+  background-color: #c9c9c9;
+  background-color: #fff;
+  border: 1px solid rgb(189, 189, 189);
+  box-shadow: 0 0 0 6px #fff, 0 0 10px black;
+  position: relative;
+  &.sm, .sm{
+    width: 24%;
+  }
+  &.thr, .thr{
+    width: 32%;
+  }
+  &.md, .md{
+    width: 45%;
+  }
+  &.lg, .lg{
+    width: 70%;
+  }
+  &.max, .max{
+    width: 98%;
+  }
+
+  @media (max-width: 1000px){ 
+    width: 94%;
+    &.md, &.sm, &.lg, .sm, .thr, .md, .lg{ width: 94%; margin: 0 auto;}
+  }
+}
+
+.mt-40 {
+  margin-top: 40px;
+}
+
+.contentBox-commands{
+  width: 99%;
+  margin-top: -40px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.w-100{
+  width: 100%
+}
+
+p{
+  &.text-left { text-align: left;}
+  &.text-right { text-align: right;}
+}
