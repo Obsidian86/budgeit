@@ -119,15 +119,15 @@ const YourBudget = () => {
             }}
           >
             <p className="text-left w-100">
-              {convert(p.total, "m", p.viewBy, "money")} budgeted of{" "}
-              {convert(p.amount, "w", p.viewBy, "money")}
+              <strong>{convert(p.total, "m", p.viewBy, "money")}</strong> budgeted of
+              <strong> {convert(p.amount, "w", p.viewBy, "money")}</strong>
             </p>
             <ProgressBar
               percent={percentLeft}
               title={percentLeft.toFixed(2) + "%"}
             />
             <p className="text-right w-100">
-              {convert(amountLeft, p.viewBy, p.viewBy, "money")} Remianing{" "}
+              <strong>{convert(amountLeft, p.viewBy, p.viewBy, "money")}</strong> Remianing{" "}
               {disRec(p.viewBy)}
             </p>
           </div>

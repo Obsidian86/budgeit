@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const SoftList = ({ children, split = true }) => {
+const SoftList = ({ children, split}) => {
   const List = styled.ul`
   list-style-type: none;
   padding: 0;

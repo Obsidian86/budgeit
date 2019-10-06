@@ -56,7 +56,7 @@ const MainForm = () => {
               </button>
             </span>
             {formData.initialAmount && (
-              <SoftList>
+              <SoftList split>
                 <li>
                   <strong>Weekly:{" "}</strong>
                   <span>{convert(
