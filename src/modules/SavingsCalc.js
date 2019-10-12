@@ -32,7 +32,7 @@ const SavingsCalc = () => {
 
     const RowSpread = [6, 25, 16, 24, 25];
     updateList(
-      <div className="lg">
+      <div className="md">
         <TableRow pattern={RowSpread} className="headerRow">
           <div>Age</div>
           <div>Starting Amount</div>
@@ -53,46 +53,52 @@ const SavingsCalc = () => {
     );
   };
   return (
-    <div className={`contentBox ${list && "row"}`}>
+    <div className={`contentBox`}>
       <ModuleTitle title="Savings estimator" />
-      <div className={list ? "sm" : "max"}>
-        <Form
-          defaultFormData={{
-            stAmount: 20000,
-            depAmount: 80000,
-            per: 12,
-            rate: 7,
-            years: 36,
-            startAge: 33
-          }}
-          render={(updateForm, formData) => (
-            <>
-              <label>Starting amount</label>
-              <input type="text" onChange={updateForm} name="stAmount" />
 
-              <label>Age</label>
-              <input type="text" onChange={updateForm} name="startAge" />
+      <div className={`row`}>
+        <p className='sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <div className={list ? "sm" : "lg"}>
+          <Form
+            defaultFormData={{
+              stAmount: 20000,
+              depAmount: 80000,
+              per: 12,
+              rate: 7,
+              years: 36,
+              startAge: 33
+            }}
+            render={(updateForm, formData) => (
+              <>
+                <label>Starting amount</label>
+                <input type="text" onChange={updateForm} name="stAmount" />
 
-              <label>Deposit</label>
-              <input type="text" onChange={updateForm} name="depAmount" />
+                <label>Age</label>
+                <input type="text" onChange={updateForm} name="startAge" />
 
-              <label>Per</label>
-              <input type="text" onChange={updateForm} name="per" />
+                <label>Deposit</label>
+                <input type="text" onChange={updateForm} name="depAmount" />
 
-              <label>Rate</label>
-              <input type="text" onChange={updateForm} name="rate" />
+                <label>Per</label>
+                <input type="text" onChange={updateForm} name="per" />
 
-              <label>Years</label>
-              <input type="text" onChange={updateForm} name="years" />
+                <label>Rate</label>
+                <input type="text" onChange={updateForm} name="rate" />
 
-              <button className="btn" onClick={() => submitForm(formData)}>
-                Submit
-              </button>
-            </>
-          )}
-        />
+                <label>Years</label>
+                <input type="text" onChange={updateForm} name="years" />
+
+                <button className="btn" onClick={() => submitForm(formData)}>
+                  Submit
+                </button>
+              </>
+            )}
+          />
+        </div>
+        {list && list}
       </div>
-      {list && list}
+
+
     </div>
   );
 };
