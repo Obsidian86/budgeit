@@ -7,6 +7,9 @@ import ModuleTitle from "./interface/ModuleTitle";
 const SavingsCalc = () => {
   const [list, updateList] = useState(null);
   const submitForm = formData => {
+
+    Object.keys(formData).forEach(fi => formData[fi] = parseInt(formData[fi]) )
+
     let proc = [
       {
         stAmount: formData.stAmount,
@@ -55,14 +58,13 @@ const SavingsCalc = () => {
   return (
     <div className={`contentBox`}>
       <ModuleTitle title="Savings estimator" />
-
       <div className={`row`}>
         <p className='sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         <div className={list ? "sm" : "lg"}>
           <Form
             defaultFormData={{
               stAmount: 20000,
-              depAmount: 80000,
+              depAmount: 25000,
               per: 12,
               rate: 7,
               years: 36,
@@ -71,26 +73,28 @@ const SavingsCalc = () => {
             render={(updateForm, formData) => (
               <>
                 <label>Starting amount</label>
-                <input type="text" onChange={updateForm} name="stAmount" />
+                <input type="text" onChange={updateForm} name="stAmount" value={formData.stAmount} />
 
                 <label>Age</label>
-                <input type="text" onChange={updateForm} name="startAge" />
+                <input type="text" onChange={updateForm} name="startAge" value={formData.startAge}/>
 
                 <label>Deposit</label>
-                <input type="text" onChange={updateForm} name="depAmount" />
+                <input type="text" onChange={updateForm} name="depAmount" value={formData.depAmount} />
 
                 <label>Per</label>
-                <input type="text" onChange={updateForm} name="per" />
+                <input type="text" onChange={updateForm} name="per" value={formData.per} />
 
                 <label>Rate</label>
-                <input type="text" onChange={updateForm} name="rate" />
+                <input type="text" onChange={updateForm} name="rate" value={formData.rate} />
 
                 <label>Years</label>
-                <input type="text" onChange={updateForm} name="years" />
+                <input type="text" onChange={updateForm} name="years" value={formData.years} />
 
-                <button className="btn" onClick={() => submitForm(formData)}>
-                  Submit
-                </button>
+                <div className='grouping right'>
+                  <button className="btn" onClick={() => submitForm(formData)}>
+                    Submit
+                  </button>
+                </div>
               </>
             )}
           />

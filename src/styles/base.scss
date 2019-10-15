@@ -34,6 +34,13 @@ p{
   box-shadow: 0 0 0 2px $green; 
   border-radius: 4px;
   padding: 9px 17px;
+
+  &.red{
+    background-color: red;
+    box-shadow: 0 0 0 2px red;
+    margin-right: 22px;
+  }
+
   &:hover{
     background-color: $dark-gray;
     box-shadow: 0 0 0 2px $dark-gray;
@@ -62,6 +69,38 @@ label{
   display: block;
   font-weight: bold;
   color: $dark-gray;
+}
+
+.cu_checkBox{
+  padding: 23px 0px;
+  margin-left: -10px;
+  cursor: pointer;
+  input{
+    opacity: 0;
+  }
+  span{
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+    bottom: -4px;
+    border-radius: 4px;
+    background-color: #e4e4e4;
+  }
+  input:checked + span{
+    &:after{
+      position: absolute;
+      top: -11px;
+      left: 4px;
+      height: 20px;
+      width: 20px;
+      content: 'L';
+      font-weight: bold;
+      font-size: 25px;
+      transform: scaleX(-1) rotate(-40deg);
+    }
+  }
 }
 
 .grouping{

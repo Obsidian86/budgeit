@@ -13,8 +13,10 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 const BudgetForm = ({ editItem, onSubmit }) => {
   return (
     <Form
-      defaultFormData={editItem ? editItem : null}
+      defaultFormData={editItem ? editItem : {newCategory: 'off'}}
+      reDefault
       render={(updateField, formData) => {
+        console.log(formData)
         return (
           <>
             <label>Category </label>
@@ -24,12 +26,23 @@ const BudgetForm = ({ editItem, onSubmit }) => {
               onChange={e => updateField(e)}
               value={formData && formData.category ? formData.category : ""}
             />
-            <input
-              type="checkbox"
-              name="newCategory"
-              onChange={e => updateField(e)}
-            />{" "}
-            New Category
+            <label className='cu_checkBox'>
+              <input
+                type="checkbox"
+                name="newCategory"
+                onChange={formData => {
+                  let e = {
+                    target: {
+                      name: 'newCategory',
+                      value: (formData['newCategory'] === 'off') ? 'on' : 'off'
+                    }
+                  }
+                  updateField(e)
+                }}
+              />{" "} 
+              <span></span>New Category
+            </label>
+
             <label>Budget Item</label>
             <input
               type="text"
@@ -52,6 +65,9 @@ const BudgetForm = ({ editItem, onSubmit }) => {
               value={formData && formData.amount ? "Monthly" : ""}
             />
             <div className="grouping right">
+              <button
+                className="btn red"
+              >Delete</button>
               <button
                 type="submit"
                 className="btn"
@@ -98,7 +114,7 @@ const YourBudget = () => {
     <div className="contentBox">
       <ModuleTitle title="Your budget" />
       <div className="contentBox-commands">
-        <button className="btn" onClick={() => toggleForm(!displayForm)}>
+        <button className={`btn ${displayForm && 'red'}`} onClick={() => toggleForm(!displayForm)}>
           <FontAwesomeIcon icon={faPlusCircle} />
           &nbsp;&nbsp; {displayForm ? "Cancel" : "Add"} budget item
         </button>

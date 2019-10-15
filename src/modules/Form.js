@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-const Form = ({ render, defaultFormData = {} }) => {
+/**
+* @param defaultFormData // default form information
+* @param reDefault // will reset fields to default on submit 
+**/
+
+const Form = ({ render, defaultFormData = {}, reDefault = false }) => {
   const [formData, updateFormData] = useState(defaultFormData);
+  const [formLoaded, updateFormLoaded] = useState(false)
   useEffect(() => {
-    updateFormData(defaultFormData);
-  }, [defaultFormData]);
+    !formLoaded && updateFormData(defaultFormData);
+    !reDefault && updateFormLoaded(true)
+  }, [defaultFormData, formLoaded, reDefault]);
   const updateField = e =>
     updateFormData({
       ...formData,

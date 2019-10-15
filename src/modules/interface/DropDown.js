@@ -3,6 +3,18 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
+
+const getDisplay = (isSet, options) => {
+    let val = isSet
+    for(let i=0; i< options.length; i++) {
+      if(options[i]['v'] === isSet){
+        val = options[i]['d']
+        break
+      }
+    }
+    return val
+}
+
 const DropDown = ({ options, callBack, isSet, icon, styles }) => {
   const [open, toggle] = useState(false);
   const StDiv = styled.ul`
@@ -34,13 +46,14 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
     }
     ${styles}
   `;
+  
   return (
     <StDiv
       onMouseEnter={() => toggle(true)}
       onMouseLeave={event => toggle(false)}
     >
       {icon && <>{icon} &nbsp;</>}
-      <span>{isSet ? isSet : "Pick one"}</span>
+      <span>{isSet ? getDisplay(isSet, options) : "Pick one"}</span>
       <ul style={{ display: open ? "block" : "none" }}>
         {options.map((o, i) => {
           return (
