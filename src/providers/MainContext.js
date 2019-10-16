@@ -1,3 +1,3 @@
 import React from "react";
-const MainContext = React.createContext({ test: "from mc file" });
+const MainContext = React.createContext({ contextLoaded: false });
 export default MainContext;

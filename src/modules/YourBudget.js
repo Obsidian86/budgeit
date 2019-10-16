@@ -3,85 +3,12 @@ import MainContext from "../providers/MainContext";
 import { convert, disRec } from "../utilities/convert";
 import ChartContainer from "./ChartContainer";
 import TableRow from "./interface/TableRow";
-import Bullet from "./interface/Bullet";
-import Form from "./Form";
+import Bullet from "./interface/Bullet"; 
 import ModuleTitle from "./interface/ModuleTitle";
 import ProgressBar from "./interface/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-
-const BudgetForm = ({ editItem, onSubmit }) => {
-  return (
-    <Form
-      defaultFormData={editItem ? editItem : {newCategory: 'off'}}
-      reDefault
-      render={(updateField, formData) => {
-        console.log(formData)
-        return (
-          <>
-            <label>Category </label>
-            <input
-              type="text"
-              name="category"
-              onChange={e => updateField(e)}
-              value={formData && formData.category ? formData.category : ""}
-            />
-            <label className='cu_checkBox'>
-              <input
-                type="checkbox"
-                name="newCategory"
-                onChange={formData => {
-                  let e = {
-                    target: {
-                      name: 'newCategory',
-                      value: (formData['newCategory'] === 'off') ? 'on' : 'off'
-                    }
-                  }
-                  updateField(e)
-                }}
-              />{" "} 
-              <span></span>New Category
-            </label>
-
-            <label>Budget Item</label>
-            <input
-              type="text"
-              name="item"
-              onChange={e => updateField(e)}
-              value={formData && formData.item ? formData.item : ""}
-            />
-            <label>Amount</label>
-            <input
-              type="text"
-              name="amount"
-              onChange={e => updateField(e)}
-              value={formData && formData.amount ? formData.amount : ""}
-            />
-            <label>Recurrence</label>
-            <input
-              type="text"
-              name="recurrence"
-              onChange={e => updateField(e)}
-              value={formData && formData.amount ? "Monthly" : ""}
-            />
-            <div className="grouping right">
-              <button
-                className="btn red"
-              >Delete</button>
-              <button
-                type="submit"
-                className="btn"
-                onClick={() => onSubmit(formData)}
-              >
-                Submit
-              </button>
-            </div>
-          </>
-        );
-      }}
-    />
-  );
-};
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons"; 
+import BudgetForm from './components/BudgetForm' 
 
 const YourBudget = () => {
   const p = useContext(MainContext);
@@ -93,6 +20,9 @@ const YourBudget = () => {
     convert(p.amount, "w", p.viewBy) - convert(p.total, "m", p.viewBy);
   const percentLeft =
     (convert(p.total, "m", p.viewBy) / convert(p.amount, "w", p.viewBy)) * 100;
+
+  const catOptions = [];
+  Object.keys(p.budget).forEach(b => catOptions.push({d: b, v: b}))
 
   data.push({
     title: "Unallocated",
@@ -179,8 +109,13 @@ const YourBudget = () => {
         {displayForm && (
           <div className="sm">
             <BudgetForm
+              catOptions={catOptions}
               editItem={editItem}
-              onSubmit={bi => p.addBudgetItem(bi)}
+              deleteBudgetItem={p.deleteBudgetItem}
+              onSubmit={bi => {
+                !editItem && p.addBudgetItem(bi)
+                editItem && p.updateBudgetItem(bi)
+              }}
             />
           </div>
         )}
