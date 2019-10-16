@@ -30,7 +30,7 @@ class MainProvider extends React.Component {
 
   addBudgetItem = (bi) => this.saveState(bdg.processAddBudgetItem(this.state.budget, bi, colors))
   deleteBudgetItem = (cat, id) => this.saveState(bdg.processDeleteBudgetItem(this.state.budget, cat, id))
-  updateBudgetItem = (bi) => this.saveState(bdg.processUpdateBudgetItem(this.state.budget, bi))
+  updateBudgetItem = (oldBi, bi) => this.saveState(bdg.processUpdateBudgetItem(this.state.budget, oldBi, bi, colors))
 
   render = () => 
     <MainContext.Provider value={this.state}>

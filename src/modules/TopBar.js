@@ -5,6 +5,7 @@ import DropDown from "./interface/DropDown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoneyBill, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import MainContext from "../providers/MainContext";
+import {recurrence} from '../utilities/constants'
 
 const TopBar = () => {
   const p = useContext(MainContext);
@@ -51,12 +52,7 @@ const TopBar = () => {
 
         <DropDown
           icon={<FontAwesomeIcon icon={faCalendarAlt} />}
-          options={[
-            { v: "y", d: "Yearly" },
-            { v: "m", d: "Monthly" },
-            { v: "w", d: "Weekly" },
-            { v: "bw", d: "Bi-weekly" }
-          ]}
+          options={recurrence}
           isSet={disRec(p.viewBy)}
           callBack={v => p.updateViewBy(v)}
         />

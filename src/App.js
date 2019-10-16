@@ -1,5 +1,5 @@
 import React from "react";
-import MainForm from "./modules/MainForm";
+import IncomeForm from "./modules/IncomeForm";
 import TopBar from "./modules/TopBar";
 import Recommended from "./modules/Recommended";
 import YourBudget from "./modules/YourBudget";
@@ -10,7 +10,7 @@ function App() {
     <div className="App container">
       <TopBar />
       <div className="row">
-        <MainForm />
+        <IncomeForm />
         <Recommended />
         <YourBudget />
         <SavingsCalc />

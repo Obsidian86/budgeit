@@ -12,7 +12,7 @@ import BudgetForm from './components/BudgetForm'
 
 const YourBudget = () => {
   const p = useContext(MainContext);
-  const [displayForm, toggleForm] = useState(true);
+  const [displayForm, toggleForm] = useState(false);
   const [editItem, updateEditItem] = useState(null);
   const data = [];
 
@@ -26,7 +26,7 @@ const YourBudget = () => {
 
   data.push({
     title: "Unallocated",
-    value: percentLeft,
+    value: isNaN(percentLeft) ? 100 : percentLeft,
     color: "gray"
   });
   Object.keys(p.budget).forEach(bd => {
@@ -94,7 +94,10 @@ const YourBudget = () => {
                 {p.budget[bud].items.map((pb, index) => {
                   return (
                     <TableRow
-                      onClick={() => updateEditItem(pb)}
+                      onClick={() => {
+                        updateEditItem(pb)
+                        toggleForm(true)
+                      }}
                       key={index + "-" + pb.name}
                     >
                       <div>{pb.item}</div>
@@ -114,7 +117,7 @@ const YourBudget = () => {
               deleteBudgetItem={p.deleteBudgetItem}
               onSubmit={bi => {
                 !editItem && p.addBudgetItem(bi)
-                editItem && p.updateBudgetItem(bi)
+                editItem && p.updateBudgetItem(editItem, bi)
               }}
             />
           </div>

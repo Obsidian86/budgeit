@@ -1,6 +1,6 @@
 export const money = amount => {
   if (!parseFloat(amount)) {
-    console.log("Error in money conversion");
+    // console.log("Error in money conversion: ", amount);
     return "$00.00";
   }
 
@@ -11,13 +11,8 @@ export const money = amount => {
   return "$" + parts[0] + "." + parts[1];
 };
 
-export const percent = (amt, total) => {
-  return `${((amt / total) * 100).toFixed(2)}%`;
-};
-
-export const getPercent = (amt, total) => {
-  return (amt / 100) * total;
-};
+export const percent = (amt, total) => `${((amt / total) * 100).toFixed(2)}%`
+export const getPercent = (amt, total) => (amt / 100) * total; 
 
 export const disRec = re => {
   const convRec = {

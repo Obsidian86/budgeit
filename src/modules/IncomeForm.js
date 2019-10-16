@@ -4,17 +4,11 @@ import DropDown from "./interface/DropDown";
 import MainContext from "../providers/MainContext";
 import { convert } from "../utilities/convert";
 import SoftList from "./interface/SoftList";
+import { recurrence } from '../utilities/constants'
 
-const MainForm = () => {
+const IncomeForm = () => {
   const p = useContext(MainContext);
-  const { updateAmount, theme } = p;
-
-  const options = [
-    { d: "Weekly", v: "w" },
-    { d: "Bi-weekly", v: "bw" },
-    { d: "Monthly", v: "m" },
-    { d: "Yearly", v: "y" }
-  ];
+  const { updateAmount, theme } = p; 
 
   const submitForm = data => updateAmount(data);
 
@@ -40,7 +34,7 @@ const MainForm = () => {
               />
               <label htmlFor="initialRec">Recurrence</label>
               <DropDown
-                options={options}
+                options={recurrence}
                 styles={`width: 91%; margin: 20px auto`}
                 isSet={formData.initialRec ? formData.initialRec : ""}
                 callBack={val => {
@@ -103,4 +97,4 @@ const MainForm = () => {
   );
 };
 
-export default MainForm;
+export default IncomeForm;
