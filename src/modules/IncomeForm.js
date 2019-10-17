@@ -29,7 +29,7 @@ const IncomeForm = () => {
                 name="initialAmount"
                 id="initialAmount"
                 value={formData.initialAmount ? formData.initialAmount : ""}
-                placeholder="asdas"
+                placeholder="input amount to begin"
                 onChange={e => updateField(e)}
               />
               <label htmlFor="initialRec">Recurrence</label>
@@ -49,7 +49,7 @@ const IncomeForm = () => {
                 Submit
               </button>
             </span>
-            {formData.initialAmount && (
+            {(formData.initialAmount && parseFloat(formData.initialAmount) > 0) ?
               <SoftList split>
                 <li>
                   <strong>Weekly:{" "}</strong>
@@ -88,8 +88,8 @@ const IncomeForm = () => {
                     "money"
                   )}</span>
                 </li>
-              </SoftList>
-            )}
+              </SoftList> : ''
+            }
           </div>
         )}
       />

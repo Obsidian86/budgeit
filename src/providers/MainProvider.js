@@ -11,7 +11,7 @@ class MainProvider extends React.Component {
   constructor() {
     super();
     this.state = {
-      amount: 2000.0,
+      amount: 0,
       viewBy: "m",
       theme: theme,
       budget: {},
@@ -22,7 +22,7 @@ class MainProvider extends React.Component {
       updateBudgetItem: this.updateBudgetItem
     };
   }
-  componentDidMount = () => this.setState(mem.load(), () => this.setState(bdg.parsePersonalBudget(b, colors))) 
+  componentDidMount = () => this.setState(mem.load(), () => this.setState(bdg.parsePersonalBudget([], colors)))
 
   saveState = newState => this.setState(newState, () => mem.save(this.state))
   updateAmount = amount => this.saveState({ amount: convert(amount.initialAmount, amount.initialRec, "w") })
@@ -32,10 +32,10 @@ class MainProvider extends React.Component {
   deleteBudgetItem = (cat, id) => this.saveState(bdg.processDeleteBudgetItem(this.state.budget, cat, id))
   updateBudgetItem = (oldBi, bi) => this.saveState(bdg.processUpdateBudgetItem(this.state.budget, oldBi, bi, colors))
 
-  render = () => 
+  render = () =>
     <MainContext.Provider value={this.state}>
       {this.props.children}
-    </MainContext.Provider> 
+    </MainContext.Provider>
 }
 
 export default MainProvider;

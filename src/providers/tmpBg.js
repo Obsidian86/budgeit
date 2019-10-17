@@ -11,7 +11,7 @@ export const b = [
   },
   {
     item: "Electricity",
-    category: "ut",
+    category: "utilities",
     amount: "150"
   },
   {

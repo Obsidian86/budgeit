@@ -35,7 +35,7 @@ export const processDeleteBudgetItem = (oldBudget, cat, id) => {
   else {
     newBudget[cat] = {
       items: newBudget[cat].items.filter(b => b.id !== removeItem.id),
-      total: parseFloat(newBudget[cat].total) - parseFloat(removeItem.total)
+      total: parseFloat(newBudget[cat].total) - parseFloat(removeItem.amount)
     }
   }
   return { budget: newBudget }
@@ -81,5 +81,5 @@ export const processUpdateBudgetItem = (oldBudget, oldBi, bi, colors) => {
   }
 
   newBudget[bi.category].total = parseFloat(newBudget[bi.category].total) + parseFloat(bi.amount)
-  return newBudget
+  return {budget: newBudget}
 }

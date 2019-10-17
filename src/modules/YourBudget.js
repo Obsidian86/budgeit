@@ -1,28 +1,27 @@
 import React, { useContext, useState } from "react";
 import MainContext from "../providers/MainContext";
-import { convert, disRec } from "../utilities/convert";
+import { convert, disRec, percent } from "../utilities/convert";
 import ChartContainer from "./ChartContainer";
 import TableRow from "./interface/TableRow";
-import Bullet from "./interface/Bullet"; 
+import Bullet from "./interface/Bullet";
 import ModuleTitle from "./interface/ModuleTitle";
 import ProgressBar from "./interface/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons"; 
-import BudgetForm from './components/BudgetForm' 
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import BudgetForm from './components/BudgetForm'
 
 const YourBudget = () => {
   const p = useContext(MainContext);
   const [displayForm, toggleForm] = useState(false);
   const [editItem, updateEditItem] = useState(null);
   const data = [];
-
   const amountLeft =
     convert(p.amount, "w", p.viewBy) - convert(p.total, "m", p.viewBy);
   const percentLeft =
     (convert(p.total, "m", p.viewBy) / convert(p.amount, "w", p.viewBy)) * 100;
 
   const catOptions = [];
-  Object.keys(p.budget).forEach(b => catOptions.push({d: b, v: b}))
+  Object.keys(p.budget).forEach(b => catOptions.push({ d: b, v: b }))
 
   data.push({
     title: "Unallocated",
@@ -44,7 +43,10 @@ const YourBudget = () => {
     <div className="contentBox">
       <ModuleTitle title="Your budget" />
       <div className="contentBox-commands">
-        <button className={`btn ${displayForm && 'red'}`} onClick={() => toggleForm(!displayForm)}>
+        <button className={`btn ${displayForm && 'red'}`} onClick={() => {
+          updateEditItem(null)
+          toggleForm(!displayForm)
+        }}>
           <FontAwesomeIcon icon={faPlusCircle} />
           &nbsp;&nbsp; {displayForm ? "Cancel" : "Add"} budget item
         </button>
@@ -88,6 +90,7 @@ const YourBudget = () => {
                     <Bullet color={p.budget[bud].color} size="13" /> {bud}
                   </div>
                   <div>
+                    <span style={{paddingRight: '12px'}}>{percent(p.budget[bud].total, convert(p.amount, "w","m")) } &nbsp;&nbsp; |</span>
                     {convert(p.budget[bud].total, "m", p.viewBy, "money")}
                   </div>
                 </TableRow>
@@ -114,10 +117,12 @@ const YourBudget = () => {
             <BudgetForm
               catOptions={catOptions}
               editItem={editItem}
+              updateEditItem={updateEditItem}
               deleteBudgetItem={p.deleteBudgetItem}
               onSubmit={bi => {
                 !editItem && p.addBudgetItem(bi)
                 editItem && p.updateBudgetItem(editItem, bi)
+                updateEditItem(null)
               }}
             />
           </div>
