@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import MainContext from "../providers/MainContext";
 import { convert, disRec, percent } from "../utilities/convert";
-import ChartContainer from "./ChartContainer";
+import ChartContainer from "./components/ChartContainer";
 import TableRow from "./interface/TableRow";
 import Bullet from "./interface/Bullet";
 import ModuleTitle from "./interface/ModuleTitle";
@@ -119,6 +119,7 @@ const YourBudget = () => {
               editItem={editItem}
               updateEditItem={updateEditItem}
               deleteBudgetItem={p.deleteBudgetItem}
+              setDialog={p.setDialog}
               onSubmit={bi => {
                 !editItem && p.addBudgetItem(bi)
                 editItem && p.updateBudgetItem(editItem, bi)

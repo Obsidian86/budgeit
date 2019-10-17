@@ -3,7 +3,7 @@ import Form from "../Form";
 import DropDown from '../interface/DropDown';
 import { recurrence } from '../../utilities/constants'
 
-const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem }) => 
+const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog }) => 
     <Form
       defaultFormData={editItem ? { ...editItem, newCategory: 'off' } : { newCategory: 'off' }}
       reDefault
@@ -64,10 +64,16 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             />
             <div className="grouping right">
               <button
-                onClick={() => {
-                  updateEditItem(null)
-                  deleteBudgetItem(formData.category, formData.id)}
-                }
+                onClick={() => setDialog({
+                  open: true,
+                  header: 'Delete item', 
+                  message: 'Are you sure you want to delete this item?', 
+                  confirm: ()=>{
+                    updateEditItem(null)
+                    deleteBudgetItem(formData.category, formData.id)
+                  },
+                  reject: ()=>{ return null }
+                })}
                 className="btn red"
               >Delete</button>
               <button

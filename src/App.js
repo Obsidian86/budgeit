@@ -4,6 +4,7 @@ import TopBar from "./modules/TopBar";
 import Recommended from "./modules/Recommended";
 import YourBudget from "./modules/YourBudget";
 import SavingsCalc from "./modules/SavingsCalc";
+import Footer from './modules/Footer';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <YourBudget />
         <SavingsCalc />
       </div>
+      <Footer />
     </div>
   );
 }
