@@ -55,7 +55,7 @@ export const processAddBudgetItem = (oldBudget, bi, colors, total) => {
       color:
         Object.keys(newBudget).length >= colors.length
           ? colors[Object.keys(newBudget).length % colors.length]
-          : colors[Object.keys(newBudget).length],
+          : colors[Object.keys(newBudget).length + 1],
       items: [{ ...bi, amount: parseFloat(bi.amount) }],
       total: parseFloat(bi.amount)
     };
