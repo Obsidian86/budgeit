@@ -7,5 +7,10 @@ export const colors = [
   "blue",
   "tan",
   "teal",
-  "salmon"
+  "salmon",
+  "Tomato",
+  "DodgerBlue",
+  "MediumSeaGreen", 
+  "SlateBlue",
+  "Violet"
 ];
