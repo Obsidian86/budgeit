@@ -25,9 +25,14 @@ export const b = [
     amount: "89"
   },
   {
-    item: "Savings",
+    item: "IRA",
     category: "savings",
-    amount: "2100"
+    amount: "500"
+  },
+  {
+    item: "Retirement",
+    category: "savings",
+    amount: "867"
   },
   {
     item: "Clothes",

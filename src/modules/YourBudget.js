@@ -22,7 +22,7 @@ const YourBudget = () => {
 
   const catOptions = [];
   Object.keys(p.budget).forEach(b => catOptions.push({ d: b, v: b }))
-
+  
   data.push({
     title: "Unallocated",
     value: isNaN(percentLeft) ? 100 : percentLeft,

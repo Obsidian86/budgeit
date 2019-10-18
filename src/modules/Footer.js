@@ -6,7 +6,7 @@ const Footer = () => {
         paddingTop: '1px',
         paddingBottom: '20px',
         textAlign: 'center',
-        fontSize: '.5rem'
+        fontSize: '.8rem'
     }
     return(
         <div style={footerStyles}>

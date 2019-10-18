@@ -22,7 +22,7 @@ export const parsePersonalBudget = (b, colors) => {
   return { budget: bud, total };
 };
 
-export const processDeleteBudgetItem = (oldBudget, cat, id) => {
+export const processDeleteBudgetItem = (oldBudget, cat, id, total) => {
   let newBudget = { ...oldBudget };
   let removeItem
   newBudget[cat].items.forEach(item => {
@@ -31,18 +31,21 @@ export const processDeleteBudgetItem = (oldBudget, cat, id) => {
       return;
     }
   })
+  total = parseFloat(total) - parseFloat(removeItem.amount)
   if (newBudget[cat].items.length === 1) delete newBudget[cat]
   else {
     newBudget[cat] = {
+      ...oldBudget[cat],
       items: newBudget[cat].items.filter(b => b.id !== removeItem.id),
       total: parseFloat(newBudget[cat].total) - parseFloat(removeItem.amount)
     }
   }
-  return { budget: newBudget }
+  return { budget: newBudget, total }
 }
 
-export const processAddBudgetItem = (oldBudget, bi, colors) => {
+export const processAddBudgetItem = (oldBudget, bi, colors, total) => {
   let newBudget = { ...oldBudget };
+  total = parseFloat(total) + parseFloat(bi.amount)
   if (newBudget[bi.category]) {
     newBudget[bi.category].total =
       parseFloat(newBudget[bi.category].total) + parseFloat(bi.amount);
@@ -57,11 +60,12 @@ export const processAddBudgetItem = (oldBudget, bi, colors) => {
       total: parseFloat(bi.amount)
     };
   }
-  return { budget: newBudget };
+  return { budget: newBudget, total };
 };
 
-export const processUpdateBudgetItem = (oldBudget, oldBi, bi, colors) => {
+export const processUpdateBudgetItem = (oldBudget, oldBi, bi, colors, total) => {
   let newBudget = { ...oldBudget };
+  total = (parseFloat(total) - parseFloat(oldBi.amount)) + parseFloat(bi.amount)
   newBudget[oldBi.category].total = parseFloat(newBudget[oldBi.category].total) - parseFloat(oldBi.amount)
   if (oldBi.category === bi.category) newBudget[bi.category].items[getObjIndex(newBudget[oldBi.category].items, 'id', bi.id)] = { ...bi } 
   else {

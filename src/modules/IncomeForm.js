@@ -35,7 +35,7 @@ const IncomeForm = () => {
               <label htmlFor="initialRec">Recurrence</label>
               <DropDown
                 options={recurrence}
-                styles={`width: 91%; margin: 20px auto`}
+                styles={`width: 89%; margin: 20px auto`}
                 isSet={formData.initialRec ? formData.initialRec : ""}
                 callBack={val => {
                   let e = {};

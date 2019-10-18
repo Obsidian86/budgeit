@@ -67,7 +67,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
                 onClick={() => setDialog({
                   open: true,
                   header: 'Delete item', 
-                  message: 'Are you sure you want to delete this item?', 
+                  message: <>Are you sure you want to delete this item? <br /> This can not be undone.</>, 
                   confirm: ()=>{
                     updateEditItem(null)
                     deleteBudgetItem(formData.category, formData.id)

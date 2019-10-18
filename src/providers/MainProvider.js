@@ -16,6 +16,7 @@ class MainProvider extends React.Component {
       viewBy: "m",
       theme: theme,
       budget: {},
+      total: 1,
       dialog: { open: false },
       updateAmount: this.updateAmount,
       updateViewBy: this.updateViewBy,
@@ -33,9 +34,9 @@ class MainProvider extends React.Component {
 
   setDialog = dialog => this.setState({dialog})
 
-  addBudgetItem = (bi) => this.saveState(bdg.processAddBudgetItem(this.state.budget, bi, colors))
-  deleteBudgetItem = (cat, id) => this.saveState(bdg.processDeleteBudgetItem(this.state.budget, cat, id))
-  updateBudgetItem = (oldBi, bi) => this.saveState(bdg.processUpdateBudgetItem(this.state.budget, oldBi, bi, colors))
+  addBudgetItem = (bi) => this.saveState(bdg.processAddBudgetItem(this.state.budget, bi, colors, this.state.total))
+  deleteBudgetItem = (cat, id) => this.saveState(bdg.processDeleteBudgetItem(this.state.budget, cat, id, this.state.total))
+  updateBudgetItem = (oldBi, bi) => this.saveState(bdg.processUpdateBudgetItem(this.state.budget, oldBi, bi, colors, this.state.total))
 
   render = () =>
     <>
