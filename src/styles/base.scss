@@ -47,6 +47,7 @@ p{
   }
 }
 
+// FORMS, FIELDS, INPUTS
 input[type=text]{
   display: block;
   width: 94%;
@@ -65,10 +66,24 @@ input[type=text]{
 }
 
 label{
-  padding: 8px 0 3px 12px;
-  display: block;
   font-weight: bold;
   color: $dark-gray;
+  position: relative;
+  left: -5px;
+  width: 94%;
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+  font-size: .9rem;
+  span{
+    display: block;
+    color: $light-gray;
+    margin-top: 6px;
+    font-style: italic;
+    font-size: .9rem;
+    position: relative;
+    left: -2px;
+  }
 }
 
 .cu_checkBox{

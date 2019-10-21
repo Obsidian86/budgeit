@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import BudgetForm from './components/BudgetForm'
 
-const YourBudget = () => {
+const YourBudget = ({step}) => {
   const p = useContext(MainContext);
   const [displayForm, toggleForm] = useState(false);
   const [editItem, updateEditItem] = useState(null);
@@ -55,10 +55,10 @@ const YourBudget = () => {
         {" "}
         {/* chart section */}
         <div className="sm">
-          <ChartContainer
+          {step > 1 && <ChartContainer
             data={data}
             styles={{ maxWidth: "400px", margin: "0 auto" }}
-          />
+          />}
           <div
             className="contentBox row"
             style={{
@@ -82,7 +82,7 @@ const YourBudget = () => {
         </div>{" "}
         {/* End chart section */}
         <div className={displayForm ? "md" : "lg"}>
-          {Object.keys(p.budget).map(bud => {
+          {step < 2 ? <h2 style={{textAlign: 'center', marginTop: '75px'}}>Add a budget item</h2> : Object.keys(p.budget).map(bud => {
             return (
               <div key={bud} style={{ marginBottom: "33px" }}>
                 <TableRow className="headerRow">

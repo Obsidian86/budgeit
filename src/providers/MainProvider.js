@@ -8,11 +8,16 @@ import * as bdg from '../utilities/budgetFunctions';
 import Dialog from '../modules/interface/Dialog'
 import { b } from "./tmpBg";
 
+
+
+// let b = []
+let startAmount = 2000
+
 class MainProvider extends React.Component {
   constructor() {
     super();
     this.state = {
-      amount: 2000,
+      amount: startAmount,
       viewBy: "m",
       theme: theme,
       budget: {},

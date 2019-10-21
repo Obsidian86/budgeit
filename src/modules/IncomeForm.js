@@ -5,6 +5,7 @@ import MainContext from "../providers/MainContext";
 import { convert } from "../utilities/convert";
 import SoftList from "./interface/SoftList";
 import { recurrence } from '../utilities/constants'
+import ModuleTitle from './interface/ModuleTitle'
 
 const IncomeForm = () => {
   const p = useContext(MainContext);
@@ -17,7 +18,10 @@ const IncomeForm = () => {
       className="contentBox sm"
       style={{ borderTop: `8px solid ${theme.green}`, paddingTop: "0" }}
     >
-      <h2>Take home amount</h2>
+      <ModuleTitle title="Takehome amount" /> 
+      <br />
+      <br />
+      <br />
       <Form
         defaultFormData={{ initialAmount: p.amount, initialRec: "w" }}
         render={(updateField, formData) => (

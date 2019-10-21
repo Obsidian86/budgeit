@@ -9,7 +9,7 @@ const Footer = () => {
         fontSize: '.8rem'
     }
     return(
-        <div style={footerStyles}>
+        <div style={footerStyles}> <br />
             &copy; {new Date().getFullYear()}{' '}
             All Rights Reserved
         </div>)
