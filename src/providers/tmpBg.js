@@ -63,10 +63,10 @@ export const b = [
     item: "Entertainment",
     category: "entertainment",
     amount: "100"
+  },
+  {
+    item: "water",
+    category: "utilities",
+    amount: "35"
   }
-  // {
-  //   item: "water",
-  //   category: "ut",
-  //   amount: "35"
-  // }
 ];

@@ -28,7 +28,9 @@ class MainProvider extends React.Component {
       addBudgetItem: this.addBudgetItem,
       deleteBudgetItem: this.deleteBudgetItem,
       updateBudgetItem: this.updateBudgetItem,
-      setDialog: this.setDialog
+      updateSavingsTables: this.updateSavingsTables,
+      setDialog: this.setDialog,
+      savingsTable: []
     };
   }
   componentDidMount = () => this.setState(mem.load(), () => this.setState(bdg.parsePersonalBudget(b, colors)))
@@ -42,6 +44,8 @@ class MainProvider extends React.Component {
   addBudgetItem = (bi) => this.saveState(bdg.processAddBudgetItem(this.state.budget, bi, colors, this.state.total))
   deleteBudgetItem = (cat, id) => this.saveState(bdg.processDeleteBudgetItem(this.state.budget, cat, id, this.state.total))
   updateBudgetItem = (oldBi, bi) => this.saveState(bdg.processUpdateBudgetItem(this.state.budget, oldBi, bi, colors, this.state.total))
+
+  updateSavingsTables = (savingsTable) => this.saveState({savingsTable: savingsTable})
 
   render = () =>
     <>
