@@ -14,15 +14,19 @@ import { b } from "./tmpBg";
 let startAmount = 2000
 
 class MainProvider extends React.Component {
+
   constructor() {
     super();
-    this.state = {
+    this.defaultVals = {
       amount: startAmount,
       viewBy: "m",
       theme: theme,
       budget: {},
       total: 1,
       dialog: { open: false },
+      savingsTable: [],
+    }
+    this.methods = {
       updateAmount: this.updateAmount,
       updateViewBy: this.updateViewBy,
       addBudgetItem: this.addBudgetItem,
@@ -30,7 +34,10 @@ class MainProvider extends React.Component {
       updateBudgetItem: this.updateBudgetItem,
       updateSavingsTables: this.updateSavingsTables,
       setDialog: this.setDialog,
-      savingsTable: []
+    }
+    this.state = {
+      ...this.defaultVals,
+      ...this.methods
     };
   }
   componentDidMount = () => this.setState(mem.load(), () => this.setState(bdg.parsePersonalBudget(b, colors)))

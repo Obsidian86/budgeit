@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import theme from '../../styles/theme'
 
-const TableRow = ({ children, className, pattern = [40, 30], onClick }) => {
+const TableRow = ({ children, className, pattern = [40, 30], onClick, tData }) => {
   const mkStyles = () => {
     let inj = ``;
     if (pattern.length > 2) {
@@ -20,9 +21,9 @@ const TableRow = ({ children, className, pattern = [40, 30], onClick }) => {
     width: 97%;
     margin: 0 auto;
     border-radius: 0;
-    border-left: 3px solid #00bbd4;
+    border-left: 3px solid ${theme.vBlue};
     &:nth-child(odd) {
-      background-color: #dbfdff;
+      background-color: ${theme.fBlue};
     }
     div {
       width: ${pattern.length > 1 ? pattern[1] : pattern[0]}%;
@@ -35,28 +36,27 @@ const TableRow = ({ children, className, pattern = [40, 30], onClick }) => {
       ${inj}
     }
     &.headerRow {
-      background-color: #00bbd4;
+      background-color:  ${theme.vBlue};
       font-weight: bold;
       color: #fff;
-      border-color: #00bbd4;
+      border-color: ${theme.vBlue};
     }
     &:not(.headerRow):hover {
-      background-color: #d3d3d3;
+      background-color: ${theme.lightGray};
       color: #000;
-      border-color: #d3d3d3;
+      border-color: ${theme.lightGray};
       z-index: 1;
     }
     
   `;
   };
-  let TR = styled.div`
-    ${mkStyles()}
-  `;
+  const stTableRow = styled.div`${mkStyles()}`;
 
   return (
-    <TR className={className} onClick={onClick ? onClick : null}>
+    <stTableRow className={className} onClick={onClick ? onClick : null}>
+      {tData && tData.map((td, i) => <div key={i}>{td}</div>)}
       {children}
-    </TR>
+    </stTableRow>
   );
 };
 

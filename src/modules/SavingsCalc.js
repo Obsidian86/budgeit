@@ -3,19 +3,20 @@ import Form from "./Form";
 import { money } from "../utilities/convert";
 import TableRow from "./interface/TableRow";
 import ModuleTitle from "./interface/ModuleTitle";
-import MainContext from '../providers/MainContext' 
+import MainContext from '../providers/MainContext'
+import Collapseable from './interface/Collapseable'
 
 const SavingsCalc = () => {
   const p = useContext(MainContext)
   const [tables, updateTables] = useState([
-      { 0: { stAmount: 0, interest: 0, deposit: 0 } }
-    ]);
+    { 0: { stAmount: 0, interest: 0, deposit: 0 } }
+  ]);
   const submitForm = (formData) => {
     Object.keys(formData).forEach(fd => formData[fd] = parseFloat(formData[fd]))
-    let totals = {...tables[0]}
+    let totals = { ...tables[0] }
     let newTable = {}
     let currentAmount = formData.stAmount
-    for(let i=1; i<(formData.years + 1); i++){
+    for (let i = 1; i < (formData.years + 1); i++) {
       let newAge = formData.startAge + i
       let tableRow = {
         stAmount: currentAmount,
@@ -23,7 +24,7 @@ const SavingsCalc = () => {
         deposit: formData.depAmount
       }
       newTable[newAge] = tableRow
-      if(totals[newAge]){
+      if (totals[newAge]) {
         totals[newAge].stAmount = totals[newAge].stAmount + currentAmount;
         totals[newAge].interest = totals[newAge].interest + (currentAmount * (formData.rate / 100));
         totals[newAge].deposit = totals[newAge].deposit + formData.depAmount;
@@ -37,33 +38,40 @@ const SavingsCalc = () => {
     p.updateSavingsTables(combineTables)
   }
 
-  const renderTable = tableData => {
+  const renderTable = (tableData, index) => {
     const RowSpread = [6, 25, 16, 24, 25];
-    let rows = Object.keys(tableData).map(t => <TableRow pattern={RowSpread} key={t}>
-        <div>{t} </div>
-        <div> {money(tableData[t].stAmount)} </div>
-        <div> {money(tableData[t].interest)} </div>
-        <div> {money(tableData[t].deposit)} </div>
-        <div>{money(tableData[t].stAmount + tableData[t].interest + tableData[t].deposit)} </div>
-      </TableRow> )
+    if( Object.keys(tableData).length === 1 && tableData["0"] ){
+      return null
+    }
+    let rows = Object.keys(tableData).map(t => {
+      if(t === 0 || t === '0') return null
+      return (<TableRow 
+        pattern={RowSpread}
+        key={t}
+        tData={[
+          money(tableData[t].stAmount), money(tableData[t].interest), money(tableData[t].deposit),
+          money(tableData[t].stAmount + tableData[t].interest + tableData[t].deposit)
+        ]}/>)
+    })
     return (
-      <div className="md">
-        <TableRow pattern={RowSpread} className="headerRow">
-          <div>Age</div>
-          <div>Starting Amount</div>
-          <div>Interest</div>
-          <div>Deposited</div>
-          <div>End</div>
-        </TableRow>
-        {rows}
+      <div className="md" style={{ marginBottom: "20px" }}>
+        <label style={{marginBottom: '10px', fontSize: '1.1rem'}}>{index === 0 ? 'Totals' : `Table ${index}`}</label>
+        <TableRow 
+          pattern={RowSpread} 
+          className="headerRow"
+          tData={["Age", "Starting Amount", "Interest", "Deposited", "End"]}
+        />
+        <Collapseable open={false}>
+          {rows}
+        </Collapseable>
       </div>
     )
-  } 
+  }
   return (
     <div className={`contentBox`}>
       <ModuleTitle title="Savings estimator" />
       <div className={`row`}>
-        <p className='sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p className='sm'>Estimate how much you'll have by retirement. <br /> The breakdown of each account will display in a new table. The totals will display in the first table. </p>
         <div className={true ? "sm" : "lg"}>
           <Form
             defaultFormData={{
@@ -80,7 +88,7 @@ const SavingsCalc = () => {
                 <input type="text" onChange={updateForm} name="stAmount" value={formData.stAmount} />
 
                 <label>Age</label>
-                <input type="text" onChange={updateForm} name="startAge" value={formData.startAge}/>
+                <input type="text" onChange={updateForm} name="startAge" value={formData.startAge} />
 
                 <label>Deposit</label>
                 <input type="text" onChange={updateForm} name="depAmount" value={formData.depAmount} />
@@ -103,7 +111,7 @@ const SavingsCalc = () => {
             )}
           />
         </div>
-        {tables.map(t => renderTable(t))}
+        {tables.map((t, index) => renderTable(t, index))}
       </div>
 
 
