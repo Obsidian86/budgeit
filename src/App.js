@@ -24,7 +24,7 @@ function App() {
         {step > 0 && <Recommended />}
         {step > 0 && <YourBudget step={step} />}
         <SavingsCalc step={step} />
-        <EmergencyFunds />
+        {step > 0 && <EmergencyFunds />}
       </div>
       <Footer />
     </div>
