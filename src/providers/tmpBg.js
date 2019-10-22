@@ -30,6 +30,11 @@ export const b = [
     amount: "500"
   },
   {
+    item: "HSA",
+    category: "savings",
+    amount: "291"
+  },
+  {
     item: "Retirement",
     category: "savings",
     amount: "867"
