@@ -56,7 +56,7 @@ const TableRow = ({ children, className, pattern = [40, 30], onClick, tData }) =
     <stTableRow className={className} onClick={onClick ? onClick : null}>
       {tData && tData.map((td, i) => <div key={i}>{td}</div>)}
       {children}
-    </stTableRow>
+    </stTableRow> 
   );
 };
 
