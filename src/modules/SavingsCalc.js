@@ -49,19 +49,28 @@ const SavingsCalc = () => {
         pattern={RowSpread}
         key={t}
         tData={[
-          money(tableData[t].stAmount), money(tableData[t].interest), money(tableData[t].deposit),
-          money(tableData[t].stAmount + tableData[t].interest + tableData[t].deposit)
-        ]}/>)
+          t, money(tableData[t].stAmount), money(tableData[t].interest), money(tableData[t].deposit),
+          money(tableData[t].stAmount + tableData[t].interest + tableData[t].deposit)]}/>)
     })
+
     return (
       <div className="md" style={{ marginBottom: "20px" }}>
-        <label style={{marginBottom: '10px', fontSize: '1.1rem'}}>{index === 0 ? 'Totals' : `Table ${index}`}</label>
+        <label style={{ 
+          fontSize: '1.1rem',
+          backgroundColor: p.theme.vBlueDark,
+          color: '#fff',
+          padding: '6px 10px 3px 10px',
+          borderRadius: '5px 5px 0 0',
+          width: '120px',
+          textAlign: 'center',
+          marginLeft: '30px'
+        }}>{index === 0 ? 'Totals' : `Table ${index}`}</label>
         <TableRow 
           pattern={RowSpread} 
           className="headerRow"
           tData={["Age", "Starting Amount", "Interest", "Deposited", "End"]}
         />
-        <Collapseable open={false}>
+        <Collapseable open={index === 0}>
           {rows}
         </Collapseable>
       </div>
@@ -72,7 +81,7 @@ const SavingsCalc = () => {
       <ModuleTitle title="Savings estimator" />
       <div className={`row`}>
         <p className='sm'>Estimate how much you'll have by retirement. <br /> The breakdown of each account will display in a new table. The totals will display in the first table. </p>
-        <div className={true ? "sm" : "lg"}>
+        <div className={Object.keys(tables).length > 1 ? "sm" : "lg"}>
           <Form
             defaultFormData={{
               stAmount: 20000,
@@ -111,7 +120,7 @@ const SavingsCalc = () => {
             )}
           />
         </div>
-        {tables.map((t, index) => renderTable(t, index))}
+        {tables.map((t, index) => <React.Fragment key={index}> {renderTable(t, index)} </React.Fragment> )}
       </div>
 
 

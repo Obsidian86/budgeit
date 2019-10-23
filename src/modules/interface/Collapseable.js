@@ -6,7 +6,7 @@ const Collapseable = ({ open, message, children }) => {
     const [defaultSet, updateDefaultSet] = useState(false)
 
     useEffect(() => {
-        (!defaultSet && open !== null) && updateIsOpen(open)
+        (!defaultSet && open !== null) && updateIsOpen(!open)
         updateDefaultSet(true)
     }, [open, defaultSet])
 
@@ -24,11 +24,23 @@ const Collapseable = ({ open, message, children }) => {
 
     const displayMessage = message ?
         message :
-        <p style={messageStyles}>Click to view content</p>
+        <p style={messageStyles} onClick={() => updateIsOpen(!isOpen) }>Click to view content</p>
 
     return (
-        <span onClick={() => updateIsOpen(true)}>
-            {isOpen ? children : displayMessage}
+        <span>
+            { !isOpen && <p 
+                onClick={() => updateIsOpen(!isOpen) }
+                style={{
+                    padding: "0",
+                    textAlign: 'center',
+                    color: "#fff",
+                    margin: '3px auto',
+                    width: '98%',
+                    cursor: 'pointer',
+                    backgroundColor: theme.lightGray
+                }}>Click to hide content
+            </p>}
+            {!isOpen ? children : displayMessage}
         </span>
     )
 }

@@ -50,13 +50,13 @@ const TableRow = ({ children, className, pattern = [40, 30], onClick, tData }) =
     
   `;
   };
-  const stTableRow = styled.div`${mkStyles()}`;
+  const StTableRow = styled.div`${mkStyles()}`;
 
   return (
-    <stTableRow className={className} onClick={onClick ? onClick : null}>
+    <StTableRow className={className} onClick={onClick ? onClick : null}>
       {tData && tData.map((td, i) => <div key={i}>{td}</div>)}
       {children}
-    </stTableRow> 
+    </StTableRow> 
   );
 };
 
