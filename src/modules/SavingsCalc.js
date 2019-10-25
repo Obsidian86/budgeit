@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import Form from "./Form";
 import { money } from "../utilities/convert";
-import TableRow from "./interface/TableRow";
-import ModuleTitle from "./interface/ModuleTitle";
+import TableRow from "./interface/TableRow"
 import MainContext from '../providers/MainContext'
 import Collapseable from './interface/Collapseable'
+import ContentBox from "./interface/ContentBox";
 
-const SavingsCalc = () => {
+const SavingsCalc = ({step}) => {
   const p = useContext(MainContext)
   const [tables, updateTables] = useState([
     { 0: { stAmount: 0, interest: 0, deposit: 0 } }
@@ -77,11 +77,10 @@ const SavingsCalc = () => {
     )
   }
   return (
-    <div className={`contentBox`}>
-      <ModuleTitle title="Savings estimator" />
+    <ContentBox title="Savings estimator" exClass={step===0 && 'lg'}>
       <div className={`row`}>
         <p className='sm'>Estimate how much you'll have by retirement. <br /> The breakdown of each account will display in a new table. The totals will display in the first table. </p>
-        <div className={Object.keys(tables).length > 1 ? "sm" : "lg"}>
+        <div className={step === 0 ? 'lg' : 'sm'}>
           <Form
             defaultFormData={{
               stAmount: 20000,
@@ -120,11 +119,12 @@ const SavingsCalc = () => {
             )}
           />
         </div>
-        {tables.map((t, index) => <React.Fragment key={index}> {renderTable(t, index)} </React.Fragment> )}
+        {tables.length > 1 || step === 0? 
+          tables.map((t, index) => <React.Fragment key={index}> {renderTable(t, index)} </React.Fragment>)
+          :  <h2 className="md" style={{ textAlign: 'center', marginTop: '75px' }}>Add a budget item</h2>
+        }
       </div>
-
-
-    </div>
+      </ContentBox>
   );
 };
 

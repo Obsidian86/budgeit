@@ -13,7 +13,7 @@ export const money = amount => {
 
 export const percent = (amt, total) => `${((amt / total) * 100).toFixed(2)}%`
 export const getPercent = (amt, total) => (amt / 100) * total; 
-
+export const up = (s) => s.charAt(0).toUpperCase() + s.slice(1)
 export const disRec = re => {
   const convRec = {
     w: "Per week",

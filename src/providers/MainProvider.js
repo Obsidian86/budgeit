@@ -6,23 +6,33 @@ import { convert } from "../utilities/convert";
 import * as mem from "../utilities/storage";
 import * as bdg from '../utilities/budgetFunctions';
 import Dialog from '../modules/interface/Dialog'
-import { b } from "./tmpBg";
+import { b as tempBudget } from "./tmpBg";
 
+/*
+  TODO:
+  2) Pie chart should be percent of total
+  3) Require fields to be set
+*/
 
-
-// let b = []
 let startAmount = 2000
+let b = tempBudget
+
+let fresh = true
+if(fresh){
+  b = []
+  startAmount = null
+}
 
 class MainProvider extends React.Component {
 
   constructor() {
     super();
     this.defaultVals = {
-      amount: startAmount,
+      amount: startAmount, // income amount
       viewBy: "m",
       theme: theme,
       budget: {},
-      total: 1,
+      total: 1, // total amound budgetted
       dialog: { open: false },
       savingsTable: [],
     }

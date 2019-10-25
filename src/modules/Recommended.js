@@ -2,26 +2,13 @@ import React, { useContext } from "react";
 import { getPercent, convert } from "../utilities/convert";
 import MainContext from "../providers/MainContext";
 import TableRow from "./interface/TableRow";
-import ModuleTitle from "./interface/ModuleTitle";
+import percents from '../utilities/suggested'
+import ContentBox from "./interface/ContentBox";
 
 const Recommended = () => {
   const p = useContext(MainContext);
-  const percents = {
-    Giving: [8, 10],
-    Saving: [10, 15],
-    Food: [10, 15],
-    utilities: [5, 10],
-    Housing: [25, 30],
-    Transportation: [8, 10],
-    Health: [5, 10],
-    Insurance: [10, 25],
-    Recreation: [5, 10],
-    Personal: [5, 10],
-    Miscellaneous: [5, 10]
-  };
   return (
-    <div className="contentBox lg">
-      <ModuleTitle title="Recommended" />
+    <ContentBox title='Recommended' exClass='lg'>
       <div className='row mt-40'>
         <p className='sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         <div className='lg'>
@@ -47,7 +34,7 @@ const Recommended = () => {
           </div>
         </div>
       </div>
-    </div>
+      </ContentBox>
   );
 };
 

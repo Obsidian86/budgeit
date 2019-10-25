@@ -135,10 +135,9 @@ label{
 }
 .contentBox{
   width: 97%;
-  margin: 0 auto 25px auto;
+  margin: 0 auto 35px auto;
   padding: 15px 10px;
   padding-top: 46px;
-  background-color: #c9c9c9;
   background-color: #fff;
   border: 1px solid rgb(189, 189, 189);
   box-shadow: 0 0 0 6px #fff, 0 0 10px black;
@@ -160,22 +159,19 @@ label{
   }
 
   @media (max-width: 1000px){ 
-    width: 94%;
-    &.md, &.sm, &.lg, .sm, .thr, .md, .lg{ width: 94%; margin: 0 auto;}
+    width: 94%; 
+    margin: 15px auto;
+    &.md, &.sm, &.lg, .sm, .thr, .md, .lg{ 
+      width: 94%;  
+      margin: 15px auto;
+    }
   }
 }
 
 .mt-40 {
   margin-top: 40px;
 }
-
-.contentBox-commands{
-  width: 99%;
-  margin-top: -40px;
-  display: flex;
-  justify-content: flex-end;
-}
-
+ 
 .w-100{
   width: 100%
 }

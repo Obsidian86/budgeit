@@ -1,31 +1,41 @@
 import React, { useContext, useState } from "react";
 import MainContext from "../providers/MainContext";
-import { convert, disRec, percent } from "../utilities/convert";
+import { convert, disRec, percent, up } from "../utilities/convert";
 import ChartContainer from "./components/ChartContainer";
 import TableRow from "./interface/TableRow";
 import Bullet from "./interface/Bullet";
-import ModuleTitle from "./interface/ModuleTitle";
 import ProgressBar from "./interface/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import BudgetForm from './components/BudgetForm'
+import suggested from '../utilities/suggested'
+import ContentBox from './interface/ContentBox'
 
-const YourBudget = ({step}) => {
+const YourBudget = ({ step }) => {
   const p = useContext(MainContext);
   const [displayForm, toggleForm] = useState(false);
   const [editItem, updateEditItem] = useState(null);
   const data = [];
+
   const amountLeft =
-    convert(p.amount, "w", p.viewBy) - convert(p.total, "m", p.viewBy);
+    convert(p.amount, "w", p.viewBy) - convert(p.total, "m", p.viewBy); 
+
   const percentLeft =
     (convert(p.total, "m", p.viewBy) / convert(p.amount, "w", p.viewBy)) * 100;
 
   const catOptions = [];
-  Object.keys(p.budget).forEach(b => catOptions.push({ d: b, v: b }))
-  
+  const track = []
+  Object.keys({ ...p.budget, ...suggested }).forEach(b => {
+    let bI = b.toLowerCase()
+    if (!track.includes(bI)) {
+      catOptions.push({ d: bI, v: bI })
+      track.push(bI)
+    }
+  })
+
   data.push({
     title: "Unallocated",
-    value: isNaN(percentLeft) ? 100 : percentLeft,
+    value: isNaN(percentLeft) ? 100 : (100 - percentLeft),
     color: "gray"
   });
   Object.keys(p.budget).forEach(bd => {
@@ -40,25 +50,15 @@ const YourBudget = ({step}) => {
   });
 
   return (
-    <div className="contentBox">
-      <ModuleTitle title="Your budget" />
-      <div className="contentBox-commands">
-        <button className={`btn ${displayForm && 'red'}`} onClick={() => {
-          updateEditItem(null)
-          toggleForm(!displayForm)
-        }}>
-          <FontAwesomeIcon icon={faPlusCircle} />
-          &nbsp;&nbsp; {displayForm ? "Cancel" : "Add"} budget item
-        </button>
-      </div>
+    <ContentBox title='Your budget'>
       <div className="row mt-40">
         {" "}
         {/* chart section */}
         <div className="sm">
-          {step > 1 && <ChartContainer
+          <ChartContainer
             data={data}
             styles={{ maxWidth: "400px", margin: "0 auto" }}
-          />}
+          />
           <div
             className="contentBox row"
             style={{
@@ -81,16 +81,16 @@ const YourBudget = ({step}) => {
           </div>
         </div>{" "}
         {/* End chart section */}
-        <div className={displayForm ? "md" : "lg"}>
-          {step < 2 ? <h2 style={{textAlign: 'center', marginTop: '75px'}}>Add a budget item</h2> : Object.keys(p.budget).map(bud => {
+        <div className="md">
+          {step < 2 ? <h2 style={{ textAlign: 'center', marginTop: '75px' }}>Add a budget item</h2> : Object.keys(p.budget).map(bud => {
             return (
               <div key={bud} style={{ marginBottom: "33px" }}>
                 <TableRow className="headerRow">
                   <div>
-                    <Bullet color={p.budget[bud].color} size="13" /> {bud}
+                    <Bullet color={p.budget[bud].color} size="13" /> {up(bud)}
                   </div>
                   <div>
-                    <span style={{paddingRight: '12px'}}>{percent(p.budget[bud].total, convert(p.amount, "w","m")) } &nbsp;&nbsp; |</span>
+                    <span style={{ paddingRight: '12px' }}>{percent(p.budget[bud].total, convert(p.amount, "w", "m"))} &nbsp;&nbsp; |</span>
                     {convert(p.budget[bud].total, "m", p.viewBy, "money")}
                   </div>
                 </TableRow>
@@ -112,24 +112,32 @@ const YourBudget = ({step}) => {
             );
           })}
         </div>
-        {displayForm && (
-          <div className="sm">
-            <BudgetForm
-              catOptions={catOptions}
-              editItem={editItem}
-              updateEditItem={updateEditItem}
-              deleteBudgetItem={p.deleteBudgetItem}
-              setDialog={p.setDialog}
-              onSubmit={bi => {
-                !editItem && p.addBudgetItem(bi)
-                editItem && p.updateBudgetItem(editItem, bi)
-                updateEditItem(null)
-              }}
-            />
-          </div>
-        )}
+        <div className="sm">
+
+          <span className='right'>
+            <button className={`btn ${displayForm && 'red'}`} onClick={() => {
+              updateEditItem(null)
+              toggleForm(!displayForm)
+            }}>
+              <FontAwesomeIcon icon={faPlusCircle} />
+              &nbsp;&nbsp; {displayForm ? "Cancel" : "Add"} budget item
+        </button>
+          </span>
+          {displayForm && <BudgetForm
+            catOptions={catOptions}
+            editItem={editItem}
+            updateEditItem={updateEditItem}
+            deleteBudgetItem={p.deleteBudgetItem}
+            setDialog={p.setDialog}
+            onSubmit={bi => {
+              !editItem && p.addBudgetItem(bi)
+              editItem && p.updateBudgetItem(editItem, bi)
+              updateEditItem(null)
+            }}
+          />}
+        </div>
       </div>
-    </div>
+    </ContentBox>
   );
 };
 

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import ModuleTitle from './interface/ModuleTitle'
 import MainContext from '../providers/MainContext'
 import SoftList from './interface/SoftList'
 import {money} from '../utilities/convert'
+import ContentBox from './interface/ContentBox'
  
 const EmergencyFunds = () => {
     const p = useContext(MainContext)
@@ -18,8 +18,7 @@ const EmergencyFunds = () => {
     })
 
     return(
-        <div className="contentBox lg">
-        <ModuleTitle title="Emergency Funds" />
+        <ContentBox title="Emergency Funds" exClass='lg'>
         <div className='row mt-40'>
           <p className='sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           <div className='lg'>
@@ -31,7 +30,7 @@ const EmergencyFunds = () => {
             </SoftList>
           </div>
         </div>
-      </div>
+      </ContentBox>
     )
 }
 

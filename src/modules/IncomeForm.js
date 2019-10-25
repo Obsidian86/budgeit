@@ -5,7 +5,7 @@ import MainContext from "../providers/MainContext";
 import { convert } from "../utilities/convert";
 import SoftList from "./interface/SoftList";
 import { recurrence } from '../utilities/constants'
-import ModuleTitle from './interface/ModuleTitle'
+import ContentBox from "./interface/ContentBox";
 
 const IncomeForm = () => {
   const p = useContext(MainContext);
@@ -14,13 +14,7 @@ const IncomeForm = () => {
   const submitForm = data => updateAmount(data);
 
   return (
-    <div
-      className="contentBox sm"
-      style={{ borderTop: `8px solid ${theme.green}`, paddingTop: "0" }}
-    >
-      <ModuleTitle title="Takehome amount" /> 
-      <br />
-      <br />
+    <ContentBox title='Takehome amount' exClass='sm' exStyles={{borderTop: `8px solid ${theme.green}`}}>
       <br />
       <Form
         defaultFormData={{ initialAmount: p.amount, initialRec: "w" }}
@@ -36,6 +30,9 @@ const IncomeForm = () => {
                 placeholder="input amount to begin"
                 onChange={e => updateField(e)}
               />
+              <span
+                style={{color: 'red', fontStyle: 'italic', marginTop: '-8px', display: 'block', textAlign: 'right', width: '97%'}}
+              >Please enter an amount</span>
               <label htmlFor="initialRec">Recurrence</label>
               <DropDown
                 options={recurrence}
@@ -97,7 +94,7 @@ const IncomeForm = () => {
           </div>
         )}
       />
-    </div>
+    </ContentBox>
   );
 };
 
