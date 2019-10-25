@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Form from "./Form";
 import DropDown from "./interface/DropDown";
 import MainContext from "../providers/MainContext";
@@ -6,12 +6,27 @@ import { convert } from "../utilities/convert";
 import SoftList from "./interface/SoftList";
 import { recurrence } from '../utilities/constants'
 import ContentBox from "./interface/ContentBox";
+import FieldError from "./interface/FieldError";
 
 const IncomeForm = () => {
   const p = useContext(MainContext);
   const { updateAmount, theme } = p; 
+  const [errors, updateErrors] = useState(null)
 
-  const submitForm = data => updateAmount(data);
+  const submitForm = data => {
+    let errs = {}
+    
+    
+    if(!data.initialAmount){
+      errs['initialAmount'] = 'Please input an amount'
+    }else{
+      const test = data.initialAmount.split(" ").join('')
+      if(isNaN(test)) errs['initialAmount'] = 'Please input a number'
+    }
+
+    updateErrors(errs)
+    if(Object.keys(errs).length < 1) return updateAmount(data)
+  };
 
   return (
     <ContentBox title='Takehome amount' exClass='sm' exStyles={{borderTop: `8px solid ${theme.green}`}}>
@@ -30,9 +45,7 @@ const IncomeForm = () => {
                 placeholder="input amount to begin"
                 onChange={e => updateField(e)}
               />
-              <span
-                style={{color: 'red', fontStyle: 'italic', marginTop: '-8px', display: 'block', textAlign: 'right', width: '97%'}}
-              >Please enter an amount</span>
+              {errors && errors['initialAmount'] && <FieldError error={errors['initialAmount']} />}
               <label htmlFor="initialRec">Recurrence</label>
               <DropDown
                 options={recurrence}
