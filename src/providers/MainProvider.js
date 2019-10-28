@@ -34,7 +34,7 @@ class MainProvider extends React.Component {
       budget: {},
       total: 1, // total amound budgetted
       dialog: { open: false },
-      savingsTable: [],
+      savingsTable: [{ 0: { stAmount: 0, interest: 0, deposit: 0 }}],
     }
     this.methods = {
       updateAmount: this.updateAmount,

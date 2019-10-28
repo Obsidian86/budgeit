@@ -1,17 +1,17 @@
 import React, { useState, useContext } from "react";
 import Form from "./Form";
 import { money } from "../utilities/convert";
-import TableRow from "./interface/TableRow"
-import MainContext from '../providers/MainContext'
-import Collapseable from './interface/Collapseable'
+import TableRow from "./interface/TableRow";
+import MainContext from '../providers/MainContext';
+import Collapseable from './interface/Collapseable';
 import ContentBox from "./interface/ContentBox";
+import FieldError from './interface/FieldError';
 
-const SavingsCalc = ({step}) => {
+const SavingsCalc = ({ step }) => {
   const p = useContext(MainContext)
-  const [tables, updateTables] = useState([
-    { 0: { stAmount: 0, interest: 0, deposit: 0 } }
-  ]);
-  const submitForm = (formData) => {
+  const [errors, updateErrors] = useState(null)
+  
+  const processTables = (formData) => {
     Object.keys(formData).forEach(fd => formData[fd] = parseFloat(formData[fd]))
     let totals = { ...tables[0] }
     let newTable = {}
@@ -34,28 +34,50 @@ const SavingsCalc = ({step}) => {
     let combineTables = [...tables]
     combineTables[0] = totals
     combineTables.push(newTable)
-    updateTables(combineTables)
     p.updateSavingsTables(combineTables)
+  }
+
+  const submitForm = (formData) => {
+    let errs = {}
+    let fields = [
+      { name: 'stAmount', req: true, type: 'number' },
+      { name: 'startAge', req: true, type: 'number' },
+      { name: 'depAmount', req: true, type: 'number' },
+      { name: 'per', req: true, type: 'number' },
+      { name: 'rate', req: true, type: 'number' },
+      { name: 'years', req: true, type: 'number' }
+    ]
+    fields.forEach(f => {
+      if (f.req && !formData[f.name]) errs[f.name] = 'Field is required'
+      if (f.type = 'number') {
+        let test = formData[f.name].split(" ").join('')
+        if (isNaN(test)) errs[f.name] = 'Please input a number'
+      }
+    })
+
+    updateErrors(errs)
+    if (Object.keys(errs).length > 0) return errs
+    processTables(formData)
   }
 
   const renderTable = (tableData, index) => {
     const RowSpread = [6, 25, 16, 24, 25];
-    if( Object.keys(tableData).length === 1 && tableData["0"] ){
+    if (Object.keys(tableData).length === 1 && tableData["0"]) {
       return null
     }
     let rows = Object.keys(tableData).map(t => {
-      if(t === 0 || t === '0') return null
-      return (<TableRow 
+      if (t === 0 || t === '0') return null
+      return (<TableRow
         pattern={RowSpread}
         key={t}
         tData={[
           t, money(tableData[t].stAmount), money(tableData[t].interest), money(tableData[t].deposit),
-          money(tableData[t].stAmount + tableData[t].interest + tableData[t].deposit)]}/>)
+          money(tableData[t].stAmount + tableData[t].interest + tableData[t].deposit)]} />)
     })
 
     return (
       <div className="md" style={{ marginBottom: "20px" }}>
-        <label style={{ 
+        <label style={{
           fontSize: '1.1rem',
           backgroundColor: p.theme.vBlueDark,
           color: '#fff',
@@ -65,8 +87,8 @@ const SavingsCalc = ({step}) => {
           textAlign: 'center',
           marginLeft: '30px'
         }}>{index === 0 ? 'Totals' : `Table ${index}`}</label>
-        <TableRow 
-          pattern={RowSpread} 
+        <TableRow
+          pattern={RowSpread}
           className="headerRow"
           tData={["Age", "Starting Amount", "Interest", "Deposited", "End"]}
         />
@@ -77,7 +99,7 @@ const SavingsCalc = ({step}) => {
     )
   }
   return (
-    <ContentBox title="Savings estimator" exClass={step===0 && 'lg'}>
+    <ContentBox title="Savings estimator" exClass={step === 0 && 'lg'}>
       <div className={`row`}>
         <p className='sm'>Estimate how much you'll have by retirement. <br /> The breakdown of each account will display in a new table. The totals will display in the first table. </p>
         <div className={step === 0 ? 'lg' : 'sm'}>
@@ -94,21 +116,27 @@ const SavingsCalc = ({step}) => {
               <>
                 <label>Starting amount</label>
                 <input type="text" onChange={updateForm} name="stAmount" value={formData.stAmount} />
+                {errors && errors['stAmount'] && <FieldError error={errors['stAmount']} />}
 
                 <label>Age</label>
                 <input type="text" onChange={updateForm} name="startAge" value={formData.startAge} />
+                {errors && errors['stAge'] && <FieldError error={errors['stAge']} />}
 
                 <label>Deposit</label>
                 <input type="text" onChange={updateForm} name="depAmount" value={formData.depAmount} />
+                {errors && errors['depAmount'] && <FieldError error={errors['depAmount']} />}
 
                 <label>Per</label>
                 <input type="text" onChange={updateForm} name="per" value={formData.per} />
+                {errors && errors['per'] && <FieldError error={errors['per']} />}
 
                 <label>Rate</label>
                 <input type="text" onChange={updateForm} name="rate" value={formData.rate} />
+                {errors && errors['rate'] && <FieldError error={errors['rate']} />}
 
                 <label>Years</label>
                 <input type="text" onChange={updateForm} name="years" value={formData.years} />
+                {errors && errors['years'] && <FieldError error={errors['years']} />}
 
                 <div className='grouping right'>
                   <button className="btn" onClick={() => submitForm(formData)}>
@@ -119,12 +147,12 @@ const SavingsCalc = ({step}) => {
             )}
           />
         </div>
-        {tables.length > 1 || step === 0? 
-          tables.map((t, index) => <React.Fragment key={index}> {renderTable(t, index)} </React.Fragment>)
-          :  <h2 className="md" style={{ textAlign: 'center', marginTop: '75px' }}>Add a budget item</h2>
+        {p.savingsTable.length > 1 || step === 0 ?
+          p.savingsTable.map((t, index) => <React.Fragment key={index}> {renderTable(t, index)} </React.Fragment>)
+          : <h2 className="md" style={{ textAlign: 'center', marginTop: '75px' }}>Add a budget item</h2>
         }
       </div>
-      </ContentBox>
+    </ContentBox>
   );
 };
 
