@@ -50,7 +50,9 @@ const SavingsCalc = ({ step }) => {
     fields.forEach(f => {
       if (f.req && !formData[f.name]) errs[f.name] = 'Field is required'
       if (f.type === 'number') {
-        let test = formData[f.name].split(" ").join('')
+        console.log(formData)
+        console.log(f.name)
+        let test = formData[f.name].split ? formData[f.name].split(" ").join('') : formData[f.name]
         if (isNaN(test)) errs[f.name] = 'Please input a number'
       }
     })

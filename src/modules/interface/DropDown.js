@@ -17,6 +17,7 @@ const getDisplay = (isSet, options) => {
 
 const DropDown = ({ options, callBack, isSet, icon, styles }) => {
   const [open, toggle] = useState(false);
+
   const StDiv = styled.ul`
     border-bottom: 1px solid;
     box-shadow: ${open ? "0 3px 5px #c4c4c4" : ""};
@@ -49,9 +50,7 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
   
   return (
     <StDiv
-      onMouseEnter={() => toggle(true)}
-      onMouseLeave={event => toggle(false)}
-    >
+      onClick={() => toggle(!open) } >
       {icon && <>{icon} &nbsp;</>}
       <span>{isSet ? getDisplay(isSet, options) : "Pick one"}</span>
       <ul style={{ display: open ? "block" : "none" }}>
