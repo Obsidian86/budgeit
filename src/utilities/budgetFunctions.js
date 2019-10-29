@@ -49,7 +49,7 @@ export const processAddBudgetItem = (oldBudget, bi, colors, total) => {
   if (newBudget[bi.category]) {
     newBudget[bi.category].total =
       parseFloat(newBudget[bi.category].total) + parseFloat(bi.amount);
-    newBudget[bi.category].items.push();
+    newBudget[bi.category].items.push(bi);
   } else {
     newBudget[bi.category] = {
       color:

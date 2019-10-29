@@ -36,7 +36,7 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
       width: 100%;
       box-shadow: ${open ? "0 5px 5px #c4c4c4" : ""};
       & li {
-        padding: 10px 10px;
+        padding: 13px 10px;
         background-color: #fff;
         &:hover {
           color: #fff;

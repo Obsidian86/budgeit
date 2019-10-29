@@ -12,13 +12,13 @@ const Collapseable = ({ open, message, children }) => {
 
     const messageStyles = {
         textAlign: 'center',
-        padding: '3px',
+        padding: '8px 7px',
         cursor: 'pointer',
         backgroundColor: theme.lightGray,
         border: `1px solid ${theme.darkGray}`,
         color: theme.darkGray,
         borderRadius: '5px',
-        width: '80%',
+        width: '85%',
         margin: '20px auto'
     }
 
