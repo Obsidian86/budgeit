@@ -8,3 +8,12 @@ export const getObjIndex = (arr, key, val) => {
     } 
     return ind
   }
+
+export const genId = () => {
+    const a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
+    const t = new Date().getUTCMilliseconds()
+    let n = `${Math.floor(Math.random() * 1000)}${t}${Math.floor(Math.random() * 1000)}${Math.floor(Math.random() * 1000)}${Math.floor(Math.random() * 1000)}`
+    let x = ''
+    n.split('').forEach(z => x = x + "" + a[z] )
+    return x
+}

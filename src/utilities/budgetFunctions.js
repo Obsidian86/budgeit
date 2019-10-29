@@ -1,4 +1,4 @@
-import {getObjIndex} from './functions'
+import {getObjIndex, genId} from './functions'
 
 export const parsePersonalBudget = (b, colors) => {
   let bud = {};
@@ -6,11 +6,11 @@ export const parsePersonalBudget = (b, colors) => {
   let colorTrack = 0;
   b.forEach((bd, index) => {
     if (bud[bd.category]) {
-      bud[bd.category].items.push({ id: bd.id ? bd.id : `bi-${index}`, ...bd });
+      bud[bd.category].items.push({ id: bd.id ? bd.id : genId(), ...bd });
       bud[bd.category].total = bud[bd.category].total + parseFloat(bd.amount);
     } else {
       bud[bd.category] = {
-        items: [{ id: bd.id ? bd.id : `bi-${index}`, ...bd }],
+        items: [{ id: bd.id ? bd.id : genId(), ...bd }],
         color: colors[colorTrack],
         total: parseFloat(bd.amount)
       };
@@ -45,6 +45,7 @@ export const processDeleteBudgetItem = (oldBudget, cat, id, total) => {
 
 export const processAddBudgetItem = (oldBudget, bi, colors, total) => {
   let newBudget = { ...oldBudget };
+  bi.id = genId()
   total = parseFloat(total) + parseFloat(bi.amount)
   if (newBudget[bi.category]) {
     newBudget[bi.category].total =

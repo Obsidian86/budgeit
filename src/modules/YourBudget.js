@@ -25,6 +25,7 @@ const YourBudget = ({ step }) => {
     (convert(p.total, "m", p.viewBy) / convert(p.amount, "w", p.viewBy)) * 100;
 
   const validateData = (bi) => {
+    console.log(bi)
     let errs = {}
     let fields = [
       { name: 'amount', req: true, type: 'number' },
@@ -32,7 +33,7 @@ const YourBudget = ({ step }) => {
     ]
     fields.forEach(f => {
       if (f.req && !bi[f.name]) errs[f.name] = 'Field is required'
-      if (f.type === 'number') {
+      if (f.type === 'number' && isNaN(bi[f.name])) {
         let test = bi[f.name].split(" ").join('')
         if (isNaN(test)) errs[f.name] = 'Please input a number'
       }
