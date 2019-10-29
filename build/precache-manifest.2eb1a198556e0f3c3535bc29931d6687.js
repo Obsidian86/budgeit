@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d844e7bcc642b0960f799ef080f843af",
+    "revision": "87a2edc3e970590eec9901996e3fe755",
     "url": "/budgeit/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/budgeit/static/css/2.764ccc25.chunk.css"
   },
   {
-    "revision": "ebfb792b20aba5ba6914",
+    "revision": "3cbd4cfe09d2e4c1761a",
     "url": "/budgeit/static/css/main.6179fde8.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/budgeit/static/js/2.069e43a1.chunk.js"
   },
   {
-    "revision": "ebfb792b20aba5ba6914",
-    "url": "/budgeit/static/js/main.97763cc0.chunk.js"
+    "revision": "3cbd4cfe09d2e4c1761a",
+    "url": "/budgeit/static/js/main.0dc69215.chunk.js"
   },
   {
     "revision": "10bea74142988fcc617b",

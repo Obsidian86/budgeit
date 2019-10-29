@@ -138,7 +138,7 @@ const YourBudget = ({ step }) => {
               updateEditItem(null)
               toggleForm(!displayForm)
             }}>
-              <FontAwesomeIcon icon={faPlusCircle} />
+              <FontAwesomeIcon icon={faPlusCircle} style={{rotate: displayForm ? 'deg(35)' : 'deg(0)' }}/>
               &nbsp;&nbsp; {displayForm ? "Cancel" : "Add"} budget item
         </button>
           </span>

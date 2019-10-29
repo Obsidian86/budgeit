@@ -106,14 +106,14 @@ const SavingsCalc = ({ step }) => {
         <p className='sm'>Estimate how much you'll have by retirement. <br /> The breakdown of each account will display in a new table. The totals will display in the first table. </p>
         <div className={step === 0 ? 'lg' : 'sm'}>
           <Form
-            defaultFormData={{
-              stAmount: 20000,
-              depAmount: 20000,
-              per: 12,
-              rate: 7,
-              years: 36,
-              startAge: 33
-            }}
+            // defaultFormData={{
+            //   stAmount: 20000,
+            //   depAmount: 20000,
+            //   per: 12,
+            //   rate: 7,
+            //   years: 36,
+            //   startAge: 33
+            // }}
             render={(updateForm, formData) => (
               <>
                 <label>Starting amount</label>
@@ -128,7 +128,7 @@ const SavingsCalc = ({ step }) => {
                 <input type="text" onChange={updateForm} name="depAmount" value={formData.depAmount} />
                 {errors && errors['depAmount'] && <FieldError error={errors['depAmount']} />}
 
-                <label>Ever __ Month (12 = 1 year)</label>
+                <label>Every __ Month/s (12 = 1 year)</label>
                 <input type="text" onChange={updateForm} name="per" value={formData.per} />
                 {errors && errors['per'] && <FieldError error={errors['per']} />}
 
