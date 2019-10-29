@@ -1,9 +1,10 @@
 import React from "react";
 import Form from "../Form";
 import DropDown from '../interface/DropDown';
-import { recurrence } from '../../utilities/constants'
+import { recurrence } from '../../utilities/constants';
+import FieldError from '../interface/FieldError';
 
-const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog }) => 
+const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors }) => 
     <Form
       defaultFormData={editItem ? { ...editItem, newCategory: 'off' } : { newCategory: 'off' }}
       reDefault
@@ -44,6 +45,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
               onChange={e => updateField(e)}
               value={formData && formData.item ? formData.item : ""}
             />
+            {errors && errors['item'] && <FieldError error={errors['item']} />}
             <label>Amount</label>
             <input
               type="text"
@@ -51,6 +53,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
               onChange={e => updateField(e)}
               value={formData && formData.amount ? formData.amount : ""}
             />
+            {errors && errors['amount'] && <FieldError error={errors['amount']} />}
             <label>Recurrence</label>
             <DropDown
               options={recurrence}

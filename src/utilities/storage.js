@@ -4,7 +4,7 @@ export const save = data => {
 
 export const load = () => {
   return null
-  const bData = localStorage.getItem("bData");
-  if (bData) return JSON.parse(bData);
-  else return null;
+  // const bData = localStorage.getItem("bData");
+  // if (bData) return JSON.parse(bData);
+  // else return null;
 };

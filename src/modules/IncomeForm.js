@@ -16,7 +16,6 @@ const IncomeForm = () => {
   const submitForm = data => {
     let errs = {}
     
-    
     if(!data.initialAmount){
       errs['initialAmount'] = 'Please input an amount'
     }else{

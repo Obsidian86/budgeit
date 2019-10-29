@@ -15,6 +15,7 @@ const YourBudget = ({ step }) => {
   const p = useContext(MainContext);
   const [displayForm, toggleForm] = useState(false);
   const [editItem, updateEditItem] = useState(null);
+  const [errors, updateErrors] = useState(null)
   const data = [];
 
   const amountLeft =
@@ -22,6 +23,24 @@ const YourBudget = ({ step }) => {
 
   const percentLeft =
     (convert(p.total, "m", p.viewBy) / convert(p.amount, "w", p.viewBy)) * 100;
+
+  const validateData = (bi) => {
+    let errs = {}
+    let fields = [
+      { name: 'amount', req: true, type: 'number' },
+      { name: 'item', req: true, type: 'text' }
+    ]
+    fields.forEach(f => {
+      if (f.req && !bi[f.name]) errs[f.name] = 'Field is required'
+      if (f.type === 'number') {
+        let test = bi[f.name].split(" ").join('')
+        if (isNaN(test)) errs[f.name] = 'Please input a number'
+      }
+    })
+    updateErrors(errs)
+    return (Object.keys(errs).length === 0)
+  }
+
 
   const catOptions = [];
   const track = []
@@ -129,7 +148,9 @@ const YourBudget = ({ step }) => {
             updateEditItem={updateEditItem}
             deleteBudgetItem={p.deleteBudgetItem}
             setDialog={p.setDialog}
+            errors={errors}
             onSubmit={bi => {
+              if(!validateData(bi)) return null
               !editItem && p.addBudgetItem(bi)
               editItem && p.updateBudgetItem(editItem, bi)
               updateEditItem(null)

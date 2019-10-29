@@ -13,7 +13,7 @@ const SavingsCalc = ({ step }) => {
   
   const processTables = (formData) => {
     Object.keys(formData).forEach(fd => formData[fd] = parseFloat(formData[fd]))
-    let totals = { ...tables[0] }
+    let totals = { ...p.savingsTable[0] }
     let newTable = {}
     let currentAmount = formData.stAmount
     for (let i = 1; i < (formData.years + 1); i++) {
@@ -31,7 +31,7 @@ const SavingsCalc = ({ step }) => {
       } else totals[newAge] = tableRow
       currentAmount = currentAmount + formData.depAmount + (currentAmount * (formData.rate / 100))
     }
-    let combineTables = [...tables]
+    let combineTables = [...p.savingsTable]
     combineTables[0] = totals
     combineTables.push(newTable)
     p.updateSavingsTables(combineTables)
@@ -49,7 +49,7 @@ const SavingsCalc = ({ step }) => {
     ]
     fields.forEach(f => {
       if (f.req && !formData[f.name]) errs[f.name] = 'Field is required'
-      if (f.type = 'number') {
+      if (f.type === 'number') {
         let test = formData[f.name].split(" ").join('')
         if (isNaN(test)) errs[f.name] = 'Please input a number'
       }
@@ -118,23 +118,23 @@ const SavingsCalc = ({ step }) => {
                 <input type="text" onChange={updateForm} name="stAmount" value={formData.stAmount} />
                 {errors && errors['stAmount'] && <FieldError error={errors['stAmount']} />}
 
-                <label>Age</label>
+                <label>Starting age</label>
                 <input type="text" onChange={updateForm} name="startAge" value={formData.startAge} />
                 {errors && errors['stAge'] && <FieldError error={errors['stAge']} />}
 
-                <label>Deposit</label>
+                <label>Amount each deposit</label>
                 <input type="text" onChange={updateForm} name="depAmount" value={formData.depAmount} />
                 {errors && errors['depAmount'] && <FieldError error={errors['depAmount']} />}
 
-                <label>Per</label>
+                <label>Ever __ Month (12 = 1 year)</label>
                 <input type="text" onChange={updateForm} name="per" value={formData.per} />
                 {errors && errors['per'] && <FieldError error={errors['per']} />}
 
-                <label>Rate</label>
+                <label>Percent rate (number only)</label>
                 <input type="text" onChange={updateForm} name="rate" value={formData.rate} />
                 {errors && errors['rate'] && <FieldError error={errors['rate']} />}
 
-                <label>Years</label>
+                <label>For how many years?</label>
                 <input type="text" onChange={updateForm} name="years" value={formData.years} />
                 {errors && errors['years'] && <FieldError error={errors['years']} />}
 
