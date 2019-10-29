@@ -117,27 +117,27 @@ const SavingsCalc = ({ step }) => {
             render={(updateForm, formData) => (
               <>
                 <label>Starting amount</label>
-                <input type="text" onChange={updateForm} name="stAmount" value={formData.stAmount} />
+                <input type="number" onChange={updateForm} name="stAmount" value={formData.stAmount} />
                 {errors && errors['stAmount'] && <FieldError error={errors['stAmount']} />}
 
                 <label>Starting age</label>
-                <input type="text" onChange={updateForm} name="startAge" value={formData.startAge} />
+                <input type="number" onChange={updateForm} name="startAge" value={formData.startAge} />
                 {errors && errors['stAge'] && <FieldError error={errors['stAge']} />}
 
                 <label>Amount each deposit</label>
-                <input type="text" onChange={updateForm} name="depAmount" value={formData.depAmount} />
+                <input type="number" onChange={updateForm} name="depAmount" value={formData.depAmount} />
                 {errors && errors['depAmount'] && <FieldError error={errors['depAmount']} />}
 
-                <label>Every __ Month/s (12 = 1 year)</label>
-                <input type="text" onChange={updateForm} name="per" value={formData.per} />
+                <label>Every ___ Month/s (12 = 1 year)</label>
+                <input type="number" onChange={updateForm} name="per" value={formData.per} />
                 {errors && errors['per'] && <FieldError error={errors['per']} />}
 
                 <label>Percent rate (number only)</label>
-                <input type="text" onChange={updateForm} name="rate" value={formData.rate} />
+                <input type="number" onChange={updateForm} name="rate" value={formData.rate} />
                 {errors && errors['rate'] && <FieldError error={errors['rate']} />}
 
                 <label>For how many years?</label>
-                <input type="text" onChange={updateForm} name="years" value={formData.years} />
+                <input type="number" onChange={updateForm} name="years" value={formData.years} />
                 {errors && errors['years'] && <FieldError error={errors['years']} />}
 
                 <div className='grouping right'>

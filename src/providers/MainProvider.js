@@ -6,15 +6,12 @@ import { convert } from "../utilities/convert";
 import * as mem from "../utilities/storage";
 import * as bdg from '../utilities/budgetFunctions';
 import Dialog from '../modules/interface/Dialog'
- 
-const b = []
 
 class MainProvider extends React.Component {
-
   constructor() {
     super();
     this.defaultVals = {
-      amount: 0, // income amount
+      amount: null, // income amount
       viewBy: "m",
       theme: theme,
       budget: {},
@@ -36,7 +33,7 @@ class MainProvider extends React.Component {
       ...this.methods
     };
   }
-  componentDidMount = () => this.setState(mem.load(), () => this.setState(bdg.parsePersonalBudget(b, colors)))
+  componentDidMount = () => this.setState(mem.load(), () => this.setState(bdg.parsePersonalBudget([], colors)))
 
   saveState = newState => this.setState(newState, () => mem.save(this.state))
   updateAmount = amount => this.saveState({ amount: convert(amount.initialAmount, amount.initialRec, "w") })

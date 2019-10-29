@@ -37,7 +37,7 @@ const IncomeForm = () => {
             <>
               <label htmlFor="initialAmount">Enter Amount</label>
               <input
-                type="text"
+                type="number"
                 name="initialAmount"
                 id="initialAmount"
                 value={formData.initialAmount ? formData.initialAmount : ""}

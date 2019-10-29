@@ -18,12 +18,8 @@ body {
   );
   padding-top: 80px;
 }
-p{
-  line-height: 1.6rem;
-}
-.container{
-  width: 100%;
-}
+p{ line-height: 1.6rem; }
+.container{ width: 100%; }
 
 .btn{
   cursor: pointer;
@@ -48,7 +44,7 @@ p{
 }
 
 // FORMS, FIELDS, INPUTS
-input[type=text]{
+input[type=text], input[type=number]{
   display: block;
   width: 94%;
   padding: 15px 5px;
@@ -90,9 +86,7 @@ label{
   padding: 23px 0px;
   margin-left: -10px;
   cursor: pointer;
-  input{
-    opacity: 0;
-  }
+  input{ opacity: 0; }
   span{
     height: 20px;
     width: 20px;
@@ -142,21 +136,11 @@ label{
   border: 1px solid rgb(189, 189, 189);
   box-shadow: 0 0 0 6px #fff, 0 0 10px black;
   position: relative;
-  &.sm, .sm{
-    width: 24%;
-  }
-  &.thr, .thr{
-    width: 32%;
-  }
-  &.md, .md{
-    width: 45%;
-  }
-  &.lg, .lg{
-    width: 70%;
-  }
-  &.max, .max{
-    width: 98%;
-  }
+  &.sm, .sm{ width: 24%; }
+  &.thr, .thr{ width: 32%; }
+  &.md, .md{ width: 45%; }
+  &.lg, .lg{ width: 70%; }
+  &.max, .max{ width: 98%; }
 
   @media (max-width: 1000px){ 
     width: 94%; 
@@ -168,13 +152,8 @@ label{
   }
 }
 
-.mt-40 {
-  margin-top: 40px;
-}
- 
-.w-100{
-  width: 100%
-}
+.mt-40 { margin-top: 40px; }
+.w-100{ width: 100% }
 
 p{
   &.text-left { text-align: left;}

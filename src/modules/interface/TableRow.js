@@ -18,7 +18,7 @@ const TableRow = ({ children, className, pattern = [40, 30], onClick, tData }) =
     cursor: ${onClick ? "pointer" : ""};
     display: flex;
     justify-content: space-between;
-    width: 97%;
+    width: 100%;
     margin: 0 auto;
     border-radius: 0;
     border-left: 3px solid ${theme.vBlue};

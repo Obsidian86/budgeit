@@ -48,7 +48,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             {errors && errors['item'] && <FieldError error={errors['item']} />}
             <label>Amount</label>
             <input
-              type="text"
+              type="number"
               name="amount"
               onChange={e => updateField(e)}
               value={formData && formData.amount ? formData.amount : ""}

@@ -132,7 +132,6 @@ const YourBudget = ({ step }) => {
           })}
         </div>
         <div className="sm">
-
           <span className='right'>
             <button className={`btn ${displayForm && 'red'}`} onClick={() => {
               updateEditItem(null)
@@ -154,6 +153,7 @@ const YourBudget = ({ step }) => {
               !editItem && p.addBudgetItem(bi)
               editItem && p.updateBudgetItem(editItem, bi)
               updateEditItem(null)
+              toggleForm(false)
             }}
           />}
         </div>

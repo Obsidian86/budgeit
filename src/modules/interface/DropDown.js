@@ -46,27 +46,20 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
       }
     }
     ${styles}
-  `;
-  
+  `; 
+
   return (
-    <StDiv
-      onClick={() => toggle(!open) } >
+    <StDiv onClick={() => toggle(!open) } >
       {icon && <>{icon} &nbsp;</>}
       <span>{isSet ? getDisplay(isSet, options) : "Pick one"}</span>
       <ul style={{ display: open ? "block" : "none" }}>
-        {options.map((o, i) => {
-          return (
-            <li
+        {options.map((o, i) => <li
               key={i}
               onClick={() => {
                 toggle(false);
                 callBack && callBack(o.v);
               }}
-            >
-              {o.d}
-            </li>
-          );
-        })}
+            > {o.d} </li> )}
       </ul>
       &nbsp;&nbsp;
       <FontAwesomeIcon

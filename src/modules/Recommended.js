@@ -10,7 +10,7 @@ const Recommended = () => {
   return (
     <ContentBox title='Recommended' exClass='lg'>
       <div className='row mt-40'>
-        <p className='sm'>Suggested budget categories are based upon recommended percentages pulled from various resources. They are just guidelines. The exact amount will vary based on location, age, situiations and lifestyle choices. </p>
+        <p className='sm'>Suggested budget categories are based upon recommended percentages pulled from various resources. They are just guidelines. The exact amount will vary based on location, age, situations and lifestyle choices. </p>
         <div className='lg'>
           <div>
             <TableRow className="headerRow">
