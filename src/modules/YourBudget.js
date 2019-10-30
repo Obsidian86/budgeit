@@ -19,7 +19,7 @@ const YourBudget = ({ step }) => {
   const data = [];
 
   const amountLeft =
-    convert(p.amount, "w", p.viewBy) - convert(p.total, "m", p.viewBy); 
+    convert(p.amount, "w", p.viewBy) - convert(p.total, "m", p.viewBy);
 
   const percentLeft =
     (convert(p.total, "m", p.viewBy) / convert(p.amount, "w", p.viewBy)) * 100;
@@ -138,25 +138,25 @@ const YourBudget = ({ step }) => {
               updateEditItem(null)
               toggleForm(!displayForm)
             }}>
-              <FontAwesomeIcon icon={faPlusCircle} style={{rotate: displayForm ? 'deg(35)' : 'deg(0)' }}/>
+              <FontAwesomeIcon icon={faPlusCircle} style={{ rotate: displayForm ? 'deg(35)' : 'deg(0)' }} />
               &nbsp;&nbsp; {displayForm ? "Cancel" : "Add"} budget item
         </button>
-          </span>
-          {displayForm && <BudgetForm
-            catOptions={catOptions}
-            editItem={editItem}
-            updateEditItem={updateEditItem}
-            deleteBudgetItem={p.deleteBudgetItem}
-            setDialog={p.setDialog}
-            errors={errors}
-            onSubmit={bi => {
-              if(!validateData(bi)) return null
-              !editItem && p.addBudgetItem(bi)
-              editItem && p.updateBudgetItem(editItem, bi)
-              updateEditItem(null)
-              toggleForm(false)
-            }}
-          />}
+          </span> 
+            {displayForm && <BudgetForm
+              catOptions={catOptions}
+              editItem={editItem}
+              updateEditItem={updateEditItem}
+              deleteBudgetItem={p.deleteBudgetItem}
+              setDialog={p.setDialog}
+              errors={errors}
+              onSubmit={bi => {
+                if (!validateData(bi)) return null
+                !editItem && p.addBudgetItem(bi)
+                editItem && p.updateBudgetItem(editItem, bi)
+                updateEditItem(null)
+                toggleForm(false)
+              }}
+            />} 
         </div>
       </div>
     </ContentBox>

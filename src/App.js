@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import IncomeForm from "./modules/IncomeForm";
 import TopBar from "./modules/TopBar";
 import Recommended from "./modules/Recommended";
@@ -8,13 +8,12 @@ import Footer from './modules/Footer';
 import MainContext from './providers/MainContext'
 import EmergencyFunds from "./modules/EmergencyFunds";
 
-
 function App() {
   const p = useContext(MainContext)
 
   let step = 0;
-  if(p.amount !== null) step ++
-  if(Object.keys(p.budget).length > 0) step ++
+  if (p.amount !== null) step++
+  if (Object.keys(p.budget).length > 0) step++
 
   return (
     <div className="App container">

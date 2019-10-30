@@ -7,6 +7,7 @@ import SoftList from "./interface/SoftList";
 import { recurrence } from '../utilities/constants'
 import ContentBox from "./interface/ContentBox";
 import FieldError from "./interface/FieldError";
+import { Fade } from './Transitions'
 
 const IncomeForm = () => {
   const p = useContext(MainContext);
@@ -62,7 +63,8 @@ const IncomeForm = () => {
                 Submit
               </button>
             </span>
-            {(formData.initialAmount && parseFloat(formData.initialAmount) > 0) ?
+            <Fade time={120}>
+            {(formData.initialAmount && parseFloat(formData.initialAmount) > 0) &&
               <SoftList split>
                 <li>
                   <strong>Weekly:{" "}</strong>
@@ -101,8 +103,9 @@ const IncomeForm = () => {
                     "money"
                   )}</span>
                 </li>
-              </SoftList> : ''
+              </SoftList> 
             }
+            </Fade>
           </div>
         )}
       />

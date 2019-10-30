@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-
+import { Fade } from '../Transitions';
+import { up } from '../../utilities/convert'
 
 const getDisplay = (isSet, options) => {
     let val = isSet
@@ -16,7 +17,18 @@ const getDisplay = (isSet, options) => {
 }
 
 const DropDown = ({ options, callBack, isSet, icon, styles }) => {
-  const [open, toggle] = useState(false);
+  const [open, updateOpen] = useState(false);
+
+  const forceClose = () => {
+    document.removeEventListener('click', forceClose)
+    updateOpen(false)
+  }
+
+  const toggle = () => {
+    if(open) return forceClose() 
+    document.addEventListener('click', forceClose)
+    updateOpen(true) 
+  }
 
   const StDiv = styled.ul`
     border-bottom: 1px solid;
@@ -49,18 +61,20 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
   `; 
 
   return (
-    <StDiv onClick={() => toggle(!open) } >
+    <StDiv onClick={() => toggle() } >
       {icon && <>{icon} &nbsp;</>}
       <span>{isSet ? getDisplay(isSet, options) : "Pick one"}</span>
-      <ul style={{ display: open ? "block" : "none" }}>
-        {options.map((o, i) => <li
-              key={i}
-              onClick={() => {
-                toggle(false);
-                callBack && callBack(o.v);
-              }}
-            > {o.d} </li> )}
-      </ul>
+      <Fade time={120}>
+        {open && <ul >
+          {options.map((o, i) => <li
+                key={i}
+                onClick={() => {
+                  toggle(false);
+                  callBack && callBack(o.v);
+                }}
+              > {up(o.d)} </li> )}
+        </ul>}
+      </Fade>
       &nbsp;&nbsp;
       <FontAwesomeIcon
         icon={faCaretDown}

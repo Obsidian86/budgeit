@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import theme from '../../styles/theme'
+import { Fade } from '../Transitions'
 
 const Collapseable = ({ open, message, children }) => {
     const [isOpen, updateIsOpen] = useState(true)
@@ -40,7 +41,9 @@ const Collapseable = ({ open, message, children }) => {
                     backgroundColor: theme.lightGray
                 }}>Click to hide content
             </p>}
-            {!isOpen ? children : displayMessage}
+            <Fade time={320}>
+                {!isOpen ? children : displayMessage}
+            </Fade>
         </span>
     )
 }
