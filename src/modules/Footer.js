@@ -11,7 +11,7 @@ const Footer = () => {
     return(
         <div style={footerStyles}> <br />
             &copy; {new Date().getFullYear()}{' '}
-            All Rights Reserved. 0.04
+            All Rights Reserved. 0.05
         </div>)
 }
 
