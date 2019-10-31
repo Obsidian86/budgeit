@@ -10,7 +10,7 @@ import FieldError from './interface/FieldError';
 const SavingsCalc = ({ step }) => {
   const p = useContext(MainContext)
   const [errors, updateErrors] = useState(null)
-  
+
   const processTables = (formData) => {
     Object.keys(formData).forEach(fd => formData[fd] = parseFloat(formData[fd]))
     let totals = { ...p.savingsTable[0] }
@@ -31,10 +31,15 @@ const SavingsCalc = ({ step }) => {
       } else totals[newAge] = tableRow
       currentAmount = currentAmount + formData.depAmount + (currentAmount * (formData.rate / 100))
     }
-    let combineTables = [...p.savingsTable]
+    let combineTables = [...p.savingsTable, newTable]
     combineTables[0] = totals
-    combineTables.push(newTable)
     p.updateSavingsTables(combineTables)
+  }
+
+  const deleteTable = index => {
+    console.log(index)
+    let x = ([...p.savingsTable].splice(index, 1))
+    console.log(x)
   }
 
   const submitForm = (formData) => {
@@ -50,8 +55,6 @@ const SavingsCalc = ({ step }) => {
     fields.forEach(f => {
       if (f.req && !formData[f.name]) errs[f.name] = 'Field is required'
       if (f.type === 'number') {
-        console.log(formData)
-        console.log(f.name)
         let test = formData[f.name].split ? formData[f.name].split(" ").join('') : formData[f.name]
         if (isNaN(test)) errs[f.name] = 'Please input a number'
       }
@@ -64,9 +67,23 @@ const SavingsCalc = ({ step }) => {
 
   const renderTable = (tableData, index) => {
     const RowSpread = [6, 25, 16, 24, 25];
-    if (Object.keys(tableData).length === 1 && tableData["0"]) {
-      return null
+    const labelStyles = {
+      fontSize: '1.1rem',
+      backgroundColor: p.theme.vBlueDark,
+      color: '#fff',
+      padding: '6px 10px 3px 10px',
+      borderRadius: '5px 5px 0 0',
+      width: '120px',
+      textAlign: 'center',
+      marginLeft: '30px'
     }
+    const deleteStyles = {
+      position: 'absolute',
+      right: '0',
+      top: '10px'
+    }
+    if (Object.keys(tableData).length === 1 && tableData["0"]) return null 
+
     let rows = Object.keys(tableData).map(t => {
       if (t === 0 || t === '0') return null
       return (<TableRow
@@ -79,16 +96,8 @@ const SavingsCalc = ({ step }) => {
 
     return (
       <div className="md" style={{ marginBottom: "20px" }}>
-        <label style={{
-          fontSize: '1.1rem',
-          backgroundColor: p.theme.vBlueDark,
-          color: '#fff',
-          padding: '6px 10px 3px 10px',
-          borderRadius: '5px 5px 0 0',
-          width: '120px',
-          textAlign: 'center',
-          marginLeft: '30px'
-        }}>{index === 0 ? 'Totals' : `Table ${index}`}</label>
+        <label style={labelStyles}>{index === 0 ? 'Totals' : `Table ${index}`}</label>
+        <span className='btn red' style={deleteStyles} onClick={() => deleteTable(index)}>Delete table</span>
         <TableRow
           pattern={RowSpread}
           className="headerRow"
@@ -106,40 +115,41 @@ const SavingsCalc = ({ step }) => {
         <p className='sm'>Estimate how much you'll have by retirement. <br /> The breakdown of each account will display in a new table. The totals will display in the first table. </p>
         <div className={step === 0 ? 'lg' : 'sm'}>
           <Form
-            // defaultFormData={{
-            //   stAmount: 20000,
-            //   depAmount: 20000,
-            //   per: 12,
-            //   rate: 7,
-            //   years: 36,
-            //   startAge: 33
-            // }}
             render={(updateForm, formData) => (
               <>
                 <label>Starting amount</label>
                 <input type="number" onChange={updateForm} name="stAmount" value={formData.stAmount} />
                 {errors && errors['stAmount'] && <FieldError error={errors['stAmount']} />}
 
-                <label>Starting age</label>
-                <input type="number" onChange={updateForm} name="startAge" value={formData.startAge} />
-                {errors && errors['stAge'] && <FieldError error={errors['stAge']} />}
-
                 <label>Amount each deposit</label>
                 <input type="number" onChange={updateForm} name="depAmount" value={formData.depAmount} />
                 {errors && errors['depAmount'] && <FieldError error={errors['depAmount']} />}
 
-                <label>Every ___ Month/s (12 = 1 year)</label>
-                <input type="number" onChange={updateForm} name="per" value={formData.per} />
-                {errors && errors['per'] && <FieldError error={errors['per']} />}
-
-                <label>Percent rate (number only)</label>
-                <input type="number" onChange={updateForm} name="rate" value={formData.rate} />
-                {errors && errors['rate'] && <FieldError error={errors['rate']} />}
-
-                <label>For how many years?</label>
-                <input type="number" onChange={updateForm} name="years" value={formData.years} />
-                {errors && errors['years'] && <FieldError error={errors['years']} />}
-
+                <div className='row'>
+                  <div className='md-f'>
+                    <label>Starting age</label>
+                    <input type="number" onChange={updateForm} name="startAge" value={formData.startAge} />
+                    {errors && errors['stAge'] && <FieldError error={errors['stAge']} />}
+                  </div>
+                  <div className='md-f'>
+                    <label>For how many years?</label>
+                    <input type="number" onChange={updateForm} name="years" value={formData.years} />
+                    {errors && errors['years'] && <FieldError error={errors['years']} />}
+                  </div>
+                </div>
+                
+                <div className='row'>
+                  <div className='md-f'>
+                    <label>Every ___ Month/s </label>
+                    <input type="number" onChange={updateForm} name="per" value={formData.per} />
+                    {errors && errors['per'] && <FieldError error={errors['per']} />}
+                  </div>
+                  <div className='md-f'>
+                    <label>Percent rate (number only)</label>
+                    <input type="number" onChange={updateForm} name="rate" value={formData.rate} />
+                    {errors && errors['rate'] && <FieldError error={errors['rate']} />}
+                  </div>
+                </div>
                 <div className='grouping right'>
                   <button className="btn" onClick={() => submitForm(formData)}>
                     Submit

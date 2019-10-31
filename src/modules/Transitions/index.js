@@ -1,6 +1,5 @@
 import React from "react";
 import RTG from "react-addons-css-transition-group";
-// import "./Fade.css";
 import styled from "styled-components";
 
 const Base = ({ name, children, time }) => (
