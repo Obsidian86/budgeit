@@ -16,6 +16,7 @@ const SavingsCalc = ({ step }) => {
     let totals = { ...p.savingsTable[0] }
     let newTable = {}
     let currentAmount = formData.stAmount
+    formData.depAmount = formData.depAmount * (12 / formData.per)
     for (let i = 1; i < (formData.years + 1); i++) {
       let newAge = formData.startAge + i
       let tableRow = {
@@ -32,14 +33,28 @@ const SavingsCalc = ({ step }) => {
       currentAmount = currentAmount + formData.depAmount + (currentAmount * (formData.rate / 100))
     }
     let combineTables = [...p.savingsTable, newTable]
+    console.log("combineTables before replace")
+    console.log(combineTables)
     combineTables[0] = totals
+    console.log("combineTables after replace")
+    console.log(combineTables)
     p.updateSavingsTables(combineTables)
   }
 
   const deleteTable = index => {
     console.log(index)
-    let x = ([...p.savingsTable].splice(index, 1))
-    console.log(x)
+    p.setDialog({
+      open: true,
+      header: 'Delete table', 
+      message: <>Are you sure you want to delete this table? <br /> This can not be undone.</>, 
+      confirm: ()=>{
+        console.log('delete item here')
+        let newTables = ([...p.savingsTable].splice(index, 1))
+        console.log(newTables)
+        // p.updateSavingsTables(newTables)
+      },
+      reject: ()=>{ return null }
+    })  
   }
 
   const submitForm = (formData) => {
@@ -66,7 +81,7 @@ const SavingsCalc = ({ step }) => {
   }
 
   const renderTable = (tableData, index) => {
-    const RowSpread = [12, 30, 22, 31];
+    const RowSpread = [8, 30, 22, 35];
     const labelStyles = {
       fontSize: '1.1rem',
       backgroundColor: p.theme.vBlueDark,
