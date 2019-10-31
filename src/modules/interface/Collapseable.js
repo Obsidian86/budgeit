@@ -12,38 +12,38 @@ const Collapseable = ({ open, message, children }) => {
     }, [open, defaultSet])
 
     const messageStyles = {
+        padding: "0",
         textAlign: 'center',
-        padding: '8px 7px',
+        color: "#fff",
+        margin: '3px auto',
+        width: '100%',
         cursor: 'pointer',
-        backgroundColor: theme.lightGray,
-        border: `1px solid ${theme.darkGray}`,
-        color: theme.darkGray,
-        borderRadius: '5px',
-        width: '85%',
-        margin: '20px auto'
+        padding: '3px 2px',
+        position: 'relative',
+        backgroundColor: theme.lightGray
+    }
+
+    const switchStyles={
+        fontSize: isOpen ? '1.6rem' : '2.2rem',
+        position: 'absolute',
+        right: '10px',
+        top: isOpen ? '3px' : '1px',
     }
 
     const displayMessage = message ?
         message :
-        <p style={messageStyles} onClick={() => updateIsOpen(!isOpen) }>Click to view content</p>
+        <p style={messageStyles} onClick={() => updateIsOpen(!isOpen) }>Click to view content <span style={switchStyles}>+</span></p>
 
     return (
         <span>
             { !isOpen && <p 
                 onClick={() => updateIsOpen(!isOpen) }
-                style={{
-                    padding: "0",
-                    textAlign: 'center',
-                    color: "#fff",
-                    margin: '3px auto',
-                    width: '98%',
-                    cursor: 'pointer',
-                    backgroundColor: theme.lightGray
-                }}>Click to hide content
+                style={messageStyles}>
+                    Click to hide content
+                    <span style={switchStyles}>-</span>
             </p>}
-            <Fade time={320}>
-                {!isOpen ? children : displayMessage}
-            </Fade>
+            {!isOpen ? <Fade time={320}>{children}</Fade>: displayMessage}
+            
         </span>
     )
 }

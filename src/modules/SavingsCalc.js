@@ -75,12 +75,12 @@ const SavingsCalc = ({ step }) => {
       borderRadius: '5px 5px 0 0',
       width: '120px',
       textAlign: 'center',
-      marginLeft: '30px'
+      marginLeft: '5px'
     }
     const deleteStyles = {
       position: 'absolute',
-      right: '0',
-      top: '10px'
+      right: '-25px',
+      top: '15px'
     }
     if (Object.keys(tableData).length === 1 && tableData["0"]) return null 
 
@@ -95,9 +95,9 @@ const SavingsCalc = ({ step }) => {
     })
 
     return (
-      <div className="md" style={{ marginBottom: "20px" }}>
+      <div className="md" style={{ marginBottom: "20px", position: 'relative' }}>
         <label style={labelStyles}>{index === 0 ? 'Totals' : `Table ${index}`}</label>
-        <span className='btn red' style={deleteStyles} onClick={() => deleteTable(index)}>Delete table</span>
+        {index !== 0 &&  <span className='btn narrow red' style={deleteStyles} onClick={() => deleteTable(index)}>Delete table</span> }
         <TableRow
           pattern={RowSpread}
           className="headerRow"
@@ -140,12 +140,15 @@ const SavingsCalc = ({ step }) => {
                 
                 <div className='row'>
                   <div className='md-f'>
-                    <label>Every ___ Month/s </label>
+                    <label>
+                        Every ___ Month/s 
+                        <span>(12 = 1 year)</span>
+                    </label>
                     <input type="number" onChange={updateForm} name="per" value={formData.per} />
                     {errors && errors['per'] && <FieldError error={errors['per']} />}
                   </div>
                   <div className='md-f'>
-                    <label>Percent rate (number only)</label>
+                    <label>Percent rate <span>(number only)</span></label>
                     <input type="number" onChange={updateForm} name="rate" value={formData.rate} />
                     {errors && errors['rate'] && <FieldError error={errors['rate']} />}
                   </div>
