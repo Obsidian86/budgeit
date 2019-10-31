@@ -66,7 +66,7 @@ const SavingsCalc = ({ step }) => {
   }
 
   const renderTable = (tableData, index) => {
-    const RowSpread = [6, 25, 16, 24, 25];
+    const RowSpread = [12, 30, 22, 31];
     const labelStyles = {
       fontSize: '1.1rem',
       backgroundColor: p.theme.vBlueDark,
@@ -90,7 +90,7 @@ const SavingsCalc = ({ step }) => {
         pattern={RowSpread}
         key={t}
         tData={[
-          t, money(tableData[t].stAmount), money(tableData[t].interest), money(tableData[t].deposit),
+          t, "+ " + money(tableData[t].deposit), money(tableData[t].interest), 
           money(tableData[t].stAmount + tableData[t].interest + tableData[t].deposit)]} />)
     })
 
@@ -101,7 +101,7 @@ const SavingsCalc = ({ step }) => {
         <TableRow
           pattern={RowSpread}
           className="headerRow"
-          tData={["Age", "Starting Amount", "Interest", "Deposited", "End"]}
+          tData={["Age", "Deposited", "Interest", "End"]}
         />
         <Collapseable open={index === 0}>
           {rows}
