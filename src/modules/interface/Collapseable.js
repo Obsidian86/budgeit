@@ -12,7 +12,6 @@ const Collapseable = ({ open, message, children }) => {
     }, [open, defaultSet])
 
     const messageStyles = {
-        padding: "0",
         textAlign: 'center',
         color: "#fff",
         margin: '3px auto',

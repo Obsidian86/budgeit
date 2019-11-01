@@ -36,6 +36,7 @@ const SavingsCalc = ({ step }) => {
     console.log("combineTables before replace")
     console.log(combineTables)
     combineTables[0] = totals
+    console.log(totals)
     console.log("combineTables after replace")
     console.log(combineTables)
     p.updateSavingsTables(combineTables)
@@ -49,9 +50,10 @@ const SavingsCalc = ({ step }) => {
       message: <>Are you sure you want to delete this table? <br /> This can not be undone.</>, 
       confirm: ()=>{
         console.log('delete item here')
-        let newTables = ([...p.savingsTable].splice(index, 1))
+        let newTables = [...p.savingsTable]
+        newTables.splice(index, 1)
         console.log(newTables)
-        // p.updateSavingsTables(newTables)
+        p.updateSavingsTables(newTables)
       },
       reject: ()=>{ return null }
     })  
