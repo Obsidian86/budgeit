@@ -149,7 +149,7 @@ const SavingsCalc = ({ step }) => {
                     {errors && errors['stAge'] && <FieldError error={errors['stAge']} />}
                   </div>
                   <div className='md-f'>
-                    <label>For how many years?</label>
+                    <label># of years?</label>
                     <input type="number" onChange={updateForm} name="years" value={formData.years} />
                     {errors && errors['years'] && <FieldError error={errors['years']} />}
                   </div>

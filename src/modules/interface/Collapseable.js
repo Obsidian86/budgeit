@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import theme from '../../styles/theme'
 import { Fade } from '../Transitions'
+import Scroll from './Scroll'
 
 const Collapseable = ({ open, message, children }) => {
     const [isOpen, updateIsOpen] = useState(true)
@@ -34,6 +35,7 @@ const Collapseable = ({ open, message, children }) => {
         <p style={messageStyles} onClick={() => updateIsOpen(!isOpen) }>Click to view content <span style={switchStyles}>+</span></p>
 
     return (
+        
         <span>
             { !isOpen && <p 
                 onClick={() => updateIsOpen(!isOpen) }
@@ -41,7 +43,7 @@ const Collapseable = ({ open, message, children }) => {
                     Click to hide content
                     <span style={switchStyles}>-</span>
             </p>}
-            {!isOpen ? <Fade time={320}>{children}</Fade>: displayMessage}
+            {!isOpen ? <Fade time={320}><Scroll width={200} height={200}>{children}</Scroll></Fade>: displayMessage}
             
         </span>
     )
