@@ -11,13 +11,16 @@ const SavingsCalc = ({ step }) => {
   const p = useContext(MainContext)
   const [errors, updateErrors] = useState(null)
 
-  const processTables = (formData) => {
+  console.log(p.savingsTable)
+
+  const processTables = (formDataIn) => {
+    let formData = {...formDataIn}
     Object.keys(formData).forEach(fd => formData[fd] = parseFloat(formData[fd]))
     let totals = { ...p.savingsTable[0] }
     let newTable = {}
     let currentAmount = formData.stAmount
     formData.depAmount = formData.depAmount * (12 / formData.per)
-    for (let i = 1; i < (formData.years + 1); i++) {
+    for (let i = 1; i < (formData.years + 1); i++) {  
       let newAge = formData.startAge + i
       let tableRow = {
         stAmount: currentAmount,
@@ -29,16 +32,12 @@ const SavingsCalc = ({ step }) => {
         totals[newAge].stAmount = totals[newAge].stAmount + currentAmount;
         totals[newAge].interest = totals[newAge].interest + (currentAmount * (formData.rate / 100));
         totals[newAge].deposit = totals[newAge].deposit + formData.depAmount;
-      } else totals[newAge] = tableRow
+      } else totals[newAge] ={...tableRow}
       currentAmount = currentAmount + formData.depAmount + (currentAmount * (formData.rate / 100))
     }
-    let combineTables = [...p.savingsTable, newTable]
-    console.log("combineTables before replace")
-    console.log(combineTables)
-    combineTables[0] = totals
-    console.log(totals)
-    console.log("combineTables after replace")
-    console.log(combineTables)
+    let combineTables = [...p.savingsTable]
+    combineTables[0] = {...totals}
+    combineTables.push({...newTable})
     p.updateSavingsTables(combineTables)
   }
 
@@ -149,7 +148,7 @@ const SavingsCalc = ({ step }) => {
                     {errors && errors['stAge'] && <FieldError error={errors['stAge']} />}
                   </div>
                   <div className='md-f'>
-                    <label># of years?</label>
+                    <label>For how many years?</label>
                     <input type="number" onChange={updateForm} name="years" value={formData.years} />
                     {errors && errors['years'] && <FieldError error={errors['years']} />}
                   </div>

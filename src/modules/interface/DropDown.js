@@ -13,7 +13,7 @@ const getDisplay = (isSet, options) => {
         break
       }
     }
-    return val
+    return up(val)
 }
 
 const DropDown = ({ options, callBack, isSet, icon, styles }) => {

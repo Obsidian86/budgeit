@@ -43,7 +43,7 @@ const Collapseable = ({ open, message, children }) => {
                     Click to hide content
                     <span style={switchStyles}>-</span>
             </p>}
-            {!isOpen ? <Fade time={320}><Scroll width={200} height={200}>{children}</Scroll></Fade>: displayMessage}
+            {!isOpen ? <Fade time={320}><Scroll height={650}>{children}</Scroll></Fade>: displayMessage}
             
         </span>
     )

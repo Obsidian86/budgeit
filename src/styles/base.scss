@@ -131,14 +131,14 @@ label{
 }
 .contentBox{
   width: 97%;
-  margin: 0 auto 35px auto;
+  margin: 0 5px 35px 5px;
   padding: 15px 10px;
   padding-top: 46px;
   background-color: #fff;
   border: 1px solid rgb(189, 189, 189);
   box-shadow: 0 0 0 6px #fff, 0 0 10px black;
   position: relative;
-  &.sm, .sm{ width: 24%; }
+  &.sm, .sm{ width: calc(24% - 10px); }
   &.thr, .thr{ width: 32%; }
   &.md, .md, .md-f{ width: 45%; }
   &.lg, .lg{ width: 70%; }
