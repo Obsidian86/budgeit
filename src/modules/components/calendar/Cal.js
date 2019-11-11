@@ -38,7 +38,11 @@ const Cal = (props) => {
           let checkDay = newDate[1]
           if (checkDay > DF.daysInMonth(newDate[0], newDate[2])) checkDay = DF.daysInMonth(newDate[0], newDate[2])
           if (!targ[checkDay]) targ[checkDay] = [];
-          targ[checkDay].push(it.item);
+          const newItem = {
+            item: it.item,
+            color: it.color ? it.color : null
+          }
+          targ[checkDay].push(newItem);
 
           if (it.rec === 'weekly') {
             newDate[1] = newDate[1] + 7
@@ -84,7 +88,11 @@ const Cal = (props) => {
         if (!targ[prDate.getMonth() + 1]) targ[prDate.getMonth() + 1] = {};
         targ = targ[prDate.getMonth() + 1];
         if (!targ[prDate.getDate()]) targ[prDate.getDate()] = [];
-        targ[prDate.getDate()].push(it.item);
+        const newItem = {
+          item: it.item,
+          color: it.color ? it.color : null
+        }
+        targ[prDate.getDate()].push(newItem);
       }
 
     });
@@ -157,13 +165,14 @@ const Cal = (props) => {
                 <p
                   key={i}
                   className="eventItem"
+                  style={{ borderColor: d.color ? d.color : null }}
                   onClick={
                     e => {
                       e.stopPropagation();
-                      clickEvent && clickEvent({ event: d, ...dateInfo, d: dt })
+                      clickEvent && clickEvent({ event: d.item, ...dateInfo, d: dt })
                     }
                   }>
-                  {d}
+                  {d.item}
                 </p>)
             })}
         </span>
