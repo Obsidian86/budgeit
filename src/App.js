@@ -7,6 +7,7 @@ import SavingsCalc from "./modules/SavingsCalc";
 import Footer from './modules/Footer';
 import MainContext from './providers/MainContext'
 import EmergencyFunds from "./modules/EmergencyFunds";
+import CalendarModule from './modules/CalendarModule'
 
 function App() {
   const p = useContext(MainContext)
@@ -24,6 +25,7 @@ function App() {
         {step > 0 && <YourBudget step={step} />}
         <SavingsCalc step={step} />
         {step > 0 && <EmergencyFunds />}
+        <CalendarModule />
       </div>
       <Footer />
     </div>
