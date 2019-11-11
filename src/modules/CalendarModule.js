@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import ContentBox from './interface/ContentBox'
-import Calendar from './components/calendar/src/Cal'
+import Calendar from './components/calendar'
 import { b } from '../providers/tmpBg'
 
 const CalendarModule = () => {

@@ -1,117 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import * as DF from "./dateFunctions";
 import { filledArray } from "./utilities";
-import 'normalize.css'
-import styled from 'styled-components'
 
-const Calendar = ({
-  targetMonth = DF.tMonth(),
-  targetYear = DF.tYear(),
-  items = [],
-  clickDay,
-  clickEvent,
-  clickThisDate,
-  clickPrev, 
-  clickNext
-}) => {
+const Cal = (props) => {
+
+  const {
+    targetMonth = DF.tMonth(),
+    targetYear = DF.tYear(),
+    items = [],
+    clickDay,
+    clickEvent,
+    clickThisDate,
+    clickPrev, 
+    clickNext
+  } = props;
+
   const [eventInfo, updateEventInfo] = useState({});
   const [dateInfo, updateDateInfo] = useState({
     m: targetMonth,
     y: targetYear
   });
 
-  const StCal = styled.div` 
-  font-family: sans-serif;
-    #calendar{ 
-      margin: 0 auto;
-      span {
-        width: calc(100% / 7);
-        display: block;
-        font-weight: bold;
-        color: #fff;
-        height: 100px;
-        margin: 0;
-        padding: 0;
-        padding-top: 25px;
-        overflow: hidden;
-        position: relative;
-        background-color: rgb(212, 212, 212);
-      }
-      .allDays{
-        display: flex;
-        flex-wrap: wrap;
-      }
-      .weekDay {
-        height: 30px;
-        padding: 0;
-        text-align: center;
-        background-color: rgb(60, 118, 241);
-        padding-bottom: 12px;
-      }
-      .days {
-        background-color: white;
-        box-shadow: 0 0 2px #999;
-        &.today {
-          background-color: rgb(212, 255, 221);
-          box-shadow: inset 0 0 210px rgb(141, 248, 141);
-        }
-        .dayNum {
-          font-size: 0.9rem;
-          position: absolute;
-          top: 5px;
-          right: 5px;
-          padding: 0;
-          margin: 0;
-          color: #333;
-        }
-        &:hover{
-          background-color: #e8e8e8;
-          box-shadow: none;
-          overflow: auto;
-        }
-        .eventItem {
-          width: 20%;
-          margin: 3px auto;
-          width: 92%;
-          display: block;
-          padding: 3px 4px;
-          color: #999;
-          font-weight: normal;
-          border-left: 3px solid hotpink;
-          cursor: pointer;
-          &:hover{
-            background-color: hotpink;
-            color: #fff;
-          }
-        } 
-      }
-      .cal-controls{
-        display: flex;
-        padding: 10px;
-        justify-content: space-between; 
-        button{
-          border: 2px solid green;
-          background: none;
-          padding: 5px 10px;
-          margin-left: 7px;
-          border-radius: 8px;
-          color: green;
-          cursor: pointer;
-          &:hover{
-            border: 2px solid gray;
-            background: gray;
-            color: #fff;
-          }
-        }
-        .dayMonth{
-          font-size: 1.3rem;
-          font-weight: bold;
-          color: #b1b1b1;
-          padding-top: 5px;
-        } 
-      } 
-    }
-    `;
   const processItems = () => {
     let processedItems = {};
     items.forEach(it => {
@@ -216,10 +125,6 @@ const Calendar = ({
   const td =
     toDate.getMonth() + 1 + "-" + toDate.getDate() + "-" + toDate.getFullYear();
 
-  useEffect(() => {
-    Object.keys(eventInfo).length < 1 && processItems();
-  }, []);
-
   const renderCalender = () => {
     let weekDays = DF.Days.map(d => (
       <span key={d} className="weekDay">
@@ -273,8 +178,10 @@ const Calendar = ({
       </>
     );
   };
+  
+  Object.keys(eventInfo).length < 1 && processItems(); 
+  
   return (
-    <StCal>
       <div id='calendar'>
         <div className='cal-controls'>
           <div className='dayMonth'>{DF.Months[dateInfo.m - 1]} - {dateInfo.y}</div>
@@ -291,8 +198,7 @@ const Calendar = ({
           {renderCalender()}
         </div>
       </div>
-    </StCal>
   );
 };
 
-export default Calendar;
+export default Cal;
