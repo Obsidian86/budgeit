@@ -64,7 +64,7 @@ const Calendar = (props) => {
                     border-left: 3px solid hotpink;
                     cursor: pointer;
                     &:hover{
-                        background-color: hotpink;
+                        background-color: darkgray;
                         color: #fff;
                     }
                 } 
