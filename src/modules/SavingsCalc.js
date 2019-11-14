@@ -9,9 +9,7 @@ import FieldError from './interface/FieldError';
 
 const SavingsCalc = ({ step }) => {
   const p = useContext(MainContext)
-  const [errors, updateErrors] = useState(null)
-
-  console.log(p.savingsTable)
+  const [errors, updateErrors] = useState(null) 
 
   const processTables = (formDataIn) => {
     let formData = {...formDataIn}
@@ -42,7 +40,6 @@ const SavingsCalc = ({ step }) => {
   }
 
   const deleteTable = index => {
-    console.log(index)
     p.setDialog({
       open: true,
       header: 'Delete table', 
@@ -128,7 +125,10 @@ const SavingsCalc = ({ step }) => {
   return (
     <ContentBox title="Savings estimator" exClass={step === 0 && 'lg'}>
       <div className={`row`}>
-        <p className='sm'>Estimate how much you'll have by retirement. <br /> The breakdown of each account will display in a new table. The totals will display in the first table. </p>
+        <p className='sm'>
+          Estimate how much you'll have by retirement. <br /> 
+          The breakdown of each account will display in a new table. The totals will display in the first table. 
+        </p>
         <div className={step === 0 ? 'lg' : 'sm'}>
           <Form
             render={(updateForm, formData) => (
@@ -180,7 +180,7 @@ const SavingsCalc = ({ step }) => {
         </div>
         {p.savingsTable.length > 1 || step === 0 ?
           p.savingsTable.map((t, index) => <React.Fragment key={index}> {renderTable(t, index)} </React.Fragment>)
-          : <h2 className="md" style={{ textAlign: 'center', marginTop: '75px' }}>Add a budget item</h2>
+          : <h2 className="md" style={{ textAlign: 'center', marginTop: '75px' }}>Add savings info to calculate</h2>
         }
       </div>
     </ContentBox>
