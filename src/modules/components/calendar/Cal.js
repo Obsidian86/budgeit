@@ -17,8 +17,8 @@ const Cal = (props) => {
 
   const [eventInfo, updateEventInfo] = useState({});
   const [dateInfo, updateDateInfo] = useState({
-    m: targetMonth,
-    y: targetYear
+    m: targetMonth || DF.tMonth(),
+    y: targetYear || DF.tYear()
   });
 
   const processItems = () => {
@@ -112,20 +112,12 @@ const Cal = (props) => {
       nMonth = 12;
       nYear = nYear - 1;
     }
-
-    if(dir ==='next' && clickNext) clickNext({ old: oldDate, new: {
-      m: nMonth,
-      y: nYear
-    }})
-    if(dir ==='prev' && clickPrev) clickNext({ old: oldDate, new: {
-      m: nMonth,
-      y: nYear
-    }})
-
-    updateDateInfo({
-      m: nMonth,
-      y: nYear
-    });
+    
+    const newDate = { m: nMonth, y: nYear }
+    updateDateInfo(newDate)
+    if(dir ==='next' && clickNext) clickNext({ old: oldDate, new: newDate}) 
+    if(dir ==='prev' && clickPrev) clickPrev({ old: oldDate, new: newDate})
+   
   };
   const tMonthDays = DF.daysInMonth(dateInfo.m, dateInfo.y);
   const tMonthStart = DF.monthStartOn(dateInfo.m, dateInfo.y);
@@ -188,8 +180,7 @@ const Cal = (props) => {
     );
   };
   
-  Object.keys(eventInfo).length < 1 && processItems(); 
-  
+  Object.keys(eventInfo).length < 1 && processItems();
   return (
       <div id='calendar'>
         <div className='cal-controls'>

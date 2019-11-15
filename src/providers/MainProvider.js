@@ -7,6 +7,8 @@ import * as mem from "../utilities/storage";
 import * as bdg from '../utilities/budgetFunctions';
 import Dialog from '../modules/interface/Dialog'
 
+import {currAccs} from './currAcc'
+
 class MainProvider extends React.Component {
   constructor() {
     super();
@@ -17,6 +19,7 @@ class MainProvider extends React.Component {
       budget: {},
       total: 1, // total amound budgetted
       dialog: { open: false },
+      accounts: currAccs,
       savingsTable: [{ 0: { stAmount: 0, interest: 0, deposit: 0 }}],
     }
     this.methods = {

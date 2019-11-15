@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import ContentBox from './interface/ContentBox'
 import Calendar from './components/calendar'
 import TabbedView from './interface/TabbedView'
 import { b } from '../providers/tmpBg'
+import MainContext from '../providers/MainContext'
 
 const CalendarModule = () => {
+    const p = useContext(MainContext)
     const [selectedDay, updateSelectedDay] = useState(null)
     let inc = [
         {
@@ -17,6 +19,7 @@ const CalendarModule = () => {
     ]
 
     const contentOne = <div>
+        date
         { selectedDay && <>{selectedDay.m }-{selectedDay.d && <>{selectedDay.d}-</>}{selectedDay.y}</> }
     </div>
 
@@ -25,7 +28,7 @@ const CalendarModule = () => {
             <div className='row'>
                 <div className='sm'>
                     <TabbedView 
-                        activeColor="#f1f1f1"
+                        activeColor={p.theme.vBlue}
                         tabContent={[
                             {tab: "Current month", content: contentOne },
                             {tab: "Year", content: "year"},
@@ -34,6 +37,8 @@ const CalendarModule = () => {
                 </div>
                 <Calendar 
                     items={[...b, ...inc]} 
+                    targetMonth={selectedDay && selectedDay.m ? selectedDay.m : null} 
+                    targetYear={selectedDay && selectedDay.y ? selectedDay.y : null} 
                     className='lg' 
                     clickDay={p => updateSelectedDay(p)} 
                     clickNext={p => updateSelectedDay(p.new)} 

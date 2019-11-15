@@ -8,6 +8,7 @@ const SoftList = ({ children, split}) => {
   margin-top: 30px;
   margin-bottom: 20px;
   li {
+    border-bottom: ${children.length === 2 && '3px solid #e9e9e9'};
     padding: 12px 12px;
     padding-left: 16px;
     display: ${split ? 'flex' : 'block'};

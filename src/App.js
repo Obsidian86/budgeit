@@ -8,19 +8,7 @@ import Footer from './modules/Footer';
 import MainContext from './providers/MainContext'
 import EmergencyFunds from "./modules/EmergencyFunds";
 import CalendarModule from './modules/CalendarModule'
-
-const CurrentAccounts = () => {
-  return(
-    <div>
-      <div>list acc</div>
-      <div>add acc</div>
-      <div>
-        total
-        acc analysis
-      </div>
-    </div>
-  )
-}
+import Accounts from './modules/Accounts'
 
 function App() {
   const p = useContext(MainContext)
@@ -41,7 +29,7 @@ function App() {
         {step > 0 && <YourBudget step={step} />}
         <SavingsCalc step={step} />
         {step > 0 && <EmergencyFunds />}
-        <CurrentAccounts />
+        <Accounts />
         <CalendarModule />
       </div>
       <Footer />
