@@ -18,3 +18,4 @@ export const monthStartOn = (month, year) =>
   Days[new Date(year, month - 1, 1).getDay()];
 export const tMonth = () => new Date().getMonth() + 1;
 export const tYear = () => new Date().getFullYear();
+export const msToDays = ms => (ms / 1000) / 86400

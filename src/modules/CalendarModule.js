@@ -4,6 +4,7 @@ import Calendar from './components/calendar'
 import TabbedView from './interface/TabbedView'
 import { b } from '../providers/tmpBg'
 import MainContext from '../providers/MainContext'
+// import {daysInMonth} from './components/calendar/dateFunctions'
 
 const CalendarModule = () => {
     const p = useContext(MainContext)
@@ -17,11 +18,21 @@ const CalendarModule = () => {
             color: 'green'
         }
     ]
+    const allItems = [...b, ...inc]
 
-    const contentOne = <div>
-        date
-        { selectedDay && <>{selectedDay.m }-{selectedDay.d && <>{selectedDay.d}-</>}{selectedDay.y}</> }
-    </div>
+    // let nDate = new Date()
+
+    // if(selectedDay){
+    //     for(let i = nDate.getDate() + 1; i < daysInMonth(selectedDay.m, selectedDay.d) + 1; i++){
+    //         const dateToCheck
+    //     }
+    // }
+
+    const contentOne = 
+        <div>
+            date
+            { selectedDay && <>{selectedDay.m}-{selectedDay.d && <>{selectedDay.d}-</>}{selectedDay.y}</> }
+        </div>
 
     return (
         <ContentBox title="Calendar" >
@@ -36,10 +47,11 @@ const CalendarModule = () => {
                     />
                 </div>
                 <Calendar 
-                    items={[...b, ...inc]} 
+                    items={allItems} 
                     targetMonth={selectedDay && selectedDay.m ? selectedDay.m : null} 
                     targetYear={selectedDay && selectedDay.y ? selectedDay.y : null} 
-                    className='lg' 
+                    className='lg'
+                    returnItems
                     clickDay={p => updateSelectedDay(p)} 
                     clickNext={p => updateSelectedDay(p.new)} 
                     clickPrev={p => updateSelectedDay(p.new)} 

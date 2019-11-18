@@ -10,6 +10,7 @@ const Cal = (props) => {
     items = [],
     clickDay,
     clickEvent,
+    returnItems,
     clickThisDate,
     clickPrev, 
     clickNext
@@ -20,6 +21,14 @@ const Cal = (props) => {
     m: targetMonth || DF.tMonth(),
     y: targetYear || DF.tYear()
   });
+
+  const handleClick = (callBack, data) => {
+    if(returnItems){
+      data.items = [{test: "asdasd"}]
+    }
+    console.log(data)
+    callBack(data)
+  }
 
   const processItems = () => {
     let processedItems = {};
@@ -112,12 +121,14 @@ const Cal = (props) => {
       nMonth = 12;
       nYear = nYear - 1;
     }
-    
     const newDate = { m: nMonth, y: nYear }
     updateDateInfo(newDate)
-    if(dir ==='next' && clickNext) clickNext({ old: oldDate, new: newDate}) 
-    if(dir ==='prev' && clickPrev) clickPrev({ old: oldDate, new: newDate})
-   
+    if(dir ==='next' && clickNext){
+      handleClick(clickNext, { old: oldDate, new: newDate})
+    }
+    if(dir ==='prev' && clickPrev){
+      handleClick(clickPrev, { old: oldDate, new: newDate})
+    }
   };
   const tMonthDays = DF.daysInMonth(dateInfo.m, dateInfo.y);
   const tMonthStart = DF.monthStartOn(dateInfo.m, dateInfo.y);
@@ -187,7 +198,7 @@ const Cal = (props) => {
           <div className='dayMonth'>{DF.Months[dateInfo.m - 1]} - {dateInfo.y}</div>
           <div>
             {((dateInfo.y !== 2019) || (dateInfo.m !== 11)) && <><button onClick={() => {
-              clickThisDate && clickThisDate({new: { m: DF.tMonth(), y: DF.tYear() }, old: dateInfo})
+              clickThisDate && handleClick(clickThisDate, {new: { m: DF.tMonth(), y: DF.tYear() }, old: dateInfo})
               updateDateInfo({ m: DF.tMonth(), y: DF.tYear() })
             }}>This date</button>&nbsp;&nbsp;| </>}
             <button onClick={() => changeMonth("prev")}>Prev Month</button>

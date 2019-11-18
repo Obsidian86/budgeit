@@ -29,7 +29,7 @@ class MainProvider extends React.Component {
       deleteBudgetItem: this.deleteBudgetItem,
       updateBudgetItem: this.updateBudgetItem,
       updateSavingsTables: this.updateSavingsTables,
-      setDialog: this.setDialog,
+      setDialog: this.setDialog
     }
     this.state = {
       ...this.defaultVals,
@@ -50,6 +50,8 @@ class MainProvider extends React.Component {
 
   updateSavingsTables = (savingsTable) => this.saveState({savingsTable: savingsTable})
 
+  
+  
   render = () =>
     <>
       { this.state.dialog.open && <Dialog data={this.state.dialog} setDialog={this.setDialog} />}
