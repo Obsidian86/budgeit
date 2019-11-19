@@ -10,12 +10,15 @@ const Cal = (props) => {
     items = [],
     clickDay,
     clickEvent,
-    returnItems,
+    returnItems, // return list of items with callback
+    timeView = 'month', // Return items end of year/month
     clickThisDate,
     clickPrev, 
     clickNext
   } = props;
 
+  console.log(items)
+  
   const [eventInfo, updateEventInfo] = useState({});
   const [dateInfo, updateDateInfo] = useState({
     m: targetMonth || DF.tMonth(),
@@ -23,8 +26,42 @@ const Cal = (props) => {
   });
 
   const handleClick = (callBack, data) => {
-    if(returnItems){
-      data.items = [{test: "asdasd"}]
+    if(returnItems){ // collect items to return
+      data.items = []
+      // get current day
+      let currDate = new Date()
+      let safety = 0
+      let keepGoing = true
+
+      let testDate = `${currDate.getMonth() + 1}-${currDate.getDate()}-${currDate.getFullYear()}`
+
+      const endDate = timeView === 'month' ? 
+      `${dateInfo.m}-${DF.daysInMonth(dateInfo.m, dateInfo.y)}-${dateInfo.y}` :
+      `${12}-${DF.daysInMonth(12, dateInfo.y)}-${dateInfo.y}`
+
+      while(safety < 5000 && keepGoing){
+        let splDate = testDate.split("-")
+        if(eventInfo[splDate[2]]){
+          let t = eventInfo[splDate[2]]
+          if(t[splDate[0]]){
+            t = t[splDate[0]]
+            if(t[splDate[1]]){
+              let procItems = t[splDate[1]]
+              procItems.forEach(item => 
+                data.items.push({
+                  ...item,
+                  itemDate: testDate
+                })
+              )
+            }
+          }
+        }
+
+        safety = safety + 1
+        const stDate = DF.stepDate(splDate, 'daily')
+        testDate = stDate.join('-')
+        if(testDate === endDate) keepGoing = false
+      }
     }
     console.log(data)
     callBack(data)
@@ -48,44 +85,15 @@ const Cal = (props) => {
           if (checkDay > DF.daysInMonth(newDate[0], newDate[2])) checkDay = DF.daysInMonth(newDate[0], newDate[2])
           if (!targ[checkDay]) targ[checkDay] = [];
           const newItem = {
+            ...it,
             item: it.item,
-            color: it.color ? it.color : null
+            color: it.color ? it.color : null,
           }
           targ[checkDay].push(newItem);
 
-          if (it.rec === 'weekly') {
-            newDate[1] = newDate[1] + 7
-            if (newDate[1] > DF.daysInMonth(newDate[0], newDate[2])) {
-              newDate[1] = newDate[1] - DF.daysInMonth(newDate[0], newDate[2])
-              newDate[0]++
-              if (newDate[0] > 12) {
-                newDate[0] = 1
-                newDate[2]++
-              }
-            }
-          }
-          if (it.rec === 'biWeekly') {
-            newDate[1] = newDate[1] + 14
-            if (newDate[1] > DF.daysInMonth(newDate[0], newDate[2])) {
-              newDate[1] = newDate[1] - DF.daysInMonth(newDate[0], newDate[2])
-              newDate[0]++
-              if (newDate[0] > 12) {
-                newDate[0] = 1
-                newDate[2]++
-              }
-            }
-          }
+          let getNewDate = DF.stepDate(newDate, it.rec)
 
-          if (it.rec === 'monthly') {
-            newDate[0]++
-            if (newDate[0] > 12) {
-              newDate[0] = 1
-              newDate[2]++
-            }
-          }
-          if (it.rec === 'yearly') newDate[2]++
-
-          calcDate = newDate.join('-')
+          calcDate = getNewDate.join('-')
           dateTarg = new Date(calcDate)
           loopProtect++;
           if (loopProtect === 1000) break
@@ -153,7 +161,7 @@ const Cal = (props) => {
         <span
           key={i}
           className={`${track && "days"} ${iterDate === td && "today"}`}
-          onClick={() => clickDay && clickDay({ ...dateInfo, d: dt })}
+          onClick={() => clickDay && handleClick(clickDay, { new: {...dateInfo}, d: dt })}
         >
           {track && dayTrack <= tMonthDays && (
             <p className="dayNum">{dayTrack}</p>
@@ -172,7 +180,7 @@ const Cal = (props) => {
                   onClick={
                     e => {
                       e.stopPropagation();
-                      clickEvent && clickEvent({ event: d.item, ...dateInfo, d: dt })
+                      clickEvent && handleClick(clickEvent, { event: d.item, new: {...dateInfo}, d: dt })
                     }
                   }>
                   {d.item}
@@ -197,7 +205,7 @@ const Cal = (props) => {
         <div className='cal-controls'>
           <div className='dayMonth'>{DF.Months[dateInfo.m - 1]} - {dateInfo.y}</div>
           <div>
-            {((dateInfo.y !== 2019) || (dateInfo.m !== 11)) && <><button onClick={() => {
+            {((dateInfo.y !== DF.tYear() ) || (dateInfo.m !== DF.tMonth() )) && <><button onClick={() => {
               clickThisDate && handleClick(clickThisDate, {new: { m: DF.tMonth(), y: DF.tYear() }, old: dateInfo})
               updateDateInfo({ m: DF.tMonth(), y: DF.tYear() })
             }}>This date</button>&nbsp;&nbsp;| </>}

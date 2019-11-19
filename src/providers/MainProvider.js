@@ -9,6 +9,16 @@ import Dialog from '../modules/interface/Dialog'
 
 import {currAccs} from './currAcc'
 
+const incomeSources = [
+  {
+      item: "Pay",
+      category: "Income",
+      amount: "2000",
+      date: "11-1-2019", end: "11-1-2025", rec: 'biWeekly',
+      color: 'green'
+  }
+]
+
 class MainProvider extends React.Component {
   constructor() {
     super();
@@ -21,6 +31,7 @@ class MainProvider extends React.Component {
       dialog: { open: false },
       accounts: currAccs,
       savingsTable: [{ 0: { stAmount: 0, interest: 0, deposit: 0 }}],
+      incomeSources
     }
     this.methods = {
       updateAmount: this.updateAmount,

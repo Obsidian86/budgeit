@@ -4,41 +4,29 @@ import Calendar from './components/calendar'
 import TabbedView from './interface/TabbedView'
 import { b } from '../providers/tmpBg'
 import MainContext from '../providers/MainContext'
-// import {daysInMonth} from './components/calendar/dateFunctions'
+import { Months } from './components/calendar/dateFunctions'
+import { Money } from '../utilities/convert'
 
 const CalendarModule = () => {
     const p = useContext(MainContext)
-    const [selectedDay, updateSelectedDay] = useState(null)
-    let inc = [
-        {
-            item: "Pay",
-            category: "Income",
-            amount: "2000",
-            date: "11-1-2019", end: "11-1-2025", rec: 'biWeekly',
-            color: 'green'
-        }
-    ]
-    const allItems = [...b, ...inc]
-
-    // let nDate = new Date()
-
-    // if(selectedDay){
-    //     for(let i = nDate.getDate() + 1; i < daysInMonth(selectedDay.m, selectedDay.d) + 1; i++){
-    //         const dateToCheck
-    //     }
-    // }
-
+    const [selectedDay, updateSelectedDay] = useState(null) 
+    const allItems = [...b, p.incomeSources] 
+ 
+    const thisDate = new Date()
     const contentOne = 
         <div>
-            date
-            { selectedDay && <>{selectedDay.m}-{selectedDay.d && <>{selectedDay.d}-</>}{selectedDay.y}</> }
+            { Months[selectedDay ? selectedDay.m - 1 : thisDate.getMonth()] } Overview
         </div>
+
+    const procUpdateDate = (data) => {
+        updateSelectedDay(data.new)
+    }
 
     return (
         <ContentBox title="Calendar" >
             <div className='row'>
                 <div className='sm'>
-                    <TabbedView 
+                    <TabbedView
                         activeColor={p.theme.vBlue}
                         tabContent={[
                             {tab: "Current month", content: contentOne },
@@ -52,10 +40,10 @@ const CalendarModule = () => {
                     targetYear={selectedDay && selectedDay.y ? selectedDay.y : null} 
                     className='lg'
                     returnItems
-                    clickDay={p => updateSelectedDay(p)} 
-                    clickNext={p => updateSelectedDay(p.new)} 
-                    clickPrev={p => updateSelectedDay(p.new)} 
-                    clickThisDate={p => updateSelectedDay(p.new)} 
+                    clickDay={p => procUpdateDate(p)} 
+                    clickNext={p => procUpdateDate(p)} 
+                    clickPrev={p => procUpdateDate(p)} 
+                    clickThisDate={p => procUpdateDate(p)} 
                 />
             </div>
         </ContentBox>
