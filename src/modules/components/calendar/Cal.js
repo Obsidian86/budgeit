@@ -14,12 +14,12 @@ const Cal = (props) => {
     timeView = 'month', // Return items end of year/month
     clickThisDate,
     clickPrev, 
-    clickNext
+    clickNext,
+    onLoad
   } = props;
-
-  console.log(items)
   
   const [eventInfo, updateEventInfo] = useState({});
+  const [loaded, updateLoaded]= useState(false)
   const [dateInfo, updateDateInfo] = useState({
     m: targetMonth || DF.tMonth(),
     y: targetYear || DF.tYear()
@@ -63,7 +63,6 @@ const Cal = (props) => {
         if(testDate === endDate) keepGoing = false
       }
     }
-    console.log(data)
     callBack(data)
   }
 
@@ -191,6 +190,10 @@ const Cal = (props) => {
       track && dayTrack++;
       return thisDay;
     });
+    if(onLoad && !loaded){
+      handleClick(onLoad, {...dateInfo})
+      updateLoaded(true)
+    }
     return (
       <>
         {weekDays}

@@ -13,11 +13,11 @@ const TabbedView = ({
   
     const StyledTabView = styled.div`
       width: 100%;
-      ul {
+      &>ul {
         display: flex;
         padding: 0;
         margin: 0;
-        li {
+        &>li {
           margin: 0;
           margin-bottom: -3px;
           text-align: center;
