@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 const Dialog = ({ data, setDialog }) => {
+  const [mounted, updateMounted] = useState(false)
+  useEffect(() => {
+    updateMounted(true)
+  }, [])
 
-    const [mounted, updateMounted] = useState(false)
-    useEffect(() => {
-        updateMounted(true)
-    }, [])
-
-    const { header, message, confirm, reject } = data
-    const StDialog = styled.div`
+  const { header, message, confirm, reject } = data
+  const StDialog = styled.div`
         .dialogContainer{
             position: fixed;
             top: 0;
@@ -53,27 +52,28 @@ const Dialog = ({ data, setDialog }) => {
             }
         }
         
-    `;
+    `
 
-    const handleClick = (action) => {
-        action()
-        setDialog({ open: false })
-    }
+  const handleClick = (action) => {
+    action()
+    setDialog({ open: false })
+  }
 
-    return (
-        <StDialog>
-            <div className={`dialogContainer ${mounted && 'mountedDialog'}`}>
-                <div className={`dialogContent`}>
-                    {header && <h3>{header}</h3>}
-                    {message && <p>{message}</p>}
-                    {(confirm || reject) && <div className='grouping right'>
-                        {confirm && <button onClick={() => handleClick(confirm)} className='btn'>Yes</button>}
-                        {reject && <button onClick={() => handleClick(reject)} className='btn red'>Cancel</button>}
-                    </div>}
-                </div>
-            </div>
-        </StDialog>
-    )
+  return (
+    <StDialog>
+      <div className={`dialogContainer ${mounted && 'mountedDialog'}`}>
+        <div className='dialogContent'>
+          {header && <h3>{header}</h3>}
+          {message && <p>{message}</p>}
+          {(confirm || reject) &&
+          <div className='grouping right'>
+            {confirm && <button onClick={() => handleClick(confirm)} className='btn'>Yes</button>}
+            {reject && <button onClick={() => handleClick(reject)} className='btn red'>Cancel</button>}
+          </div>}
+        </div>
+      </div>
+    </StDialog>
+  )
 }
 
 export default Dialog

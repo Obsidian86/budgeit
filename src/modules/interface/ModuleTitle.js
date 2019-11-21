@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import styled from "styled-components";
-import MainContext from "../../providers/MainContext";
+import React, { useContext } from 'react'
+import styled from 'styled-components'
+import MainContext from '../../providers/MainContext'
 
 const ModuleTitle = ({ title }) => {
-  const p = useContext(MainContext);
+  const p = useContext(MainContext)
 
   const StH2 = styled.h2`
     color: ${p.theme.green};
@@ -38,21 +38,21 @@ const ModuleTitle = ({ title }) => {
       top: 0px;
       content: "";
     }
-  `;
+  `
 
   return (
     <>
       <StH2>{title}</StH2>
       <p
         style={{
-          clear: "both",
-          height: "0",
-          width: "0",
-          background: "none"
+          clear: 'both',
+          height: '0',
+          width: '0',
+          background: 'none'
         }}
       />
     </>
-  );
-};
+  )
+}
 
-export default ModuleTitle;
+export default ModuleTitle

@@ -1,21 +1,21 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 import theme from '../../styles/theme'
 
 const TableRow = ({ children, className, pattern = [40, 30], onClick, tData }) => {
   const mkStyles = () => {
-    let inj = ``;
+    let inj = ''
     if (pattern.length > 2) {
       for (let i = 2; i < pattern.length + 1; i++) {
         inj =
           inj +
           ` &:nth-child(${i}){ 
           width: ${pattern[i - 1]}%;
-        }`;
+        }`
       }
     }
     return `
-    cursor: ${onClick ? "pointer" : ""};
+    cursor: ${onClick ? 'pointer' : ''};
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -48,16 +48,16 @@ const TableRow = ({ children, className, pattern = [40, 30], onClick, tData }) =
       z-index: 1;
     }
     
-  `;
-  };
-  const StTableRow = styled.div`${mkStyles()}`;
+  `
+  }
+  const StTableRow = styled.div`${mkStyles()}`
 
   return (
-    <StTableRow className={className} onClick={onClick ? onClick : null}>
+    <StTableRow className={className} onClick={onClick || null}>
       {tData && tData.map((td, i) => <div key={i}>{td}</div>)}
       {children}
-    </StTableRow> 
-  );
-};
+    </StTableRow>
+  )
+}
 
-export default TableRow;
+export default TableRow

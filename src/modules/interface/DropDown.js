@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import { Fade } from '../Transitions';
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { Fade } from '../Transitions'
 import { up } from '../../utilities/convert'
 
 const getDisplay = (isSet, options) => {
-    let val = isSet
-    for(let i=0; i< options.length; i++) {
-      if(options[i]['v'] === isSet){
-        val = options[i]['d']
-        break
-      }
+  let val = isSet
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].v === isSet) {
+      val = options[i].d
+      break
     }
-    return up(val)
+  }
+  return up(val)
 }
 
 const DropDown = ({ options, callBack, isSet, icon, styles }) => {
-  const [open, updateOpen] = useState(false);
+  const [open, updateOpen] = useState(false)
 
   const forceClose = () => {
     document.removeEventListener('click', forceClose)
@@ -25,14 +25,14 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
   }
 
   const toggle = () => {
-    if(open) return forceClose() 
+    if (open) return forceClose()
     document.addEventListener('click', forceClose)
-    updateOpen(true) 
+    updateOpen(true)
   }
 
   const StDiv = styled.ul`
     border-bottom: 1px solid;
-    box-shadow: ${open ? "0 3px 5px #c4c4c4" : ""};
+    box-shadow: ${open ? '0 3px 5px #c4c4c4' : ''};
     position: relative;
     padding: 10px 20px;
     cursor: pointer;
@@ -46,7 +46,7 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
       top: 100%;
       left: 0;
       width: 100%;
-      box-shadow: ${open ? "0 5px 5px #c4c4c4" : ""};
+      box-shadow: ${open ? '0 5px 5px #c4c4c4' : ''};
       & li {
         padding: 13px 10px;
         background-color: #fff;
@@ -58,33 +58,34 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
       }
     }
     ${styles}
-  `; 
+  `
 
   return (
-    <StDiv onClick={() => toggle() } >
+    <StDiv onClick={() => toggle()}>
       {icon && <>{icon} &nbsp;</>}
-      <span>{isSet ? getDisplay(isSet, options) : "Pick one"}</span>
+      <span>{isSet ? getDisplay(isSet, options) : 'Pick one'}</span>
       <Fade time={120}>
-        {open && <ul >
+        {open && <ul>
           {options.map((o, i) => <li
-                key={i}
-                onClick={() => {
-                  toggle(false);
-                  callBack && callBack(o.v);
-                }}
-              > {up(o.d)} </li> )}
-        </ul>}
+            key={i}
+            onClick={() => {
+              toggle(false)
+              callBack && callBack(o.v)
+            }}
+                                 > {up(o.d)}
+                                 </li>)}
+                 </ul>}
       </Fade>
       &nbsp;&nbsp;
       <FontAwesomeIcon
         icon={faCaretDown}
         style={{
-          position: "absolute",
-          right: "10px"
+          position: 'absolute',
+          right: '10px'
         }}
       />
     </StDiv>
-  );
-};
+  )
+}
 
-export default DropDown;
+export default DropDown

@@ -19,12 +19,13 @@ module.exports = {
       "__COVERAGE__" : false
     },
     "rules": {
-      "key-spacing"          : "off", 
-      "jsx-quotes"           : [2, "prefer-single"],
-      "max-len"              : [2, 120, 2],
-      "object-curly-spacing" : [2, "always"],
-      "comma-dangle"         : "off",
-      "react/prop-types": 0
+      "key-spacing"              : "off", 
+      "jsx-quotes"               : [2, "prefer-single"],
+      "max-len"                  : [2, 120, 2],
+      "object-curly-spacing"     : [2, "always"],
+      "comma-dangle"             : "off",
+      "react/prop-types"         : 0,
+      "react/jsx-curly-newline"  : 0
     }
   }
 

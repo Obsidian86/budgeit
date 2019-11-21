@@ -121,12 +121,8 @@ const Cal = (props) => {
     }
     const newDate = { m: nMonth, y: nYear }
     updateDateInfo(newDate)
-    if (dir === 'next' && clickNext) {
-      handleClick(clickNext, { old: oldDate, new: newDate })
-    }
-    if (dir === 'prev' && clickPrev) {
-      handleClick(clickPrev, { old: oldDate, new: newDate })
-    }
+    const handler = dir === 'next' ? clickNext : clickPrev
+    handleClick(handler, { old: oldDate, new: newDate })
   }
   const tMonthDays = DF.daysInMonth(dateInfo.m, dateInfo.y)
   const tMonthStart = DF.monthStartOn(dateInfo.m, dateInfo.y)
