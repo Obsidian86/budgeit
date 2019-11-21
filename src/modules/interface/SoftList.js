@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
-const SoftList = ({ children, split}) => {
+const SoftList = ({ children, split }) => {
   const List = styled.ul`
   list-style-type: none;
   padding: 0;
@@ -18,8 +18,8 @@ const SoftList = ({ children, split}) => {
       background-color: #e9e9e9;
     }
   }
-`;
-  return <List>{children}</List>;
-};
+`
+  return <List>{children}</List>
+}
 
-export default SoftList;
+export default SoftList
