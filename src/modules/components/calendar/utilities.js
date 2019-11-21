@@ -1,7 +1,7 @@
 export const filledArray = count => {
-  let filledArray = [];
+  const filledArray = []
   for (let i = 0; i < count; i++) {
-    filledArray.push("");
+    filledArray.push('')
   }
-  return filledArray;
-};
+  return filledArray
+}

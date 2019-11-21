@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Cal from './Cal'
 
 const Calendar = (props) => {
-    const StCal = styled.div`
+  const StCal = styled.div`
         font-family: sans-serif;
         #calendar{ 
             margin: 0 auto;
@@ -96,7 +96,7 @@ const Calendar = (props) => {
             } 
         }
     `
-    return <StCal><Cal {...props} /></StCal>
+  return <StCal><Cal {...props} /></StCal>
 }
 
 export default Calendar

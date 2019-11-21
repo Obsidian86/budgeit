@@ -25,7 +25,7 @@ class MainProvider extends React.Component {
   constructor () {
     super()
     this.defaultVals = {
-      amount: null, // income amount
+      amount: null, // income amount set by user
       viewBy: 'm',
       theme: theme,
       budget: {},

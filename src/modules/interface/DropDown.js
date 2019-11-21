@@ -71,10 +71,8 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
             onClick={() => {
               toggle(false)
               callBack && callBack(o.v)
-            }}
-                                 > {up(o.d)}
-                                 </li>)}
-                 </ul>}
+            }}> {up(o.d)} </li>)}
+          </ul>}
       </Fade>
       &nbsp;&nbsp;
       <FontAwesomeIcon

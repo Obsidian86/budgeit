@@ -1,9 +1,12 @@
-import React from "react";
-import PieChart from "react-minimal-pie-chart";
+import React from 'react'
+import PieChart from 'react-minimal-pie-chart'
 
 const ChartContainer = ({ styles, data }) => {
-    return <div style={styles}>
+  return (
+    <div style={styles}>
       <PieChart animate textAnchor data={data} />
-    </div>}
+    </div>
+  )
+}
 
-export default ChartContainer;
+export default ChartContainer
