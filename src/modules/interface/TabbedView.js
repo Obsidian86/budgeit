@@ -13,11 +13,11 @@ const TabbedView = ({
   
     const StyledTabView = styled.div`
       width: 100%;
-      &>ul {
+      .tabbedView-tab-list {
         display: flex;
         padding: 0;
         margin: 0;
-        &>li {
+        .tabbedView-tab {
           margin: 0;
           margin-bottom: -3px;
           text-align: center;
@@ -35,7 +35,7 @@ const TabbedView = ({
           }
         }
       }
-      & > div {
+      .tabbedView-tabbed-container {
         margin: 0;
         padding: 0;
         overflow: hidden;
@@ -47,18 +47,18 @@ const TabbedView = ({
   
     return (
       <StyledTabView>
-        <ul>
+        <ul className='tabbedView-tab-list'>
           {tabContent.map((c, i) => (
             <li
               key={i}
               onClick={() => updateTab(i)}
-              className={i === tab ? "selectedTab" : null}
+              className={`tabbedView-tab ${i === tab ? "selectedTab" : null}`}
             >
               {c.tab}
             </li>
           ))}
         </ul>
-        <div>{tabContent[tab] && tabContent[tab].content}</div>
+        <div className='tabbedView-tabbed-container'>{tabContent[tab] && tabContent[tab].content}</div>
       </StyledTabView>
     );
   };

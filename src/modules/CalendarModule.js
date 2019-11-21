@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, Fragment as FR } from 'react'
 import ContentBox from './interface/ContentBox'
 import Calendar from './components/calendar'
 import TabbedView from './interface/TabbedView'
@@ -14,34 +14,46 @@ const CalendarModule = () => {
     const [currentItems, updateCurrentItems] = useState(null)
 
     const allItems = [...b, p.incomeSources] 
-    // const thisDate = new Date()
 
     let yearTrack = ''
     let monthTrack = ''
 
-    const contentOne = 
-        <SoftList split>
-            <li> Overview </li>
-            { currentItems && currentItems.map((ci, i) =>
-                {
-                    const iDate = ci.itemDate.split('-')
-                    let showDate = false
-                    if(iDate[2] !== yearTrack || iDate[0] !== monthTrack){
-                        showDate = true
-                        yearTrack = iDate[2]
-                        monthTrack = iDate[0]
+    const hStyle = {
+        marginBottom: '-16px',
+        marginTop: '19px'
+    }
+
+    const contentOne =
+        <>
+            <h2 style={hStyle}> Overview </h2>
+            <SoftList split>
+                { currentItems && currentItems.map((ci, i) =>
+                    {
+                        const iDate = ci.itemDate.split('-')
+                        let showDate = false
+                        if(iDate[2] !== yearTrack || iDate[0] !== monthTrack){
+                            showDate = true
+                            yearTrack = iDate[2]
+                            monthTrack = iDate[0]
+                        }
+                        return <FR key={i}>
+                            {showDate && <li style={{fontSize: '1.2rem'}}>{Months[iDate[0] - 1]} {iDate[2]}</li>}
+                            <li>
+                                <span>{ci.item}</span>
+                                <span>{money(ci.amount)}</span>
+                                <span>{ci.itemDate}</span>
+                            </li>
+                        </FR>
                     }
-                    return <span key={i}>
-                        {showDate && <li style={{fontSize: '1.2rem'}}>{Months[iDate[0] - 1]} {iDate[2]}</li>}
-                        <li>
-                            <span>{ci.item}</span>
-                            <span>{money(ci.amount)}</span>
-                            <span>{ci.itemDate}</span>
-                        </li>
-                    </span>
-                }
-            ) }
-        </SoftList>
+                ) }
+            </SoftList>
+        </>
+    const contentTwo =
+        <>
+            <h2 style={hStyle}> Yearly Summary </h2>
+            <SoftList split>
+            </SoftList>
+        </>
 
     const procUpdateDate = (data) => {
         updateSelectedDay(data.new)
@@ -56,7 +68,7 @@ const CalendarModule = () => {
                         activeColor={p.theme.vBlue}
                         tabContent={[
                             {tab: "Current month", content: contentOne },
-                            {tab: "Year", content: "year"},
+                            {tab: "Year", content: contentTwo },
                         ]}
                     />
                 </div>

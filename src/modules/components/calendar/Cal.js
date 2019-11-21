@@ -28,6 +28,7 @@ const Cal = (props) => {
   const handleClick = (callBack, data) => {
     if(returnItems){ // collect items to return
       data.items = []
+      const pushData = (dataItems, itemDate) => dataItems.forEach(it => data.items.push({...it, itemDate}))
       // get current day
       let currDate = new Date()
       let safety = 0
@@ -39,21 +40,13 @@ const Cal = (props) => {
       `${dateInfo.m}-${DF.daysInMonth(dateInfo.m, dateInfo.y)}-${dateInfo.y}` :
       `${12}-${DF.daysInMonth(12, dateInfo.y)}-${dateInfo.y}`
 
-      while(safety < 5000 && keepGoing){
+      while(safety < 15000 && keepGoing){
         let splDate = testDate.split("-")
         if(eventInfo[splDate[2]]){
           let t = eventInfo[splDate[2]]
           if(t[splDate[0]]){
             t = t[splDate[0]]
-            if(t[splDate[1]]){
-              let procItems = t[splDate[1]]
-              procItems.forEach(item => 
-                data.items.push({
-                  ...item,
-                  itemDate: testDate
-                })
-              )
-            }
+            if(t[splDate[1]]) pushData(t[splDate[1]], testDate) 
           }
         }
 
