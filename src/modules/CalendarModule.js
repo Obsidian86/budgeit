@@ -57,15 +57,15 @@ const CalendarModule = () => {
                 </li>}
               <li style={{color: withdrawl ? 'red' : 'green', fontWeight: 'bold'}}>
                 <span style={{width: '30%', textAlign: 'left'}}>{ci.item}</span>
-                <span style={{width: '30%', textAlign: 'right'}}>{money(ci.amount)}</span>
                 <span style={{width: '30%', textAlign: 'right'}}>{ci.itemDate}</span>
+                <span style={{width: '30%', textAlign: 'right'}}>{money(ci.amount)}</span>
               </li>
             </Fr>
           )
         }
         )}
       </SoftList>
-      <p>End of month { money(trackBalance) }</p>
+      <p>Ending balance { money(trackBalance) }</p>
     </>
   const contentTwo =
     <>

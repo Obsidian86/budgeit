@@ -55,6 +55,7 @@ const Cal = (props) => {
         if (testDate === endDate) keepGoing = false
       }
     }
+    console.log(eventInfo)
     callBack(data)
   }
 
@@ -103,6 +104,7 @@ const Cal = (props) => {
         targ[prDate.getDate()].push(newItem)
       }
     })
+    console.log(processedItems)
     updateEventInfo(processedItems)
   }
 
@@ -177,10 +179,6 @@ const Cal = (props) => {
       track && dayTrack++
       return thisDay
     })
-    if (onLoad && !loaded) {
-      handleClick(onLoad, { ...dateInfo })
-      updateLoaded(true)
-    }
     return (
       <>
         {weekDays}
@@ -190,6 +188,14 @@ const Cal = (props) => {
   }
 
   Object.keys(eventInfo).length < 1 && processItems()
+  const cal = renderCalender()
+
+  if (onLoad && !loaded) {
+    updateLoaded(true)
+    console.log(loaded)
+    handleClick(onLoad, { ...dateInfo })
+  }
+
   return (
     <div id='calendar'>
       <div className='cal-controls'>
@@ -209,7 +215,7 @@ const Cal = (props) => {
         </div>
       </div>
       <div className='allDays'>
-        {renderCalender()}
+        {cal}
       </div>
     </div>
   )
