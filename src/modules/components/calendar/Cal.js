@@ -1,30 +1,32 @@
-import React, { useState } from 'react'
+import React from 'react'
 import * as DF from './dateFunctions'
 import { filledArray } from './utilities'
+import _ from 'lodash'
 
-const Cal = (props) => {
-  const {
-    targetMonth = DF.tMonth(),
-    targetYear = DF.tYear(),
-    items = [],
-    clickDay,
-    clickEvent,
-    returnItems, // return list of items with callback
-    timeView = 'month', // Return items end of year/month
-    clickThisDate,
-    clickPrev,
-    clickNext,
-    onLoad
-  } = props
+class Cal extends React.Component {
 
-  const [eventInfo, updateEventInfo] = useState({})
-  const [loaded, updateLoaded] = useState(false)
-  const [dateInfo, updateDateInfo] = useState({
-    m: targetMonth || DF.tMonth(),
-    y: targetYear || DF.tYear()
-  })
+  constructor(props){
+    super(props)
+    this.state = {
+      eventInfo: {},
+      dateInfo: {
+        m: this.props.targetMonth || DF.tMonth(),
+        y: this.props.targetYear || DF.tYear()
+      }
+    }
+  }
 
-  const handleClick = (callBack, data) => {
+  shouldComponentUpdate = (nextProps, nextState) => !_.isEqual(nextProps, this.props) || !_.isEqual(nextState, this.state)
+
+  componentDidMount = () => this.processItems()
+
+  updateDateInfo = newDate => this.setState({dateInfo: newDate})
+  updateLoaded = isLoaded => this.setState({loaded: isLoaded})
+
+  handleClick = (callBack, data) => {
+    const {returnItems, timeView = 'month'} = this.props
+    const {dateInfo, eventInfo} = this.state
+
     if (returnItems) { // collect items to return
       data.items = []
       const pushData = (dataItems, itemDate) => dataItems.forEach(it => data.items.push({ ...it, itemDate }))
@@ -55,11 +57,11 @@ const Cal = (props) => {
         if (testDate === endDate) keepGoing = false
       }
     }
-    console.log(eventInfo)
     callBack(data)
   }
 
-  const processItems = () => {
+  processItems = () => {
+    const {items} = this.props
     const processedItems = {}
     items.forEach(it => {
       const prDate = new Date(it.date)
@@ -104,11 +106,15 @@ const Cal = (props) => {
         targ[prDate.getDate()].push(newItem)
       }
     })
-    console.log(processedItems)
-    updateEventInfo(processedItems)
+
+    this.setState({ eventInfo: processedItems}, () => {
+        this.props.onLoad && !this.props.loaded && this.handleClick(this.props.onLoad, {old: this.state.dateInfo})
+      })
   }
 
-  const changeMonth = dir => {
+  changeMonth = dir => {
+    const { dateInfo } = this.state
+    const { clickNext, clickPrev } = this.props
     let nMonth = dateInfo.m
     const oldDate = { ...dateInfo }
     nMonth = dir === 'next' ? nMonth + 1 : nMonth - 1
@@ -122,17 +128,20 @@ const Cal = (props) => {
       nYear = nYear - 1
     }
     const newDate = { m: nMonth, y: nYear }
-    updateDateInfo(newDate)
+    this.updateDateInfo(newDate)
     const handler = dir === 'next' ? clickNext : clickPrev
-    handleClick(handler, { old: oldDate, new: newDate })
+    this.handleClick(handler, { old: oldDate, new: newDate })
   }
-  const tMonthDays = DF.daysInMonth(dateInfo.m, dateInfo.y)
-  const tMonthStart = DF.monthStartOn(dateInfo.m, dateInfo.y)
-  const toDate = new Date()
-  const td =
-    toDate.getMonth() + 1 + '-' + toDate.getDate() + '-' + toDate.getFullYear()
+  renderCalender = () => {
+    const { dateInfo, eventInfo } = this.state
+    const { clickDay, clickEvent } = this.props
+    const { handleClick } = this
 
-  const renderCalender = () => {
+    const tMonthDays = DF.daysInMonth(dateInfo.m, dateInfo.y)
+    const tMonthStart = DF.monthStartOn(dateInfo.m, dateInfo.y)
+    const toDate = new Date()
+    const td = toDate.getMonth() + 1 + '-' + toDate.getDate() + '-' + toDate.getFullYear() 
+
     const weekDays = DF.Days.map(d => (
       <span key={d} className='weekDay'>
         <p>{d}</p>
@@ -187,38 +196,35 @@ const Cal = (props) => {
     )
   }
 
-  Object.keys(eventInfo).length < 1 && processItems()
-  const cal = renderCalender()
-
-  if (onLoad && !loaded) {
-    updateLoaded(true)
-    console.log(loaded)
-    handleClick(onLoad, { ...dateInfo })
-  }
-
-  return (
-    <div id='calendar'>
-      <div className='cal-controls'>
-        <div className='dayMonth'>{DF.Months[dateInfo.m - 1]} - {dateInfo.y}</div>
-        <div>
-          {((dateInfo.y !== DF.tYear()) || (dateInfo.m !== DF.tMonth())) &&
-          <>
-            <button onClick={() => {
-              clickThisDate && handleClick(clickThisDate, { new: { m: DF.tMonth(), y: DF.tYear() }, old: dateInfo })
-              updateDateInfo({ m: DF.tMonth(), y: DF.tYear() })
-            }}
-            > This date
-            </button> &nbsp;&nbsp;|
-          </>}
-          <button onClick={() => changeMonth('prev')}>Prev Month</button>
-          <button onClick={() => changeMonth('next')}>Next Month</button>
+  render(){
+    const { dateInfo } = this.state
+    const { clickThisDate } = this.props
+    const { handleClick, changeMonth, updateDateInfo } = this 
+    return (
+      <div id='calendar'>
+        <div className='cal-controls'>
+          <div className='dayMonth'>{DF.Months[dateInfo.m - 1]} - {dateInfo.y}</div>
+          <div>
+            {((dateInfo.y !== DF.tYear()) || (dateInfo.m !== DF.tMonth())) &&
+            <>
+              <button onClick={() => {
+                clickThisDate && handleClick(clickThisDate, { new: { m: DF.tMonth(), y: DF.tYear() }, old: dateInfo })
+                updateDateInfo({ m: DF.tMonth(), y: DF.tYear() })
+              }}
+              > This date
+              </button> &nbsp;&nbsp;|
+            </>}
+            <button onClick={() => changeMonth('prev')}>Prev Month</button>
+            <button onClick={() => changeMonth('next')}>Next Month</button>
+          </div>
+        </div>
+        <div className='allDays'>
+          {this.renderCalender()}
         </div>
       </div>
-      <div className='allDays'>
-        {cal}
-      </div>
-    </div>
-  )
+    )
+  }
+
 }
 
 export default Cal

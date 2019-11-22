@@ -12,6 +12,7 @@ const CalendarModule = () => {
   const p = useContext(MainContext)
   const [selectedDay, updateSelectedDay] = useState(null)
   const [currentItems, updateCurrentItems] = useState(null)
+  const [calLoaded, updateCalLoaded] = useState(false)
 
   const allItems = [...b, ...p.incomeSources]
 
@@ -96,7 +97,11 @@ const CalendarModule = () => {
           targetYear={selectedDay && selectedDay.y ? selectedDay.y : null}
           className='lg'
           returnItems
-          onLoad={p => console.log(p)}
+          loaded = {calLoaded}
+          onLoad={p => {
+            procUpdateDate(p)
+            updateCalLoaded(true)
+          }}
           clickDay={p => procUpdateDate(p)}
           clickNext={p => procUpdateDate(p)}
           clickPrev={p => procUpdateDate(p)}
