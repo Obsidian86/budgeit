@@ -35,7 +35,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
         <>
           <label>Category </label>
           {formData.newCategory === 'on' ? 
-          <IP type='text' alias='category' onChange={e => updateField(e)} data={formData} errors={errors} /> 
+            <IP type='text' alias='category' onChange={e => updateField(e)} data={formData} errors={errors} /> 
             : <DropDown
               options={catOptions}
               styles='width: 89%; margin: 20px auto'
@@ -67,6 +67,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             isSet='m'
             callBack={val => updateField({target: { value: val, name: 'initialRec' }} )}
           />
+          
           <label>Start date</label>
           <span>
             <DatePicker
@@ -75,6 +76,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             />
           </span>
           <label>End date</label>
+
           <span>
             <DatePicker
               value = { new Date(formData.endDate) }
