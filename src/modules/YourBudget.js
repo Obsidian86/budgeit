@@ -26,13 +26,18 @@ const YourBudget = ({ step }) => {
 
   const validateData = (bi) => {
     let errs = {}
-    let fields = [
+    if(bi.startDate && bi.endDate && new Date(bi.startDate) > new Date(bi.endDate)){
+      errs['endDate'] = 'End date can not come before start date'
+    }
+    const fields = [
       { name: 'amount', req: true, type: 'number' },
-      { name: 'item', req: true, type: 'text' }
+      { name: 'item', req: true, type: 'text' },
+      { name: 'startDate', req: true, type: 'text' },
+      { name: 'EndDate', req: true, type: 'text' }
     ]
     fields.forEach(f => {
       if (f.req && !bi[f.name]) errs[f.name] = 'Field is required'
-      if (f.type === 'number' && isNaN(bi[f.name])) {
+      if ( bi[f.name] && f.type === 'number' && isNaN(bi[f.name])) {
         let test = bi[f.name].split(" ").join('')
         if (isNaN(test)) errs[f.name] = 'Please input a number'
       }
@@ -149,12 +154,11 @@ const YourBudget = ({ step }) => {
               setDialog={p.setDialog}
               errors={errors}
               onSubmit={bi => {
-                console.log(bi)
-                // if (!validateData(bi)) return null
-                // !editItem && p.addBudgetItem(bi)
-                // editItem && p.updateBudgetItem(editItem, bi)
-                // updateEditItem(null)
-                // toggleForm(false)
+                if (!validateData(bi)) return null
+                !editItem && p.addBudgetItem(bi)
+                editItem && p.updateBudgetItem(editItem, bi)
+                updateEditItem(null)
+                toggleForm(false)
               }}
             />} 
         </div>

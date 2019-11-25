@@ -4,21 +4,38 @@ import DropDown from '../interface/DropDown'
 import { recurrence } from '../../utilities/constants'
 import FieldError from '../interface/FieldError'
 import DatePicker from 'react-date-picker';
+import { parsedCurrentDate, stepDate } from '../components/calendar/dateFunctions'
+
+const IP = ({type='text', alias, onChange, data, errors, label }) => {
+  return(<>
+      {label && <label>{label}</label>}
+      <input
+        type={type}
+        name={alias}
+        onChange={e => onChange(e)}
+        value={data && data[alias] ? data[alias] : ''}
+      />
+      {errors && errors[alias] && <FieldError error={errors[alias]} />}
+    </>)
+}
 
 const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors }) =>
   <Form
-    defaultFormData={editItem ? { ...editItem, newCategory: 'off' } : { newCategory: 'off' }}
+    defaultFormData={
+      editItem ? { ...editItem, newCategory: 'off' } : 
+      { 
+        newCategory: 'off',
+        startDate: parsedCurrentDate(new Date()),
+        endDate: stepDate(parsedCurrentDate(new Date()).split("-"), "yearly", 10).join('-')
+      }
+    }
     reDefault
     render={(updateField, formData) => {
       return (
         <>
           <label>Category </label>
-          {formData.newCategory === 'on' ? <input
-            type='text'
-            name='category'
-            onChange={e => updateField(e)}
-            value={formData && formData.category ? formData.category : ''}
-          />
+          {formData.newCategory === 'on' ? 
+          <IP type='text' alias='category' onChange={e => updateField(e)} data={formData} errors={errors} /> 
             : <DropDown
               options={catOptions}
               styles='width: 89%; margin: 20px auto'
@@ -39,50 +56,35 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             />{' '}
             <span />New Category
           </label>
+ 
+          <IP type='text' alias='item' label="Budget Item" onChange={e => updateField(e)} data={formData} errors={errors} />
+          <IP type='number' alias='amount' label="Amount" onChange={e => updateField(e)} data={formData} errors={errors} />
 
-          <label>Budget Item</label>
-          <input
-            type='text'
-            name='item'
-            onChange={e => updateField(e)}
-            value={formData && formData.item ? formData.item : ''}
-          />
-          {errors && errors.item && <FieldError error={errors.item} />}
-          <label>Amount</label>
-          <input
-            type='number'
-            name='amount'
-            onChange={e => updateField(e)}
-            value={formData && formData.amount ? formData.amount : ''}
-          />
-          {errors && errors.amount && <FieldError error={errors.amount} />}
           <label>Recurrence</label>
           <DropDown
             options={recurrence}
             styles='width: 91%; margin: 20px auto'
             isSet='m'
-            callBack={val => {
-              const e = {}
-              e.target = { value: val, name: 'initialRec' }
-              updateField(e)
-            }}
+            callBack={val => updateField({target: { value: val, name: 'initialRec' }} )}
           />
           <label>Start date</label>
-          <DatePicker 
-          
-            value = { formData.startDate ? new Date(formData.startDate) : new Date()}
-            onChange = {date => {
-              // turn date to usable format
-              const parsedDate = '01/01/2020'
-              const e = {
-                target: parsedDate,
-                name: 'startDate'
-              }
-              updateField(e)
-              console.log(date)
-            }}
-          />
-          <div className='grouping right'>
+          <span>
+            <DatePicker
+              value = {new Date(formData.startDate)}
+              onChange = {date => updateField({ target: { value: parsedCurrentDate(date), name: 'startDate' }})}
+            />
+          </span>
+          <label>End date</label>
+          <span>
+            <DatePicker
+              value = { new Date(formData.endDate) }
+              onChange = {date => updateField({ target: { value: parsedCurrentDate(date), name: 'endDate' }})}
+            />
+          </span>
+          {errors && errors.endDate && <FieldError error={errors.endDate} />}
+
+
+          <div className='grouping right mt-40'>
             <button
               onClick={() => setDialog({
                 open: true,
@@ -101,9 +103,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
               type='submit'
               className='btn'
               onClick={() => onSubmit(formData)}
-            >
-                Submit
-            </button>
+            > Submit </button>
           </div>
         </>
       )

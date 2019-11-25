@@ -61,7 +61,7 @@ class Cal extends React.Component {
         if (testDate === endDate) keepGoing = false
       }
     }
-    callBack(data)
+    callBack(data) 
   }
 
   processItems = () => {
@@ -110,7 +110,6 @@ class Cal extends React.Component {
         targ[prDate.getDate()].push(newItem)
       }
     })
-
     this.setState({ eventInfo: processedItems}, () => {
         this.props.onLoad && !this.props.loaded && this.handleClick(this.props.onLoad, {old: this.state.dateInfo})
         if(!this.props.loaded && this.props.onRangeChange){

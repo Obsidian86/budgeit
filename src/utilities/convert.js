@@ -1,13 +1,8 @@
 export const money = amount => {
-  if (!parseFloat(amount)) {
-    // console.log("Error in money conversion: ", amount);
-    return '$00.00'
-  }
-
+  if (!parseFloat(amount)) return '$00.00'
   amount = parseFloat(amount).toFixed(2)
   const parts = amount.toString().split('.')
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-
   return '$' + parts[0] + '.' + parts[1]
 }
 
@@ -25,15 +20,9 @@ export const disRec = re => {
 }
 
 export const convert = (amount, rec = 'm', disRec = 'm', ...args) => {
-  const year = {
-    m: 12,
-    w: 52,
-    bw: 26,
-    y: 1
-  }
+  const year = { m: 12, w: 52, bw: 26, y: 1 }
 
-  amount = amount * year[rec]
-  amount = amount / year[disRec]
+  amount = (amount * year[rec]) / year[disRec] 
 
   let returnVal = args.includes('money') ? money(amount) : amount
   if (args.includes('appendRec')) {
