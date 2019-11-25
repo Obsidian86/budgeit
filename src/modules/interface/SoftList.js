@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const SoftList = ({ children, split }) => {
+const SoftList = ({ children, split, className }) => {
   const List = styled.ul`
   list-style-type: none;
   padding: 0;
-  margin-top: 30px;
   margin-bottom: 20px;
   & li {
     border-bottom: ${children && children.length === 2 && '3px solid #e9e9e9'};
@@ -19,7 +18,7 @@ const SoftList = ({ children, split }) => {
     }
   }
 `
-  return <List>{children}</List>
+  return <List className={className}>{children}</List>
 }
 
 export default SoftList

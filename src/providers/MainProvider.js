@@ -8,13 +8,14 @@ import * as bdg from '../utilities/budgetFunctions'
 import Dialog from '../modules/interface/Dialog'
 
 import { currAccs } from './currAcc'
+import tmpBg from './tmpBg'
 
 const incomeSources = [
   {
     item: 'Pay',
     category: 'Income',
     amount: '2000',
-    date: '11-1-2019',
+    date: '7-26-2019',
     end: '11-1-2025',
     rec: 'biWeekly',
     color: 'green'
@@ -51,7 +52,7 @@ class MainProvider extends React.Component {
   }
 
   componentDidMount = () =>
-    this.setState(mem.load(), () => this.setState(bdg.parsePersonalBudget([], colors)))
+    this.setState(mem.load(), () => this.setState(bdg.parsePersonalBudget(tmpBg, colors)))
 
   saveState = newState =>
     this.setState(newState, () => mem.save(this.state))

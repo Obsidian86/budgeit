@@ -16,7 +16,7 @@ const Accounts = () => {
 
     return (
         <ContentBox title='Accounts' exClass='md' >
-            <SoftList split>
+            <SoftList split className='mt-40'>
                 {accountList}
             </SoftList>
             <div className='right'><h3>{money(total)}</h3> </div>

@@ -18,11 +18,9 @@ function App () {
   if (p.amount !== null) step++
   if (Object.keys(p.budget).length > 0) step++
 
-  console.log(view)
-
   return (
     <div className='App container'>
-      <TopBar updateView={updateView} />
+      <TopBar updateView={updateView} view={view} />
       <div className='row'>
         <IncomeForm />
         {step > 0 && <Recommended />}

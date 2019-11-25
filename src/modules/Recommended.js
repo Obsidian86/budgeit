@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { getPercent, convert } from "../utilities/convert";
+import { getPercent, convert, up } from "../utilities/convert";
 import MainContext from "../providers/MainContext";
 import TableRow from "./interface/TableRow";
 import percents from '../utilities/suggested'
@@ -21,7 +21,7 @@ const Recommended = () => {
             {Object.keys(percents).map((per, index) => {
               return (
                 <TableRow key={index}>
-                  <div>{per}</div>
+                  <div>{up(per)}</div>
                   {percents[per].map((pe, index) => (
                     <div key={index}>
                       {pe}% <br />

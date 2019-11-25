@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Cal from './Cal'
 
 const Calendar = (props) => {
+
   const StCal = styled.div`
         font-family: sans-serif;
         #calendar{ 
@@ -61,13 +62,18 @@ const Calendar = (props) => {
                     padding: 3px 4px;
                     color: #999;
                     font-weight: normal;
-                    border-left: 3px solid hotpink;
+                    border-left: 3px solid red;
                     cursor: pointer;
                     &:hover{
                         background-color: darkgray;
                         color: #fff;
                     }
                 } 
+                .pastEvent {
+                    color: lightgray;
+                    font-style: italic;
+                    text-decoration: line-through;
+                }
             }
             .cal-controls{
                 display: flex;
@@ -96,7 +102,7 @@ const Calendar = (props) => {
             } 
         }
     `
-  return <StCal><Cal {...props} /></StCal>
+  return <StCal className={props.className && props.className}><Cal {...props} /></StCal>
 }
 
 export default Calendar

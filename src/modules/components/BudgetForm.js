@@ -3,6 +3,7 @@ import Form from '../Form'
 import DropDown from '../interface/DropDown'
 import { recurrence } from '../../utilities/constants'
 import FieldError from '../interface/FieldError'
+import DatePicker from 'react-date-picker';
 
 const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors }) =>
   <Form
@@ -64,6 +65,21 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
               const e = {}
               e.target = { value: val, name: 'initialRec' }
               updateField(e)
+            }}
+          />
+          <label>Start date</label>
+          <DatePicker 
+          
+            value = { formData.startDate ? new Date(formData.startDate) : new Date()}
+            onChange = {date => {
+              // turn date to usable format
+              const parsedDate = '01/01/2020'
+              const e = {
+                target: parsedDate,
+                name: 'startDate'
+              }
+              updateField(e)
+              console.log(date)
             }}
           />
           <div className='grouping right'>

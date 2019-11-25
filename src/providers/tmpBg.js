@@ -1,4 +1,4 @@
-export const b = [
+const b = [
   {
     item: 'Rent',
     category: 'housing',
@@ -47,14 +47,14 @@ export const b = [
     end: '5-25-2025',
     rec: 'yearly'
   },
-  {
-    item: 'Retirement',
-    category: 'savings',
-    amount: '867',
-    date: '11-15-2019',
-    end: '5-15-2025',
-    rec: 'biWeekly'
-  },
+  // {
+  //   item: 'Retirement',
+  //   category: 'savings',
+  //   amount: '867',
+  //   date: '11-15-2019',
+  //   end: '5-15-2025',
+  //   rec: 'biWeekly'
+  // },
   {
     item: 'Clothes',
     category: 'clothes',
@@ -112,3 +112,5 @@ export const b = [
     rec: 'monthly'
   }
 ]
+
+export default b

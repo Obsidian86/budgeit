@@ -13,7 +13,7 @@ import ContentBox from './interface/ContentBox'
 
 const YourBudget = ({ step }) => {
   const p = useContext(MainContext);
-  const [displayForm, toggleForm] = useState(false);
+  const [displayForm, toggleForm] = useState(true);
   const [editItem, updateEditItem] = useState(null);
   const [errors, updateErrors] = useState(null)
   const data = [];
@@ -25,7 +25,6 @@ const YourBudget = ({ step }) => {
     (convert(p.total, "m", p.viewBy) / convert(p.amount, "w", p.viewBy)) * 100;
 
   const validateData = (bi) => {
-    console.log(bi)
     let errs = {}
     let fields = [
       { name: 'amount', req: true, type: 'number' },
@@ -141,7 +140,7 @@ const YourBudget = ({ step }) => {
               <FontAwesomeIcon icon={faPlusCircle} style={{ rotate: displayForm ? 'deg(35)' : 'deg(0)' }} />
               &nbsp;&nbsp; {displayForm ? "Cancel" : "Add"} budget item
         </button>
-          </span> 
+          </span>
             {displayForm && <BudgetForm
               catOptions={catOptions}
               editItem={editItem}
@@ -150,11 +149,12 @@ const YourBudget = ({ step }) => {
               setDialog={p.setDialog}
               errors={errors}
               onSubmit={bi => {
-                if (!validateData(bi)) return null
-                !editItem && p.addBudgetItem(bi)
-                editItem && p.updateBudgetItem(editItem, bi)
-                updateEditItem(null)
-                toggleForm(false)
+                console.log(bi)
+                // if (!validateData(bi)) return null
+                // !editItem && p.addBudgetItem(bi)
+                // editItem && p.updateBudgetItem(editItem, bi)
+                // updateEditItem(null)
+                // toggleForm(false)
               }}
             />} 
         </div>

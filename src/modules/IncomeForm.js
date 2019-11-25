@@ -14,6 +14,8 @@ const IncomeForm = () => {
   const { updateAmount, theme } = p
   const [errors, updateErrors] = useState(null)
 
+  console.log(p)
+
   const submitForm = data => {
     const errs = {}
 

@@ -8,6 +8,7 @@ class Cal extends React.Component {
   constructor(props){
     super(props)
     this.state = {
+      rangeDate: {start: "", end: ""},
       eventInfo: {},
       dateInfo: {
         m: this.props.targetMonth || DF.tMonth(),
@@ -16,15 +17,21 @@ class Cal extends React.Component {
     }
   }
 
-  shouldComponentUpdate = (nextProps, nextState) => !_.isEqual(nextProps, this.props) || !_.isEqual(nextState, this.state)
+  shouldComponentUpdate = (nextProps, nextState) => { 
+    const {onRangeChange, rangeDate} = this.props
+    if(onRangeChange && (rangeDate.end !== this.state.rangeDate.end || rangeDate.start !== this.state.rangeDate.start)){
+      this.setState({rangeDate: {start: rangeDate.start, end: rangeDate.end}}, () => {
+        this.handleClick(onRangeChange, {}, rangeDate.end, rangeDate.start)})
+    }
+    return !_.isEqual(nextProps, this.props) || !_.isEqual(nextState, this.state)
+  }
 
   componentDidMount = () => this.processItems()
-
   updateDateInfo = newDate => this.setState({dateInfo: newDate})
   updateLoaded = isLoaded => this.setState({loaded: isLoaded})
 
-  handleClick = (callBack, data) => {
-    const {returnItems, timeView = 'month'} = this.props
+  handleClick = (callBack, data, endDate, startDate) => {
+    const {returnItems} = this.props
     const {dateInfo, eventInfo} = this.state
 
     if (returnItems) { // collect items to return
@@ -35,12 +42,9 @@ class Cal extends React.Component {
       let safety = 0
       let keepGoing = true
 
-      let testDate = `${currDate.getMonth() + 1}-${currDate.getDate()}-${currDate.getFullYear()}`
-
-      const endDate = timeView === 'month'
-        ? `${dateInfo.m}-${DF.daysInMonth(dateInfo.m, dateInfo.y)}-${dateInfo.y}`
-        : `${12}-${DF.daysInMonth(12, dateInfo.y)}-${dateInfo.y}`
-
+      let testDate = startDate  || `${currDate.getMonth() + 1}-${currDate.getDate()}-${currDate.getFullYear()}`
+      endDate = endDate || `${dateInfo.m}-${DF.daysInMonth(dateInfo.m, dateInfo.y)}-${dateInfo.y}`
+      if(new Date(endDate) < new Date(startDate)) return callBack(data)
       while (safety < 15000 && keepGoing) {
         const splDate = testDate.split('-')
         if (eventInfo[splDate[2]]) {
@@ -109,6 +113,9 @@ class Cal extends React.Component {
 
     this.setState({ eventInfo: processedItems}, () => {
         this.props.onLoad && !this.props.loaded && this.handleClick(this.props.onLoad, {old: this.state.dateInfo})
+        if(!this.props.loaded && this.props.onRangeChange){
+          this.handleClick(this.props.onRangeChange, {}, this.props.rangeDate.end, this.props.rangeDate.start)
+        }
       })
   }
 
@@ -130,7 +137,11 @@ class Cal extends React.Component {
     const newDate = { m: nMonth, y: nYear }
     this.updateDateInfo(newDate)
     const handler = dir === 'next' ? clickNext : clickPrev
-    this.handleClick(handler, { old: oldDate, new: newDate })
+    this.handleClick(
+      handler, 
+      { old: oldDate, new: newDate }, 
+      `${newDate.m}-${DF.daysInMonth(newDate.m, newDate.y)}-${newDate.y}`
+    )
   }
   renderCalender = () => {
     const { dateInfo, eventInfo } = this.state
@@ -172,7 +183,7 @@ class Cal extends React.Component {
               return (
                 <p
                   key={i}
-                  className='eventItem'
+                  className={`eventItem ${new Date(iterDate) < toDate && 'pastEvent'}`}
                   style={{ borderColor: d.color ? d.color : null }}
                   onClick={e => {
                     e.stopPropagation()
@@ -208,8 +219,13 @@ class Cal extends React.Component {
             {((dateInfo.y !== DF.tYear()) || (dateInfo.m !== DF.tMonth())) &&
             <>
               <button onClick={() => {
-                clickThisDate && handleClick(clickThisDate, { new: { m: DF.tMonth(), y: DF.tYear() }, old: dateInfo })
-                updateDateInfo({ m: DF.tMonth(), y: DF.tYear() })
+                const newDate = { m: DF.tMonth(), y: DF.tYear() }
+                clickThisDate && handleClick(
+                  clickThisDate, 
+                  { new: newDate, old: dateInfo },
+                  `${newDate.m}-${DF.daysInMonth(newDate.m, newDate.y)}-${newDate.y}`
+                  )
+                updateDateInfo(newDate)
               }}
               > This date
               </button> &nbsp;&nbsp;|

@@ -3,6 +3,7 @@ import MainContext from '../providers/MainContext'
 import SoftList from './interface/SoftList'
 import { money } from '../utilities/convert'
 import ContentBox from './interface/ContentBox'
+import { up } from '../utilities/convert'
 
 const EmergencyFunds = () => {
   const p = useContext(MainContext)
@@ -29,9 +30,9 @@ const EmergencyFunds = () => {
           <SoftList split>
             <li><strong>Monthly expenditure</strong><span>{money(p.total)}</span></li>
             {Object.keys(excluded).map(b =>
-              <li key={b}><strong>{b}</strong> <span>-{money(excluded[b].total)}</span></li>)
+              <li key={b}><strong>{up(b)}</strong> <span>-{money(excluded[b].total)}</span></li>)
             }
-            <li><strong>Monthly living living expenses</strong>{money(livingExpenses)} </li>
+            <li><strong>Monthly living expenses</strong>{money(livingExpenses)} </li>
             <li><strong>Target emergency funds</strong>{money(livingExpenses * 3)} </li>
           </SoftList>
         </div>
