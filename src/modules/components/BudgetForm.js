@@ -25,8 +25,8 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
       editItem ? { ...editItem, newCategory: 'off' } : 
       { 
         newCategory: 'off',
-        startDate: parsedCurrentDate(new Date()),
-        endDate: stepDate(parsedCurrentDate(new Date()).split("-"), "yearly", 10).join('-')
+        date: parsedCurrentDate(new Date()),
+        end: stepDate(parsedCurrentDate(new Date()).split("-"), "yearly", 10).join('-')
       }
     }
     reDefault
@@ -68,22 +68,22 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             callBack={val => updateField({target: { value: val, name: 'initialRec' }} )}
           />
           
-          <label>Start date</label>
-          <span>
+            <label>Start date {formData && formData.date}</label>
+          {/* <span>
             <DatePicker
-              value = {new Date(formData.startDate)}
-              onChange = {date => updateField({ target: { value: parsedCurrentDate(date), name: 'startDate' }})}
+              value = {new Date(formData.date)}
+              onChange = {date => updateField({ target: { value: parsedCurrentDate(date), name: 'date' }})}
             />
-          </span>
-          <label>End date</label>
-
-          <span>
+          </span> */}
+          
+          <label>End date {formData && formData.end}</label>
+          {/* <span>
             <DatePicker
-              value = { new Date(formData.endDate) }
-              onChange = {date => updateField({ target: { value: parsedCurrentDate(date), name: 'endDate' }})}
+              value = { new Date(formData.end) }
+              onChange = {date => updateField({ target: { value: parsedCurrentDate(date), name: 'end' }})}
             />
-          </span>
-          {errors && errors.endDate && <FieldError error={errors.endDate} />}
+          </span> */}
+          {errors && errors.end && <FieldError error={errors.end} />}
 
 
           <div className='grouping right mt-40'>

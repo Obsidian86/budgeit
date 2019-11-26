@@ -29,12 +29,12 @@ const YourBudget = ({ step }) => {
     const fields = [
       { name: 'amount', req: true, type: 'number' },
       { name: 'item', req: true, type: 'text' },
-      { name: 'startDate', req: true, type: 'text' },
-      { name: 'endDate', req: true, type: 'text' }
+      { name: 'date', req: true, type: 'text' },
+      { name: 'end', req: true, type: 'text' }
     ]
     const errs = validForm(fields, bi)
-    if(bi.StartDate && bi.endDate && new Date(bi.startDate) > new Date(bi.endDate)){
-      errs['endDate'] = 'End date can not come before start date'
+    if(bi.date && bi.end && new Date(bi.date) > new Date(bi.end)){
+      errs['end'] = 'End date can not come before start date'
     }
     updateErrors(errs)
     return (Object.keys(errs).length === 0)

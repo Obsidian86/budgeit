@@ -31,7 +31,7 @@ class Cal extends React.Component {
   updateDateInfo = newDate => this.setState({dateInfo: newDate})
   updateLoaded = isLoaded => this.setState({loaded: isLoaded})
 
-  handleClick = (callBack, data, endDate, startDate) => {
+  handleClick = (callBack, data, end, date) => {
     const {returnItems} = this.props
     const {dateInfo, eventInfo} = this.state
 
@@ -42,9 +42,9 @@ class Cal extends React.Component {
       const currDate = new Date()
       let safety = 0
 
-      let testDate = startDate  || `${currDate.getMonth() + 1}-${currDate.getDate()}-${currDate.getFullYear()}`
-      endDate = endDate || `${dateInfo.m}-${DF.daysInMonth(dateInfo.m, dateInfo.y)}-${dateInfo.y}`
-      if(new Date(endDate) < new Date(startDate)) return callBack(data)
+      let testDate = date  || `${currDate.getMonth() + 1}-${currDate.getDate()}-${currDate.getFullYear()}`
+      end = end || `${dateInfo.m}-${DF.daysInMonth(dateInfo.m, dateInfo.y)}-${dateInfo.y}`
+      if(new Date(end) < new Date(date)) return callBack(data)
       while (safety < 6000) {
         const splDate = testDate.split('-')
         if (eventInfo[splDate[2]]) {
@@ -58,7 +58,7 @@ class Cal extends React.Component {
         safety = safety + 1
         const stDate = DF.stepDate(splDate, 'daily')
         testDate = stDate.join('-')
-        if (testDate === endDate) safety = 5999
+        if (testDate === end) safety = 5999
       }
     }
     callBack(data) 
