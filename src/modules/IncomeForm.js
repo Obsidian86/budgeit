@@ -32,7 +32,7 @@ const IncomeForm = () => {
     <ContentBox title='Takehome amount' exClass='sm' exStyles={{ borderTop: `8px solid ${theme.green}` }}>
       <br />
       <Form
-        defaultFormData={{ initialAmount: p.amount, initialRec: 'w' }}
+        defaultFormData={{ initialAmount: p.amount, rec: 'w' }}
         render={(updateField, formData) => (
           <div className='initial-form'>
             <>
@@ -46,14 +46,14 @@ const IncomeForm = () => {
                 onChange={e => updateField(e)}
               />
               {errors && errors.initialAmount && <FieldError error={errors.initialAmount} />}
-              <label htmlFor='initialRec'>Recurrence</label>
+              <label htmlFor='rec'>Recurrence</label>
               <DropDown
                 options={recurrence}
                 styles='width: 89%; margin: 20px auto'
-                isSet={formData.initialRec ? formData.initialRec : ''}
+                isSet={formData.rec ? formData.rec : ''}
                 callBack={val => {
                   const e = {}
-                  e.target = { value: val, name: 'initialRec' }
+                  e.target = { value: val, name: 'rec' }
                   updateField(e)
                 }}
               />
@@ -70,7 +70,7 @@ const IncomeForm = () => {
                   <strong>Weekly:{' '}</strong>
                   <span>{convert(
                     formData.initialAmount,
-                    formData.initialRec,
+                    formData.rec,
                     'w',
                     'money'
                   )}
@@ -80,7 +80,7 @@ const IncomeForm = () => {
                   <strong>Bi-Weekly:{' '}</strong>
                   <span>{convert(
                     formData.initialAmount,
-                    formData.initialRec,
+                    formData.rec,
                     'bw',
                     'money'
                   )}
@@ -90,7 +90,7 @@ const IncomeForm = () => {
                   <strong>Monthly:{' '}</strong>
                   <span>{convert(
                     formData.initialAmount,
-                    formData.initialRec,
+                    formData.rec,
                     'm',
                     'money'
                   )}
@@ -100,7 +100,7 @@ const IncomeForm = () => {
                   <strong>Yearly:{' '}</strong>
                   <span>{convert(
                     formData.initialAmount,
-                    formData.initialRec,
+                    formData.rec,
                     'y',
                     'money'
                   )}

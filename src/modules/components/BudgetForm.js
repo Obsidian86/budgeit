@@ -11,7 +11,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
       { 
         newCategory: 'off',
         date: parsedCurrentDate(new Date()),
-        end: stepDate(parsedCurrentDate(new Date()).split("-"), "yearly", 10).join('-')
+        end: stepDate(parsedCurrentDate(new Date()).split("-"), "yearly", 10).join('-'), rec: 'm'
       }
     }
     reDefault
@@ -42,11 +42,10 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
  
           <IP type='text' alias='item' label="Budget Item" onChange={e => updateField(e)} data={formData} errors={errors} />
           <IP type='number' alias='amount' label="Amount" onChange={e => updateField(e)} data={formData} errors={errors} />
- 
 
           <IP type='drop' options={recurrence} label='Recurrence'
-            data={formData} styles='width: 91%; margin: 20px auto' alias='initialRec' 
-            onChange={val => updateField({ target:{ value: val, name: 'initialRec' } })} /> 
+            data={formData} styles='width: 91%; margin: 20px auto' alias='rec' 
+            onChange={val => updateField({ target:{ value: val, name: 'rec' } })} /> 
           
           <IP type='date' alias='date' label='Start date' errors={errors} data={formData}  
             onChange = {date => updateField({ target: { value: parsedCurrentDate(date), name: 'date' }})} />

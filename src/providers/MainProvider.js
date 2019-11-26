@@ -17,7 +17,7 @@ const incomeSources = [
     amount: '4000',
     date: '7-26-2019',
     end: '11-1-2025',
-    rec: 'biWeekly'
+    rec: 'bw'
   },
   {
     item: 'test item',
@@ -61,7 +61,7 @@ class MainProvider extends React.Component {
     this.setState(newState, () => mem.save(this.state))
 
   updateAmount = amount =>
-    this.saveState({ amount: convert(amount.initialAmount, amount.initialRec, 'w') })
+    this.saveState({ amount: convert(amount.initialAmount, amount.rec, 'w') })
 
   updateViewBy = v =>
     this.saveState({ viewBy: v });

@@ -122,7 +122,7 @@ const YourBudget = ({ step }) => {
                       key={index + "-" + pb.name}
                     >
                       <div>{pb.item}</div>
-                      <div>{convert(pb.amount, "m", p.viewBy, "money")}</div>
+                      <div>{convert(pb.amount, pb.rec, p.viewBy, "money")}</div>
                     </TableRow>
                   );
                 })}

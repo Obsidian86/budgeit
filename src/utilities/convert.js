@@ -14,14 +14,14 @@ export const disRec = re => {
     w: 'Per week',
     m: 'Per month',
     y: 'Per year',
-    bw: 'Bi-weekly'
+    bw: 'Bi-weekly',
+    d: 'Per day'
   }
   return convRec[re] ? convRec[re] : re
 }
 
 export const convert = (amount, rec = 'm', disRec = 'm', ...args) => {
-  const year = { m: 12, w: 52, bw: 26, y: 1 }
-
+  const year = { m: 12, w: 52, bw: 26, y: 1, d: 365 }
   amount = (amount * year[rec]) / year[disRec] 
 
   let returnVal = args.includes('money') ? money(amount) : amount

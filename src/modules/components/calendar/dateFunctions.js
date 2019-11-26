@@ -12,11 +12,11 @@ export const parsedCurrentDate = (inDate) => { // 4-11-2019 format
 export const stepDate = (newDate = [], stepAmount = '', incr = 1) => {
   // stepAmount = daily, weekly, biWeekly, monthly, yearly
   newDate = newDate.map(d => parseInt(d))
-  if (stepAmount === 'daily')    { newDate[1] = newDate[1] + incr }
-  if (stepAmount === 'weekly')   { newDate[1] = newDate[1] + (7 * incr) }
-  if (stepAmount === 'biWeekly') { newDate[1] = newDate[1] + 14 }
-  if (stepAmount === 'monthly')  { newDate[0] = newDate[0] + incr }
-  if (stepAmount === 'yearly')   { newDate[2] = newDate[2] + incr } 
+  if (stepAmount === 'd' || stepAmount === 'daily')  { newDate[1] = newDate[1] + incr }
+  if (stepAmount === 'w' || stepAmount === 'weekly')  { newDate[1] = newDate[1] + (7 * incr) }
+  if (stepAmount === 'bw' || stepAmount === 'biWeekly') { newDate[1] = newDate[1] + 14 }
+  if (stepAmount === 'm' ||stepAmount === 'monthly')  { newDate[0] = newDate[0] + incr }
+  if (stepAmount === 'y' || stepAmount === 'yearly')  { newDate[2] = newDate[2] + incr } 
   if (newDate[1] > daysInMonth(newDate[0], newDate[2])) {
     newDate[1] = newDate[1] - daysInMonth(newDate[0], newDate[2])
     newDate[0]++

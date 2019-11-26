@@ -5,7 +5,7 @@ const b = [
     amount: '1032',
     date: '1-1-2016',
     end: '5-1-2025',
-    rec: 'monthly'
+    rec: 'w'
   },
   {
     item: 'Electricity',
@@ -13,7 +13,7 @@ const b = [
     amount: '150',
     date: '1-21-2016',
     end: '5-21-2025',
-    rec: 'monthly'
+    rec: 'm'
   },
   {
     item: 'Car Insurance',
@@ -21,7 +21,7 @@ const b = [
     amount: '125',
     date: '1-16-2016',
     end: '5-16-2025',
-    rec: 'monthly'
+    rec: 'm'
   },
   {
     item: 'Phone',
@@ -29,7 +29,7 @@ const b = [
     amount: '89',
     date: '1-5-2016',
     end: '5-5-2025',
-    rec: 'monthly'
+    rec: 'm'
   },
   {
     item: 'IRA',
@@ -37,7 +37,7 @@ const b = [
     amount: '500',
     date: '1-1-2016',
     end: '1-1-2025',
-    rec: 'yearly'
+    rec: 'y'
   },
   {
     item: 'HSA',
@@ -45,23 +45,23 @@ const b = [
     amount: '291',
     date: '11-1-2016',
     end: '5-25-2025',
-    rec: 'yearly'
+    rec: 'y'
   },
-  // {
-  //   item: 'Retirement',
-  //   category: 'savings',
-  //   amount: '867',
-  //   date: '11-15-2019',
-  //   end: '5-15-2025',
-  //   rec: 'biWeekly'
-  // },
+  {
+    item: 'Retirement',
+    category: 'savings',
+    amount: '867',
+    date: '11-15-2019',
+    end: '5-15-2025',
+    rec: 'biWeekly'
+  },
   {
     item: 'Clothes',
     category: 'clothes',
     amount: '100',
     date: '1-31-2016',
     end: '5-31-2025',
-    rec: 'monthly'
+    rec: 'm'
   },
   {
     item: 'Car Note',
@@ -69,7 +69,7 @@ const b = [
     amount: '430',
     date: '1-16-2016',
     end: '5-16-2025',
-    rec: 'monthly'
+    rec: 'm'
   },
   {
     item: 'Site 5',
@@ -77,7 +77,7 @@ const b = [
     amount: '24',
     date: '1-6-2016',
     end: '5-6-2025',
-    rec: 'monthly'
+    rec: 'm'
   },
   {
     item: 'Food',
@@ -85,7 +85,7 @@ const b = [
     amount: '325',
     date: '1-31-2016',
     end: '5-31-2025',
-    rec: 'monthly'
+    rec: 'm'
   },
   {
     item: 'Gas',
@@ -93,7 +93,7 @@ const b = [
     amount: '200',
     date: '1-31-2016',
     end: '5-31-2025',
-    rec: 'monthly'
+    rec: 'm'
   },
   {
     item: 'Entertainment',
@@ -101,7 +101,7 @@ const b = [
     amount: '100',
     date: '1-31-2016',
     end: '5-31-2025',
-    rec: 'monthly'
+    rec: 'm'
   },
   {
     item: 'water',
@@ -109,7 +109,7 @@ const b = [
     amount: '35',
     date: '1-1-2016',
     end: '5-1-2025',
-    rec: 'monthly'
+    rec: 'm'
   }
 ]
 

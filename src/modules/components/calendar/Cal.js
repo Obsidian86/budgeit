@@ -9,44 +9,24 @@ class Cal extends React.Component {
     this.state = {
       rangeDate: {start: "", end: ""},
       eventInfo: {},
-      currentItemCount: 0,
       dateInfo: {
-        m: this.props.targetMonth || DF.tMonth(),
-        y: this.props.targetYear || DF.tYear()
+        m: null,
+        y: null
       }
     }
   }
 
-  shouldComponentUpdate = (nextProps, nextState) => { 
-    const {onRangeChange, rangeDate} = this.props
-    if(onRangeChange && (rangeDate.end !== this.state.rangeDate.end || rangeDate.start !== this.state.rangeDate.start)){
-      this.setState({rangeDate: {start: rangeDate.start, end: rangeDate.end}}, () => {
-        this.handleClick(onRangeChange, {}, rangeDate.end, rangeDate.start)})
-    }
-    return !_.isEqual(nextProps, this.props) || !_.isEqual(nextState, this.state)
-  }
+  // shouldComponentUpdate = (nextProps, nextState) => !_.isEqual(nextProps, this.props) || !_.isEqual(nextState, this.state) 
 
-  componentDidMount = () => this.processItems()
   updateDateInfo = dateInfo => this.setState({dateInfo})
   updateLoaded = loaded => this.setState({loaded})
 
   handleClick = (callBack, data, end, date) => CF.handleClick(callBack, data, end, date, this.props, this.state)
   changeMonth = dir => CF.changeMonth(dir, this.updateDateInfo, this.handleClick, this.props, this.state)
   renderCalender = () => CF.renderCalendar(this.handleClick, this.props, this.state)
+  processItems = (items) => CF.processItems(items) 
 
-  processItems = () => {
-    const {items, onLoad, loaded, onRangeChange, rangeDate} = this.props
-    const eventInfo = CF.processItems(items)
-    this.setState({ eventInfo }, () => {
-      onLoad && !loaded && this.handleClick(onLoad, {old: this.state.dateInfo})
-      if(!loaded && onRangeChange){
-        this.handleClick(onRangeChange, {}, rangeDate.end, rangeDate.start)
-      }
-    })
-  }
-
-
-  render(){
+  render(){ console.log('CAL RENDER')
     const { dateInfo } = this.state
     const { clickThisDate } = this.props
     const { handleClick, changeMonth, updateDateInfo } = this 
@@ -71,11 +51,34 @@ class Cal extends React.Component {
             <button onClick={() => changeMonth('next')}>Next Month</button>
           </div>
         </div>
-        <div className='allDays'> {this.renderCalender()} </div>
+        <div className='allDays'> { this.renderCalender() } </div>
       </div>
     )
   }
 
+  componentDidMount = () => {
+    const {onRangeChange, rangeDate, items, loaded, onLoad} = this.props
+    const ST = this.state
+    const newState = {} 
+
+    const targetMonth = this.props.targetMonth || DF.tMonth()
+    const targetYear = this.props.targetYear || DF.tYear()
+
+    const dateChanged = (targetYear !== ST.dateInfo.y, targetMonth !== ST.dateInfo.m)
+    const rangeChanged = (rangeDate.end !== ST.rangeDate.end || rangeDate.start !== ST.rangeDate.start)
+    if(onRangeChange && rangeChanged) newState.rangeDate = {start: rangeDate.start, end: rangeDate.end}
+    
+    const itemsNew = this.processItems(items) 
+
+    if(!_.isEqual(itemsNew, ST.eventInfo)) newState.eventInfo = itemsNew 
+    if(dateChanged) newState.dateInfo = { m: targetMonth, y: targetYear }
+
+    Object.keys(newState).length > 0 && this.setState(newState, () => {
+      rangeChanged && onRangeChange && this.handleClick(onRangeChange, {}, rangeDate.end, rangeDate.start)
+      !loaded && onLoad && this.handleClick(onLoad, {old: this.state.dateInfo})
+    })
+    
+  }
 }
 
 export default Cal
