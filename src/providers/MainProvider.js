@@ -14,7 +14,7 @@ const incomeSources = [
   {
     item: 'Pay',
     category: 'Income',
-    amount: '2000',
+    amount: '4000',
     date: '7-26-2019',
     end: '11-1-2025',
     rec: 'biWeekly'

@@ -1,23 +1,8 @@
 import React from 'react'
 import Form from '../Form'
-import DropDown from '../interface/DropDown'
 import { recurrence } from '../../utilities/constants'
-import FieldError from '../interface/FieldError'
-import DatePicker from 'react-date-picker';
 import { parsedCurrentDate, stepDate } from '../components/calendar/dateFunctions'
-
-const IP = ({type='text', alias, onChange, data, errors, label }) => {
-  return(<>
-      {label && <label>{label}</label>}
-      <input
-        type={type}
-        name={alias}
-        onChange={e => onChange(e)}
-        value={data && data[alias] ? data[alias] : ''}
-      />
-      {errors && errors[alias] && <FieldError error={errors[alias]} />}
-    </>)
-}
+import { IP } from '../../utilities/formUtilities'
 
 const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors }) =>
   <Form
@@ -33,15 +18,13 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
     render={(updateField, formData) => {
       return (
         <>
-          <label>Category </label>
+          <label>Category</label>
           {formData.newCategory === 'on' ? 
             <IP type='text' alias='category' onChange={e => updateField(e)} data={formData} errors={errors} /> 
-            : <DropDown
-              options={catOptions}
-              styles='width: 89%; margin: 20px auto'
-              isSet={formData.category ? formData.category : ''}
-              callBack={val => updateField({ target:{ value: val, name: 'category' } })}
-            />}
+            : <IP type='drop' options={catOptions} 
+            data={formData} styles='width: 89%; margin: 20px auto' alias='category' 
+            onChange={val => updateField({ target:{ value: val, name: 'category' } })} /> }
+
           <label className='cu_checkBox'>
             <input
               type='checkbox'
@@ -59,32 +42,17 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
  
           <IP type='text' alias='item' label="Budget Item" onChange={e => updateField(e)} data={formData} errors={errors} />
           <IP type='number' alias='amount' label="Amount" onChange={e => updateField(e)} data={formData} errors={errors} />
+ 
 
-          <label>Recurrence</label>
-          <DropDown
-            options={recurrence}
-            styles='width: 91%; margin: 20px auto'
-            isSet='m'
-            callBack={val => updateField({target: { value: val, name: 'initialRec' }} )}
-          />
+          <IP type='drop' options={recurrence} label='Recurrence'
+            data={formData} styles='width: 91%; margin: 20px auto' alias='initialRec' 
+            onChange={val => updateField({ target:{ value: val, name: 'initialRec' } })} /> 
           
-            <label>Start date {formData && formData.date}</label>
-          {/* <span>
-            <DatePicker
-              value = {new Date(formData.date)}
-              onChange = {date => updateField({ target: { value: parsedCurrentDate(date), name: 'date' }})}
-            />
-          </span> */}
-          
-          <label>End date {formData && formData.end}</label>
-          {/* <span>
-            <DatePicker
-              value = { new Date(formData.end) }
-              onChange = {date => updateField({ target: { value: parsedCurrentDate(date), name: 'end' }})}
-            />
-          </span> */}
-          {errors && errors.end && <FieldError error={errors.end} />}
+          <IP type='date' alias='date' label='Start date' errors={errors} data={formData}  
+            onChange = {date => updateField({ target: { value: parsedCurrentDate(date), name: 'date' }})} />
 
+          <IP type='date' alias='end' label='End date' errors={errors} data={formData} 
+            onChange={date => updateField({ target: { value: parsedCurrentDate(date), name: 'end' }})} /> 
 
           <div className='grouping right mt-40'>
             <button
