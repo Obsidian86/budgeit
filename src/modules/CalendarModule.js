@@ -15,7 +15,7 @@ const CalendarModule = () => {
   const [calLoaded, updateCalLoaded] = useState(false)
 
   let trackBalance = 0
-  p.accounts.map(a => trackBalance = trackBalance + parseFloat(a.amount))
+  p.accounts.map(a => trackBalance = trackBalance + parseFloat(a.amount)) 
 
   const s = { // common styles
     h:  { margin: '0', padding: '0', marginTop: '20px' }, // head
@@ -54,7 +54,7 @@ const CalendarModule = () => {
           />
         </div>
         <Calendar
-          items={[...CMF.convertToArray(p.budget), ...p.incomeSources]}
+          items={[...CMF.convertToArray(p.budget), ...CMF.convertToArray(p.incomeSources)]}
           targetMonth={selectedDay && selectedDay.m ? selectedDay.m : null}
           targetYear={selectedDay && selectedDay.y ? selectedDay.y : null}
           className='lg'

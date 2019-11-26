@@ -17,8 +17,11 @@ const incomeSources = [
     amount: '2000',
     date: '7-26-2019',
     end: '11-1-2025',
-    rec: 'biWeekly',
-    color: 'green'
+    rec: 'biWeekly'
+  },
+  {
+    item: 'test item',
+    date: '11-30-2019'
   }
 ]
 

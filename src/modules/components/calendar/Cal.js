@@ -10,6 +10,7 @@ class Cal extends React.Component {
     this.state = {
       rangeDate: {start: "", end: ""},
       eventInfo: {},
+      currentItemCount: 0,
       dateInfo: {
         m: this.props.targetMonth || DF.tMonth(),
         y: this.props.targetYear || DF.tYear()
@@ -40,12 +41,11 @@ class Cal extends React.Component {
       // get current day
       const currDate = new Date()
       let safety = 0
-      let keepGoing = true
 
       let testDate = startDate  || `${currDate.getMonth() + 1}-${currDate.getDate()}-${currDate.getFullYear()}`
       endDate = endDate || `${dateInfo.m}-${DF.daysInMonth(dateInfo.m, dateInfo.y)}-${dateInfo.y}`
       if(new Date(endDate) < new Date(startDate)) return callBack(data)
-      while (safety < 15000 && keepGoing) {
+      while (safety < 6000) {
         const splDate = testDate.split('-')
         if (eventInfo[splDate[2]]) {
           let t = eventInfo[splDate[2]]
@@ -58,14 +58,14 @@ class Cal extends React.Component {
         safety = safety + 1
         const stDate = DF.stepDate(splDate, 'daily')
         testDate = stDate.join('-')
-        if (testDate === endDate) keepGoing = false
+        if (testDate === endDate) safety = 5999
       }
     }
     callBack(data) 
   }
 
   processItems = () => {
-    const {items} = this.props
+    const {items, onLoad, loaded, onRangeChange, rangeDate} = this.props
     const processedItems = {}
     items.forEach(it => {
       const prDate = new Date(it.date)
@@ -94,7 +94,7 @@ class Cal extends React.Component {
           calcDate = getNewDate.join('-')
           dateTarg = new Date(calcDate)
           loopProtect++
-          if (loopProtect === 1000) break
+          if (loopProtect === 9000) break
         }
       } else {
         // Single date items
@@ -111,11 +111,11 @@ class Cal extends React.Component {
       }
     })
     this.setState({ eventInfo: processedItems}, () => {
-        this.props.onLoad && !this.props.loaded && this.handleClick(this.props.onLoad, {old: this.state.dateInfo})
-        if(!this.props.loaded && this.props.onRangeChange){
-          this.handleClick(this.props.onRangeChange, {}, this.props.rangeDate.end, this.props.rangeDate.start)
-        }
-      })
+      onLoad && !loaded && this.handleClick(onLoad, {old: this.state.dateInfo})
+      if(!loaded && onRangeChange){
+        this.handleClick(onRangeChange, {}, rangeDate.end, rangeDate.start)
+      }
+    })
   }
 
   changeMonth = dir => {
@@ -152,11 +152,7 @@ class Cal extends React.Component {
     const toDate = new Date()
     const td = toDate.getMonth() + 1 + '-' + toDate.getDate() + '-' + toDate.getFullYear() 
 
-    const weekDays = DF.Days.map(d => (
-      <span key={d} className='weekDay'>
-        <p>{d}</p>
-      </span>
-    ))
+    const weekDays = DF.Days.map(d => (<span key={d} className='weekDay'> <p>{d}</p> </span>))
     let track = false
     let dayTrack = 1
     const maxDays = [...filledArray(42)]

@@ -10,6 +10,7 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import BudgetForm from './components/BudgetForm'
 import suggested from '../utilities/suggested'
 import ContentBox from './interface/ContentBox'
+import { validForm } from '../utilities/formUtilities'
 
 const YourBudget = ({ step }) => {
   const p = useContext(MainContext);
@@ -25,27 +26,19 @@ const YourBudget = ({ step }) => {
     (convert(p.total, "m", p.viewBy) / convert(p.amount, "w", p.viewBy)) * 100;
 
   const validateData = (bi) => {
-    let errs = {}
-    if(bi.startDate && bi.endDate && new Date(bi.startDate) > new Date(bi.endDate)){
-      errs['endDate'] = 'End date can not come before start date'
-    }
     const fields = [
       { name: 'amount', req: true, type: 'number' },
       { name: 'item', req: true, type: 'text' },
       { name: 'startDate', req: true, type: 'text' },
-      { name: 'EndDate', req: true, type: 'text' }
+      { name: 'endDate', req: true, type: 'text' }
     ]
-    fields.forEach(f => {
-      if (f.req && !bi[f.name]) errs[f.name] = 'Field is required'
-      if ( bi[f.name] && f.type === 'number' && isNaN(bi[f.name])) {
-        let test = bi[f.name].split(" ").join('')
-        if (isNaN(test)) errs[f.name] = 'Please input a number'
-      }
-    })
+    const errs = validForm(fields, bi)
+    if(bi.StartDate && bi.endDate && new Date(bi.startDate) > new Date(bi.endDate)){
+      errs['endDate'] = 'End date can not come before start date'
+    }
     updateErrors(errs)
     return (Object.keys(errs).length === 0)
   }
-
 
   const catOptions = [];
   const track = []
@@ -73,16 +66,17 @@ const YourBudget = ({ step }) => {
     });
   });
 
+  const okPercent = percentLeft > -1 && percentLeft !== Infinity 
   return (
     <ContentBox title='Your budget'>
       <div className="row mt-40">
         {" "}
         {/* chart section */}
         <div className="sm">
-          <ChartContainer
+          {okPercent && <ChartContainer
             data={data}
             styles={{ maxWidth: "400px", margin: "0 auto" }}
-          />
+          />}
           <div
             className="contentBox row"
             style={{
@@ -95,8 +89,8 @@ const YourBudget = ({ step }) => {
               <strong> {convert(p.amount, "w", p.viewBy, "money")}</strong>
             </p>
             <ProgressBar
-              percent={percentLeft}
-              title={percentLeft.toFixed(2) + "%"}
+              percent={ okPercent ? percentLeft : 0}
+              title={ okPercent ? percentLeft.toFixed(2) + "%" : 0 + '%'}
             />
             <p className="text-right w-100">
               <strong>{convert(amountLeft, p.viewBy, p.viewBy, "money")}</strong> Remianing{" "}

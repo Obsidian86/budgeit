@@ -1,7 +1,6 @@
 import React from 'react'
 
-const ProgressBar = ({ title = ' ', percent = 50 }) => {
-  const height = 32
+const ProgressBar = ({ title = ' ', percent = 50, height = 32 }) => {
   const containerStyles = {
     border: '1px solid red',
     height: `${height}px`,

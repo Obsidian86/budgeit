@@ -18,16 +18,14 @@ export const genTabContent = (procItems, trackBalance, title, s) => {
             {procItems && procItems.map((ci, i) => {
               const iDate = ci.itemDate.split('-')
               let showDate = false
-              let withdrawl = true
               const keepBalance = trackBalance
               if (iDate[2] !== yearTrack || iDate[0] !== monthTrack) {
                 showDate = true
                 yearTrack = iDate[2]
                 monthTrack = iDate[0]
               }
-              if(ci.category.toLowerCase() === 'income'){
+              if(ci.category && ci.amount && ci.category.toLowerCase() === 'income'){
                 trackBalance = trackBalance + parseFloat(ci.amount)
-                withdrawl = false
               } else{
                 if(ci.amount) trackBalance = trackBalance - parseFloat(ci.amount)
               }
@@ -38,10 +36,10 @@ export const genTabContent = (procItems, trackBalance, title, s) => {
                       <span  style={s.dt}>{Months[iDate[0] - 1]} {iDate[2]}</span>
                       <span style={s.mn}>{money(keepBalance)}</span>
                     </li>}
-                  <li style={{color: withdrawl ? 'red' : 'green', fontWeight: 'bold'}}>
+                  <li style={{color: ci.color ? ci.color : 'gray', fontWeight: 'bold'}}>
                     <span style={{...s.ri, textAlign: 'left'}}>{ci.item}</span>
                     <span style={s.ri}>{ci.itemDate}</span>
-                    <span style={s.ri}>{money(ci.amount)}</span>
+                    <span style={s.ri}>{ci.amount ? money(ci.amount) : ' '}</span>
                   </li>
                 </Fr>
               )
@@ -56,6 +54,23 @@ export const genTabContent = (procItems, trackBalance, title, s) => {
   // turn budget into readable calendar readable array
   export const convertToArray = (categorized) => {
     let bArray = []
-    Object.keys(categorized).map(it => bArray = [...bArray, ...categorized[it].items])
+    if(Array.isArray(categorized)){
+      bArray = [...categorized]
+    }else{
+      Object.keys(categorized).map(it => bArray = [...bArray, ...categorized[it].items])
+    }
+    for(const x in bArray){
+      let iter = bArray[x]
+      if(!iter.color){
+        let isGreen = iter.category && iter.category.toLowerCase() === 'income'
+        if(isGreen){
+          iter.color = 'green';
+        }else if(!isGreen && iter.amount){
+          iter.color = 'red'
+        }else{
+          iter.color = 'gray'
+        }
+      }
+    }
     return bArray
   }

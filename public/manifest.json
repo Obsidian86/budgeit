@@ -1,0 +1,9 @@
+{
+    "short_name": "Budge-it",
+    "name": "Budge-it",
+    "start_url": "/",
+    "background_color": "#fff",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "green"
+  }

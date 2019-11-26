@@ -11,7 +11,7 @@ const EmergencyFunds = () => {
   let livingExpenses = p.total
   const excluded = {}
 
-  Object.keys(p.budget).forEach(b => {
+  Object.keys(p.budget).forEach(b => { // If savings account, exclude from calculation
     if (b && (b.toLowerCase().includes('saving') || b.toLowerCase().includes('save'))) {
       excluded[b] = p.budget[b]
       livingExpenses = livingExpenses - parseFloat(p.budget[b].total)
