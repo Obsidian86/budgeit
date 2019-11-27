@@ -16,17 +16,15 @@ class Cal extends React.Component {
     }
   }
 
-  // shouldComponentUpdate = (nextProps, nextState) => !_.isEqual(nextProps, this.props) || !_.isEqual(nextState, this.state) 
-
   updateDateInfo = dateInfo => this.setState({dateInfo})
   updateLoaded = loaded => this.setState({loaded})
 
   handleClick = (callBack, data, end, date) => CF.handleClick(callBack, data, end, date, this.props, this.state)
   changeMonth = dir => CF.changeMonth(dir, this.updateDateInfo, this.handleClick, this.props, this.state)
   renderCalender = () => CF.renderCalendar(this.handleClick, this.props, this.state)
-  processItems = (items) => CF.processItems(items) 
+  processItems = (items, startProc, endProc) => CF.processItems(items, startProc, endProc) 
 
-  render(){ console.log('CAL RENDER')
+  render(){
     const { dateInfo } = this.state
     const { clickThisDate } = this.props
     const { handleClick, changeMonth, updateDateInfo } = this 
@@ -67,14 +65,22 @@ class Cal extends React.Component {
     const dateChanged = (targetYear !== ST.dateInfo.y, targetMonth !== ST.dateInfo.m)
     const rangeChanged = (rangeDate.end !== ST.rangeDate.end || rangeDate.start !== ST.rangeDate.start)
     if(onRangeChange && rangeChanged) newState.rangeDate = {start: rangeDate.start, end: rangeDate.end}
-    
-    const itemsNew = this.processItems(items) 
 
+    const procChange = false
+    let startProc = 2015
+    let endProc = 2022
+
+    // TODO
+    //collect all dates
+    //compare to state dates
+
+    const itemsNew = this.processItems(items, startProc, endProc) 
     if(!_.isEqual(itemsNew, ST.eventInfo)) newState.eventInfo = itemsNew 
     if(dateChanged) newState.dateInfo = { m: targetMonth, y: targetYear }
+    if(procChange) newState.procRange = { startProc, endProc } 
 
     Object.keys(newState).length > 0 && this.setState(newState, () => {
-      rangeChanged && onRangeChange && this.handleClick(onRangeChange, {}, rangeDate.end, rangeDate.start)
+      rangeChanged && onRangeChange && this.handleClick(onRangeChange, {}, `12-${DF.daysInMonth(12, rangeDate.end.split('-')[2])}-${rangeDate.end.split("-")[2]}`, rangeDate.start)
       !loaded && onLoad && this.handleClick(onLoad, {old: this.state.dateInfo})
     })
     

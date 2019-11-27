@@ -63,7 +63,6 @@ const CalendarModule = () => {
           onRangeChange = {p => procUpdateYearItems(p) }
           loaded = {calLoaded}
           onLoad={p => {
-            console.log(p)
             procUpdateDate(p)
             updateCalLoaded(true)
           }}
