@@ -9,12 +9,12 @@ const processItems = (items, startProc, endProc) => {
         let loopProtect = 0
         let dateTarg = prDate
         let calcDate = it.date
-        while (dateTarg <= new Date(it.end) && loopProtect < 6000) {
+        while ((dateTarg <= new Date(it.end) || !it.end) && loopProtect < 6000) {
           const newDate = calcDate.split('-').map(d => parseInt(d))
           if(parseInt(newDate[2]) > parseInt(endProc)){
             loopProtect = 5999
             break;
-          }else if(parseInt(newDate[2]) > parseInt(startProc)){
+          }else if(parseInt(newDate[2]) >= parseInt(startProc)){
             if (!processedItems[newDate[2]]) processedItems[newDate[2]] = {}
             let targ = processedItems[newDate[2]]
             if (!targ[newDate[0]]) targ[newDate[0]] = {}
@@ -48,7 +48,6 @@ const processItems = (items, startProc, endProc) => {
         targ[prDate.getDate()].push(newItem)
       }
     })
-
     console.log(processedItems)
     return processedItems
 }

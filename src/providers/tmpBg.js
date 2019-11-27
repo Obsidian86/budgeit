@@ -4,15 +4,15 @@ const b = [
     category: 'housing',
     amount: '1032',
     date: '1-1-2016',
-    end: '5-1-2025',
-    rec: 'w'
+    end: '4-1-2020',
+    rec: 'm'
   },
   {
     item: 'Electricity',
     category: 'utilities',
     amount: '150',
     date: '1-21-2016',
-    end: '5-21-2025',
+    end: '4-1-2020',
     rec: 'm'
   },
   {
@@ -20,7 +20,6 @@ const b = [
     category: 'transportation',
     amount: '125',
     date: '1-16-2016',
-    end: '5-16-2025',
     rec: 'm'
   },
   {
@@ -28,32 +27,21 @@ const b = [
     category: 'utilities',
     amount: '89',
     date: '1-5-2016',
-    end: '5-5-2025',
     rec: 'm'
   },
   {
     item: 'IRA',
     category: 'savings',
-    amount: '500',
+    amount: '5500',
     date: '1-1-2016',
-    end: '1-1-2025',
     rec: 'y'
   },
   {
     item: 'HSA',
     category: 'savings',
-    amount: '291',
+    amount: '3500',
     date: '11-1-2016',
-    end: '5-25-2025',
     rec: 'y'
-  },
-  {
-    item: 'Retirement',
-    category: 'savings',
-    amount: '867',
-    date: '11-15-2019',
-    end: '5-15-2025',
-    rec: 'biWeekly'
   },
   {
     item: 'Clothes',
@@ -68,7 +56,7 @@ const b = [
     category: 'transportation',
     amount: '430',
     date: '1-16-2016',
-    end: '5-16-2025',
+    end: '12-16-2024',
     rec: 'm'
   },
   {
@@ -76,7 +64,6 @@ const b = [
     category: 'entertainment',
     amount: '24',
     date: '1-6-2016',
-    end: '5-6-2025',
     rec: 'm'
   },
   {
@@ -84,7 +71,6 @@ const b = [
     category: 'food',
     amount: '325',
     date: '1-31-2016',
-    end: '5-31-2025',
     rec: 'm'
   },
   {
@@ -92,7 +78,6 @@ const b = [
     category: 'transportation',
     amount: '200',
     date: '1-31-2016',
-    end: '5-31-2025',
     rec: 'm'
   },
   {
@@ -100,7 +85,6 @@ const b = [
     category: 'entertainment',
     amount: '100',
     date: '1-31-2016',
-    end: '5-31-2025',
     rec: 'm'
   },
   {
@@ -108,7 +92,7 @@ const b = [
     category: 'utilities',
     amount: '35',
     date: '1-1-2016',
-    end: '5-1-2025',
+    end: '4-1-2020',
     rec: 'm'
   }
 ]

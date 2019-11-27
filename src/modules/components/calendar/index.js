@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Cal from './Cal'
 
 const Calendar = (props) => {
+    const [calendarRange, updateCalendarRange] = useState({ start: null, end: null })
 
-  const StCal = styled.div`
+    const borderColor = props.borderColor || 'green'
+    const btnColor = props.btnColor || '#fff'
+
+    const StCal = styled.div`
         font-family: sans-serif;
         #calendar{ 
             margin: 0 auto;
@@ -80,18 +84,23 @@ const Calendar = (props) => {
                 padding: 10px;
                 justify-content: space-between; 
                 button{
-                    border: 2px solid green;
-                    background: none;
+                    border: 2px solid ${borderColor};
+                    background: ${btnColor};
                     padding: 5px 10px;
                     margin-left: 7px;
+                    margin-top: 10px;
                     border-radius: 8px;
-                    color: green;
+                    color: ${borderColor};
                     cursor: pointer;
                     &:hover{
                         border: 2px solid gray;
                         background: gray;
                         color: #fff;
                     }
+                }
+                .thisDateBtn{
+                    background-color: ${borderColor};
+                    color: ${btnColor}
                 }
                 .dayMonth{
                     font-size: 1.3rem;
@@ -102,7 +111,27 @@ const Calendar = (props) => {
             } 
         }
     `
-  return <StCal className={props.className && props.className}><Cal {...props} /></StCal>
+    const { rangeDate, targetYear, } = props
+    const allDates = [rangeDate.start, rangeDate.end, targetYear, calendarRange.start, calendarRange.end]
+    let filteredDates = []
+    for(const date in allDates){
+        const d = allDates[date]
+        let year = null
+        if(d && d.toString() && d.toString().length === 4 ) year = parseInt(d) 
+        if(d && d.toString() && d.toString().split("-").length === 3) year = parseInt(d.split("-")[2])
+        year && filteredDates.push(year)
+    }
+
+    filteredDates.sort()
+    let updateRange = filteredDates[0] !== calendarRange.start || filteredDates[filteredDates.length - 1] !== calendarRange.end
+    updateRange && updateCalendarRange({
+        start: filteredDates[0],
+        end: filteredDates[filteredDates.length - 1]
+    })
+
+    return <StCal className={props.className && props.className} >
+            <Cal {...props} loadRange = {calendarRange}/>
+        </StCal>
 }
 
 export default Calendar
