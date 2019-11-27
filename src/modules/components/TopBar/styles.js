@@ -10,7 +10,7 @@ export const styles = (p, isOpen) => {
         top: 0;
         width: 100%;
         z-index: 100;
-        height: ${isOpen ? '320px' : '60px'};
+        height: ${isOpen ? 'auto' : '60px'};
         button{
             position: absolute;
             left: 5px;
@@ -46,9 +46,25 @@ export const styles = (p, isOpen) => {
             margin-top: 10px;
             display: flex;
             justify-content: space-between;
-            a{ 
-                box-shadow: 0 0 3px green;
+            a{  
+                text-decoration: none;
+                padding: 20px; 
                 display: block; 
+                color: black;
+                font-size: 1rem;
+                width: 50%;
+                span{
+                    border-left: 1px solid black;
+                    padding-left: 8px;
+                    margin-left: 8px;
+                }
+                &:hover{
+                    background-color: #c9c9c9;
+                }
+            }
+            @media (max-width: 600px) {
+                & {display: block}
+                a{width: 100%;}
             }
         }
     `

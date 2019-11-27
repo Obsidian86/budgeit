@@ -17,3 +17,12 @@ export const genId = () => {
   n.split('').forEach(z => x = x + '' + a[z])
   return x
 }
+
+export const getInterest = (amount, rate, years) => {
+  let amounts = [amount]
+  for(let i=0; i<years; i++){
+    let a = parseFloat(((amounts[i] * rate) + amounts[i])).toFixed(2)
+    amounts.push(parseFloat(a))
+  }
+  return amounts
+}

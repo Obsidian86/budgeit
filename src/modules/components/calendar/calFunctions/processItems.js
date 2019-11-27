@@ -48,7 +48,6 @@ const processItems = (items, startProc, endProc) => {
         targ[prDate.getDate()].push(newItem)
       }
     })
-    console.log(processedItems)
     return processedItems
 }
 

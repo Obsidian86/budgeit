@@ -49,7 +49,6 @@ const YourBudget = ({ step }) => {
       track.push(bI)
     }
   })
-
   data.push({
     title: "Unallocated",
     value: isNaN(percentLeft) ? 100 : (100 - percentLeft),
@@ -65,7 +64,6 @@ const YourBudget = ({ step }) => {
       color: p.budget[bd].color
     });
   });
-
   const okPercent = percentLeft > -1 && percentLeft !== Infinity 
   return (
     <ContentBox title='Your budget'>
