@@ -80,6 +80,8 @@ class Cal extends React.Component {
     ]
     //compare to state dates
 
+    console.log(allDates)
+
     const itemsNew = this.processItems(items, startProc, endProc) 
     if(!_.isEqual(itemsNew, ST.eventInfo)) newState.eventInfo = itemsNew 
     if(dateChanged) newState.dateInfo = { m: targetMonth, y: targetYear }
