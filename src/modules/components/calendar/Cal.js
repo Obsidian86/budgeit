@@ -9,6 +9,7 @@ class Cal extends React.Component {
     this.state = {
       rangeDate: {start: "", end: ""},
       eventInfo: {},
+      procRange: {start: null, end: null},
       dateInfo: {
         m: null,
         y: null
@@ -72,12 +73,17 @@ class Cal extends React.Component {
 
     // TODO
     //collect all dates
+    const allDates = [
+      rangeDate.start, rangeDate.end,
+      ST.rangeDate.start, ST.rangeDate.end,
+      ST.procRange.start, ST.procRange.end
+    ]
     //compare to state dates
 
     const itemsNew = this.processItems(items, startProc, endProc) 
     if(!_.isEqual(itemsNew, ST.eventInfo)) newState.eventInfo = itemsNew 
     if(dateChanged) newState.dateInfo = { m: targetMonth, y: targetYear }
-    if(procChange) newState.procRange = { startProc, endProc } 
+    if(procChange) newState.procRange = { start: startProc, end: endProc } 
 
     Object.keys(newState).length > 0 && this.setState(newState, () => {
       rangeChanged && onRangeChange && this.handleClick(onRangeChange, {}, `12-${DF.daysInMonth(12, rangeDate.end.split('-')[2])}-${rangeDate.end.split("-")[2]}`, rangeDate.start)
