@@ -9,35 +9,24 @@ import Dialog from '../modules/interface/Dialog'
 
 import { currAccs } from './currAcc'
 import tmpBg from './tmpBg'
+import sources from './sources'
 
-const incomeSources = [
-  {
-    item: 'Pay',
-    category: 'Income',
-    amount: '4000',
-    date: '7-26-2019',
-    end: '11-1-2025',
-    rec: 'bw'
-  },
-  {
-    item: 'test item',
-    date: '11-30-2019'
-  }
-]
+const autoFill = true
+const purgeMem = false
 
 class MainProvider extends React.Component {
   constructor () {
     super()
     this.defaultVals = {
-      amount: null, // income amount set by user
+      amount: autoFill ? 2000 : null, // income amount set by user
       viewBy: 'm',
       theme: theme,
       budget: {},
       total: 1, // total amount budgetted
       dialog: { open: false },
-      accounts: currAccs,
+      accounts: autoFill ? currAccs : [],
       savingsTable: [{ 0: { stAmount: 0, interest: 0, deposit: 0 } }],
-      incomeSources
+      incomeSources: autoFill ? sources : []
     }
     this.methods = {
       updateAmount: this.updateAmount,
@@ -56,7 +45,9 @@ class MainProvider extends React.Component {
 
   // initialize data
   componentDidMount = () =>
-    this.setState(mem.load(), () => this.setState(bdg.parsePersonalBudget(tmpBg, colors)))
+    this.setState(purgeMem ? this.defaultVals : mem.load(), 
+    () => autoFill && this.setState(bdg.parsePersonalBudget(tmpBg, colors))
+  )
   saveState = newState =>
     this.setState(newState, () => mem.save(this.state))
 

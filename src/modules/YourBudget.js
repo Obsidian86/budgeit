@@ -19,18 +19,14 @@ const YourBudget = ({ step }) => {
   const [errors, updateErrors] = useState(null)
   const data = [];
 
-  const amountLeft =
-    convert(p.amount, "w", p.viewBy) - convert(p.total, "m", p.viewBy);
-
-  const percentLeft =
-    (convert(p.total, "m", p.viewBy) / convert(p.amount, "w", p.viewBy)) * 100;
+  const amountLeft = convert(p.amount, "w", p.viewBy) - convert(p.total, "m", p.viewBy);
+  const percentLeft = (convert(p.total, "m", p.viewBy) / convert(p.amount, "w", p.viewBy)) * 100;
 
   const validateData = (bi) => {
     const fields = [
       { name: 'amount', req: true, type: 'number' },
       { name: 'item', req: true, type: 'text' },
-      { name: 'date', req: true, type: 'text' },
-      { name: 'end', req: true, type: 'text' }
+      { name: 'date', req: true, type: 'text' }
     ]
     const errs = validForm(fields, bi)
     if(bi.date && bi.end && new Date(bi.date) > new Date(bi.end)){
@@ -146,11 +142,12 @@ const YourBudget = ({ step }) => {
               setDialog={p.setDialog}
               errors={errors}
               onSubmit={bi => {
+                if(bi.noEnd && bi.noEnd ==='on'){ delete bi.end }
                 if (!validateData(bi)) return null
                 !editItem && p.addBudgetItem(bi)
                 editItem && p.updateBudgetItem(editItem, bi)
                 updateEditItem(null)
-                toggleForm(false)
+                // toggleForm(false)
               }}
             />} 
         </div>

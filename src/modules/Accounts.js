@@ -8,7 +8,6 @@ import { getInterest } from '../utilities/functions'
 
 const Accounts = () => {
     const p = useContext(MainContext)
-
     let valOverTime = []
 
     let total = 0
@@ -19,9 +18,8 @@ const Accounts = () => {
             vals: getInterest(a.amount, a.interest, 10)
         }
         valOverTime.push(vot)
-        return (<li key={i}><span>{a.name}</span><span>{money(a.amount)}</span></li>)
+        return (<li key={i}><span>{a.name}</span><span>{a.interest}</span><span>{money(a.amount)}</span></li>)
     })
-console.log(valOverTime)
     return (
         <ContentBox title='Accounts' exClass='md' >
             <SoftList split className='mt-40'>

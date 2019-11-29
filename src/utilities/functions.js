@@ -18,11 +18,14 @@ export const genId = () => {
   return x
 }
 
+
 export const getInterest = (amount, rate, years) => {
-  let amounts = [amount]
+  let amounts = [{amount: amount, earned: parseFloat((amount * rate))}]
+  if(parseFloat(rate) === 0) return amounts
   for(let i=0; i<years; i++){
-    let a = parseFloat(((amounts[i] * rate) + amounts[i])).toFixed(2)
-    amounts.push(parseFloat(a))
+    const earned = parseFloat(((amounts[i].amount + amounts[i].earned) * rate)) 
+    const a = parseFloat((amounts[i].earned + amounts[i].amount)) 
+    amounts.push({amount: parseFloat(a.toFixed(2)), earned: parseFloat(earned.toFixed(2))})
   }
   return amounts
 }

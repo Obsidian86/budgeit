@@ -36,7 +36,10 @@ const CalendarModule = () => {
   }
   
   const procUpdateYearItems = (data) => {
-    if(!_.isEqual(data.items, yearlyItems)) updateYearlyItems(data.items)
+    if(!_.isEqual(data.items, yearlyItems)) {
+      updateCalLoaded(false)
+      updateYearlyItems(data.items)
+    }
   }  
 
   const selYear = selectedDay && selectedDay.y ? selectedDay.y : tYear()
@@ -60,7 +63,7 @@ const CalendarModule = () => {
           className='lg'
           returnItems
           rangeDate = {rangeDate}
-          onRangeChange = {p => procUpdateYearItems(p) }
+          onRangeChange = {p => procUpdateYearItems(p)}
           loaded = {calLoaded}
           onLoad={p => {
             procUpdateDate(p)

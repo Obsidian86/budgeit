@@ -4,10 +4,14 @@ import { recurrence } from '../../utilities/constants'
 import { parsedCurrentDate, stepDate } from '../components/calendar/dateFunctions'
 import { IP } from '../../utilities/formUtilities'
 
-const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors }) =>
-  <Form
+const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors }) => {
+  return (<Form
     defaultFormData={
-      editItem ? { ...editItem, newCategory: 'off' } : 
+      editItem ? { 
+        ...editItem, 
+        newCategory: 'off', 
+        noEnd: editItem.end ? "off" : "on", 
+        end: editItem.end ? editItem.end : stepDate(parsedCurrentDate(new Date()).split("-"), "yearly", 10).join('-'), rec: 'm'} : 
       { 
         newCategory: 'off',
         date: parsedCurrentDate(new Date()),
@@ -27,15 +31,12 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
 
           <label className='cu_checkBox'>
             <input
-              type='checkbox'
-              name='newCategory'
+              type='checkbox' name='newCategory'
               onChange={() => updateField({
-                target: {
-                  name: 'newCategory',
-                  value: (formData.newCategory === 'off') ? 'on' : 'off'
+                target: { 
+                  name: 'newCategory', 
+                  value: (!formData.newCategory || formData.newCategory === 'off') ? 'on' : 'off' } }) 
                 }
-              })
-              }
             />{' '}
             <span />New Category
           </label>
@@ -49,9 +50,19 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
           
           <IP type='date' alias='date' label='Start date' errors={errors} data={formData}  
             onChange = {date => updateField({ target: { value: parsedCurrentDate(date), name: 'date' }})} />
+          
+          {(!formData.noEnd || !(formData.noEnd && formData.noEnd === 'on')) && <IP type='date' alias='end' label='End date' errors={errors} data={formData} 
+            onChange={date => updateField({ target: { value: parsedCurrentDate(date), name: 'end' }})} /> }
 
-          <IP type='date' alias='end' label='End date' errors={errors} data={formData} 
-            onChange={date => updateField({ target: { value: parsedCurrentDate(date), name: 'end' }})} /> 
+          <label className='cu_checkBox'>
+            <input
+              type='checkbox' name='noEnd'
+              checked={!!formData.noEnd && formData.noEnd === "on"}
+              onChange={() => updateField({ 
+                target: { name: 'noEnd', 
+                value: (!formData.noEnd || formData.noEnd === 'off') ? 'on' : 'off'} }) }
+            />{' '} <span />No end
+          </label>
 
           <div className='grouping right mt-40'>
             <button
@@ -77,6 +88,6 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
         </>
       )
     }}
-  />
+  />)}
 
 export default BudgetForm
