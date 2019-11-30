@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import IncomeForm from './modules/IncomeForm'
 import TopBar from './modules/components/TopBar/TopBar'
 import Recommended from './modules/Recommended'
@@ -12,7 +12,12 @@ import Accounts from './modules/Accounts'
 
 function App () {
   const p = useContext(MainContext)
-  const [view, updateView] = useState('default')
+
+  const updateView = (view) => {
+    const targ = document.getElementById(view)
+    const top = (!targ || view === 'default') ? 0 : targ.offsetTop - 90
+    window.scrollTo(0, top)
+  }
 
   let step = 0
   if (p.amount !== null) step++
@@ -20,7 +25,7 @@ function App () {
 
   return (
     <div className='App container'>
-      <TopBar updateView={updateView} view={view} />
+      <TopBar updateView={updateView} />
       <div className='row'>
         <IncomeForm />
         {step > 0 && <Recommended />}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import ModuleTitle from './ModuleTitle'
 
-const ContentBox = ({ children, title, exClass = '', exStyles = {} }) => {
+const ContentBox = ({ children, title, exClass = '', itemId, exStyles = {} }) => {
   const [isOpen, updateIsOpen] = useState(true)
   const buttonStyles = {
     fontSize: '3rem',
@@ -17,7 +17,7 @@ const ContentBox = ({ children, title, exClass = '', exStyles = {} }) => {
     marginTop: isOpen ? '-5px' : '0'
   }
   return (
-    <div className={`contentBox ${exClass}`} style={exStyles}>
+    <div className={`contentBox ${exClass}`} style={exStyles} id={itemId}>
       <span
         onClick={() => updateIsOpen(!isOpen)}
         style={buttonStyles}

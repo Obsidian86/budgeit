@@ -21,7 +21,7 @@ const Accounts = () => {
         return (<li key={i}><span>{a.name}</span><span>{a.interest}</span><span>{money(a.amount)}</span></li>)
     })
     return (
-        <ContentBox title='Accounts' exClass='md' >
+        <ContentBox title='Accounts' exClass='md' itemId='accountsModule' >
             <SoftList split className='mt-40'>
                 {accountList}
             </SoftList>

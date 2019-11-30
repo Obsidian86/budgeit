@@ -121,7 +121,7 @@ const SavingsCalc = ({ step }) => {
     )
   }
   return (
-    <ContentBox title="Savings estimator" exClass={step === 0 && 'lg'}>
+    <ContentBox title="Savings estimator" exClass={step === 0 && 'lg'} itemId='savingsModule'>
       <div className={`row`}>
         <p className='sm'>
           Estimate how much you'll have by retirement. <br /> 

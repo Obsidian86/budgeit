@@ -78,11 +78,17 @@ export const styles = (p, isOpen) => {
                 width: 75%;
                 margin-top: 10px;
                 display: flex;
+                flex-wrap: wrap;
                 justify-content: space-between;
+                align-content: flex-start;
+                @media (max-width: 750px){ 
+                    &{width: 100%;}
+                }
                 a{  
+                    height: 21px;
                     text-decoration: none;
-                    padding: 20px; 
-                    display: inline-block; 
+                    padding-bottom: 20px;
+                    padding-top: 26px;
                     color: black;
                     font-size: 1rem;
                     width: 50%;

@@ -47,7 +47,7 @@ const CalendarModule = () => {
   const rangeDate = {start: parsedCurrentDate(), end: endRangeDate}
 
   return (
-    <ContentBox title='Calendar'>
+    <ContentBox title='Calendar' itemId='calendarModule'>
       <div className='row'>
         <div className='sm mt-40'>
           <TabbedView
