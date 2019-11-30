@@ -34,6 +34,11 @@ p{ line-height: 1.6rem; }
     box-shadow: 0 0 0 2px red;
     margin-right: 22px;
   }
+  &.blue{
+    background-color: blue;
+    box-shadow: 0 0 0 2px blue;
+    margin-right: 22px;
+  }
   &:hover{
     background-color: $dark-gray;
     box-shadow: 0 0 0 2px $dark-gray;

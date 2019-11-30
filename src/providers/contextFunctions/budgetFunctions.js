@@ -1,5 +1,5 @@
-import { getObjIndex, genId } from './functions'
-import { convert } from './convert'
+import { getObjIndex, genId } from '../../utilities/functions'
+import { convert } from '../../utilities/convert'
 
 export const parsePersonalBudget = (b, colors) => {
   const bud = {}
