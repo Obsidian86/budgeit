@@ -14,7 +14,7 @@ import { validForm } from '../utilities/formUtilities'
 
 const YourBudget = ({ step }) => {
   const p = useContext(MainContext);
-  const [displayForm, toggleForm] = useState(true);
+  const [displayForm, toggleForm] = useState(false);
   const [editItem, updateEditItem] = useState(null);
   const [errors, updateErrors] = useState(null)
   const data = [];
@@ -147,7 +147,7 @@ const YourBudget = ({ step }) => {
                 !editItem && p.addBudgetItem(bi)
                 editItem && p.updateBudgetItem(editItem, bi)
                 updateEditItem(null)
-                // toggleForm(false)
+                toggleForm(false)
               }}
             />} 
         </div>

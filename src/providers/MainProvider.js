@@ -2,7 +2,7 @@ import React from 'react'
 import MainContext from './MainContext'
 import theme from '../styles/theme'
 import { colors } from '../styles/colors'
-import * as mem from '../utilities/storage'
+import * as mem from './contextFunctions/storage'
 import * as bdg from './contextFunctions/budgetFunctions'
 import * as src from './contextFunctions/sourcesFunctions'
 import Dialog from '../modules/interface/Dialog'
@@ -14,12 +14,12 @@ import sources from './sources'
 
 // TESTING
 const autoFill = false
-const purgeMem = true
 
 class MainProvider extends React.Component {
   constructor () {
     super()
     this.defaultVals = {
+      profile: null,
       amount: autoFill ? 2000 : null, // income amount set by user
       accounts: autoFill ? currAccs : [],
       viewBy: 'm',
@@ -34,6 +34,13 @@ class MainProvider extends React.Component {
       updateViewBy: this.updateViewBy,
       updateSavingsTables: this.updateSavingsTables,
       setDialog: this.setDialog,
+      // Memory
+      applyState: this.applyState,
+      deleteData: this.deleteData,
+      loadData: this.loadData,
+      loadProfiles: this.loadProfiles,
+      saveAndNew: this.saveAndNew,
+      deleteCurrent: this.deleteCurrent,
       // Budget CRUD
       addBudgetItem: this.addBudgetItem,
       deleteBudgetItem: this.deleteBudgetItem,
@@ -52,10 +59,37 @@ class MainProvider extends React.Component {
   // initialize data
   componentDidMount = () =>
     this.setState(
-      purgeMem ? this.defaultVals : mem.load(), 
+      this.loadData(), 
       () => autoFill && this.setState(bdg.parsePersonalBudget(tmpBg, colors))
     )
-  saveState = newState => this.setState(newState, () => mem.save(this.state))
+
+  // Memory / profile tasks
+  saveState = newState => this.setState(newState, this.applyState)
+
+  applyState = () => {
+    const profile = mem.save(this.state, this.state.profile)
+    if(!this.state.profile) this.setState({profile}, console.log(this.state)) 
+  }
+
+  deleteData = () => {
+    mem.deleteData()
+    this.setState(this.defaultVals)
+  }
+  deleteCurrent = (profile) => {
+    mem.deleteCurrent(profile)
+    this.setState({...this.defaultVals})
+  }
+  loadData = profile => {
+    const hasData = mem.load(profile)
+    if(hasData) this.setState(hasData)
+  }
+
+  loadProfiles = () => mem.getProfiles()
+
+  saveAndNew = () => {
+    const profile = mem.saveAndNew(this.state, this.state.profile)
+    this.setState({...this.defaultVals, profile})
+  }
 
   // Income amount / sources 
   addSource = source => this.saveState(src.processAddSource(source, this.state.incomeSources, this.state.amount))
