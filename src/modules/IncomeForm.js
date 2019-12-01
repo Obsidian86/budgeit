@@ -39,7 +39,7 @@ const IncomeForm = () => {
   return (
     <ContentBox title='Sources' exClass={hasSource ? 'mx row' : 'sm'} exStyles={{ borderTop: `8px solid ${theme.green}` }}>
       <br />
-      <div className={hasSource ? 'sm' : null}>
+      <div className={`mt-40 ${hasSource ? 'sm' : null}`}>
         <Form
           reDefault
           defaultFormData={defaultFormData}
@@ -82,9 +82,11 @@ const IncomeForm = () => {
           )}
         />
       </div>
-
       {hasSource &&
-        <div className='lg'>
+        <div className='lg mt-40'>
+          <TableRow className="headerRow" 
+            tData={['Name', 'Recurrence', 'Amount']}
+          />
           {p.incomeSources.map((s, i) =>
             <TableRow tData={[s.item, disRec(s.rec), money(s.amount)]} key={i} onClick={() => updateEdditingItem(s)} />
           )}

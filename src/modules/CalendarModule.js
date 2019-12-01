@@ -31,7 +31,7 @@ const CalendarModule = () => {
   ]
 
   const procUpdateDate = (data) => {
-     updateSelectedDay(data.new) 
+     data.new && updateSelectedDay(data.new) 
      updateCurrentItems(data.items) 
   }
   
@@ -40,8 +40,8 @@ const CalendarModule = () => {
       updateCalLoaded(false)
       updateYearlyItems(data.items)
     }
-  }  
-
+  }
+  
   const selYear = selectedDay && selectedDay.y ? selectedDay.y : tYear()
   const endRangeDate = `12-${daysInMonth(12, selYear)}-${selYear}`
   const rangeDate = {start: parsedCurrentDate(), end: endRangeDate}

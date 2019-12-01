@@ -5,13 +5,14 @@ import { colors } from '../styles/colors'
 import * as mem from './contextFunctions/storage'
 import * as bdg from './contextFunctions/budgetFunctions'
 import * as src from './contextFunctions/sourcesFunctions'
+import * as acn from './contextFunctions/accountFunctions'
 import Dialog from '../modules/interface/Dialog'
 
 // TEMP
 import { currAccs } from './currAcc'
 // import tmpBg from './tmpBg'
 // import sources from './sources'
-const temp = true
+const temp = false
 
 class MainProvider extends React.Component {
   constructor () {
@@ -46,7 +47,11 @@ class MainProvider extends React.Component {
       // Source CRUD
       addSource: this.addSource,
       deleteSource: this.deleteSource,
-      updateSource: this.updateSource
+      updateSource: this.updateSource,
+      // Accounts CRUD
+      addAccount: this.addAccount,
+      removeAccount: this.removeAccount,
+      updateAccount: this.updateAccount
     }
     this.state = {
       ...this.defaultVals,
@@ -103,6 +108,11 @@ class MainProvider extends React.Component {
   addBudgetItem = (bi) => this.saveState(bdg.processAddBudgetItem(this.state.budget, bi, colors, this.state.total))
   deleteBudgetItem = (cat, id) => this.saveState(bdg.processDeleteBudgetItem(this.state.budget, cat, id, this.state.total))
   updateBudgetItem = (oldBi, bi) => this.saveState(bdg.processUpdateBudgetItem(this.state.budget, oldBi, bi, colors, this.state.total))
+
+  // accounts CRUD
+  addAccount = (ai) => this.saveState(acn.processAddAccount(ai, this.state.accounts))
+  deleteAccount = (aId) => this.saveState(acn.processDeleteAccount(aId, this.state.accounts))
+  updateAccount = (ai) => this.saveState(acn.processUpdateAccount(ai, this.state.accounts))
 
   updateSavingsTables = (savingsTable) => this.saveState({ savingsTable: savingsTable })
 

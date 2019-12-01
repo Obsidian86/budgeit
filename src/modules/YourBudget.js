@@ -14,7 +14,7 @@ import { validForm } from '../utilities/formUtilities'
 
 const YourBudget = ({ step }) => {
   const p = useContext(MainContext);
-  const [displayForm, toggleForm] = useState(false);
+  const [displayForm, toggleForm] = useState(Object.keys(p.budget).length < 1);
   const [editItem, updateEditItem] = useState(null);
   const [errors, updateErrors] = useState(null)
   const data = [];
@@ -60,23 +60,27 @@ const YourBudget = ({ step }) => {
       color: p.budget[bd].color
     });
   });
-  const okPercent = percentLeft > -1 && percentLeft !== Infinity 
-  const showForm = (displayForm || Object.keys(p.budget).length < 1)
+  const okPercent = percentLeft > -1 && percentLeft !== Infinity
   return (
     <ContentBox title='Your budget' itemId='yourBudgetModule'>
       <div className="row mt-40">
-        {" "}
         {/* chart section */}
         <div className="sm">
           {okPercent && <ChartContainer
             data={data}
-            styles={{ maxWidth: "400px", margin: "0 auto" }}
+            styles={{ 
+              maxWidth: "400px", 
+              margin: "0 auto",
+              position: 'relative',
+              left: '-10px'
+            }}
           />}
           <div
             className="contentBox row"
             style={{
               padding: "10px",
-              marginTop: "25px"
+              marginTop: "25px",
+              width: '86%'
             }}
           >
             <p className="text-left w-100">
@@ -92,16 +96,17 @@ const YourBudget = ({ step }) => {
               {disRec(p.viewBy)}
             </p>
           </div>
-        </div>{" "}
+        </div>
         {/* End chart section */}
-        <div className="md" style={!showForm ? {width: '70%', marginTop: '45px'}: {}}>
+        <div className={displayForm ? 'md' : 'm-lg'} >
           {step < 2 ? <h2 style={{ textAlign: 'center', marginTop: '75px' }}>Add a budget item</h2> : Object.keys(p.budget).map(bud => {
             return (
               <div key={bud} style={{ marginBottom: "33px" }}>
                 <TableRow className="headerRow">
-                  <div>
-                    <Bullet color={p.budget[bud].color} size="13" /> {up(bud)}
-                  </div>
+                  <div> <Bullet color={p.budget[bud].color} size="13" /> {up(bud)} </div>
+                  <div className='h-560'>Date</div>
+                  <div className='h-560'>End date</div>
+                  <div>Recurrence</div>
                   <div>
                     <span style={{ paddingRight: '12px' }}>{percent(p.budget[bud].total, convert(p.amount, "w", "m"))} &nbsp;&nbsp; |</span>
                     {convert(p.budget[bud].total, "m", p.viewBy, "money")}
@@ -117,6 +122,9 @@ const YourBudget = ({ step }) => {
                       key={index + "-" + pb.name}
                     >
                       <div>{pb.item}</div>
+                      <div className='h-560'>{ pb.date }</div>
+                      <div className='h-560'>{ pb.end ? pb.end : 'No end' }</div>
+                      <div>{ pb.rec ? disRec(pb.rec) : 'Once'}</div>
                       <div>{convert(pb.amount, pb.rec, p.viewBy, "money")}</div>
                     </TableRow>
                   );
@@ -125,17 +133,17 @@ const YourBudget = ({ step }) => {
             );
           })}
         </div>
-        <div className="sm" style={showForm ? {} : {position: 'absolute', top: '75px', right: '40px'}}>
+        <div className={displayForm ? 'sm' : 'xs'} >
           <span className='right'>
             <button className={`btn ${displayForm && 'red'}`} onClick={() => {
               updateEditItem(null)
               toggleForm(!displayForm)
             }}>
               <FontAwesomeIcon icon={faPlusCircle} style={{ rotate: displayForm ? 'deg(35)' : 'deg(0)' }} />
-              &nbsp;&nbsp; {displayForm ? "Cancel" : "Add"} budget item
+              &nbsp;&nbsp; {displayForm ? "Hide" : "Show"} form
         </button>
           </span>
-            {showForm && <BudgetForm
+            {displayForm && <BudgetForm
               catOptions={catOptions}
               editItem={editItem}
               updateEditItem={updateEditItem}

@@ -179,13 +179,15 @@ label{
   &.sm, .sm{ width: calc(24% - 10px); }
   &.thr, .thr{ width: 32%; }
   &.md, .md, .md-f{ width: 45%; }
+  &.m-lg, .m-lg { width: 60%; }
   &.lg, .lg{ width: 70%; }
   &.max, .max{ width: 98%; }
+  &.xs, .xs { width: 16%; }
 
   @media (max-width: 1000px){ 
     width: 94%; 
     margin: 15px auto;
-    &.md, &.sm, &.lg, .sm, .thr, .md, .lg{ 
+    &.md, &.sm, &.lg, .sm, .thr, .md, .lg, .xs, .m-lg{ 
       width: 98%;  
       margin: 15px auto;
     }
@@ -198,4 +200,10 @@ label{
 p{
   &.text-left { text-align: left;}
   &.text-right { text-align: right;}
+}
+
+.h-560{
+  @media (max-width: 560px){ 
+    display: none;
+  }
 }

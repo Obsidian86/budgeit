@@ -47,6 +47,7 @@ const SavingsCalc = ({ step }) => {
       confirm: ()=>{
         let newTables = [...p.savingsTable]
         newTables.splice(index, 1)
+        if(newTables.length === 1){ newTables = []}
         p.updateSavingsTables(newTables)
       },
       reject: ()=>{ return null }
@@ -106,7 +107,7 @@ const SavingsCalc = ({ step }) => {
     })
 
     return (
-      <div className="md" style={{ marginBottom: "20px", position: 'relative' }}>
+      <div className="sm" style={{ marginBottom: "20px", position: 'relative' }}>
         <label style={labelStyles}>{index === 0 ? 'Totals' : `Table ${index}`}</label>
         {index !== 0 &&  <span className='btn narrow red' style={deleteStyles} onClick={() => deleteTable(index)}>Delete table</span> }
         <TableRow
@@ -122,12 +123,12 @@ const SavingsCalc = ({ step }) => {
   }
   return (
     <ContentBox title="Savings estimator" exClass={step === 0 && 'lg'} itemId='savingsModule'>
-      <div className={`row`}>
+      <div className={`row mt-40`}>
         <p className='sm'>
           Estimate how much you'll have by retirement. <br /> 
           The breakdown of each account will display in a new table. The totals will display in the first table. 
         </p>
-        <div className={step === 0 ? 'lg' : 'sm'}>
+        <div className={step === 0 ? 'lg' : 'md'}>
           <Form
             render={(updateForm, formData) => (
               <>
@@ -176,10 +177,10 @@ const SavingsCalc = ({ step }) => {
             )}
           />
         </div>
-        {p.savingsTable.length > 1 || step === 0 ?
-          p.savingsTable.map((t, index) => <React.Fragment key={index}> {renderTable(t, index)} </React.Fragment>)
-          : <h2 className="md" style={{ textAlign: 'center', marginTop: '75px' }}>Add savings info to calculate</h2>
-        }
+          {p.savingsTable.length > 1 || step === 0 ?
+            p.savingsTable.map((t, index) => <React.Fragment key={index}> {renderTable(t, index)} </React.Fragment>)
+            : <h2 className="sm" style={{ textAlign: 'center', marginTop: '75px' }}>Add savings info to calculate</h2>
+          }
       </div>
     </ContentBox>
   );
