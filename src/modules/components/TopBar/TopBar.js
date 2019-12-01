@@ -8,7 +8,7 @@ import { recurrence } from '../../../utilities/constants'
 import { styles } from './styles'
 import SubNav from './SubNav'
 
-const TopBar = ({updateView}) => {
+const TopBar = ({updateView, step}) => {
   const p = useContext(MainContext);
   const [isOpen, updateIsOpen] = useState(false);
 
@@ -38,7 +38,7 @@ const TopBar = ({updateView}) => {
         />
         <p>{p.amount && convert(p.amount, "w", p.viewBy, "money")}</p>
       </div>
-      {isOpen && <SubNav changeView={changeView} p={p} />}
+      {isOpen && <SubNav changeView={changeView} p={p} step={step} />}
     </StTopBar>
   );
 };

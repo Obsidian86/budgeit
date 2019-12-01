@@ -19,7 +19,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
       }
     }
     reDefault
-    render={(updateField, formData) => {
+    render={(updateField, formData, clearData) => {
       return (
         <>
           <label>Category</label>
@@ -65,7 +65,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
           </label>
 
           <div className='grouping right mt-40'>
-            <button
+            {editItem && <button
               onClick={() => setDialog({
                 open: true,
                 header: 'Delete item',
@@ -78,6 +78,11 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
               })}
               className='btn red'
             >Delete
+            </button>}
+            <button 
+            className='btn blue'
+            onClick={()=> clearData()}>
+              Clear
             </button>
             <button
               type='submit'

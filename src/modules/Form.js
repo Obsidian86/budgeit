@@ -12,12 +12,15 @@ const Form = ({ render, defaultFormData = {}, reDefault = false }) => {
     !formLoaded && updateFormData(defaultFormData)
     !reDefault && updateFormLoaded(true)
   }, [defaultFormData, formLoaded, reDefault])
+  const clearData = () => {
+    updateFormData({...defaultFormData || {}})
+  }
   const updateField = e =>
     updateFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
-  return <>{render(updateField, formData)}</>
+  return <>{render(updateField, formData, clearData)}</>
 }
 
 export default Form

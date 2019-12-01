@@ -32,18 +32,19 @@ const IncomeForm = () => {
   }
 
   const hasSource = p.incomeSources.length > 0
+  const defaultFormData = edittingItem ? 
+      { ...edittingItem } :
+      { rec: 'w', date: new Date() }
+  
   return (
     <ContentBox title='Sources' exClass={hasSource ? 'mx row' : 'sm'} exStyles={{ borderTop: `8px solid ${theme.green}` }}>
       <br />
       <div className={hasSource ? 'sm' : null}>
         <Form
           reDefault
+          defaultFormData={defaultFormData}
           updateEdditingItem={updateEdditingItem}
-          defaultFormData={
-            edittingItem ? { ...edittingItem } :
-              { rec: edittingItem ? edittingItem.rec : 'w', date: new Date() }
-          }
-          render={(updateField, formData) => (
+          render={(updateField, formData, clearData) => (
             <div className='initial-form'>
               <>
                 <IP type='text' alias='item' label='Source name' onChange={e => updateField(e)} data={formData} errors={errors} />
@@ -51,7 +52,10 @@ const IncomeForm = () => {
                 <IP type='drop' alias='rec' styles='width: 89%; margin: 20px auto' options={recurrence} label='Recurrence' onChange={val => {
                   updateField({ target: { value: val, name: 'rec' } })
                 }} data={formData} errors={errors} />
-                <IP type='date' alias="date" label='Start date' data={formData} onChange={val => console.log(val)} />
+                <IP type='date' alias="date" label='Start date' data={formData} 
+                  onChange={val => updateField({ target: { value: parsedCurrentDate(val), name: 'date' } })
+                  } 
+                />
               </>
               <span className='grouping right'>
                 {edittingItem && <button className='btn red' onClick={() => setDialog({
@@ -59,7 +63,12 @@ const IncomeForm = () => {
                   message: `Are you sure you want to delete source ${formData.item}`,
                   confirm: () => {deleteSource(formData.id); updateEdditingItem(null)}
                 })}>Delete</button>}
-                <button className='btn blue' onClick={() => updateEdditingItem(null)} >{edittingItem ? "Cancel" : "Clear"}</button>
+                <button 
+                  className='btn blue' 
+                  onClick={() => {updateEdditingItem(null); clearData()} } 
+                >
+                  {edittingItem ? "Cancel" : "Clear"}
+                </button>
                 <button className='btn' onClick={() => submitForm(formData, !!edittingItem)}> Submit </button>
               </span>
               <Fade time={120}>

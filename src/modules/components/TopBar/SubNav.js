@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleRight, faSave, faUserMinus, faBan, faDownload, faUserAlt } from "@fortawesome/free-solid-svg-icons";
 
-const SubNav = ({ changeView, p }) => {
+const SubNav = ({ changeView, p, step }) => {
     const [showList, updateShowList] = useState(false)
     const profileList = p.loadProfiles()
     return (
@@ -92,6 +92,18 @@ const SubNav = ({ changeView, p }) => {
                     <span>Calendar</span>
                 </a>
 
+                {step > 0 && <a href='/#' onClick={event => changeView(event, 'emergencyFundsModule')}> 
+                    <FontAwesomeIcon icon={faArrowAltCircleRight} />
+                    <span>Emergency funds</span>
+                </a>}
+                {step > 0 && <a href='/#' onClick={event => changeView(event, 'yourBudgetModule')}> 
+                    <FontAwesomeIcon icon={faArrowAltCircleRight} />
+                    <span>Your budget</span>
+                </a>}
+                {step > 0 && <a href='/#' onClick={event => changeView(event, 'recommendedModule')}> 
+                    <FontAwesomeIcon icon={faArrowAltCircleRight} />
+                    <span>Recommended</span>
+                </a>}
             </nav>
         </div>
     )

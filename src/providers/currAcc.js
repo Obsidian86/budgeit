@@ -2,13 +2,13 @@ export const currAccs = [
   {
     name: 'A Check',
     amount: 3223,
-    interest: .2,
+    interest: .001,
     type: 'checking'
   },
   {
     name: 'A Sav',
     amount: 10317,
-    interest: 1.6,
+    interest: .018,
     type: 'savings'
   },
   {

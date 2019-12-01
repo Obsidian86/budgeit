@@ -9,26 +9,24 @@ import Dialog from '../modules/interface/Dialog'
 
 // TEMP
 import { currAccs } from './currAcc'
-import tmpBg from './tmpBg'
-import sources from './sources'
-
-// TESTING
-const autoFill = false
+// import tmpBg from './tmpBg'
+// import sources from './sources'
+const temp = true
 
 class MainProvider extends React.Component {
   constructor () {
     super()
     this.defaultVals = {
       profile: null,
-      amount: autoFill ? 2000 : null, // income amount set by user
-      accounts: autoFill ? currAccs : [],
+      amount: null, // income amount set by user
+      accounts: temp ? currAccs : [],
       viewBy: 'm',
       dialog: { open: false },
       theme: theme,
       budget: {},
       total: 0, // total amount budgeted
       savingsTable: [{ 0: { stAmount: 0, interest: 0, deposit: 0 } }],
-      incomeSources: autoFill ? sources : []
+      incomeSources: []
     }
     this.methods = {
       updateViewBy: this.updateViewBy,
@@ -60,15 +58,16 @@ class MainProvider extends React.Component {
   componentDidMount = () =>
     this.setState(
       this.loadData(), 
-      () => autoFill && this.setState(bdg.parsePersonalBudget(tmpBg, colors))
-    )
+      () => {
+        // this.setState(bdg.parsePersonalBudget(tmpBg, colors))
+      })
 
   // Memory / profile tasks
   saveState = newState => this.setState(newState, this.applyState)
 
   applyState = () => {
     const profile = mem.save(this.state, this.state.profile)
-    if(!this.state.profile) this.setState({profile}, console.log(this.state)) 
+    if(!this.state.profile) this.setState({profile}) 
   }
 
   deleteData = () => {

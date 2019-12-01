@@ -10,7 +10,7 @@ import EmergencyFunds from './modules/EmergencyFunds'
 import CalendarModule from './modules/CalendarModule'
 import Accounts from './modules/Accounts'
 
-function App () {
+function App() {
   const p = useContext(MainContext)
 
   const updateView = (view) => {
@@ -25,7 +25,7 @@ function App () {
 
   return (
     <div className='App container'>
-      <TopBar updateView={updateView} />
+      <TopBar updateView={updateView} step={step} />
       <div className='row'>
         <IncomeForm />
         {step > 0 && <Recommended />}

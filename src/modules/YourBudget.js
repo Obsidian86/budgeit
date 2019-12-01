@@ -61,8 +61,9 @@ const YourBudget = ({ step }) => {
     });
   });
   const okPercent = percentLeft > -1 && percentLeft !== Infinity 
+  const showForm = (displayForm || Object.keys(p.budget).length < 1)
   return (
-    <ContentBox title='Your budget'>
+    <ContentBox title='Your budget' itemId='yourBudgetModule'>
       <div className="row mt-40">
         {" "}
         {/* chart section */}
@@ -93,7 +94,7 @@ const YourBudget = ({ step }) => {
           </div>
         </div>{" "}
         {/* End chart section */}
-        <div className="md">
+        <div className="md" style={!showForm ? {width: '70%', marginTop: '45px'}: {}}>
           {step < 2 ? <h2 style={{ textAlign: 'center', marginTop: '75px' }}>Add a budget item</h2> : Object.keys(p.budget).map(bud => {
             return (
               <div key={bud} style={{ marginBottom: "33px" }}>
@@ -124,7 +125,7 @@ const YourBudget = ({ step }) => {
             );
           })}
         </div>
-        <div className="sm">
+        <div className="sm" style={showForm ? {} : {position: 'absolute', top: '75px', right: '40px'}}>
           <span className='right'>
             <button className={`btn ${displayForm && 'red'}`} onClick={() => {
               updateEditItem(null)
@@ -134,7 +135,7 @@ const YourBudget = ({ step }) => {
               &nbsp;&nbsp; {displayForm ? "Cancel" : "Add"} budget item
         </button>
           </span>
-            {displayForm && <BudgetForm
+            {showForm && <BudgetForm
               catOptions={catOptions}
               editItem={editItem}
               updateEditItem={updateEditItem}

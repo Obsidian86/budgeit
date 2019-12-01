@@ -91,7 +91,9 @@ export const styles = (p, isOpen) => {
                     padding-top: 26px;
                     color: black;
                     font-size: 1rem;
-                    width: 50%;
+                    width: calc(33.33% - 20px);
+                    text-align: left;
+                    padding-left: 20px;
                     span{
                         border-left: 1px solid black;
                         padding-left: 8px;
