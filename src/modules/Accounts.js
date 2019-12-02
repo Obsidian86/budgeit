@@ -45,6 +45,7 @@ const Accounts = () => {
             p.addAccount(account)
         }
         updateShowForm(false)
+        updateErrors({})
         p.updateView('accountsModule')
     }
 
@@ -57,6 +58,7 @@ const Accounts = () => {
             p.deleteAccount(accountId)
             updateEdittingItem(null)
             updateShowForm(false)
+            updateErrors({})
             clearData()
             p.updateView('accountsModule')
           },
@@ -136,8 +138,9 @@ const Accounts = () => {
                                     <button 
                                         className='btn blue' 
                                         onClick={() =>{
-                                            updateShowForm(false);
-                                            updateEdittingItem(null)
+                                            edittingItem && updateShowForm(false);
+                                            updateEdittingItem(null);
+                                            updateErrors({})
                                             clearData();
                                         }}
                                     >

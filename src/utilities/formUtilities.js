@@ -9,8 +9,10 @@ export const validForm = (fieldList, dataCheck) => {
     for(const fItem in fieldList){
         const f = fieldList[fItem]
 
-        if (f.req && !dataCheck[f.name]) errs[f.name] = 'Field is required'
+        // make sure field exists
+        if ( dataCheck[f.name] !== '0' && dataCheck[f.name] !== 0 && (f.req && !dataCheck[f.name])) errs[f.name] = 'Field is required'
 
+        // Make sure is number
         if (dataCheck[f.name] && f.type === 'number') {
             let test = dataCheck[f.name].split(" ").join('')
             if (isNaN(test)) { 
