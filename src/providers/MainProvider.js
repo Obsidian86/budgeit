@@ -8,19 +8,13 @@ import * as src from './contextFunctions/sourcesFunctions'
 import * as acn from './contextFunctions/accountFunctions'
 import Dialog from '../modules/interface/Dialog'
 
-// TEMP
-import { currAccs } from './currAcc'
-// import tmpBg from './tmpBg'
-// import sources from './sources'
-const temp = false
-
 class MainProvider extends React.Component {
   constructor () {
     super()
     this.defaultVals = {
       profile: null,
       amount: null, // income amount set by user
-      accounts: temp ? currAccs : [],
+      accounts: [],
       viewBy: 'm',
       dialog: { open: false },
       theme: theme,
@@ -61,12 +55,7 @@ class MainProvider extends React.Component {
   }
 
   // initialize data
-  componentDidMount = () =>
-    this.setState(
-      this.loadData(), 
-      () => {
-        // this.setState(bdg.parsePersonalBudget(tmpBg, colors))
-      })
+  componentDidMount = () => this.setState(this.loadData())
 
   // Memory / profile tasks
   saveState = newState => this.setState(newState, this.applyState)
