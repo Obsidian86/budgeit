@@ -19,7 +19,7 @@ const EmergencyFunds = () => {
   })
 
   return (
-    <ContentBox title='Emergency Funds' exClass='md' itemId='emergencyFundsModule'>
+    <ContentBox title='Emergency Funds' exClass='sm' itemId='emergencyFundsModule'>
       <div className='row mt-40'>
         <p className='sm'>
           Having an emergency fund is an important part of financial independence.

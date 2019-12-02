@@ -4,7 +4,8 @@ import ContentBox from './interface/ContentBox'
 import SoftList from './interface/SoftList'
 import { money } from '../utilities/convert'
 import { getInterest } from '../utilities/functions'
-
+import Form from './Form'
+import { IP } from '../utilities/formUtilities'
 
 const s = {
     intRow: {
@@ -21,6 +22,14 @@ const s = {
 const Accounts = () => {
     const p = useContext(MainContext)
     const [showReturns, updateShowReturns] = useState(false)
+    const [showForm, updateShowForm] = useState(true)
+    const [errors, updateErrors] = useState({})
+
+    const handleSubmit = (account) => {
+        account.interest = parseFloat(account.interest)
+        account.amount = parseFloat(account.amount)
+        p.addAccount(account)
+    }
 
     let total = 0
     const accountList = p.accounts.map((a, i) => {
@@ -47,24 +56,47 @@ const Accounts = () => {
         </li>)
     })
     return (
-        <ContentBox title='Accounts' exClass='md' itemId='accountsModule' >
-            <SoftList split className='mt-40'>
-                <li style={{fontWeight: 'bold'}}>
-                    <span style={s.intFirst}>Account name</span>
-                    <span style={s.intRight}>Interest rate</span>
-                    <span style={s.intRight}>Current balance</span>
-                </li>
-                {accountList}
-            </SoftList>
-            <div className='right'>
-                <h3 style={{padding: '0px 8px 7px 6px'}}>{money(total)}</h3>
+        <ContentBox title='Accounts' exClass='lg row' itemId='accountsModule' >
+            <div className={`mt-40 ${showForm ? 'md' : 'max'} `}>
+                <SoftList split>
+                    <li style={{fontWeight: 'bold'}}>
+                        <span style={s.intFirst}>Account name</span>
+                        <span style={s.intRight}>Interest rate</span>
+                        <span style={s.intRight}>Current balance</span>
+                    </li>
+                    {accountList}
+                </SoftList>
+                <div className='right'>
+                    <h3 style={{padding: '0px 8px 7px 6px'}}>{money(total)}</h3>
+                </div>
+                <div className='right'>
+                    <button className='btn blue'
+                        onClick={()=> updateShowReturns(!showReturns)}
+                    >{showReturns ? 'Hide' : 'Show'} returns</button>
+                    <button className='btn'
+                        onClick={()=> updateShowForm(!showForm)}
+                    >{showForm ? 'Hide form' : 'Add account'}</button>
+                </div>
             </div>
-            <div className='right'>
-                <button className='btn blue'
-                    onClick={()=> updateShowReturns(!showReturns)}
-                >{showReturns ? 'Hide' : 'Show'} returns</button>
-                <button className='btn'>Add account</button>
-            </div>
+            {showForm && <div className='md mt-40'>
+                <Form
+                    reDefault
+                    defaultFormData = {{}}
+                    render={(updateField, formData, clearData) => {
+                        return(
+                            <>
+                                <IP type='text' alias='name' data={formData} label='Account name' errors={errors} onChange={e => updateField(e) } />
+                                <IP type='text' alias='intRate' data={formData} label='Interest rate' errors={errors} onChange={e => updateField(e) } />
+                                <IP type='text' alias='amount' data={formData} label='Amount' errors={errors} onChange={e => updateField(e) } />
+                                <span className='right'>
+                                    <button className='btn red' onClick={() => clearData}>Clear</button>
+                                    <button className='btn' onClick={()=> handleSubmit(formData) }>Submit</button>
+                                </span>
+                            </>
+                        )
+                    }}
+                />
+            </div>}
         </ContentBox>
     )
 }

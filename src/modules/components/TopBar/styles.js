@@ -11,6 +11,8 @@ export const styles = (p, isOpen) => {
         width: 100%;
         z-index: 100;
         height: ${isOpen ? 'auto' : '60px'};
+        border-bottom: ${!isOpen ? 'none' : '4px solid green'};
+        padding-bottom: ${!isOpen ? 'none' : '7px'};
         .hamburger{
             position: absolute;
             left: 5px;
