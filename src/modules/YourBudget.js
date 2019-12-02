@@ -72,12 +72,13 @@ const YourBudget = ({ step }) => {
               maxWidth: "400px", 
               margin: "0 auto",
               position: 'relative',
-              left: '-6px'
+              left: '-3px'
             }}
           />}
           <div
             className="contentBox row"
             style={{
+              minWidth: 'auto',
               padding: "10px",
               marginTop: "25px",
               width: '86%'
@@ -150,6 +151,7 @@ const YourBudget = ({ step }) => {
               deleteBudgetItem={p.deleteBudgetItem}
               setDialog={p.setDialog}
               errors={errors}
+              updateView={p.updateView}
               onSubmit={bi => {
                 if(bi.noEnd && bi.noEnd ==='on'){ delete bi.end }
                 if (!validateData(bi)) return null
@@ -157,6 +159,7 @@ const YourBudget = ({ step }) => {
                 editItem && p.updateBudgetItem(editItem, bi)
                 updateEditItem(null)
                 toggleForm(false)
+                p.updateView('yourBudgetModule')
               }}
             />} 
         </div>

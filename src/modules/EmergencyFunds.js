@@ -21,7 +21,7 @@ const EmergencyFunds = () => {
   return (
     <ContentBox title='Emergency Funds' exClass='sm' itemId='emergencyFundsModule'>
       <div className='row mt-40'>
-        <p className='sm'>
+        <p className='sm' style={{minWidth: '150px'}}>
           Having an emergency fund is an important part of financial independence.
           Be adequately prepared for unforeseen circumstances by saving at least 3
           months of monthly expenses.

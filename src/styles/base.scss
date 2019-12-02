@@ -68,37 +68,8 @@ input[type=text], input[type=number]{
   }
 }
 
-.react-date-picker {
-  width: 100%; 
-  border: none;
-  .react-date-picker__wrapper{
-    border: none;
-    border-bottom: 1px solid #333;
-    width: 100%; 
-    padding: 5px 10px;
-    margin-top: 7px;
-    margin-bottom: 20px;
-    position: relative;
-  }
-  .react-date-picker__inputGroup{
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    width: 100%;
-  }
-  .react-date-picker__clear-button, .react-date-picker__calendar-button{
-    position: absolute;
-    right: 4px;
-    top: 0;
-  }
-  .react-date-picker__clear-button{
-    right: 34px; 
-  }
-  input{
-    border: none;
-    padding: 0;
-    margin: 0;
-  }
+.react-datepicker-wrapper{
+  width: 100%;
 }
 
 label{
@@ -169,6 +140,7 @@ label{
 }
 .contentBox{
   width: 97%;
+  min-width: 300px;
   margin: 0 5px 35px 5px;
   padding: 15px 10px;
   padding-top: 46px;

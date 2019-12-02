@@ -6,7 +6,7 @@ import Scroll from '../interface/Scroll'
 
 export const genTabContent = (procItems, trackBalance, title, s) => {
     
-    if(!Array.isArray(procItems)) return <>title</>
+    if(!Array.isArray(procItems) || procItems.length === 0) return <p><br />No items to view for this range<br /></p>
 
     let yearTrack = ''
     let monthTrack = ''

@@ -12,20 +12,13 @@ import Accounts from './modules/Accounts'
 
 function App() {
   const p = useContext(MainContext)
-
-  const updateView = (view) => {
-    const targ = document.getElementById(view)
-    const top = (!targ || view === 'default') ? 0 : targ.offsetTop - 90
-    window.scrollTo(0, top)
-  }
-
   let step = 0
   if (p.amount !== null) step++
   if (Object.keys(p.budget).length > 0) step++
 
   return (
     <div className='App container'>
-      <TopBar updateView={updateView} step={step} />
+      <TopBar updateView={p.updateView} step={step} />
       <div className='row'>
         <IncomeForm />
         {step > 0 && <Recommended />}

@@ -27,6 +27,7 @@ const IncomeForm = () => {
     if (Object.keys(errs).length < 1){
       updateEdditingItem(null)
       data.category = 'Income'
+      p.updateView('default')
       return editting ? updateSource(data) : addSource(data)
     }
   }
@@ -61,7 +62,11 @@ const IncomeForm = () => {
                 {edittingItem && <button className='btn red' onClick={() => setDialog({
                   header: 'Delete source', open: true, reject: () => null,
                   message: `Are you sure you want to delete source ${formData.item}`,
-                  confirm: () => {deleteSource(formData.id); updateEdditingItem(null)}
+                  confirm: () => {
+                    deleteSource(formData.id); 
+                    updateEdditingItem(null)
+                    p.updateView('default')
+                  }
                 })}>Delete</button>}
                 <button 
                   className='btn blue' 

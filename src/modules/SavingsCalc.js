@@ -60,6 +60,7 @@ const SavingsCalc = ({ step }) => {
         newTables.splice(index, 1)
         if(newTables.length === 1){ newTables = []}
         p.updateSavingsTables(newTables)
+        p.updateView('savingsModule')
       },
       reject: ()=>{ return null }
     })  
@@ -78,6 +79,7 @@ const SavingsCalc = ({ step }) => {
     updateErrors(errs)
     if (Object.keys(errs).length > 0) return errs
     processTables(formData)
+    p.updateView('savingsModule')
   }
 
   const renderTable = (tableData, index) => {
@@ -112,7 +114,10 @@ const SavingsCalc = ({ step }) => {
     return (
       <div className="sm" style={{ marginBottom: "20px", position: 'relative' }}>
         <label style={labelStyles}>{index === 0 ? 'Totals' : `Table ${index}`}</label>
-        {index !== 0 &&  <span className='btn narrow red' style={deleteStyles} onClick={() => deleteTable(index)}>Delete table</span> }
+        { index !== 0 &&  <span 
+          className='btn narrow red' 
+          style={deleteStyles} 
+          onClick={() => deleteTable(index)}> Delete table</span>}
         <TableRow
           pattern={RowSpread}
           className="headerRow"

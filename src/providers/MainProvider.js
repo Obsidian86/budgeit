@@ -33,6 +33,7 @@ class MainProvider extends React.Component {
       updateViewBy: this.updateViewBy,
       updateSavingsTables: this.updateSavingsTables,
       setDialog: this.setDialog,
+      updateView: this.updateView,
       // Memory
       applyState: this.applyState,
       deleteData: this.deleteData,
@@ -103,7 +104,11 @@ class MainProvider extends React.Component {
   // View global view changes
   updateViewBy = v => this.saveState({ viewBy: v });
   setDialog = dialog => this.setState({ dialog })
-
+  updateView = (view) => {
+    const targ = document.getElementById(view)
+    const top = (!targ || view === 'default') ? 0 : targ.offsetTop - 90
+    window.scrollTo(0, top)
+  }
   // budget CRUD
   addBudgetItem = (bi) => this.saveState(bdg.processAddBudgetItem(this.state.budget, bi, colors, this.state.total))
   deleteBudgetItem = (cat, id) => this.saveState(bdg.processDeleteBudgetItem(this.state.budget, cat, id, this.state.total))
@@ -114,6 +119,7 @@ class MainProvider extends React.Component {
   deleteAccount = (aId) => this.saveState(acn.processDeleteAccount(aId, this.state.accounts))
   updateAccount = (ai) => this.saveState(acn.processUpdateAccount(ai, this.state.accounts))
 
+  // savings calulator
   updateSavingsTables = (savingsTable) => this.saveState({ savingsTable: savingsTable })
 
   render = () =>

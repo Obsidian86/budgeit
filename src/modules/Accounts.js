@@ -45,6 +45,7 @@ const Accounts = () => {
             p.addAccount(account)
         }
         updateShowForm(false)
+        p.updateView('accountsModule')
     }
 
     const deleteAccount = (accountId, clearData) => {
@@ -57,6 +58,7 @@ const Accounts = () => {
             updateEdittingItem(null)
             updateShowForm(false)
             clearData()
+            p.updateView('accountsModule')
           },
           reject: ()=>{ return null }
         })  

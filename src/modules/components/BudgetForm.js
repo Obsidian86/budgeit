@@ -4,7 +4,7 @@ import { recurrence } from '../../utilities/constants'
 import { parsedCurrentDate, stepDate } from '../components/calendar/dateFunctions'
 import { IP } from '../../utilities/formUtilities'
 
-const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors }) => {
+const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors, updateView }) => {
   return (<Form
     defaultFormData={
       editItem ? { 
@@ -73,6 +73,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
                 confirm: () => {
                   updateEditItem(null)
                   deleteBudgetItem(formData.category, formData.id)
+                  updateView('yourBudgetModule')
                 },
                 reject: () => { return null }
               })}
