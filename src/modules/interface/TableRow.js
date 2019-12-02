@@ -47,7 +47,6 @@ const TableRow = ({ children, className, pattern = [40, 30], onClick, tData }) =
       border-color: ${theme.lightGray};
       z-index: 1;
     }
-    
   `
   }
   const StTableRow = styled.div`${mkStyles()}`

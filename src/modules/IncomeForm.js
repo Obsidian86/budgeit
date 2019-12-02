@@ -31,7 +31,6 @@ const IncomeForm = () => {
       return editting ? updateSource(data) : addSource(data)
     }
   }
-
   const hasSource = p.incomeSources.length > 0
   const defaultFormData = edittingItem ? 
       { ...edittingItem } :

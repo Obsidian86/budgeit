@@ -4,9 +4,11 @@ import MainContext from "../providers/MainContext";
 import TableRow from "./interface/TableRow";
 import percents from '../utilities/suggested'
 import ContentBox from "./interface/ContentBox";
+import ProgressBar from "./interface/ProgressBar";
 
 const Recommended = () => {
   const p = useContext(MainContext);
+
   return (
     <ContentBox title='Recommended' exClass='lg' itemId='recommendedModule'>
       <div className='row mt-40'>
@@ -19,16 +21,36 @@ const Recommended = () => {
               <div>High</div>
             </TableRow>
             {Object.keys(percents).map((per, index) => {
+              const perc = p.budget[per.toLowerCase()] ? (parseFloat(p.budget[per.toLowerCase()].total) / convert(parseFloat(p.amount), 'w', 'm') ) * 100 : null
+              let color = p.theme.vBlue
+              if(perc < percents[per][0]){
+                color = 'green'
+              }else if(perc > percents[per][1]){
+                color = 'red'
+              }
+
               return (
-                <TableRow key={index}>
-                  <div>{up(per)}</div>
-                  {percents[per].map((pe, index) => (
-                    <div key={index}>
-                      {pe}% <br />
-                      {convert(getPercent(pe, p.amount), "w", p.viewBy, "money")}
-                    </div>
-                  ))}
-                </TableRow>
+                <React.Fragment key={index}>
+                  <TableRow>
+                    <div>{up(per)}</div>
+                    {percents[per].map((pe, index) => (
+                      <div key={index}>
+                        {pe}% <br />
+                        {convert(getPercent(pe, p.amount), "w", p.viewBy, "money")}
+                      </div>
+                    ))}
+                  </TableRow>
+                  {p.budget[per.toLowerCase()] && <div>
+                      <ProgressBar 
+                        title=''
+                        percent= {perc}
+                        color={color} 
+                        bg={p.theme.fBlue} 
+                        height={2} paddingTop='-24px'
+                        marks={percents[per]}
+                      />
+                  </div>}
+                </React.Fragment>
               );
             })}
           </div>

@@ -3,8 +3,7 @@ import { genId, getObjIndex } from '../../utilities/functions'
 
 export const processAddSource = (newSource = {}, sources = [], amount = 0) => ({ 
     amount: parseFloat(amount || 0) + parseFloat( convert(newSource.amount, newSource.rec, 'w') ),
-    incomeSources: [...sources, newSource],
-    id: genId()
+    incomeSources: [...sources, {...newSource, id: genId()}]
 })
 
 export const processDeleteSource = (sourceId, sources, amount) => {
