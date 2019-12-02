@@ -207,3 +207,12 @@ p{
     display: none;
   }
 }
+
+.f-400{
+  @media (max-width: 400px){ 
+    display: block;
+    & .md-f{
+      width: 98%;
+    }
+  }
+}

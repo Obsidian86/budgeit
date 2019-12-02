@@ -72,7 +72,7 @@ const YourBudget = ({ step }) => {
               maxWidth: "400px", 
               margin: "0 auto",
               position: 'relative',
-              left: '-10px'
+              left: '-6px'
             }}
           />}
           <div

@@ -46,17 +46,13 @@ export const styles = (p, isOpen) => {
         }
         div{
             display: flex;
-            @media (max-width: 750px){ 
-               &{display: block;}
-            }
+            @media (max-width: 750px){ &{display: block;} }
             div{
                 width: 25%;
                 display: block;
                 color: #fff;
                 background-color: green;
-                @media (max-width: 750px){ 
-                    &{width: 100%;}
-                }
+                @media (max-width: 750px){ &{width: 100%;} }
                 button{
                     display: flex;
                     text-align: left;
@@ -67,9 +63,7 @@ export const styles = (p, isOpen) => {
                     cursor: pointer;
                     color: #fff;
                     border-bottom: 1px solid lightgreen;
-                    span{
-                        padding-left: 14px;
-                    }
+                    span{ padding-left: 14px; }
                     &:hover{ 
                         background-color: #c9c9c9; 
                         color: #000;
@@ -83,9 +77,7 @@ export const styles = (p, isOpen) => {
                 flex-wrap: wrap;
                 justify-content: space-between;
                 align-content: flex-start;
-                @media (max-width: 750px){ 
-                    &{width: 100%;}
-                }
+                @media (max-width: 750px){ &{width: 100%;} }
                 a{  
                     height: 21px;
                     text-decoration: none;
@@ -93,13 +85,18 @@ export const styles = (p, isOpen) => {
                     padding-top: 26px;
                     color: black;
                     font-size: 1rem;
-                    width: calc(33.33% - 20px);
+                    width: calc(33.33% - 40px);
                     text-align: left;
                     padding-left: 20px;
+                    @media (max-width: 750px){ 
+                        &{
+                            width: calc(50% - 40px)
+                        }
+                    }
                     span{
-                        border-left: 1px solid black;
-                        padding-left: 8px;
-                        margin-left: 8px;
+                        width: 100%;
+                        text-align: center;
+                        display: block;
                     }
                     &:hover{  background-color: #c9c9c9; }
                 }

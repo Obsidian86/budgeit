@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowAltCircleRight, faSave, faUserMinus, faBan, faDownload, faUserAlt } from "@fortawesome/free-solid-svg-icons";
+import { faSave, faUserMinus, faBan, faDownload, faUserAlt } from "@fortawesome/free-solid-svg-icons";
+import { colors } from '../../../styles/colors'
 
 const SubNav = ({ changeView, p, step }) => {
     const [showList, updateShowList] = useState(false)
@@ -72,36 +73,38 @@ const SubNav = ({ changeView, p, step }) => {
 
             </div>
             <nav>
-                <a href='/#' onClick={event => changeView(event, 'default')}> 
-                    <FontAwesomeIcon icon={faArrowAltCircleRight} /> 
+                <a href='/#' 
+                    onClick={event => changeView(event, 'default')}
+                    style={{borderLeft: `5px solid ${colors[0]}`}}
+                > 
                     <span>Top</span>
                 </a>
 
-                <a href='/#' onClick={event => changeView(event, 'savingsModule')}>  
-                    <FontAwesomeIcon icon={faArrowAltCircleRight} />
+                <a href='/#' onClick={event => changeView(event, 'savingsModule')}
+                    style={{borderLeft: `5px solid ${colors[1]}`}}>
                     <span>Savings calc</span>
                 </a>
 
-                <a href='/#' onClick={event => changeView(event, 'accountsModule')}> 
-                    <FontAwesomeIcon icon={faArrowAltCircleRight} /> 
+                <a href='/#' onClick={event => changeView(event, 'accountsModule')}
+                    style={{borderLeft: `5px solid ${colors[2]}`}}>
                     <span>Accounts</span>
                 </a>
 
-                <a href='/#' onClick={event => changeView(event, 'calendarModule')}> 
-                    <FontAwesomeIcon icon={faArrowAltCircleRight} />
+                <a href='/#' onClick={event => changeView(event, 'calendarModule')}
+                    style={{borderLeft: `5px solid ${colors[3]}`}}>
                     <span>Calendar</span>
                 </a>
 
-                {step > 0 && <a href='/#' onClick={event => changeView(event, 'emergencyFundsModule')}> 
-                    <FontAwesomeIcon icon={faArrowAltCircleRight} />
+                {step > 0 && <a href='/#' onClick={event => changeView(event, 'emergencyFundsModule')}
+                    style={{borderLeft: `5px solid ${colors[4]}`}}>
                     <span>Emergency funds</span>
                 </a>}
-                {step > 0 && <a href='/#' onClick={event => changeView(event, 'yourBudgetModule')}> 
-                    <FontAwesomeIcon icon={faArrowAltCircleRight} />
+                {step > 0 && <a href='/#' onClick={event => changeView(event, 'yourBudgetModule')}
+                    style={{borderLeft: `5px solid ${colors[5]}`}}>
                     <span>Your budget</span>
                 </a>}
-                {step > 0 && <a href='/#' onClick={event => changeView(event, 'recommendedModule')}> 
-                    <FontAwesomeIcon icon={faArrowAltCircleRight} />
+                {step > 0 && <a href='/#' onClick={event => changeView(event, 'recommendedModule')}
+                    style={{borderLeft: `5px solid ${colors[6]}`}}>
                     <span>Recommended</span>
                 </a>}
             </nav>

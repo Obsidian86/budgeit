@@ -36,7 +36,7 @@ const TopBar = ({updateView, step}) => {
           isSet={disRec(p.viewBy)}
           callBack={v => p.updateViewBy(v)}
         />
-        <p>{p.amount && convert(p.amount, "w", p.viewBy, "money")}</p>
+        <p>{p.amount ? convert(p.amount, "w", p.viewBy, "money") : '$0'}</p>
       </div>
       {isOpen && <SubNav changeView={changeView} p={p} step={step} />}
     </StTopBar>

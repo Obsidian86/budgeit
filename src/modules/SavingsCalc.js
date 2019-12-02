@@ -6,6 +6,7 @@ import MainContext from '../providers/MainContext';
 import Collapseable from './interface/Collapseable';
 import ContentBox from "./interface/ContentBox";
 import FieldError from './interface/FieldError';
+import { validForm } from '../utilities/formUtilities'
 
 const SavingsCalc = ({ step }) => {
   const p = useContext(MainContext)
@@ -46,6 +47,16 @@ const SavingsCalc = ({ step }) => {
       message: <>Are you sure you want to delete this table? <br /> This can not be undone.</>, 
       confirm: ()=>{
         let newTables = [...p.savingsTable]
+        const deletedTable = newTables[index]
+        Object.keys(deletedTable).forEach(it => {
+          const {stAmount, interest, deposit} = deletedTable[it]
+          if(newTables[0][it]){
+            newTables[0][it].stAmount = newTables[0][it].stAmount - stAmount
+            newTables[0][it].interest = newTables[0][it].interest - interest
+            newTables[0][it].deposit = newTables[0][it].deposit - deposit
+            if(newTables[0][it].stAmount + newTables[0][it].interest + newTables[0][it].deposit === 0) delete newTables[0][it]
+          }
+        })
         newTables.splice(index, 1)
         if(newTables.length === 1){ newTables = []}
         p.updateSavingsTables(newTables)
@@ -55,23 +66,15 @@ const SavingsCalc = ({ step }) => {
   }
 
   const submitForm = (formData) => {
-    let errs = {}
     let fields = [
       { name: 'stAmount', req: true, type: 'number' },
       { name: 'startAge', req: true, type: 'number' },
       { name: 'depAmount', req: true, type: 'number' },
       { name: 'per', req: true, type: 'number' },
       { name: 'rate', req: true, type: 'number' },
-      { name: 'years', req: true, type: 'number' }
+      { name: 'years', req: true, type: 'number', lThan: 100 }
     ]
-    fields.forEach(f => {
-      if (f.req && !formData[f.name]) errs[f.name] = 'Field is required'
-      if (formData[f.name] && f.type === 'number') {
-        let test = formData[f.name].split ? formData[f.name].split(" ").join('') : formData[f.name]
-        if (isNaN(test)) errs[f.name] = 'Please input a number'
-      }
-    })
-
+    const errs = validForm(fields, formData)
     updateErrors(errs)
     if (Object.keys(errs).length > 0) return errs
     processTables(formData)
@@ -122,49 +125,49 @@ const SavingsCalc = ({ step }) => {
     )
   }
   return (
-    <ContentBox title="Savings estimator" exClass={step === 0 && 'lg'} itemId='savingsModule'>
+    <ContentBox title="Savings estimator" exClass={step === 0 && p.savingsTable.length < 1 && 'lg'} itemId='savingsModule'>
       <div className={`row mt-40`}>
         <p className='sm'>
           Estimate how much you'll have by retirement. <br /> 
           The breakdown of each account will display in a new table. The totals will display in the first table. 
         </p>
-        <div className={step === 0 ? 'lg' : 'md'}>
+        <div className={step === 0 && p.savingsTable.length < 1 ? 'lg' : 'md'}>
           <Form
             render={(updateForm, formData) => (
               <>
                 <label>Starting amount</label>
-                <input type="number" onChange={updateForm} name="stAmount" value={formData.stAmount} />
+                <input type="number" onChange={updateForm} name="stAmount" value={formData.stAmount || ''} />
                 {errors && errors['stAmount'] && <FieldError error={errors['stAmount']} />}
 
                 <label>Amount each deposit</label>
-                <input type="number" onChange={updateForm} name="depAmount" value={formData.depAmount} />
+                <input type="number" onChange={updateForm} name="depAmount" value={formData.depAmount || ''} />
                 {errors && errors['depAmount'] && <FieldError error={errors['depAmount']} />}
 
-                <div className='row'>
+                <div className='row f-400'>
                   <div className='md-f'>
                     <label>Starting age</label>
-                    <input type="number" onChange={updateForm} name="startAge" value={formData.startAge} />
+                    <input type="number" onChange={updateForm} name="startAge" value={formData.startAge || ''} />
                     {errors && errors['stAge'] && <FieldError error={errors['stAge']} />}
                   </div>
                   <div className='md-f'>
                     <label>For how many years?</label>
-                    <input type="number" onChange={updateForm} name="years" value={formData.years} />
+                    <input type="number" onChange={updateForm} name="years" value={formData.years || ''} />
                     {errors && errors['years'] && <FieldError error={errors['years']} />}
                   </div>
                 </div>
                 
-                <div className='row'>
+                <div className='row f-400'>
                   <div className='md-f'>
                     <label>
                         Every ___ Month/s 
                         <span>(12 = 1 year)</span>
                     </label>
-                    <input type="number" onChange={updateForm} name="per" value={formData.per} />
+                    <input type="number" onChange={updateForm} name="per" value={formData.per || ''} />
                     {errors && errors['per'] && <FieldError error={errors['per']} />}
                   </div>
                   <div className='md-f'>
                     <label>Percent rate <span>(number only)</span></label>
-                    <input type="number" onChange={updateForm} name="rate" value={formData.rate} />
+                    <input type="number" onChange={updateForm} name="rate" value={formData.rate || ''} />
                     {errors && errors['rate'] && <FieldError error={errors['rate']} />}
                   </div>
                 </div>

@@ -12,7 +12,13 @@ export const validForm = (fieldList, dataCheck) => {
 
         if (dataCheck[f.name] && f.type === 'number') {
             let test = dataCheck[f.name].split(" ").join('')
-            if (isNaN(test)) errs[f.name] = 'Please input a number'
+            if (isNaN(test)) { 
+                errs[f.name] = 'Please input a number'
+            }else{
+                if(f.lThan && parseInt(dataCheck[f.name]) >= f.lThan){
+                    errs[f.name] = `Number must be less than ${f.lThan}`
+                }
+            }
         }
     }
     return errs

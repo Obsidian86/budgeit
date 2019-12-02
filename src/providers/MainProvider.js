@@ -50,7 +50,7 @@ class MainProvider extends React.Component {
       updateSource: this.updateSource,
       // Accounts CRUD
       addAccount: this.addAccount,
-      removeAccount: this.removeAccount,
+      deleteAccount: this.deleteAccount,
       updateAccount: this.updateAccount
     }
     this.state = {
