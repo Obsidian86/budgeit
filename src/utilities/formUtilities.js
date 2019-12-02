@@ -14,7 +14,7 @@ export const validForm = (fieldList, dataCheck) => {
 
         // Make sure is number
         if (dataCheck[f.name] && f.type === 'number') {
-            let test = dataCheck[f.name].split(" ").join('')
+            let test = isNaN(dataCheck[f.name]) ? dataCheck[f.name].replace(" ", "") : dataCheck[f.name]
             if (isNaN(test)) { 
                 errs[f.name] = 'Please input a number'
             }else{

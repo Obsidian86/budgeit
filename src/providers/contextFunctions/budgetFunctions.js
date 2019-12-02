@@ -49,7 +49,7 @@ export const processDeleteBudgetItem = (oldBudget, cat, id, total) => {
 export const processAddBudgetItem = (oldBudget, bi, colors, total) => {
   const newBudget = { ...oldBudget }
   bi.id = genId()
-  bi.category = (!bi.category || bi.category === undefined) ? 'No category' : bi.category
+  bi.category = (!bi.category || bi.category === undefined || bi.category.replace(' ', '') === '') ? 'No category' : bi.category
   const monthAmount = convert(bi.amount, bi.rec, "m") // conv amnt to month to add to total
   total = parseFloat(total) + parseFloat(monthAmount)
   if (newBudget[bi.category]) {
@@ -73,6 +73,8 @@ export const processUpdateBudgetItem = (oldBudget, oldBi, bi, colors, total) => 
   const monthAmount = parseFloat(convert(bi.amount,  bi.rec, "m"))
   const oldMonthAmount = parseFloat(convert(oldBi.amount,  bi.rec, "m"))
   const oldCat = oldBi.category
+  
+  bi.category = (!bi.category || bi.category === undefined || bi.category.replace(' ', '') === '') ? 'No category' : bi.category
 
   total = (parseFloat(total) - oldMonthAmount) + monthAmount
   newBudget[oldCat].total = parseFloat(newBudget[oldCat].total) - oldMonthAmount
