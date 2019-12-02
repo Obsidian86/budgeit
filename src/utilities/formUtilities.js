@@ -10,7 +10,7 @@ export const validForm = (fieldList, dataCheck) => {
 
         if (f.req && !dataCheck[f.name]) errs[f.name] = 'Field is required'
 
-        if (dataCheck[f.name] && f.type === 'number')) {
+        if (dataCheck[f.name] && f.type === 'number') {
             let test = dataCheck[f.name].split(" ").join('')
             if (isNaN(test)) errs[f.name] = 'Please input a number'
         }
