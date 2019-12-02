@@ -5,7 +5,7 @@ import SoftList from './interface/SoftList'
 import { money } from '../utilities/convert'
 import { getInterest } from '../utilities/functions'
 import Form from './Form'
-import { IP } from '../utilities/formUtilities'
+import { IP, validForm } from '../utilities/formUtilities'
 
 const s = {
     intRow: {
@@ -28,6 +28,17 @@ const Accounts = () => {
     const handleSubmit = (account) => {
         account.interest = parseFloat(account.interest)
         account.amount = parseFloat(account.amount)
+
+        const fields = [
+            { name: 'name', req: true, type: 'text' },
+            { name: 'interest', req: true, type: 'float' },
+            { name: 'amount', req: true, type: 'float' }
+          ]
+
+        const errs = validForm(fields, account)
+        if( Object.keys(errs).length > 0 ){
+            return updateErrors(errs)
+        }
         p.addAccount(account)
     }
 
@@ -86,7 +97,7 @@ const Accounts = () => {
                         return(
                             <>
                                 <IP type='text' alias='name' data={formData} label='Account name' errors={errors} onChange={e => updateField(e) } />
-                                <IP type='text' alias='intRate' data={formData} label='Interest rate' errors={errors} onChange={e => updateField(e) } />
+                                <IP type='text' alias='interest' data={formData} label='Interest rate' errors={errors} onChange={e => updateField(e) } />
                                 <IP type='text' alias='amount' data={formData} label='Amount' errors={errors} onChange={e => updateField(e) } />
                                 <span className='right'>
                                     <button className='btn red' onClick={() => clearData}>Clear</button>
