@@ -49,6 +49,7 @@ export const processDeleteBudgetItem = (oldBudget, cat, id, total) => {
 export const processAddBudgetItem = (oldBudget, bi, colors, total) => {
   const newBudget = { ...oldBudget }
   bi.id = genId()
+  bi.category = (!bi.category || bi.category === undefined) ? 'No category' : bi.category
   const monthAmount = convert(bi.amount, bi.rec, "m") // conv amnt to month to add to total
   total = parseFloat(total) + parseFloat(monthAmount)
   if (newBudget[bi.category]) {
