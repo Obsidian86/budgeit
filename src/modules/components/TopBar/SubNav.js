@@ -8,7 +8,7 @@ const SubNav = ({ changeView, p, step }) => {
     const profileList = p.loadProfiles()
     return (
         <div>
-            <div style={{ fontSize: '1.2rem', marginTop: '10px' }}>
+            <div style={{ fontSize: '1.2rem' }}>
                 {p.profile &&
                     <div style={{ 
                         padding: '22px 0', 

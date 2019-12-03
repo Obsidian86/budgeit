@@ -12,7 +12,6 @@ export const styles = (p, isOpen) => {
         z-index: 100;
         height: ${isOpen ? 'auto' : '60px'};
         border-bottom: ${!isOpen ? 'none' : '4px solid green'};
-        padding-bottom: ${!isOpen ? 'none' : '7px'};
         .hamburger{
             position: absolute;
             left: 5px;
@@ -72,7 +71,6 @@ export const styles = (p, isOpen) => {
             }
             nav{
                 width: 75%;
-                margin-top: 10px;
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: space-between;
