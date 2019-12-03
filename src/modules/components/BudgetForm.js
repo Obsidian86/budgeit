@@ -82,8 +82,11 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             </button>}
             <button 
             className='btn blue'
-            onClick={()=> clearData()}>
-              Clear
+            onClick={()=> {
+              clearData()
+              updateEditItem(null)
+            }}>
+              {editItem ? 'Cancel' : 'Clear'}
             </button>
             <button
               type='submit'

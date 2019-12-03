@@ -1,28 +1,6 @@
 import { getObjIndex, genId } from '../../utilities/functions'
 import { convert } from '../../utilities/convert'
-
-export const parsePersonalBudget = (b, colors) => {
-  const bud = {}
-  let total = 0
-  let colorTrack = 0
-  b.forEach((bd) => {
-    const bdMonth = parseFloat(convert(bd.amount, bd.rec, "m"))
-    if (bud[bd.category]) {
-      bud[bd.category].items.push({ id: bd.id ? bd.id : genId(), ...bd })
-      bud[bd.category].total = bud[bd.category].total + bdMonth
-    } else {
-      bud[bd.category] = {
-        items: [{ id: bd.id ? bd.id : genId(), ...bd }],
-        color: colors[colorTrack],
-        total: bdMonth
-      }
-      colorTrack++
-      if (colorTrack === colors.length) colorTrack = 0
-    }
-    total += bdMonth
-  })
-  return { budget: bud, total }
-}
+import { getColor } from '../../styles/colors'
 
 export const processDeleteBudgetItem = (oldBudget, cat, id, total) => {
   const newBudget = { ...oldBudget }
@@ -57,10 +35,7 @@ export const processAddBudgetItem = (oldBudget, bi, colors, total) => {
     newBudget[bi.category].items.push(bi)
   } else {
     newBudget[bi.category] = {
-      color:
-        Object.keys(newBudget).length >= colors.length
-          ? colors[Object.keys(newBudget).length % colors.length]
-          : colors[Object.keys(newBudget).length + 1],
+      color: getColor(newBudget),
       items: [{ ...bi}],
       total: parseFloat(monthAmount)
     }
@@ -87,10 +62,7 @@ export const processUpdateBudgetItem = (oldBudget, oldBi, bi, colors, total) => 
     if (newBudget[bi.category]) newBudget[bi.category].items.push(bi)
     else {
       newBudget[bi.category] = {
-        color:
-          Object.keys(newBudget).length >= colors.length
-            ? colors[Object.keys(newBudget).length % colors.length]
-            : colors[Object.keys(newBudget).length],
+        color: getColor(newBudget),
         items: [{ ...bi, amount: parseFloat(bi.amount) }],
         total: parseFloat(monthAmount)
       }
