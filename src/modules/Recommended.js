@@ -31,7 +31,7 @@ const Recommended = () => {
 
               return (
                 <React.Fragment key={index}>
-                  <TableRow>
+                  <TableRow style={{backgroundColor: index % 2 === 1 ? p.theme.fBlue : '#fff'}}>
                     <div>{up(per)}</div>
                     {percents[per].map((pe, index) => (
                       <div key={index}>

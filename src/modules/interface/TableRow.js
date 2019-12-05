@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import theme from '../../styles/theme'
 
-const TableRow = ({ children, className, pattern = [40, 30], onClick, tData }) => {
+const TableRow = ({ children, className, pattern = [40, 30], onClick, tData, style }) => {
   const mkStyles = () => {
     let inj = ''
     if (pattern.length > 2) {
@@ -52,7 +52,7 @@ const TableRow = ({ children, className, pattern = [40, 30], onClick, tData }) =
   const StTableRow = styled.div`${mkStyles()}`
 
   return (
-    <StTableRow className={className} onClick={onClick || null}>
+    <StTableRow className={className} style={style} onClick={onClick || null}>
       {tData && tData.map((td, i) => <div key={i}>{td}</div>)}
       {children}
     </StTableRow>

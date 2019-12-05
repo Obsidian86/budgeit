@@ -55,7 +55,7 @@ export const styles = (p, isOpen) => {
                 button{
                     display: flex;
                     text-align: left;
-                    padding: 20px;
+                    padding: 16px 20px;
                     width: 100%;
                     border: none;
                     background: none;
@@ -79,16 +79,16 @@ export const styles = (p, isOpen) => {
                 a{  
                     height: 21px;
                     text-decoration: none;
-                    padding-bottom: 20px;
-                    padding-top: 26px;
+                    padding-bottom: 17px;
+                    padding-top: 23px;
                     color: black;
                     font-size: 1rem;
-                    width: calc(33.33% - 40px);
+                    width: calc(33.33% - 25px);
                     text-align: left;
                     padding-left: 20px;
                     @media (max-width: 750px){ 
                         &{
-                            width: calc(50% - 40px)
+                            width: calc(50% - 25px)
                         }
                     }
                     span{

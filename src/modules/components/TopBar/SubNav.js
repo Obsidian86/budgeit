@@ -11,7 +11,7 @@ const SubNav = ({ changeView, p, step }) => {
             <div style={{ fontSize: '1.2rem' }}>
                 {p.profile &&
                     <div style={{ 
-                        padding: '22px 0', 
+                        padding: '16px 0', 
                         borderBottom: '1px solid darkgreen', 
                         width: '100%',
                         backgroundColor: '#555'
@@ -19,7 +19,7 @@ const SubNav = ({ changeView, p, step }) => {
                         <span style={{
                             background: 'white',
                             borderRadius: '50%',
-                            padding: '6px 7px',
+                            padding: '4px 5px',
                             color: '#555'
                         }}>
                             <FontAwesomeIcon icon={faUserAlt} /> 
