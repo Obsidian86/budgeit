@@ -67,8 +67,10 @@ const Accounts = () => {
       }
 
     let total = 0
+    let liquid = 0
     const accountList = p.accounts.map((a, i) => {
         total = total + a.amount
+        if(a.liquid) liquid = liquid + a.amount
         const interest = getInterest(a.amount, a.interest, 10)
         return (
         <li key={i} style={{flexWrap: 'wrap', cursor: 'pointer'}} onClick={()=> {updateEdittingItem(a); updateShowForm(true)}}>
@@ -104,7 +106,9 @@ const Accounts = () => {
                         {accountList}
                     </SoftList>
                     <div className='right'>
-                        <h3 style={{padding: '0px 8px 7px 6px'}}>{money(total)}</h3>
+                        <h3 style={{padding: '0px 8px 7px 6px'}}>Liquid: {money(liquid)}</h3>
+                        <h3 style={{padding: '0px 8px 7px 6px'}}>Non liquid: {money(total - liquid)}</h3>
+                        <h3 style={{padding: '0px 8px 7px 6px'}}>Total: {money(total)}</h3>
                     </div>
                     <div className='right'>
                         <button className='btn blue'
@@ -126,6 +130,7 @@ const Accounts = () => {
                                 <IP type='text' alias='name' data={formData} label='Account name' errors={errors} onChange={e => updateField(e) } />
                                 <IP type='text' alias='interest' data={formData} label='Interest rate' errors={errors} onChange={e => updateField(e) } />
                                 <IP type='text' alias='amount' data={formData} label='Amount' errors={errors} onChange={e => updateField(e) } />
+                                <IP type='text' alias='liquid' data={formData} label='Liquid' errors={errors} onChange={e => updateField(e) } />
                                 <span className='right mt-40'>
                                     {edittingItem && 
                                         <button
