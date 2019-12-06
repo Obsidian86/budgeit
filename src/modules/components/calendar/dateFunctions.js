@@ -6,11 +6,20 @@ export const tMonth = () => new Date().getMonth() + 1
 export const tYear = () => new Date().getFullYear()
 export const msToDays = ms => (ms / 1000) / 86400
 export const parsedCurrentDate = (inDate) => { // 4-11-2019 format
-  const tDate = inDate ? new Date(inDate) : new Date()
+  const tDate = inDate ? pDate(inDate) : new Date()
   return `${tDate.getMonth() + 1}-${tDate.getDate()}-${tDate.getFullYear()}`
 }
+export const pDate = (inDate) => { // return system readable date
+  if(!inDate) return new Date()
+  if(!inDate.split && new Date(inDate)){
+    return new Date(inDate)
+  }
+  const splDate = inDate.split('-')
+  return new Date(splDate[2], parseInt(splDate[0]) - 1, splDate[1])
+}
+
 export const stepDate = (newDate = [], stepAmount = '', incr = 1) => {
-  // stepAmount = daily, weekly, biWeekly, monthly, yearly
+  // stepAmount = daily, weekly , biWeekly, monthly, yearly
   newDate = newDate.map(d => parseInt(d))
   if (stepAmount === 'd' || stepAmount === 'daily')  { newDate[1] = newDate[1] + incr }
   if (stepAmount === 'w' || stepAmount === 'weekly')  { newDate[1] = newDate[1] + (7 * incr) }

@@ -38,7 +38,7 @@ const renderCalender = (handleClick, props, state) => {
               return (
                 <p
                   key={i}
-                  className={`eventItem ${new Date(iterDate) < toDate && 'pastEvent'}`}
+                  className={`eventItem ${DF.pDate(iterDate) < toDate && 'pastEvent'}`}
                   style={{ borderColor: d.color ? d.color : null }}
                   onClick={e => {
                     e.stopPropagation()

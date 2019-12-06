@@ -3,6 +3,7 @@ import FieldError from '../modules/interface/FieldError'
 import DatePicker from 'react-datepicker';
 import DropDown from '../modules/interface/DropDown'
 import "react-datepicker/dist/react-datepicker.css"
+import { pDate } from '../modules/components/calendar/dateFunctions'
 
 export const validForm = (fieldList, dataCheck) => {
     let errs = {}
@@ -65,7 +66,7 @@ export const IP = ({type='text', alias, onChange, data, errors, label, options =
         {type === 'date' && 
         <span>
             <DatePicker
-            selected = {data && data[alias] && new Date(data[alias])}
+            selected = {data && data[alias] && pDate(data[alias])}
             onChange = {date => onChange(date)}  />
         </span>}
   

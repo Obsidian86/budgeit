@@ -13,7 +13,7 @@ const handleClick = (callBack, data, end, date, props, state) => {
       let safety = 0
       let testDate = date || `${currDate.getMonth() + 1}-${currDate.getDate()}-${currDate.getFullYear()}`
       end = end || `${dateInfo.m}-${DF.daysInMonth(dateInfo.m, dateInfo.y)}-${dateInfo.y}`
-      if(new Date(end) < new Date(date)) return callBack(data)
+      if(DF.pDate(end) < DF.pDate(date)) return callBack(data)
       while (safety < 100000) {
         const splDate = testDate.split('-')
         if (eventInfo[splDate[2]]) {

@@ -4,12 +4,12 @@ const processItems = (items, startProc, endProc) => {
     const processedItems = {}
     items.forEach(it => {
       //TO DO if no End
-      const prDate = new Date(it.date)
+      const prDate = DF.pDate(it.date)
       if (it.rec) {
         let loopProtect = 0
         let dateTarg = prDate
         let calcDate = it.date
-        while ((dateTarg <= new Date(it.end) || !it.end) && loopProtect < 6000) {
+        while ((dateTarg <= DF.pDate(it.end) || !it.end) && loopProtect < 6000) {
           const newDate = calcDate.split('-').map(d => parseInt(d))
           if(parseInt(newDate[2]) > parseInt(endProc)){
             loopProtect = 5999
@@ -31,7 +31,7 @@ const processItems = (items, startProc, endProc) => {
           }
           const getNewDate = DF.stepDate(newDate, it.rec) 
           calcDate = getNewDate.join('-')
-          dateTarg = new Date(calcDate)
+          dateTarg = DF.pDate(calcDate)
           loopProtect++
         }
       } else {

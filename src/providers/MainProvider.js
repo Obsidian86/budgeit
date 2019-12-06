@@ -28,6 +28,7 @@ class MainProvider extends React.Component {
       updateSavingsTables: this.updateSavingsTables,
       setDialog: this.setDialog,
       updateView: this.updateView,
+      saveState: this.saveState,
       // Memory
       applyState: this.applyState,
       deleteData: this.deleteData,

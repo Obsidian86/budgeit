@@ -11,6 +11,7 @@ import BudgetForm from './components/BudgetForm'
 import suggested from '../utilities/suggested'
 import ContentBox from './interface/ContentBox'
 import { validForm } from '../utilities/formUtilities'
+import { pDate } from './components/calendar/dateFunctions'
 
 const YourBudget = ({ step }) => {
   const p = useContext(MainContext);
@@ -29,7 +30,7 @@ const YourBudget = ({ step }) => {
       { name: 'date', req: true, type: 'text' }
     ]
     const errs = validForm(fields, bi)
-    if(bi.date && bi.end && new Date(bi.date) > new Date(bi.end)){
+    if(bi.date && bi.end && pDate(bi.date) > pDate(bi.end)){
       errs['end'] = 'End date can not come before start date'
     }
     updateErrors(errs)
