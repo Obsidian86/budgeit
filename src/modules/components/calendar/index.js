@@ -13,7 +13,7 @@ const Calendar = (props) => {
         #calendar{ 
             margin: 0 auto;
             span {
-                width: calc(100% / 7);
+                width: calc(100% / 7 - 1px);
                 display: block;
                 font-weight: bold;
                 color: #fff;

@@ -9,7 +9,9 @@ const Bullet = ({ color = 'gray', size = 17 }) => {
     border: '2px solid #fff',
     borderRadius: '50%',
     marginRight: '8px',
-    float: 'left'
+    float: 'left',
+    position: 'relative',
+    top: '-1px'
   }
   return <i style={s} />
 }

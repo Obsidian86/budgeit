@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { convert, disRec } from "../../../utilities/convert"; 
 import DropDown from "../../interface/DropDown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoneyBill, faCalendarAlt, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faBars } from "@fortawesome/free-solid-svg-icons";
 import MainContext from "../../../providers/MainContext";
 import { recurrence } from '../../../utilities/constants'
 import { styles } from './styles'
@@ -37,10 +37,10 @@ const TopBar = ({updateView, step}) => {
           <FontAwesomeIcon icon={faBars} />
         </button>
         <div className='mainContainer'>
-          <p className="logo">
-            <FontAwesomeIcon icon={faMoneyBill} />
-            &nbsp; Budge-it
-          </p>
+          <span className="logo">
+            <img src='images/favicon-16x16.png' alt='' />
+            <p>Budge-it</p>
+          </span>
           <DropDown
             icon={<FontAwesomeIcon icon={faCalendarAlt} />}
             options={recurrence}

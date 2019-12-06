@@ -29,7 +29,7 @@ export const validForm = (fieldList, dataCheck) => {
 
 export const IP = ({type='text', alias, onChange, data, errors, label, options = [], styles= '', showPH = false }) => {
     return(<>
-        {label && <label for={`${alias}`}>{label}</label>}
+        {label && (type !=='checkbox') && <label htmlFor={`${alias}`}>{label}</label>}
   
         {(type ==='text' || type ==='number') && 
         <input
@@ -50,12 +50,16 @@ export const IP = ({type='text', alias, onChange, data, errors, label, options =
         />}
   
         {type === 'checkbox' && 
-            <input 
-                type='checkbox'
-                styles={styles}
-                checked={data[alias]}
-                onCange={e => onChange(e)}
-            />
+            <label className='cu_checkBox'>
+                <input 
+                    type='checkbox'
+                    styles={styles}
+                    className='cu_checkBox'
+                    checked={data && data[alias] ? data[alias] : false}
+                    onChange={e => onChange(e)}
+                />
+                <span />{label && label}
+            </label>
         }
 
         {type === 'date' && 

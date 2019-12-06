@@ -14,8 +14,14 @@ const CalendarModule = () => {
   const [yearlyItems, updateYearlyItems] = useState(null)
   const [calLoaded, updateCalLoaded] = useState(false)
 
-  let trackBalance = 0
-  p.accounts.map(a => trackBalance = trackBalance + parseFloat(a.amount)) 
+  let noLiquBal = 0 // not liquid
+  let totalBal = 0 // total
+  p.accounts.forEach(a => {
+    if(!a.liquid){
+      noLiquBal = noLiquBal + parseFloat(a.amount)
+    }
+    totalBal = totalBal + parseFloat(a.amount)
+  }) 
 
   const s = { // common styles
     h:  { margin: '0', padding: '0', marginTop: '20px' }, // head
@@ -26,8 +32,8 @@ const CalendarModule = () => {
   }
   
   const tabContent = [
-    { tab: 'Current month', content: CMF.genTabContent(currentItems, trackBalance, 'Overview', s) },
-    { tab: 'Year', content: CMF.genTabContent(yearlyItems, trackBalance, 'Yearly summary', s) }
+    { tab: 'Current month', content: CMF.genTabContent(currentItems, (totalBal - noLiquBal), 'Overview', s, totalBal) },
+    { tab: 'Year', content: CMF.genTabContent(yearlyItems, (totalBal - noLiquBal), 'Yearly summary', s, totalBal) }
   ]
 
   const procUpdateDate = (data) => {
@@ -49,7 +55,7 @@ const CalendarModule = () => {
   return (
     <ContentBox title='Calendar' itemId='calendarModule'>
       <div className='row'>
-        <div className='sm mt-40'>
+        <div className='sm mt-40 fw-b'>
           <TabbedView
             rounded
             activeColor={'#d9d9d9'}

@@ -111,7 +111,7 @@ label{
   input:checked + span{
     &:after{
       position: absolute;
-      top: -11px;
+      top: -9px;
       left: 4px;
       height: 20px;
       width: 20px;
@@ -135,9 +135,13 @@ label{
 .row{
   display: flex;
   justify-content: space-evenly;
+  @supports (-ms-ime-align:auto) {
+    & { justify-content: space-around; }
+  }
   flex-direction: row;
   flex-wrap: wrap;
 }
+
 .contentBox{
   width: 97%;
   min-width: 300px;
@@ -167,7 +171,9 @@ label{
 }
 
 .mt-40 { margin-top: 40px; }
+.mt-10 { margin-top: 10px; }
 .w-100{ width: 100% }
+.fw-b{font-weight: bold;}
 
 p{
   &.text-left { text-align: left;}

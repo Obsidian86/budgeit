@@ -4,7 +4,7 @@ import { money } from '../../utilities/convert'
 import SoftList from '../interface/SoftList'
 import Scroll from '../interface/Scroll'
 
-export const genTabContent = (procItems, trackBalance, title, s) => {
+export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid) => {
     
     if(!Array.isArray(procItems) || procItems.length === 0) return <p><br />No items to view for this range<br /></p>
 
@@ -12,7 +12,10 @@ export const genTabContent = (procItems, trackBalance, title, s) => {
     let monthTrack = ''
       return <>
         <h2 style={s.h}>{title}</h2>
-        <p style={s.r}>{ money(trackBalance)}</p>
+        <div className='row mt-10'>
+          <p style={{...s.r, color: 'green'}}>Liquid { money(trackBalance)}</p>
+          <p style={s.r}>Total { money(balWithLiquid)}</p>
+        </div>
         <Scroll height={600}>
           <SoftList split>
             {procItems && procItems.map((ci, i) => {
@@ -26,8 +29,10 @@ export const genTabContent = (procItems, trackBalance, title, s) => {
               }
               if(ci.category && ci.amount && ci.category.toLowerCase() === 'income'){
                 trackBalance = trackBalance + parseFloat(ci.amount)
+                balWithLiquid = balWithLiquid + parseFloat(ci.amount)
               } else{
                 if(ci.amount) trackBalance = trackBalance - parseFloat(ci.amount)
+                if(ci.amount) balWithLiquid = balWithLiquid - parseFloat(ci.amount)
               }
               return (
                 <Fr key={i}>
@@ -47,7 +52,10 @@ export const genTabContent = (procItems, trackBalance, title, s) => {
             )}
           </SoftList>
         </Scroll>
-        <p>Ending balance { money(trackBalance) }</p>
+        <div className='row'>
+        <p style={{color: 'green'}}>Liquid { money(trackBalance) }</p>
+        <p>Total { money(balWithLiquid) }</p>
+        </div>
       </>
   }
 

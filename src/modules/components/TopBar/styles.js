@@ -33,6 +33,23 @@ export const styles = (p, isOpen) => {
             border-radius: 4px;
             color: white;
             margin-left: 38px;
+            display: flex;
+            img{
+                border: 1.9px solid #fff;
+                background-color: #fff;
+                border-radius: 2px;
+                margin: 0;
+                height: 16px;
+                width: 16px;
+                margin-top: 3px;
+                
+            }
+            p{
+                margin: 0;
+                padding: 0;
+                padding-top: 1px;
+                margin-left: 8px;
+            }
         }
         & .mainContainer {
             padding-top: 10px;

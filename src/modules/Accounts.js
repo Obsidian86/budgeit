@@ -6,6 +6,7 @@ import { money } from '../utilities/convert'
 import { getInterest } from '../utilities/functions'
 import Form from './Form'
 import { IP, validForm } from '../utilities/formUtilities'
+import Bullet from './interface/Bullet'
 
 const s = {
     intRow: {
@@ -74,7 +75,7 @@ const Accounts = () => {
         const interest = getInterest(a.amount, a.interest, 10)
         return (
         <li key={i} style={{flexWrap: 'wrap', cursor: 'pointer'}} onClick={()=> {updateEdittingItem(a); updateShowForm(true)}}>
-            <span style={s.intFirst}>{a.name}</span>
+            <span style={s.intFirst}> <Bullet color={a.liquid ? 'green' : 'orange'} size={12} /> {a.name}</span>
             <span style={s.intRight}>{a.interest}%</span>
             <span style={s.intRight}>{money(a.amount)}</span>
             {(a.interest > 0 && showReturns) && <div style={s.intRow}>
@@ -105,9 +106,9 @@ const Accounts = () => {
                         </li>
                         {accountList}
                     </SoftList>
-                    <div className='right'>
-                        <h3 style={{padding: '0px 8px 7px 6px'}}>Liquid: {money(liquid)}</h3>
-                        <h3 style={{padding: '0px 8px 7px 6px'}}>Non liquid: {money(total - liquid)}</h3>
+                    <div className='right' style={{marginBottom: '5px'}}>
+                        <h3 style={{padding: '0px 8px 7px 6px', color: 'green'}} >Liquid: {money(liquid)} </h3>
+                        <h3 style={{padding: '0px 8px 7px 6px', color: 'orange'}} >Non liquid: {money(total - liquid)} </h3>
                         <h3 style={{padding: '0px 8px 7px 6px'}}>Total: {money(total)}</h3>
                     </div>
                     <div className='right'>
@@ -130,7 +131,14 @@ const Accounts = () => {
                                 <IP type='text' alias='name' data={formData} label='Account name' errors={errors} onChange={e => updateField(e) } />
                                 <IP type='text' alias='interest' data={formData} label='Interest rate' errors={errors} onChange={e => updateField(e) } />
                                 <IP type='text' alias='amount' data={formData} label='Amount' errors={errors} onChange={e => updateField(e) } />
-                                <IP type='text' alias='liquid' data={formData} label='Liquid' errors={errors} onChange={e => updateField(e) } />
+                                <IP type='checkbox' alias='liquid' data={formData} label='Liquid' errors={errors} onChange={e => {
+                                    updateField({
+                                        target: {
+                                            value: formData.liquid ? false : true,
+                                            name: 'liquid'
+                                        }
+                                    })
+                                }} />
                                 <span className='right mt-40'>
                                     {edittingItem && 
                                         <button
