@@ -10,7 +10,7 @@ import { validForm } from '../utilities/formUtilities'
 
 const SavingsCalc = ({ step }) => {
   const p = useContext(MainContext)
-  const [errors, updateErrors] = useState(null) 
+  const [errors, updateErrors] = useState(null)
 
   const processTables = (formDataIn) => {
     let formData = {...formDataIn}
@@ -138,6 +138,11 @@ const SavingsCalc = ({ step }) => {
         </p>
         <div className={step === 0 && p.savingsTable.length < 1 ? 'lg' : 'md'}>
           <Form
+            defaultFormData={{
+              stAmount: '',
+              rate: '',
+
+            }}
             render={(updateForm, formData) => (
               <>
                 <label>Starting amount</label>

@@ -10,6 +10,7 @@ import EmergencyFunds from './modules/EmergencyFunds'
 import CalendarModule from './modules/CalendarModule'
 import Accounts from './modules/Accounts'
 import SaveLoad from './modules/SaveLoad'
+import SnapShots from './modules/SnapShots'
 
 function App() {
   const p = useContext(MainContext)
@@ -29,6 +30,8 @@ function App() {
         {step > 0 && <EmergencyFunds />}
         <Accounts />
         <CalendarModule />
+
+        <SnapShots />
         <div className='right' style={{width: '98%'}}>
           <button 
             onClick={()=>updateAccData(!accData)}
@@ -40,6 +43,7 @@ function App() {
         </div>
         {accData && <SaveLoad />}
       </div>
+
       <Footer />
     </div>
   )

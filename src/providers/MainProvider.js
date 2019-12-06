@@ -21,7 +21,23 @@ class MainProvider extends React.Component {
       budget: {},
       total: 0, // total amount budgeted
       savingsTable: [{ 0: { stAmount: 0, interest: 0, deposit: 0 } }],
-      incomeSources: []
+      incomeSources: [],
+      snapshots: [
+        {
+            date: '11-22-2019',
+            currentLiquid: 100,
+            currentTotal: 200,
+            projectedEndOfYearTotal: 500,
+            projectedEndOfYearLiquid: 400
+        },
+        {
+            date: '11-30-2019',
+            currentLiquid: 100,
+            currentTotal: 200,
+            projectedEndOfYearTotal: 500,
+            projectedEndOfYearLiquid: 400
+        }
+    ]
     }
     this.methods = {
       updateViewBy: this.updateViewBy,
@@ -29,6 +45,9 @@ class MainProvider extends React.Component {
       setDialog: this.setDialog,
       updateView: this.updateView,
       saveState: this.saveState,
+      // Data
+      exportData: this.exportData,
+      importData: this.importData,
       // Memory
       applyState: this.applyState,
       deleteData: this.deleteData,
@@ -47,7 +66,10 @@ class MainProvider extends React.Component {
       // Accounts CRUD
       addAccount: this.addAccount,
       deleteAccount: this.deleteAccount,
-      updateAccount: this.updateAccount
+      updateAccount: this.updateAccount,
+      // snapshots
+      addSnapShot: this.addSnapShot,
+      deleteSnapShot: this.deleteSnapShot
     }
     this.state = {
       ...this.defaultVals,
@@ -57,15 +79,20 @@ class MainProvider extends React.Component {
 
   // initialize data
   componentDidMount = () => this.setState(this.loadData())
-
-  // Memory / profile tasks
   saveState = newState => this.setState(newState, this.applyState)
-
   applyState = () => {
     const profile = mem.save(this.state, this.state.profile)
     if(!this.state.profile) this.setState({profile}) 
   }
 
+  // Data import / export
+  importData = (data) => this.saveState({...this.defaultVals, ...data}) 
+  exportData = () => {
+    const { profile, amount, accounts, budget, total, savingsTable, incomeSources, snapshots } = this.state
+    return({ profile, amount, accounts, budget, total, savingsTable, incomeSources, snapshots })
+  }
+
+  // profile tasks
   deleteData = () => {
     mem.deleteData()
     this.setState(this.defaultVals)
@@ -99,6 +126,7 @@ class MainProvider extends React.Component {
     const top = (!targ || view === 'default') ? 0 : targ.offsetTop - 90
     window.scrollTo(0, top)
   }
+
   // budget CRUD
   addBudgetItem = (bi) => this.saveState(bdg.processAddBudgetItem(this.state.budget, bi, colors, this.state.total))
   deleteBudgetItem = (cat, id) => this.saveState(bdg.processDeleteBudgetItem(this.state.budget, cat, id, this.state.total))
@@ -111,6 +139,10 @@ class MainProvider extends React.Component {
 
   // savings calulator
   updateSavingsTables = (savingsTable) => this.saveState({ savingsTable: savingsTable })
+
+  // Snapshots
+  addSnapShot = (data) => this.saveState({ snapshots: [...this.state.snapshots, {...data}]})
+  deleteSnapShot = (deleteIndex) => this.saveState({ snapshots: [...this.state.snapshots.filter((it, ind) => deleteIndex !== ind) ]})
 
   render = () =>
     <>

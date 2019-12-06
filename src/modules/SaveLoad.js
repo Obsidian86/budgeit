@@ -7,29 +7,33 @@ const SaveLoad = () => {
     const p = useContext(MainContext)
     const [loadedData, updateLoadedData] = useState(null)
 
-    const { profile, amount, accounts, budget, total, savingsTable, incomeSources, saveState, setDialog } = p
-
-    const fileReader = new FileReader();
+    let fileReader = new FileReader();
     fileReader.onload = (event) => {
         const importedData = JSON.parse(event.target.result)
         if(importedData) {
             let valid = importedData.profile            
-            valid && updateLoadedData(importedData)
+            if (valid) updateLoadedData(importedData) 
         }
     };
-
+  
     const confirmLoadProfile = () => {
-        setDialog({
+        p.setDialog({
             open: true,
-            header: 'Load account data', 
-            message: <>Are you sure you want to load account data? <br /> This will remove current work. <br /> Make sure you save. </>, 
+            header: 'Overwrite account data', 
+            message: <> 
+                Are you sure you want to load account data? <br /> 
+                This will remove current work. <br />
+                Make sure you save. 
+            </>, 
             confirm: ()=>{
-              loadedData && saveState(loadedData)
+              loadedData && p.importData(loadedData)
             },
-            reject: ()=>{ return null }
+            reject: ()=> null 
           }) 
     }
 
+
+    // EXPORT
     const makeJson = (input) => {
         let outPut = []
         for ( let i = 0; i < input.length; i++ ) {
@@ -39,9 +43,7 @@ const SaveLoad = () => {
     }
 
     const handleClick = () => {
-        const data = makeJson( JSON.stringify({ 
-            profile, amount, accounts, budget, total, savingsTable, incomeSources
-        }, null, 4) );
+        const data = makeJson( JSON.stringify(p.exportData(), null, 4) );
 
         const blob = new Blob( [ data ], {
             type: 'application/octet-stream'
@@ -49,7 +51,7 @@ const SaveLoad = () => {
          
         const link = document.createElement( 'a' )
         link.setAttribute( 'href', URL.createObjectURL( blob ))
-        link.setAttribute( 'download', `${profile || 'file'}.json` )
+        link.setAttribute( 'download', `${p.profile || 'file'}.json` )
         
         const event = document.createEvent( 'MouseEvents' )
         event.initMouseEvent( 'click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null)
@@ -80,13 +82,13 @@ const SaveLoad = () => {
 
             <label className='mt-40 d-bl mb-10'>Import account file</label>
             <div className="files mt-40 mb-10" style={s.dropCont}>
-                <Files onChange={file => fileReader.readAsText(file[0]) } style={s.fileDrop}>
+                <Files onChange={file => {fileReader.readAsText(file[file.length - 1])} } style={s.fileDrop} id='asd'>
                     { loadedData && loadedData.profile ?
                         `Load profile: ${loadedData.profile}` :
                         'Drop files here or click to upload' }
                 </Files>
             </div>
-            { loadedData && <button onClick={confirmLoadProfile} className='btn narrow blue'>Load data</button> }
+            { loadedData && <button onClick={confirmLoadProfile} className='btn narrow blue mt-40'>Load data</button> }
         </ContentBox>
     )
 }
