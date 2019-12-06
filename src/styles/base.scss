@@ -142,6 +142,10 @@ label{
   flex-wrap: wrap;
 }
 
+@media all and (-ms-high-contrast:none){
+    *::-ms-backdrop, .row{ justify-content: space-around; } /* IE11 */
+  }
+
 .contentBox{
   width: 97%;
   min-width: 300px;
