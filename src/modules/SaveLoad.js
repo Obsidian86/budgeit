@@ -79,14 +79,14 @@ const SaveLoad = () => {
             > Export </button> 
 
             <label className='mt-40 d-bl mb-10'>Import account file</label>
-            <div className="files mt-40" style={s.dropCont}>
+            <div className="files mt-40 mb-10" style={s.dropCont}>
                 <Files onChange={file => fileReader.readAsText(file[0]) } style={s.fileDrop}>
                     { loadedData && loadedData.profile ?
                         `Load profile: ${loadedData.profile}` :
                         'Drop files here or click to upload' }
                 </Files>
-                { loadedData && <button onClick={confirmLoadProfile} className='btn blue'>Load data</button> }
             </div>
+            { loadedData && <button onClick={confirmLoadProfile} className='btn narrow blue'>Load data</button> }
         </ContentBox>
     )
 }
