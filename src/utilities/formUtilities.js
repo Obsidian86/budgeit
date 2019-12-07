@@ -28,7 +28,7 @@ export const validForm = (fieldList, dataCheck) => {
     return errs
 }
 
-export const IP = ({type='text', alias, onChange, data, errors, label, options = [], styles= '', showPH = false }) => {
+export const IP = ({type='text', alias, onChange, data, errors, label, options = [], style= {}, showPH = false }) => {
     return(<>
         {label && (type !=='checkbox') && <label htmlFor={`${alias}`}>{label}</label>}
   
@@ -36,7 +36,7 @@ export const IP = ({type='text', alias, onChange, data, errors, label, options =
         <input
           type={type}
           name={alias}
-          styles={styles}
+          style={style}
           placeholder={showPH && label ? `Input ${label}` : null}
           onChange={e => onChange(e)}
           value={data && data[alias] ? data[alias] : ''}
@@ -45,16 +45,15 @@ export const IP = ({type='text', alias, onChange, data, errors, label, options =
         {type === 'drop' && 
         <DropDown
             options={options}
-            styles={styles}
+            style={style}
             isSet={data && data[alias] ? data[alias] : ''}
             callBack={val => onChange(val)}
         />}
   
         {type === 'checkbox' && 
-            <label className='cu_checkBox'>
+            <label className='cu_checkBox' style={style}>
                 <input 
                     type='checkbox'
-                    styles={styles}
                     className='cu_checkBox'
                     checked={data && data[alias] ? data[alias] : false}
                     onChange={e => onChange(e)}

@@ -1,16 +1,16 @@
 import React, { Fragment as Fr } from 'react'
-import { Months } from '../components/calendar/dateFunctions'
+import { Months, tYear } from '../components/calendar/dateFunctions'
 import { money } from '../../utilities/convert'
 import SoftList from '../interface/SoftList'
 import Scroll from '../interface/Scroll'
 
-export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid) => {
+export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, saveState, eoyTotal, eoyLiquid, selectedDay) => {
     
     if(!Array.isArray(procItems) || procItems.length === 0) return <p><br />No items to view for this range<br /></p>
 
     let yearTrack = ''
     let monthTrack = ''
-      return <>
+      const retItems = <>
         <h2 style={s.h}>{title}</h2>
         <div className='row mt-10'>
           <p style={{...s.r, color: 'green'}}>Liquid { money(trackBalance)}</p>
@@ -57,6 +57,17 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid) 
         <p>Total { money(balWithLiquid) }</p>
         </div>
       </>
+
+      if(title === 'Yearly summary' && selectedDay && (selectedDay === 'current' || (selectedDay.y && selectedDay.y === tYear()))){
+        if(eoyTotal !== balWithLiquid || eoyLiquid !== trackBalance){
+          saveState({
+            eoyLiquid: trackBalance,
+            eoyTotal: balWithLiquid
+          })
+        }
+      }
+      
+      return retItems
   }
 
   // turn budget into readable calendar readable array

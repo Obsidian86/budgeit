@@ -15,6 +15,8 @@ class MainProvider extends React.Component {
       profile: null,
       amount: null, // income amount set by user
       accounts: [],
+      eoyTotal: null,
+      eoyLiquid: null,
       viewBy: 'm',
       dialog: { open: false },
       theme: theme,
@@ -22,22 +24,7 @@ class MainProvider extends React.Component {
       total: 0, // total amount budgeted
       savingsTable: [{ 0: { stAmount: 0, interest: 0, deposit: 0 } }],
       incomeSources: [],
-      snapshots: [
-        {
-            date: '11-22-2019',
-            currentLiquid: 100,
-            currentTotal: 200,
-            projectedEndOfYearTotal: 500,
-            projectedEndOfYearLiquid: 400
-        },
-        {
-            date: '11-30-2019',
-            currentLiquid: 100,
-            currentTotal: 200,
-            projectedEndOfYearTotal: 500,
-            projectedEndOfYearLiquid: 400
-        }
-    ]
+      snapshots: []
     }
     this.methods = {
       updateViewBy: this.updateViewBy,
@@ -78,7 +65,7 @@ class MainProvider extends React.Component {
   }
 
   // initialize data
-  componentDidMount = () => this.setState(this.loadData())
+  componentDidMount = () => this.loadData()
   saveState = newState => this.setState(newState, this.applyState)
   applyState = () => {
     const profile = mem.save(this.state, this.state.profile)

@@ -33,7 +33,7 @@ const CalendarModule = () => {
   
   const tabContent = [
     { tab: 'Current month', content: CMF.genTabContent(currentItems, (totalBal - noLiquBal), 'Overview', s, totalBal) },
-    { tab: 'Year', content: CMF.genTabContent(yearlyItems, (totalBal - noLiquBal), 'Yearly summary', s, totalBal) }
+    { tab: 'Year', content: CMF.genTabContent(yearlyItems, (totalBal - noLiquBal), 'Yearly summary', s, totalBal, p.saveState, p.eoyTotal, p.eoyLiquid, (selectedDay || 'current')) }
   ]
 
   const procUpdateDate = (data) => {

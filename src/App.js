@@ -35,7 +35,7 @@ function App() {
         <div className='right' style={{width: '98%'}}>
           <button 
             onClick={()=>updateAccData(!accData)}
-            className={`btn narrow mt-10 mb-10 ${!accData ? 'green' : 'red'}`}
+            className={`btn narrow mb-40 ${!accData ? 'green' : 'red'}`}
             style={{marginRight: '0'}}
           >
             Export / import accounts

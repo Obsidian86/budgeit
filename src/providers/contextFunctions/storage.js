@@ -10,12 +10,20 @@ export const getProfiles = () => {
 }
 
 export const save = (data, profile) =>{
-  if(!profile) {
-    profile = genId()
-    const currentProfiles = getProfiles()
-    const profiles = currentProfiles ? [...currentProfiles, profile] : [profile]
-    localStorage.setItem('profiles', JSON.stringify({profiles}))
+  if(!profile) profile = genId()
+  const currentProfiles = getProfiles()
+
+  let profiles = []
+  if(currentProfiles && currentProfiles.length > 0){
+    profiles = [...currentProfiles]
+    let profIndex = profiles.indexOf(profile)
+    if(profIndex > -1){
+      profiles = profiles.filter((pr, i) => i !== profIndex)
+    }
   }
+  profiles.push(profile)
+
+  localStorage.setItem('profiles', JSON.stringify({profiles}))
   localStorage.setItem(profile, JSON.stringify({...data, profile}))
   return profile
 }
