@@ -135,7 +135,7 @@ const SnapShots = () => {
         cBox: {
             display: 'block',
             margin: 0,
-            padding: 0,
+            padding: '12px 0',
             width: `14%`,
             minWidth: '200px'
         }
@@ -180,10 +180,10 @@ const SnapShots = () => {
     }
 
     return(
-        <ContentBox title='Snapshots' itemId='snapshots'>
+        <ContentBox title='Snapshots' itemId='snapshots' >
             <div className='mt-40 mb-40'>
                 <p>Create account snapshots to track trends and projected amounts over time.</p>
-                {p.snapshots && p.snapshots.length > 1 && <><label>Show values for</label>
+                {p.snapshots && p.snapshots.length > 1 && <><label>Toggle chart values</label>
                 <div style={s.cBoxes}>
                     { Object.keys(showItems).map((si, index) => 
                         <IP 

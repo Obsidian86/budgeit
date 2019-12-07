@@ -107,6 +107,10 @@ const SubNav = ({ changeView, p, step }) => {
                     style={{borderLeft: `5px solid ${colors[6]}`}}>
                     <span>Recommended</span>
                 </a>}
+                {step > 0 && <a href='/#' onClick={event => changeView(event, 'snapshots')}
+                    style={{borderLeft: `5px solid ${colors[7]}`}}>
+                    <span>Snapshots</span>
+                </a>}
             </nav>
         </div>
     )
