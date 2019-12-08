@@ -12,6 +12,8 @@ import Accounts from './modules/Accounts'
 import SaveLoad from './modules/SaveLoad'
 import SnapShots from './modules/SnapShots'
 
+const version = 1.03
+
 function App() {
   const p = useContext(MainContext)
   const [accData, updateAccData] = useState(false)
@@ -41,7 +43,7 @@ function App() {
 
         <SnapShots />
       </div>
-      <Footer version={1.02} />
+      <Footer version={version} />
     </div>
   )
 }

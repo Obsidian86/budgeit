@@ -10,12 +10,34 @@ const SubNav = ({ changeView, p, step }) => {
         <div>
             <div style={{ fontSize: '1.2rem' }}>
                 {p.profile &&
-                    <div style={{ 
-                        padding: '16px 0', 
-                        borderBottom: '1px solid darkgreen', 
-                        width: '100%',
-                        backgroundColor: '#555'
-                    }}>
+                    <div 
+                        style={{ 
+                            cursor: 'pointer',
+                            padding: '16px 0', 
+                            borderBottom: '1px solid darkgreen', 
+                            width: '100%',
+                            backgroundColor: '#555'
+                        }}
+                        onClick={() => p.setDialog({
+                            open: true,
+                            header: 'Rename profile',
+                            message: 
+                                <>
+                                    <input 
+                                        type='text' 
+                                        defaultValue={p.profile} 
+                                        id='newProfileName' 
+                                        style={{marginLeft: '-5px', width: '87%', paddingRight: '20px'}}>
+                                    </input>
+                                </>,
+                            confirm: () => {
+                                let newProfile = document.getElementById('newProfileName').value
+                                newProfile && newProfile.replace(' ', '') !== '' && newProfile !== p.profile && p.saveState({profile: newProfile})
+                            },
+                            reject: () => { return null },
+                            yesText: 'Change'
+                        })}
+                    >
                         <span style={{
                             background: 'white',
                             borderRadius: '50%',

@@ -7,7 +7,7 @@ const Dialog = ({ data, setDialog }) => {
     updateMounted(true)
   }, [])
 
-  const { header, message, confirm, reject } = data
+  const { header, message, confirm, reject, yesText = 'Yes', noText = 'Cancel' } = data
   const StDialog = styled.div`
         .dialogContainer{
             position: fixed;
@@ -67,8 +67,8 @@ const Dialog = ({ data, setDialog }) => {
           {message && <p>{message}</p>}
           {(confirm || reject) &&
           <div className='grouping right'>
-            {confirm && <button onClick={() => handleClick(confirm)} className='btn'>Yes</button>}
-            {reject && <button onClick={() => handleClick(reject)} className='btn red'>Cancel</button>}
+            {confirm && <button onClick={() => handleClick(confirm)} className='btn'>{yesText}</button>}
+            {reject && <button onClick={() => handleClick(reject)} className='btn red'>{noText}</button>}
           </div>}
         </div>
       </div>
