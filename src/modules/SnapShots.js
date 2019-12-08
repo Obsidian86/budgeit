@@ -6,6 +6,8 @@ import LineChart from 'react-linechart';
 import '../../node_modules/react-linechart/dist/styles.css';
 import { parsedCurrentDate } from './components/calendar/dateFunctions'
 import { IP } from '../utilities/formUtilities';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 const colors = ['green', 'blue', 'gray', 'black', 'salmon', 'orange']
 
@@ -209,7 +211,7 @@ const SnapShots = () => {
                 </div> </>}
             </div>
             {p.snapshots && p.snapshots.length > 1 && <SnapShotChart inData={p.snapshots} parentWidth={parentWidth} showItems={showItems} />}
-            <button onClick={() => handleCreate()} className='btn green'>Create snapshot</button>
+            <button onClick={() => handleCreate()} className='btn green'><FontAwesomeIcon icon={faCamera} />&nbsp;&nbsp;<span>Create snapshot</span></button>
             <div style={s.snapShotsContainer}>
                 {p.snapshots.map((sh, i) =>
                     <div key={i} className='row' style={s.snapShot}>

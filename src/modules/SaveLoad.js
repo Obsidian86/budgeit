@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react'
 import MainContext from '../providers/MainContext'
 import Files from 'react-files'
 import ContentBox from './interface/ContentBox'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileExport, faUpload } from "@fortawesome/free-solid-svg-icons";
 
 const SaveLoad = () => {
     const p = useContext(MainContext)
@@ -60,35 +62,44 @@ const SaveLoad = () => {
 
     const s = {
         dropCont: {
-            width: '80%',
+            width: '100%',
             maxWidth: '800px',
             margin: '0 auto',
-            backgroundColor: 'lightgray',
-            borderRadius: '5px'
+            marginTop: '20px',
+            backgroundColor: '#e9e9e9',
+            border: '3px solid #fff',
+            boxShadow: '0 0 6px #d9d9d9'
         },
         fileDrop: {
-            padding: '14px 10px',
-            cursor: "pointer"
+            padding: '25px 20px',
+            cursor: "pointer",
+            fontStyle: 'italic'
         }
     }
 
     return (
-        <ContentBox title='Import / export data'>
-            <label className='mt-40 d-bl center'>Export to file and download</label>
-            <button 
-                onClick={()=> handleClick()}
-                className='btn narrow mt-10'
-            > Export </button> 
-
-            <label className='mt-40 d-bl mb-10 center'>Import account file</label>
-            <div className="files mt-40 mb-10" style={s.dropCont}>
-                <Files onChange={file => {fileReader.readAsText(file[file.length - 1])} } style={s.fileDrop} id='asd'>
-                    { loadedData && loadedData.profile ?
-                        `Load profile: ${loadedData.profile}` :
-                        'Drop files here or click to upload' }
-                </Files>
+        <ContentBox title='Import / export data' exClass='sm'>
+            <div>
+                <div className='max'>
+                    <label className='mt-40 d-bl center mb-10'>Export to file and download</label>
+                    <button 
+                        onClick={()=> handleClick()}
+                        className='btn mt-10'
+                    > <FontAwesomeIcon icon={faFileExport} /> &nbsp;&nbsp; Export </button> 
+                </div>
+                <div className='max' style={{borderTop: '1px solid #c7c7c7', marginTop: '30px'}}>
+                    <label className='mt-40 d-bl mb-10 center'>Import account file</label>
+                    <div className="files" style={s.dropCont}>
+                        <Files onChange={file => {fileReader.readAsText(file[file.length - 1])} } style={s.fileDrop} id='asd'>
+                            { loadedData && loadedData.profile ?
+                                `Load profile: ${loadedData.profile}` :
+                                'Drop files here or click to upload' }
+                        </Files>
+                    </div>
+                    { loadedData && <button onClick={confirmLoadProfile} className='btn blue mt-40'>
+                        <FontAwesomeIcon icon={faUpload} /> &nbsp;&nbsp; Load data</button> }
+                </div>
             </div>
-            { loadedData && <button onClick={confirmLoadProfile} className='btn narrow blue mt-40'>Load data</button> }
         </ContentBox>
     )
 }
