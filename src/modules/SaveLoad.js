@@ -74,13 +74,13 @@ const SaveLoad = () => {
 
     return (
         <ContentBox title='Import / export data'>
-            <label className='mt-40 d-bl'>Export to file and download</label>
+            <label className='mt-40 d-bl center'>Export to file and download</label>
             <button 
                 onClick={()=> handleClick()}
                 className='btn narrow mt-10'
             > Export </button> 
 
-            <label className='mt-40 d-bl mb-10'>Import account file</label>
+            <label className='mt-40 d-bl mb-10 center'>Import account file</label>
             <div className="files mt-40 mb-10" style={s.dropCont}>
                 <Files onChange={file => {fileReader.readAsText(file[file.length - 1])} } style={s.fileDrop} id='asd'>
                     { loadedData && loadedData.profile ?

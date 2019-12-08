@@ -82,7 +82,7 @@ const SnapShots = () => {
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'space-around',
-            marginTop: '24px',
+            marginTop: '35px',
         },
         snapShot: {
             width: '19.5%',
@@ -138,6 +138,16 @@ const SnapShots = () => {
             padding: '12px 0',
             width: `14%`,
             minWidth: '200px'
+        },
+        remark: {
+            textAlign: 'left',
+            display: 'block',
+            width: '94%',
+            margin: '0 auto',
+            position: 'relative',
+            left: '-4px',
+            marginBottom: '30px',
+            marginTop: '50px'
         }
     }
 
@@ -182,7 +192,7 @@ const SnapShots = () => {
     return(
         <ContentBox title='Snapshots' itemId='snapshots' >
             <div className='mt-40 mb-40'>
-                <p>Create account snapshots to track trends and projected amounts over time.</p>
+                <p className='remark' style={s.remark}>Create account snapshots to track trends and projected amounts over time.</p>
                 {p.snapshots && p.snapshots.length > 1 && <><label>Toggle chart values</label>
                 <div style={s.cBoxes}>
                     { Object.keys(showItems).map((si, index) => 

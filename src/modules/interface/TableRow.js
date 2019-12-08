@@ -40,6 +40,7 @@ const TableRow = ({ children, className, pattern = [40, 30], onClick, tData, sty
       font-weight: bold;
       color: #fff;
       border-color: ${theme.vBlue};
+      border-radius: 4px 4px 0 0;
     }
     &:not(.headerRow):hover {
       background-color: ${theme.lightGray};

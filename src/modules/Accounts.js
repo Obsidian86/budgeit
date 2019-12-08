@@ -131,7 +131,7 @@ const Accounts = () => {
                                 <IP type='text' alias='name' data={formData} label='Account name' errors={errors} onChange={e => updateField(e) } />
                                 <IP type='text' alias='interest' data={formData} label='Interest rate' errors={errors} onChange={e => updateField(e) } />
                                 <IP type='text' alias='amount' data={formData} label='Amount' errors={errors} onChange={e => updateField(e) } />
-                                <IP type='checkbox' alias='liquid' data={formData} label='Liquid' errors={errors} onChange={e => {
+                                <IP type='checkbox' style={{margin: '0 auto'}} alias='liquid' data={formData} label='Liquid' errors={errors} onChange={e => {
                                     updateField({
                                         target: {
                                             value: formData.liquid ? false : true,

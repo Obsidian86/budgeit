@@ -132,7 +132,7 @@ const SavingsCalc = ({ step }) => {
   return (
     <ContentBox title="Savings estimator" exClass={step === 0 && p.savingsTable.length < 1 && 'lg'} itemId='savingsModule'>
       <div className={`row mt-40`}>
-        <p className='sm'>
+        <p className='sm remark'>
           Estimate how much you'll have by retirement. <br /> 
           The breakdown of each account will display in a new table. The totals will display in the first table. 
         </p>

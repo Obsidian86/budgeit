@@ -33,7 +33,7 @@ const Calendar = (props) => {
                 height: 30px;
                 padding: 0;
                 text-align: center;
-                background-color: rgb(60, 118, 241);
+                background-color: #00bbd4;
                 padding-bottom: 12px;
             }
             .days {

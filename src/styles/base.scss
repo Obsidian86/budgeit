@@ -82,6 +82,7 @@ label{
   margin: 0 auto;
   margin-top: 20px;
   font-size: .9rem;
+  text-align: left;
   span{
     display: block;
     color: $light-gray;
@@ -200,4 +201,13 @@ p{
       width: 98%;
     }
   }
+}
+
+.center {
+  text-align: center;
+}
+.remark{
+  color: rgb(44, 44, 44);
+  font-size: 1rem;
+  line-height: 1.9rem;
 }

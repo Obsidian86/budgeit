@@ -17,7 +17,7 @@ const ContentBox = ({ children, title, exClass = '', itemId, exStyles = {} }) =>
     marginTop: isOpen ? '-5px' : '0'
   }
   return (
-    <div className={`contentBox ${exClass}`} style={exStyles} id={itemId}>
+    <div className={`contentBox ${exClass}`} style={{...exStyles, alignSelf: !isOpen ? 'flex-start': 'stretch'}} id={itemId}>
       <span
         onClick={() => updateIsOpen(!isOpen)}
         style={buttonStyles}

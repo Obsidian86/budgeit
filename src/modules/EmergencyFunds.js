@@ -21,12 +21,12 @@ const EmergencyFunds = () => {
   return (
     <ContentBox title='Emergency Funds' exClass='sm' itemId='emergencyFundsModule'>
       <div className='row mt-40'>
-        <p className='sm' style={{minWidth: '150px'}}>
+        <p className='max remark' style={{minWidth: '150px'}}>
           Having an emergency fund is an important part of financial independence.
           Be adequately prepared for unforeseen circumstances by saving at least 3
           months of monthly expenses.
         </p>
-        <div className='lg'>
+        <div className='max'>
           <SoftList split>
             <li><strong>Monthly expenditure</strong><span>{money(p.total)}</span></li>
             {Object.keys(excluded).map(b =>
