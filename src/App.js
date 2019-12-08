@@ -23,6 +23,14 @@ function App() {
     <div className='App container'>
       <TopBar updateView={p.updateView} step={step} />
       <div className='row'>
+        <div className='right' style={{width: '98%'}}>
+          <button 
+            onClick={()=>updateAccData(!accData)}
+            className={`btn narrow ${!accData ? 'green' : 'red'}`}
+            style={{marginRight: '0', marginBottom: '24px'}}
+          > Export / import accounts </button>
+        </div>
+        {accData && <SaveLoad />}
         <IncomeForm />
         {step > 0 && <Recommended />}
         {step > 0 && <YourBudget step={step} />}
@@ -32,19 +40,8 @@ function App() {
         <CalendarModule />
 
         <SnapShots />
-        <div className='right' style={{width: '98%'}}>
-          <button 
-            onClick={()=>updateAccData(!accData)}
-            className={`btn narrow mb-40 ${!accData ? 'green' : 'red'}`}
-            style={{marginRight: '0'}}
-          >
-            Export / import accounts
-          </button>
-        </div>
-        {accData && <SaveLoad />}
       </div>
-
-      <Footer />
+      <Footer version={1.02} />
     </div>
   )
 }

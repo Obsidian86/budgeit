@@ -1,5 +1,6 @@
 $font-stack: 'open sans', sans-serif;
 $dark-gray: #444;
+$med-gray: #999;
 $light-gray: #c9c9c9;
 $green: #1bcf21;
 
@@ -74,7 +75,7 @@ input[type=text], input[type=number]{
 
 label{
   font-weight: bold;
-  color: $dark-gray;
+  color: $med-gray;
   position: relative;
   left: -5px;
   width: 94%;

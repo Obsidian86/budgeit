@@ -31,23 +31,27 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
   }
 
   const StDiv = styled.ul`
-    border-bottom: 1px solid;
+    border-bottom: 1px solid #1bcf21;
+    border-left: 4px solid #1bcf21;
     box-shadow: ${open ? '0 3px 5px #c4c4c4' : ''};
     position: relative;
     padding: 10px 20px;
+    text-align: left;
     cursor: pointer;
     & ul {
       z-index: 1;
+      border-left: 4px solid #1bcf21;
       list-style-type: none;
       list-style-position: outside;
       margin: 0;
       padding: 0;
       position: absolute;
       top: 100%;
-      left: 0;
+      left: -4px;
       width: 100%;
       box-shadow: ${open ? '0 5px 5px #c4c4c4' : ''};
       & li {
+        text-align: left;
         padding: 13px 10px;
         background-color: #fff;
         &:hover {
