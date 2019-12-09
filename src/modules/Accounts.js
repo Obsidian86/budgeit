@@ -7,6 +7,7 @@ import { getInterest } from '../utilities/functions'
 import Form from './Form'
 import { IP, validForm } from '../utilities/formUtilities'
 import Bullet from './interface/Bullet'
+import AccountListItem from './components/AcountListItem'
 
 const s = {
     intRow: {
@@ -73,25 +74,14 @@ const Accounts = () => {
         total = total + a.amount
         if(a.liquid) liquid = liquid + a.amount
         const interest = getInterest(a.amount, a.interest, 10)
-        return (
-        <li key={i} style={{flexWrap: 'wrap', cursor: 'pointer'}} onClick={()=> {updateEdittingItem(a); updateShowForm(true)}}>
-            <span style={s.intFirst}> <Bullet color={a.liquid ? 'green' : 'orange'} size={12} /> {a.name}</span>
-            <span style={s.intRight}>{a.interest}%</span>
-            <span style={s.intRight}>{money(a.amount)}</span>
-            {(a.interest > 0 && showReturns) && <div style={s.intRow}>
-                {
-                    interest.map((amnt, i) => {
-                        return (
-                            i % 2 !== 0 && <p key={i} style={{color: '#999'}}>
-                                Year {i} <br />
-                                <span style={{color: '#555'}}>{money(amnt.earned / 12)}</span> <br />
-                                per month
-                            </p>
-                        )
-                    })
-                }
-            </div>}
-        </li>)
+        return (    
+            <AccountListItem 
+                key={i} s={s} a={a} Bullet={Bullet}
+                money={money} interest={interest} showReturns={showReturns}
+                updateEdittingItem={updateEdittingItem} updateShowForm={updateShowForm}
+                addAccountToEstimator = {p.addAccountToEstimator}
+            />
+        )
     })
     return (
         <ContentBox title='Accounts' exClass='lg row' itemId='accountsModule' >

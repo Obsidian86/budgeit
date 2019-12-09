@@ -24,7 +24,8 @@ class MainProvider extends React.Component {
       total: 0, // total amount budgeted
       savingsTable: [{ 0: { stAmount: 0, interest: 0, deposit: 0 } }],
       incomeSources: [],
-      snapshots: []
+      snapshots: [],
+      selectedAccount: null
     }
     this.methods = {
       updateViewBy: this.updateViewBy,
@@ -54,6 +55,7 @@ class MainProvider extends React.Component {
       addAccount: this.addAccount,
       deleteAccount: this.deleteAccount,
       updateAccount: this.updateAccount,
+      addAccountToEstimator: this.addAccountToEstimator,
       // snapshots
       addSnapShot: this.addSnapShot,
       deleteSnapShot: this.deleteSnapShot
@@ -104,6 +106,7 @@ class MainProvider extends React.Component {
   addSource = source => this.saveState(src.processAddSource(source, this.state.incomeSources, this.state.amount))
   deleteSource = sourceId => this.saveState(src.processDeleteSource(sourceId, this.state.incomeSources, this.state.amount))
   updateSource = sourceId => this.saveState(src.processUpdateSource(sourceId, this.state.incomeSources, this.state.amount))
+  addAccountToEstimator = (data) => this.setState({selectedAccount: {...data}}, this.updateView('savingsModule'))
 
   // View global view changes
   updateViewBy = v => this.saveState({ viewBy: v });

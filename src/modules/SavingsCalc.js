@@ -129,6 +129,7 @@ const SavingsCalc = ({ step }) => {
       </div>
     )
   }
+  
   return (
     <ContentBox title="Savings estimator" exClass={step === 0 && p.savingsTable.length < 1 && 'lg'} itemId='savingsModule'>
       <div className={`row mt-40`}>
@@ -139,10 +140,10 @@ const SavingsCalc = ({ step }) => {
         <div className={step === 0 && p.savingsTable.length < 1 ? 'lg' : 'md'}>
           <Form
             defaultFormData={{
-              stAmount: '',
-              rate: '',
-
+              stAmount: (p.selectedAccount && p.selectedAccount.amount) ? p.selectedAccount.amount : '',
+              rate: (p.selectedAccount && p.selectedAccount.interest) ? p.selectedAccount.interest : '',
             }}
+            reDefault
             render={(updateForm, formData) => (
               <>
                 <label>Starting amount</label>
@@ -157,7 +158,7 @@ const SavingsCalc = ({ step }) => {
                   <div className='md-f'>
                     <label>Starting age</label>
                     <input type="number" onChange={updateForm} name="startAge" value={formData.startAge || ''} />
-                    {errors && errors['stAge'] && <FieldError error={errors['stAge']} />}
+                    {errors && errors['startAge'] && <FieldError error={errors['startAge']} />}
                   </div>
                   <div className='md-f'>
                     <label>For how many years?</label>
@@ -182,7 +183,7 @@ const SavingsCalc = ({ step }) => {
                   </div>
                 </div>
                 <div className='grouping right'>
-                  <button className="btn" onClick={() => submitForm(formData)}>
+                  <button className="btn mt-40" onClick={() => submitForm(formData)}>
                     Submit
                   </button>
                 </div>

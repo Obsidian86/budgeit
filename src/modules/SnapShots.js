@@ -137,9 +137,10 @@ const SnapShots = () => {
         cBox: {
             display: 'block',
             margin: 0,
-            padding: '12px 0',
+            padding: '9px 0',
             width: `14%`,
-            minWidth: '200px'
+            minWidth: '175px',
+            fontSize: '.8rem'
         },
         remark: {
             textAlign: 'left',
