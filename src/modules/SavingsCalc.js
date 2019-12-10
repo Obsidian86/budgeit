@@ -121,6 +121,7 @@ const SavingsCalc = ({ step }) => {
         <TableRow
           pattern={RowSpread}
           className="headerRow"
+          round={false}
           tData={["Age", "Deposited", "Interest", "End"]}
         />
         <Collapseable open={index === 0}>
@@ -140,8 +141,7 @@ const SavingsCalc = ({ step }) => {
           <Form
             defaultFormData={{
               stAmount: '',
-              rate: '',
-
+              rate: ''
             }}
             render={(updateForm, formData) => (
               <>
