@@ -87,7 +87,7 @@ const SnapShots = () => {
             marginTop: '35px',
         },
         snapShot: {
-            width: '19.5%',
+            width: `${100 / (p.snapshots.length < 4 ? p.snapshots.length : 4) - 3}%`,
             borderRadius: '4px',
             boxShadow: '0 0 6px #d9d9d9',
             justifyContent: 'flex-start',
@@ -95,8 +95,9 @@ const SnapShots = () => {
             padding: '7px 0',
             fontWeight: 'bold',
             color: 'lightgray',
-            minWidth: '230px',
-            position: 'relative'
+            minWidth: '200px',
+            position: 'relative',
+            maxWidth: '270px'
         },
         btnContainer: {
             display: 'flex',
@@ -214,10 +215,10 @@ const SnapShots = () => {
             {p.snapshots && p.snapshots.length > 1 && <SnapShotChart inData={p.snapshots} parentWidth={parentWidth} showItems={showItems} />}
             <button onClick={() => handleCreate()} className='btn green'><FontAwesomeIcon icon={faCamera} />&nbsp;&nbsp;<span>Create snapshot</span></button>
             <div style={s.snapShotsContainer}>
-                {p.snapshots.map((sh, i) =>
+                {[...p.snapshots].reverse().map((sh, i) =>
                     <div key={i} className='row' style={s.snapShot}>
                         <p style={{...s.p, ...s.d}}>{ sh.date }</p>
-                        <p style={{...s.p, ...s.nu}}>{ i + 1 }</p>
+                        <p style={{...s.p, ...s.nu}}>{ p.snapshots.length - i }</p>
                         <span style={s.btnContainer}>
                             <button onClick={()=> handleDelete(i)} className='btn red'>Delete</button>
                         </span>

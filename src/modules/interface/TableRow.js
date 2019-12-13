@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import theme from '../../styles/theme'
 
-const TableRow = ({ children, className, pattern = [40, 30], onClick, tData, style }) => {
+const TableRow = ({ children, className, pattern = [40, 30], onClick, tData, style, round = true }) => {
   const mkStyles = () => {
     let inj = ''
     if (pattern.length > 2) {
@@ -40,7 +40,7 @@ const TableRow = ({ children, className, pattern = [40, 30], onClick, tData, sty
       font-weight: bold;
       color: #fff;
       border-color: ${theme.vBlue};
-      border-radius: 4px 4px 0 0;
+      border-radius: ${round ? '4px 4px 0 0' : '0'};
     }
     &:not(.headerRow):hover {
       background-color: ${theme.lightGray};

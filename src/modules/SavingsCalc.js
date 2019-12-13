@@ -5,8 +5,7 @@ import TableRow from "./interface/TableRow";
 import MainContext from '../providers/MainContext';
 import Collapseable from './interface/Collapseable';
 import ContentBox from "./interface/ContentBox";
-import FieldError from './interface/FieldError';
-import { validForm } from '../utilities/formUtilities'
+import { validForm, IP } from '../utilities/formUtilities'
 
 const SavingsCalc = ({ step }) => {
   const p = useContext(MainContext)
@@ -34,6 +33,9 @@ const SavingsCalc = ({ step }) => {
       } else totals[newAge] ={...tableRow}
       currentAmount = currentAmount + formData.depAmount + (currentAmount * (formData.rate / 100))
     }
+
+    if(formDataIn.accountName) newTable.accountName = formDataIn.accountName
+
     let combineTables = [...p.savingsTable]
     combineTables[0] = {...totals}
     combineTables.push({...newTable})
@@ -102,7 +104,7 @@ const SavingsCalc = ({ step }) => {
     if (Object.keys(tableData).length === 1 && tableData["0"]) return null 
 
     let rows = Object.keys(tableData).map(t => {
-      if (t === 0 || t === '0') return null
+      if (t === 0 || t === '0' || t === 'accountName') return null
       return (<TableRow
         pattern={RowSpread}
         key={t}
@@ -113,14 +115,21 @@ const SavingsCalc = ({ step }) => {
 
     return (
       <div className="sm" style={{ marginBottom: "20px", position: 'relative' }}>
-        <label style={labelStyles}>{index === 0 ? 'Totals' : `Table ${index}`}</label>
+        <label style={labelStyles}>{
+          index === 0 
+            ? 'Totals' 
+            : tableData['accountName']
+              ? tableData['accountName']
+                : `Table ${index}`
+        }</label>
         { index !== 0 &&  <span 
           className='btn narrow red' 
           style={deleteStyles} 
-          onClick={() => deleteTable(index)}> Delete table</span>}
+          onClick={() => deleteTable(index)}>Delete table</span>}
         <TableRow
           pattern={RowSpread}
           className="headerRow"
+          round={false}
           tData={["Age", "Deposited", "Interest", "End"]}
         />
         <Collapseable open={index === 0}>
@@ -140,52 +149,37 @@ const SavingsCalc = ({ step }) => {
         <div className={step === 0 && p.savingsTable.length < 1 ? 'lg' : 'md'}>
           <Form
             defaultFormData={{
-              stAmount: (p.selectedAccount && p.selectedAccount.amount) ? p.selectedAccount.amount : '',
-              rate: (p.selectedAccount && p.selectedAccount.interest) ? p.selectedAccount.interest : '',
+              stAmount: '',
+              rate: ''
             }}
             reDefault
-            render={(updateForm, formData) => (
+            render={(updateForm, formData, clearData) => (
               <>
-                <label>Starting amount</label>
-                <input type="number" onChange={updateForm} name="stAmount" value={formData.stAmount || ''} />
-                {errors && errors['stAmount'] && <FieldError error={errors['stAmount']} />}
-
-                <label>Amount each deposit</label>
-                <input type="number" onChange={updateForm} name="depAmount" value={formData.depAmount || ''} />
-                {errors && errors['depAmount'] && <FieldError error={errors['depAmount']} />}
-
+                <IP type='text' alias='accountName' onChange={updateForm} data={formData} errors={errors} label='Account name' />
+                <IP type='number' alias='stAmount' onChange={updateForm} data={formData} errors={errors} label='Starting amount' />
+                <IP type='number' alias='depAmount' onChange={updateForm} data={formData} errors={errors} label='Amount each deposit' />
                 <div className='row f-400'>
                   <div className='md-f'>
-                    <label>Starting age</label>
-                    <input type="number" onChange={updateForm} name="startAge" value={formData.startAge || ''} />
-                    {errors && errors['startAge'] && <FieldError error={errors['startAge']} />}
+                    <IP type='number' alias='startAge' onChange={updateForm} data={formData} errors={errors} label='Starting age' />
                   </div>
                   <div className='md-f'>
-                    <label>For how many years?</label>
-                    <input type="number" onChange={updateForm} name="years" value={formData.years || ''} />
-                    {errors && errors['years'] && <FieldError error={errors['years']} />}
+                    <IP type='number' alias='years' onChange={updateForm} data={formData} errors={errors} label='For how many years?' />
                   </div>
                 </div>
                 
                 <div className='row f-400'>
                   <div className='md-f'>
-                    <label>
-                        Every ___ Month/s 
-                        <span>(12 = 1 year)</span>
-                    </label>
-                    <input type="number" onChange={updateForm} name="per" value={formData.per || ''} />
-                    {errors && errors['per'] && <FieldError error={errors['per']} />}
+                    <IP type='number' alias='per' onChange={updateForm} data={formData} errors={errors} 
+                      label={<>Every ___ Month/s<span>(12 = 1 year)</span></>} />
                   </div>
                   <div className='md-f'>
-                    <label>Percent rate <span>(number only)</span></label>
-                    <input type="number" onChange={updateForm} name="rate" value={formData.rate || ''} />
-                    {errors && errors['rate'] && <FieldError error={errors['rate']} />}
+                    <IP type='number' alias='rate' onChange={updateForm} data={formData} errors={errors} 
+                      label={<>Percent rate <span>(number only)</span></>} />
                   </div>
                 </div>
-                <div className='grouping right'>
-                  <button className="btn mt-40" onClick={() => submitForm(formData)}>
-                    Submit
-                  </button>
+                <div className='grouping right mt-40'>
+                  <IP type='btn_red' onChange={()=>clearData(formData)} label='Cancel' />
+                  <IP type='btn' onChange={()=>submitForm(formData)} />
                 </div>
               </>
             )}

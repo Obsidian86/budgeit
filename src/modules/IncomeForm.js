@@ -50,12 +50,9 @@ const IncomeForm = () => {
                 <IP type='text' alias='item' label='Source name' onChange={e => updateField(e)} data={formData} errors={errors} />
                 <IP type='number' alias='amount' label='Enter Amount' onChange={e => updateField(e)} data={formData} errors={errors} />
                 <IP type='drop' alias='rec' styles='width: 89%; margin: 20px auto' options={recurrence} label='Recurrence' onChange={val => {
-                  updateField({ target: { value: val, name: 'rec' } })
-                }} data={formData} errors={errors} />
+                  updateField({ target: { value: val, name: 'rec' } }) }} data={formData} errors={errors} />
                 <IP type='date' alias="date" label='Start date' data={formData} 
-                  onChange={val => updateField({ target: { value: parsedCurrentDate(val), name: 'date' } })
-                  } 
-                />
+                  onChange={val => updateField({ target: { value: parsedCurrentDate(val), name: 'date' } }) } />
               </>
               <span className='grouping right'>
                 {edittingItem && <button className='btn red' onClick={() => setDialog({
@@ -67,13 +64,8 @@ const IncomeForm = () => {
                     p.updateView('default')
                   }
                 })}>Delete</button>}
-                <button 
-                  className='btn blue' 
-                  onClick={() => {updateEdditingItem(null); clearData()} } 
-                >
-                  {edittingItem ? "Cancel" : "Clear"}
-                </button>
-                <button className='btn' onClick={() => submitForm(formData, !!edittingItem)}> Submit </button>
+                <IP type='btn_blue' onChange={() => {updateEdditingItem(null); clearData()} } label={edittingItem ? "Cancel" : "Clear"} />
+                <IP type='btn' onChange={() =>submitForm(formData, !!edittingItem)} />
               </span>
               <Fade time={120}>
                 {(formData.amount && parseFloat(formData.amount) > 0) &&

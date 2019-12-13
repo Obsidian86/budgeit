@@ -9,8 +9,8 @@ const Scroll = ({ children, height, width }) => {
   }
   const scrollStyles = {
     boxShadow: '0 0 3px gray',
-    height: height + 22 + 'px',
-    width: width + 'px',
+    height: height + 9 + 'px',
+    width:  width ? width + 'px' : '100%',
     overflowX: 'scroll'
   }
   return (
