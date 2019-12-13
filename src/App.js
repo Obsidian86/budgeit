@@ -11,36 +11,32 @@ import CalendarModule from './modules/CalendarModule'
 import Accounts from './modules/Accounts'
 import SaveLoad from './modules/SaveLoad'
 import SnapShots from './modules/SnapShots'
+import { IP } from './utilities/formUtilities'
 
 const version = 1.03
 
 function App() {
   const p = useContext(MainContext)
   const [accData, updateAccData] = useState(false)
-  let step = 0
-  if (p.amount !== null) step++
-  if (Object.keys(p.budget).length > 0) step++
+  const step = (p.amount !== null ? 1 : 0) + (Object.keys(p.budget).length > 0 ? 1 : 0)
 
   return (
     <div className='App container'>
       <TopBar updateView={p.updateView} step={step} />
       <div className='row'>
         <div className='right' style={{width: '98%'}}>
-          <button 
-            onClick={()=>updateAccData(!accData)}
-            className={`btn narrow ${!accData ? 'green' : 'red'}`}
+          <IP type={`btn_narrow${!accData ? '_green' : '_red'}`}
             style={{marginRight: '0', marginBottom: '24px'}}
-          > Export / import accounts </button>
+            onChange={()=>updateAccData(!accData)} label='Export / import accounts' />
         </div>
         {accData && <SaveLoad />}
         <IncomeForm />
         {step > 0 && <Recommended />}
         {step > 0 && <YourBudget step={step} />}
         <SavingsCalc step={step} />
-        {step > 0 && <EmergencyFunds />}
+        {step > 1 && <EmergencyFunds />}
         <Accounts />
-        <CalendarModule />
-
+        {step > 1 && <CalendarModule />}
         <SnapShots />
       </div>
       <Footer version={version} />

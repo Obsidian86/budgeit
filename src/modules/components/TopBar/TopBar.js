@@ -33,7 +33,7 @@ const TopBar = ({updateView, step}) => {
   return (
     <>
       <StTopBar>
-        <button onClick={()=> updateIsOpen(!isOpen)} className='hamburger'>
+        <button onClick={()=> updateIsOpen(!isOpen)} className='hamburger' aria-label='Menu toggle'>
           <FontAwesomeIcon icon={faBars} />
         </button>
         <div className='mainContainer'>

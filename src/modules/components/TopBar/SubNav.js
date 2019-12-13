@@ -6,18 +6,31 @@ import { colors } from '../../../styles/colors'
 const SubNav = ({ changeView, p, step }) => {
     const [showList, updateShowList] = useState(false)
     const profileList = p.loadProfiles()
+    const s = {
+        fontSize: { fontSize: '1.2rem' },
+        profile: { 
+            cursor: 'pointer',
+            padding: '16px 0', 
+            borderBottom: '1px solid darkgreen', 
+            width: '100%',
+            backgroundColor: '#555'
+        },
+        profName: {marginLeft: '-5px', width: '87%', paddingRight: '20px'},
+        profImage: {
+            background: 'white',
+            borderRadius: '50%',
+            padding: '4px 5px',
+            color: '#555'
+        },
+        profList: { backgroundColor: '#fff', fontSize: '1rem', textAlign: 'left', width: '100%' },
+        profListItem: { color: 'green', paddingLeft: '55px', width: '100%' }
+    }
     return (
         <div>
-            <div style={{ fontSize: '1.2rem' }}>
+            <div style={s.fontSize}>
                 {p.profile &&
                     <div 
-                        style={{ 
-                            cursor: 'pointer',
-                            padding: '16px 0', 
-                            borderBottom: '1px solid darkgreen', 
-                            width: '100%',
-                            backgroundColor: '#555'
-                        }}
+                        style={s.profile}
                         onClick={() => p.setDialog({
                             open: true,
                             header: 'Rename profile',
@@ -27,7 +40,7 @@ const SubNav = ({ changeView, p, step }) => {
                                         type='text' 
                                         defaultValue={p.profile} 
                                         id='newProfileName' 
-                                        style={{marginLeft: '-5px', width: '87%', paddingRight: '20px'}}>
+                                        style={s.profName}>
                                     </input>
                                 </>,
                             confirm: () => {
@@ -38,12 +51,7 @@ const SubNav = ({ changeView, p, step }) => {
                             yesText: 'Change'
                         })}
                     >
-                        <span style={{
-                            background: 'white',
-                            borderRadius: '50%',
-                            padding: '4px 5px',
-                            color: '#555'
-                        }}>
+                        <span style={s.profImage}>
                             <FontAwesomeIcon icon={faUserAlt} /> 
                         </span>
                         &nbsp; {p.profile}
@@ -60,15 +68,13 @@ const SubNav = ({ changeView, p, step }) => {
                     <span>Load profile</span>
                 </button>}
 
-                <div style={{ backgroundColor: '#fff', fontSize: '1rem', textAlign: 'left', width: '100%' }}>
+                <div style={s.profList}>
                     {profileList && showList && profileList.map(prof =>
                         <button
                             key={prof}
                             onClick={() => p.loadData(prof)}
-                            style={{ color: 'green', paddingLeft: '55px', width: '100%' }}
-                        >
-                            {prof}
-                        </button>
+                            style={s.profListItem}
+                        > {prof} </button>
                     )}
                 </div>
 
@@ -112,12 +118,12 @@ const SubNav = ({ changeView, p, step }) => {
                     <span>Accounts</span>
                 </a>
 
-                <a href='/#' onClick={event => changeView(event, 'calendarModule')}
+                {step > 1 && <a href='/#' onClick={event => changeView(event, 'calendarModule')}
                     style={{borderLeft: `5px solid ${colors[3]}`}}>
                     <span>Calendar</span>
-                </a>
+                </a>}
 
-                {step > 0 && <a href='/#' onClick={event => changeView(event, 'emergencyFundsModule')}
+                {step > 1 && <a href='/#' onClick={event => changeView(event, 'emergencyFundsModule')}
                     style={{borderLeft: `5px solid ${colors[4]}`}}>
                     <span>Emergency funds</span>
                 </a>}

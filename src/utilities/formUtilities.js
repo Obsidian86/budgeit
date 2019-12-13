@@ -28,7 +28,10 @@ export const validForm = (fieldList, dataCheck) => {
     return errs
 }
 
-export const IP = ({type='text', alias, onChange, data, errors, label, options = [], style= {}, showPH = false }) => {
+export const IP = ({type='text', alias, onChange, data, errors, label, options = [], style= {}, showPH = null }) => {
+    let exClass = ""
+    let classes = type.split("_")
+    if(classes.length > 1) exClass = classes.splice(1, (classes.length - 1)).join(" ") 
     return(<>
         {label && (type !=='checkbox') && <label htmlFor={`${alias}`}>{label}</label>}
   
@@ -36,8 +39,10 @@ export const IP = ({type='text', alias, onChange, data, errors, label, options =
         <input
           type={type}
           name={alias}
+          id={label ? alias : null}
           style={style}
-          placeholder={showPH && label ? `Input ${label}` : null}
+          className={exClass}
+          placeholder={showPH ? showPH : null}
           onChange={e => onChange(e)}
           value={data && data[alias] ? data[alias] : ''}
         />}
@@ -46,6 +51,7 @@ export const IP = ({type='text', alias, onChange, data, errors, label, options =
         <DropDown
             options={options}
             style={style}
+            className={exClass}
             isSet={data && data[alias] ? data[alias] : ''}
             callBack={val => onChange(val)}
         />}
@@ -69,6 +75,12 @@ export const IP = ({type='text', alias, onChange, data, errors, label, options =
             onChange = {date => onChange(date)}  />
         </span>}
   
+        {type === 'btn' &&
+            <button onClick={onChange} className={`btn ${exClass}`}>
+                {label ? label : 'Submit'}
+            </button>
+        }
+
         {errors && errors[alias] && <FieldError error={errors[alias]} />}
   
       </>)
