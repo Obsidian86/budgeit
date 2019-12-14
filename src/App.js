@@ -13,7 +13,7 @@ import SaveLoad from './modules/SaveLoad'
 import SnapShots from './modules/SnapShots'
 import { IP } from './utilities/formUtilities'
 
-const version = 1.03
+const version = 1.04
 
 function App() {
   const p = useContext(MainContext)

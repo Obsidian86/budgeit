@@ -106,7 +106,7 @@ class MainProvider extends React.Component {
   addSource = source => this.saveState(src.processAddSource(source, this.state.incomeSources, this.state.amount))
   deleteSource = sourceId => this.saveState(src.processDeleteSource(sourceId, this.state.incomeSources, this.state.amount))
   updateSource = sourceId => this.saveState(src.processUpdateSource(sourceId, this.state.incomeSources, this.state.amount))
-  addAccountToEstimator = (data) => this.setState({selectedAccount: {...data}}, this.updateView('savingsModule'))
+  addAccountToEstimator = (data) => this.setState({selectedAccount: data ? {...data} : null}, ()=> data && this.updateView('savingsModule'))
 
   // View global view changes
   updateViewBy = v => this.saveState({ viewBy: v });

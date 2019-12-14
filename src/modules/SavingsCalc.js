@@ -29,10 +29,23 @@ const SavingsCalc = ({ step }) => {
         totals[newAge].stAmount = totals[newAge].stAmount + currentAmount;
         totals[newAge].interest = totals[newAge].interest + (currentAmount * (formData.rate / 100));
         totals[newAge].deposit = totals[newAge].deposit + formData.depAmount;
-      } else totals[newAge] ={...tableRow}
+      } else {
+        const lastMaxAge = Math.max(...Object.keys(totals))
+        if(!(!lastMaxAge || lastMaxAge === 0 || Object.keys(totals).length === 0)){
+          const lastAdded = totals[lastMaxAge]
+          totals[newAge] = {}
+          totals[newAge].deposit = tableRow.deposit
+          totals[newAge].interest = tableRow.interest
+          totals[newAge].stAmount = lastAdded.stAmount + tableRow.deposit + tableRow.interest
+        }else totals[newAge] = tableRow
+      }
       currentAmount = currentAmount + formData.depAmount + (currentAmount * (formData.rate / 100))
     }
 
+    newTable.startAmount = formDataIn.stAmount
+    newTable.startInterest = formDataIn.rate
+    newTable.deposit = formData.depAmount
+    newTable.startAge = formData.startAge
     if(formDataIn.accountName) newTable.accountName = formDataIn.accountName
 
     let combineTables = [...p.savingsTable]
@@ -103,7 +116,7 @@ const SavingsCalc = ({ step }) => {
     if (Object.keys(tableData).length === 1 && tableData["0"]) return null 
 
     let rows = Object.keys(tableData).map(t => {
-      if (t === 0 || t === '0' || t === 'accountName') return null
+      if (t === 0 || t === '0' || isNaN(parseInt(t))) return null
       return (<TableRow
         pattern={RowSpread}
         key={t}
@@ -121,7 +134,7 @@ const SavingsCalc = ({ step }) => {
               ? tableData['accountName']
                 : `Table ${index}`
         }</label>
-        { index !== 0 &&  <span 
+        { index !== 0 && <span 
           className='btn narrow red' 
           style={deleteStyles} 
           onClick={() => deleteTable(index)}>Delete table</span>}
@@ -129,8 +142,24 @@ const SavingsCalc = ({ step }) => {
           pattern={RowSpread}
           className="headerRow"
           round={false}
-          tData={["Age", "Deposited", "Interest", "End"]}
-        />
+        >
+          <div>
+            Age <br />
+            { index !== 0 && tableData['startAge'] && tableData['startAge']}
+          </div>
+          <div>
+            Deposit <br />
+            { index !== 0 && money(tableData['deposit'] && tableData['deposit'])}
+          </div>
+          <div>
+            Interest <br />
+            { index !== 0 && tableData['startInterest'] && tableData['startInterest'] + '%'}
+          </div>
+          <div>
+            Balance <br />
+            { index !== 0 && money(tableData['startAmount'] && tableData['startAmount'])}
+          </div>
+        </TableRow>
         <Collapseable open={index === 0}>
           {rows}
         </Collapseable>
@@ -183,7 +212,10 @@ const SavingsCalc = ({ step }) => {
                 </div>
                 <div className='grouping right mt-40'>
                   <IP type='btn_red' onChange={()=>clearData(formData)} label='Cancel' />
-                  <IP type='btn' onChange={()=>submitForm(formData)} />
+                  <IP type='btn' onChange={()=>{
+                    submitForm(formData);
+                    p.addAccountToEstimator(null)
+                    }} />
                 </div>
               </>
             )}

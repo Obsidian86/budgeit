@@ -49,7 +49,7 @@ const IncomeForm = () => {
               <>
                 <IP type='text' alias='item' label='Source name' onChange={e => updateField(e)} data={formData} errors={errors} />
                 <IP type='number' alias='amount' label='Enter Amount' onChange={e => updateField(e)} data={formData} errors={errors} />
-                <IP type='drop' alias='rec' styles='width: 89%; margin: 20px auto' options={recurrence} label='Recurrence' onChange={val => {
+                <IP type='drop' alias='rec' style={{styles: 'width:92%; margin: 20px auto; padding: 12px 10px;'}} options={recurrence} label='Recurrence' onChange={val => {
                   updateField({ target: { value: val, name: 'rec' } }) }} data={formData} errors={errors} />
                 <IP type='date' alias="date" label='Start date' data={formData} 
                   onChange={val => updateField({ target: { value: parsedCurrentDate(val), name: 'date' } }) } />

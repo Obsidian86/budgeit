@@ -15,7 +15,7 @@ import { pDate } from './components/calendar/dateFunctions'
 
 const YourBudget = ({ step }) => {
   const p = useContext(MainContext);
-  const [displayForm, toggleForm] = useState(Object.keys(p.budget).length < 1);
+  const [displayForm, toggleForm] = useState(Object.keys(p.budget).length < 1 && window.innerWidth >= 900);
   const [editItem, updateEditItem] = useState(null);
   const [errors, updateErrors] = useState(null)
   const data = [];

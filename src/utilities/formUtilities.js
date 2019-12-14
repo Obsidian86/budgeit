@@ -53,7 +53,7 @@ export const IP = ({type='text', alias, onChange, data, errors, label, options =
         {type === 'drop' && 
         <DropDown
             options={options}
-            style={style}
+            styles={style.styles ? style.styles : ''}
             className={exClass}
             isSet={data && data[alias] ? data[alias] : ''}
             callBack={val => onChange(val)}

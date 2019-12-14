@@ -70,6 +70,7 @@ const SnapShotChart = ({inData, parentWidth = 500, showItems}) => {
 const SnapShots = () => {
     const p = useContext(MainContext)
     const [parentWidth, updateParentWidth] = useState(100)
+    const [hideSnapshots, updateHideSnapshots] = useState(true)
     const [showItems, updateShowItems] = useState({
         'Totals': true,
         'Liquid': false,
@@ -95,7 +96,7 @@ const SnapShots = () => {
             padding: '7px 0',
             fontWeight: 'bold',
             color: 'lightgray',
-            minWidth: '200px',
+            minWidth: '150px',
             position: 'relative',
             maxWidth: '270px'
         },
@@ -213,9 +214,10 @@ const SnapShots = () => {
                 </div> </>}
             </div>
             {p.snapshots && p.snapshots.length > 1 && <SnapShotChart inData={p.snapshots} parentWidth={parentWidth} showItems={showItems} />}
+            <button onClick={() => updateHideSnapshots(!hideSnapshots)} className={`btn ${!hideSnapshots ? 'red' : 'blue'}`}><span>{hideSnapshots ? 'Show' : 'Hide'} snapshots</span></button>
             <button onClick={() => handleCreate()} className='btn green'><FontAwesomeIcon icon={faCamera} />&nbsp;&nbsp;<span>Create snapshot</span></button>
             <div style={s.snapShotsContainer}>
-                {[...p.snapshots].reverse().map((sh, i) =>
+                {!hideSnapshots && [...p.snapshots].reverse().map((sh, i) =>
                     <div key={i} className='row' style={s.snapShot}>
                         <p style={{...s.p, ...s.d}}>{ sh.date }</p>
                         <p style={{...s.p, ...s.nu}}>{ p.snapshots.length - i }</p>
