@@ -29,14 +29,12 @@ export const validForm = (fieldList, dataCheck) => {
 }
 
 export const IP = ({type='text', alias, onChange, data, errors, label, options = [], style= {}, showPH = null }) => {
-    console.log(type)
     let exClass = ""
     let classes = type.split("_")
     if(classes.length > 1) {
         type = classes[0]
         exClass = classes.splice(1, (classes.length - 1)).join(" ") 
     }
-    console.log(exClass)
     return(<>
         {label && (type !=='checkbox' && !type.includes('btn')) && <label htmlFor={`${alias}`}>{label}</label>}
   

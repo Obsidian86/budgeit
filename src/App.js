@@ -24,9 +24,9 @@ function App() {
     <div className='App container'>
       <TopBar updateView={p.updateView} step={step} />
       <div className='row'>
-        <div className='right' style={{width: '98%', marginBottom: '23px'}}>
+        <div className='right' style={{width: '97%', marginBottom: '17px'}}>
           <IP type={`btn_narrow${!accData ? '_green' : '_red'}`}
-            style={{marginRight: '0', marginBottom: '24px'}}
+            style={{marginRight: '0', marginBottom: '13px'}}
             onChange={()=>updateAccData(!accData)} label='Export / import accounts' />
         </div>
         {accData && <SaveLoad />}

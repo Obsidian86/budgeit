@@ -10,7 +10,6 @@ import { validForm, IP } from '../utilities/formUtilities'
 const SavingsCalc = ({ step }) => {
   const p = useContext(MainContext)
   const [errors, updateErrors] = useState(null)
-
   const processTables = (formDataIn) => {
     let formData = {...formDataIn}
     Object.keys(formData).forEach(fd => formData[fd] = parseFloat(formData[fd]))
@@ -148,7 +147,12 @@ const SavingsCalc = ({ step }) => {
         </p>
         <div className={step === 0 && p.savingsTable.length < 1 ? 'lg' : 'md'}>
           <Form
-            defaultFormData={{
+            defaultFormData={ p.selectedAccount ? {
+              ...p.selectedAccount,
+              accountName: p.selectedAccount.name,
+              rate: p.selectedAccount.interest,
+              stAmount: p.selectedAccount.amount
+            } : {
               stAmount: '',
               rate: ''
             }}

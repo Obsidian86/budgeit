@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-const AccountListItem = ({s, a, money, interest, Bullet, updateEdittingItem, updateShowForm, showReturns, addAccountToEstimator}) => {
+const AccountListItem = ({s, a, money, interest, Bullet, updateEdittingItem, updateShowForm, showReturns, addAccountToEstimator, updateView}) => {
     const [showOptions, updateShowOptions] = useState(false)
     return(
         <li style={{flexWrap: 'wrap', cursor: 'pointer'}} onClick={()=>updateShowOptions(!showOptions)}>
@@ -9,7 +9,16 @@ const AccountListItem = ({s, a, money, interest, Bullet, updateEdittingItem, upd
             <span style={s.intRight} className={showOptions ? 'mb-10' : null}>{money(a.amount)}</span>
             {showOptions && <div className='right w-100 mt-10'>
                 <button className='btn narrow blue' onClick={()=>addAccountToEstimator(a)}>Add to estimator</button>
-                <button className='btn narrow' onClick={()=> {updateEdittingItem(a); updateShowForm(true)}}>Edit account</button>
+                <button className='btn narrow' onClick={()=> {
+                    const n = new Promise((resolve, reject)=>{
+                        return resolve(
+                            updateEdittingItem(a)
+                            
+                        ); 
+                    })
+                    n.then(()=>updateShowForm(true))
+                    .then(()=>updateView('accountForm', 'accountsModule'))
+                }}>Edit account</button>
             </div>}
             {(a.interest > 0 && (showReturns || showOptions)) && <div style={s.intRow}>
                 {

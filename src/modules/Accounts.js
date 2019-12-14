@@ -80,6 +80,7 @@ const Accounts = () => {
                 money={money} interest={interest} showReturns={showReturns}
                 updateEdittingItem={updateEdittingItem} updateShowForm={updateShowForm}
                 addAccountToEstimator = {p.addAccountToEstimator}
+                updateView = {p.updateView}
             />
         )
     })
@@ -111,7 +112,7 @@ const Accounts = () => {
                     </div>
                 </>}
             </div>
-            {(showForm || accountList.length < 1)  && <div className='md mt-40'>
+            {(showForm || accountList.length < 1)  && <div className='md mt-40' id='accountForm'>
                 <Form
                     reDefault   
                     defaultFormData = {edittingItem ? edittingItem : {}}
@@ -119,8 +120,8 @@ const Accounts = () => {
                         return(
                             <>
                                 <IP type='text' alias='name' data={formData} label='Account name' errors={errors} onChange={e => updateField(e) } />
-                                <IP type='text' alias='interest' data={formData} label='Interest rate' errors={errors} onChange={e => updateField(e) } />
-                                <IP type='text' alias='amount' data={formData} label='Amount' errors={errors} onChange={e => updateField(e) } />
+                                <IP type='number' alias='interest' data={formData} label='Interest rate' errors={errors} onChange={e => updateField(e) } />
+                                <IP type='number' alias='amount' data={formData} label='Amount' errors={errors} onChange={e => updateField(e) } />
                                 <IP type='checkbox' style={{margin: '0 auto'}} alias='liquid' data={formData} label='Liquid' errors={errors} onChange={e => {
                                     updateField({
                                         target: {
