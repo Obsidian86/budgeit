@@ -7,7 +7,7 @@ import '../../node_modules/react-linechart/dist/styles.css';
 import { parsedCurrentDate } from './components/calendar/dateFunctions'
 import { IP } from '../utilities/formUtilities';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import { faCamera, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const colors = ['green', 'blue', 'gray', 'black', 'salmon', 'orange']
 
@@ -214,7 +214,10 @@ const SnapShots = () => {
                 </div> </>}
             </div>
             {p.snapshots && p.snapshots.length > 1 && <SnapShotChart inData={p.snapshots} parentWidth={parentWidth} showItems={showItems} />}
-            <button onClick={() => updateHideSnapshots(!hideSnapshots)} className={`btn ${!hideSnapshots ? 'red' : 'blue'}`}><span>{hideSnapshots ? 'Show' : 'Hide'} snapshots</span></button>
+            <button onClick={() => updateHideSnapshots(!hideSnapshots)} className={`btn ${!hideSnapshots ? 'red' : 'blue'}`}>
+                <FontAwesomeIcon icon={ !hideSnapshots ? faEyeSlash : faEye} />&nbsp;&nbsp;
+                <span>{hideSnapshots ? 'Show' : 'Hide'} snapshots</span>
+            </button>
             <button onClick={() => handleCreate()} className='btn green'><FontAwesomeIcon icon={faCamera} />&nbsp;&nbsp;<span>Create snapshot</span></button>
             <div style={s.snapShotsContainer}>
                 {!hideSnapshots && [...p.snapshots].reverse().map((sh, i) =>

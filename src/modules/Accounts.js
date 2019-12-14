@@ -119,9 +119,9 @@ const Accounts = () => {
                     render={(updateField, formData, clearData) => {
                         return(
                             <>
-                                <IP type='text' alias='name' data={formData} label='Account name' errors={errors} onChange={e => updateField(e) } />
-                                <IP type='number' alias='interest' data={formData} label='Interest rate' errors={errors} onChange={e => updateField(e) } />
-                                <IP type='number' alias='amount' data={formData} label='Amount' errors={errors} onChange={e => updateField(e) } />
+                                <IP type='text' alias='name' data={formData} label='Account name' errors={errors} onChange={e => updateField(e) } showPH='Account name' />
+                                <IP type='number' alias='interest' data={formData} label='Interest rate' errors={errors} onChange={e => updateField(e) } showPH='0%' />
+                                <IP type='number' alias='amount' data={formData} label='Amount' errors={errors} onChange={e => updateField(e) } showPH='Amount' />
                                 <IP type='checkbox' style={{margin: '0 auto'}} alias='liquid' data={formData} label='Liquid' errors={errors} onChange={e => {
                                     updateField({
                                         target: {

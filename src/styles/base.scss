@@ -49,23 +49,34 @@ p{ line-height: 1.6rem; }
     box-shadow: none;
     border: none;
   }
+  &.big{
+    padding: 10px 30px;
+
+  }
 }
 
 // FORMS, FIELDS, INPUTS
 input[type=text], input[type=number]{
   display: block;
   width: 94%;
+  color: #333;
   padding: 15px 5px;
   margin: 10px auto 15px auto;
   border: none;
   border-left: 4px solid $green;
   border-top: 1px solid #fff;
   border-bottom : 1px solid $green;
+  font-weight: bold;
   &:focus{
     border: 1px solid white;
     width: 100%;
     margin: 10px 0 15px -7px;
     box-shadow: 0 0 12px $light-gray;
+  }
+  &::placeholder{
+    color: #c8c8c8;
+    font-weight: normal;
+    font-style: italic;
   }
 }
 
@@ -133,6 +144,13 @@ label{
 .right{
   display: flex;
   justify-content: flex-end;
+}
+.md-center{
+  @media (max-width: 1000px){ 
+    &{
+      justify-content: center;
+    }
+  }
 }
 .row{
   display: flex;

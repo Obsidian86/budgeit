@@ -10,6 +10,7 @@ import { validForm, IP } from '../utilities/formUtilities'
 const SavingsCalc = ({ step }) => {
   const p = useContext(MainContext)
   const [errors, updateErrors] = useState(null)
+  const [showForm, updateShowForm] = useState(!(window.innerWidth <= 1000))
   const processTables = (formDataIn) => {
     let formData = {...formDataIn}
     Object.keys(formData).forEach(fd => formData[fd] = parseFloat(formData[fd]))
@@ -126,7 +127,7 @@ const SavingsCalc = ({ step }) => {
     })
 
     return (
-      <div className="sm" style={{ marginBottom: "20px", position: 'relative' }}>
+      <div className={`${index !== 0 ? 'thr' : showForm ? 'sm' : 'md'}`} style={{ marginBottom: "20px", position: 'relative' }}>
         <label style={labelStyles}>{
           index === 0 
             ? 'Totals' 
@@ -174,8 +175,11 @@ const SavingsCalc = ({ step }) => {
           Estimate how much you'll have by retirement. <br /> 
           The breakdown of each account will display in a new table. The totals will display in the first table. 
         </p>
-        <div className={step === 0 && p.savingsTable.length < 1 ? 'lg' : 'md'}>
-          <Form
+        <div className={step === 0 || showForm ? 'md' : 'sm'}>
+          <div className='right md-center'><IP 
+            type={`btn_green_big`} onChange={()=>updateShowForm(!showForm)} label={showForm ? 'Hide form' : 'Show form'}
+          /></div>
+          { (showForm || p.selectedAccount) && <Form
             defaultFormData={ p.selectedAccount ? {
               ...p.selectedAccount,
               accountName: p.selectedAccount.name,
@@ -188,38 +192,41 @@ const SavingsCalc = ({ step }) => {
             reDefault
             render={(updateForm, formData, clearData) => (
               <>
-                <IP type='text' alias='accountName' onChange={updateForm} data={formData} errors={errors} label='Account name' />
-                <IP type='number' alias='stAmount' onChange={updateForm} data={formData} errors={errors} label='Starting amount' />
-                <IP type='number' alias='depAmount' onChange={updateForm} data={formData} errors={errors} label='Amount each deposit' />
+                <IP type='text' alias='accountName' onChange={updateForm} data={formData} errors={errors} label='Account name' showPH='Account name' />
+                <IP type='number' alias='stAmount' onChange={updateForm} data={formData} errors={errors} label='Starting amount' showPH='Starting amount' />
+                <IP type='number' alias='depAmount' onChange={updateForm} data={formData} errors={errors} label='Amount each deposit' showPH='Amount each deposit' />
                 <div className='row f-400'>
                   <div className='md-f'>
-                    <IP type='number' alias='startAge' onChange={updateForm} data={formData} errors={errors} label='Starting age' />
+                    <IP type='number' alias='startAge' onChange={updateForm} data={formData} errors={errors} label='Starting age' showPH='Start age' />
                   </div>
                   <div className='md-f'>
-                    <IP type='number' alias='years' onChange={updateForm} data={formData} errors={errors} label='For how many years?' />
+                    <IP type='number' alias='years' onChange={updateForm} data={formData} errors={errors} label='For how many years?' showPH='Number of years' />
                   </div>
                 </div>
                 
                 <div className='row f-400'>
                   <div className='md-f'>
                     <IP type='number' alias='per' onChange={updateForm} data={formData} errors={errors} 
-                      label={<>Every ___ Month/s<span>(12 = 1 year)</span></>} />
+                      label={<>Every ___ Month/s</>} showPH='12=1 year / 1=every month' />
                   </div>
                   <div className='md-f'>
                     <IP type='number' alias='rate' onChange={updateForm} data={formData} errors={errors} 
-                      label={<>Percent rate <span>(number only)</span></>} />
+                      label={<>Percent rate</>} showPH='0%' />
                   </div>
                 </div>
                 <div className='grouping right mt-40'>
-                  <IP type='btn_red' onChange={()=>clearData(formData)} label='Cancel' />
+                  <IP type='btn_red' onChange={()=>{
+                    clearData(formData)
+                    p.selectedAccount && p.addAccountToEstimator(null)
+                    }} label='Cancel' />
                   <IP type='btn' onChange={()=>{
                     submitForm(formData);
-                    p.addAccountToEstimator(null)
+                    p.selectedAccount && p.addAccountToEstimator(null)
                     }} />
                 </div>
               </>
             )}
-          />
+          />}
         </div>
           {p.savingsTable.length > 1 || step === 0 ?
             p.savingsTable.map((t, index) => <React.Fragment key={index}> {renderTable(t, index)} </React.Fragment>)

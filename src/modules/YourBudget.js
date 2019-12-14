@@ -5,8 +5,6 @@ import ChartContainer from "./components/ChartContainer";
 import TableRow from "./interface/TableRow";
 import Bullet from "./interface/Bullet";
 import ProgressBar from "./interface/ProgressBar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import BudgetForm from './components/BudgetForm'
 import suggested from '../utilities/suggested'
 import ContentBox from './interface/ContentBox'
@@ -136,13 +134,11 @@ const YourBudget = ({ step }) => {
           })}
         </div>
         <div className={displayForm ? 'sm' : 'xs'} >
-          <span className='right'>
-            <button className={`btn ${displayForm && 'red'}`} onClick={() => {
+          <span className='right md-center'>
+            <button className={`btn big ${displayForm && 'red'}`} onClick={() => {
               updateEditItem(null)
               toggleForm(!displayForm)
-            }}>
-              <FontAwesomeIcon icon={faPlusCircle} style={{ transform: displayForm ? 'rotate(45deg)' : '' }} />
-              &nbsp;&nbsp; {displayForm ? "Hide" : "Show"} form
+            }}>{displayForm ? "Hide" : "Show"} form
         </button>
           </span>
             {displayForm && <BudgetForm

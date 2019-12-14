@@ -26,7 +26,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
           {formData.newCategory === 'on' ? 
             <IP type='text' alias='category' onChange={e => updateField(e)} data={formData} errors={errors} /> 
             : <IP type='drop' options={catOptions} 
-            data={formData} styles='width: 89%; margin: 20px auto' alias='category' 
+            data={formData} style={{styles:'width: 92%; margin: 20px auto; padding: 12px 10px'}} alias='category' 
             onChange={val => updateField({ target:{ value: val, name: 'category' } })} /> }
 
           <label className='cu_checkBox'>
@@ -45,7 +45,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
           <IP type='number' alias='amount' label="Amount" onChange={e => updateField(e)} data={formData} errors={errors} />
 
           <IP type='drop' options={recurrence} label='Recurrence'
-            data={formData} styles='width: 91%; margin: 20px auto' alias='rec' 
+            data={formData} style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} alias='rec' 
             onChange={val => updateField({ target:{ value: val, name: 'rec' } })} /> 
           
           <IP type='date' alias='date' label='Start date' errors={errors} data={formData}  

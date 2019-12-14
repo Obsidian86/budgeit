@@ -37,6 +37,7 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
     position: relative;
     padding: 10px 20px;
     text-align: left;
+    font-weight: bold;
     cursor: pointer;
     & ul {
       z-index: 1;
