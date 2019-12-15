@@ -167,7 +167,7 @@ const SavingsCalc = ({ step }) => {
       const allRrows = formAge.map((it, ind)=>{
         let addItems = []
         const deposit = TD.reduce((amnt, curTable, index) => {
-          if( parseInt(curTable['startAge']) === minAge ) {
+          if( curTable['startAge'] && parseInt(curTable['startAge']) === minAge ) {
             curAllTotal = curAllTotal + parseFloat(curTable['startAmount'])
             addItems.push(parseFloat(curTable['startAmount']))
           }

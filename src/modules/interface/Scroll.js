@@ -2,7 +2,13 @@ import React from 'react'
 import '../../styles/scroll.css'
 
 const Scroll = ({ children, height, width }) => {
-  let testHeight = (children[1].length - 5) * 45
+  let testHeight = 0
+  if(children && children.length > 0){
+    children[1].forEach(element => {
+      if(element) testHeight ++
+    });
+  }
+  testHeight = testHeight * 45
   const containerStyles = {
     width: width ? width + 'px' : '100%',
     height: (testHeight < height ? testHeight : height) + 'px',
