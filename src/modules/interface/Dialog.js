@@ -28,7 +28,8 @@ const Dialog = ({ data, setDialog }) => {
             }
             .dialogContent{
                 background-color: #fff;
-                width: 800px;
+                width: 94%;
+                max-width: 800px;
                 border: 1px solid gray;
                 box-shadow: 0 0 0 8px #fff;
                 h3{

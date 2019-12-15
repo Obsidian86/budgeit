@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Form from "./Form";
 import { money } from "../utilities/convert";
 import TableRow from "./interface/TableRow";
@@ -6,11 +6,18 @@ import MainContext from '../providers/MainContext';
 import Collapseable from './interface/Collapseable';
 import ContentBox from "./interface/ContentBox";
 import { validForm, IP } from '../utilities/formUtilities'
+import { filledArray } from './components/calendar/utilities'
 
 const SavingsCalc = ({ step }) => {
   const p = useContext(MainContext)
   const [errors, updateErrors] = useState(null)
-  const [showForm, updateShowForm] = useState(!(window.innerWidth <= 1000))
+  const [showForm, updateShowForm] = useState(!(window.innerWidth <= 1000) || !(p.selectedAccount === null))
+
+  useEffect(()=>{
+    const shouldShowForm = !(window.innerWidth <= 1000) || !(p.selectedAccount === null)
+    updateShowForm(shouldShowForm)
+  }, [p.selectedAccount, updateShowForm])
+
   const processTables = (formDataIn) => {
     let formData = {...formDataIn}
     Object.keys(formData).forEach(fd => formData[fd] = parseFloat(formData[fd]))
@@ -37,7 +44,7 @@ const SavingsCalc = ({ step }) => {
           totals[newAge] = {}
           totals[newAge].deposit = tableRow.deposit
           totals[newAge].interest = tableRow.interest
-          totals[newAge].stAmount = lastAdded.stAmount + tableRow.deposit + tableRow.interest
+          totals[newAge].stAmount = lastAdded.stAmount + lastAdded.deposit + lastAdded.interest
         }else totals[newAge] = tableRow
       }
       currentAmount = currentAmount + formData.depAmount + (currentAmount * (formData.rate / 100))
@@ -61,17 +68,17 @@ const SavingsCalc = ({ step }) => {
       header: 'Delete table', 
       message: <>Are you sure you want to delete this table? <br /> This can not be undone.</>, 
       confirm: ()=>{
+        // const deletedTable = newTables[index]
+        // Object.keys(deletedTable).forEach(it => {
+        //   const {stAmount, interest, deposit} = deletedTable[it]
+        //   if(newTables[0][it]){
+        //     newTables[0][it].stAmount = newTables[0][it].stAmount - stAmount
+        //     newTables[0][it].interest = newTables[0][it].interest - interest
+        //     newTables[0][it].deposit = newTables[0][it].deposit - deposit
+        //     // if(newTables[0][it].interest + newTables[0][it].deposit === 0) delete newTables[0][it]
+        //   }
+        // })
         let newTables = [...p.savingsTable]
-        const deletedTable = newTables[index]
-        Object.keys(deletedTable).forEach(it => {
-          const {stAmount, interest, deposit} = deletedTable[it]
-          if(newTables[0][it]){
-            newTables[0][it].stAmount = newTables[0][it].stAmount - stAmount
-            newTables[0][it].interest = newTables[0][it].interest - interest
-            newTables[0][it].deposit = newTables[0][it].deposit - deposit
-            if(newTables[0][it].stAmount + newTables[0][it].interest + newTables[0][it].deposit === 0) delete newTables[0][it]
-          }
-        })
         newTables.splice(index, 1)
         if(newTables.length === 1){ newTables = []}
         p.updateSavingsTables(newTables)
@@ -97,7 +104,7 @@ const SavingsCalc = ({ step }) => {
     p.updateView('savingsModule')
   }
 
-  const renderTable = (tableData, index) => {
+  const renderTable = (allTableData) => {
     const RowSpread = [8, 30, 22, 35];
     const labelStyles = {
       fontSize: '1.1rem',
@@ -113,11 +120,16 @@ const SavingsCalc = ({ step }) => {
       position: 'absolute',
       right: '-25px',
       top: '15px'
-    }
-    if (Object.keys(tableData).length === 1 && tableData["0"]) return null 
+    } 
 
-    let rows = Object.keys(tableData).map(t => {
+  let minAge = 99
+  let maxAge = 1
+  const procTable = (tableData, index) => {    
+    if (Object.keys(tableData).length === 1 && tableData["0"]) return null
+    let rows = Object.keys(tableData).map((t, i) => {
       if (t === 0 || t === '0' || isNaN(parseInt(t))) return null
+      if(parseInt(t) < minAge) minAge = parseInt(t)
+      if(parseInt(t) > maxAge) maxAge = parseInt(t)
       return (<TableRow
         pattern={RowSpread}
         key={t}
@@ -127,45 +139,107 @@ const SavingsCalc = ({ step }) => {
     })
 
     return (
-      <div className={`${index !== 0 ? 'thr' : showForm ? 'sm' : 'md'}`} style={{ marginBottom: "20px", position: 'relative' }}>
+      <div className={`thr`} style={{ marginBottom: "20px", position: 'relative'}}>
         <label style={labelStyles}>{
-          index === 0 
-            ? 'Totals' 
-            : tableData['accountName']
+           tableData['accountName']
               ? tableData['accountName']
-                : `Table ${index}`
+              : `Table ${index}`
         }</label>
-        { index !== 0 && <span 
+        { <span 
           className='btn narrow red' 
           style={deleteStyles} 
-          onClick={() => deleteTable(index)}>Delete table</span>}
-        <TableRow
-          pattern={RowSpread}
-          className="headerRow"
-          round={false}
-        >
-          <div>
-            Age <br />
-            { index !== 0 && tableData['startAge'] && tableData['startAge']}
-          </div>
-          <div>
-            Deposit <br />
-            { index !== 0 && money(tableData['deposit'] && tableData['deposit'])}
-          </div>
-          <div>
-            Interest <br />
-            { index !== 0 && tableData['startInterest'] && tableData['startInterest'] + '%'}
-          </div>
-          <div>
-            Balance <br />
-            { index !== 0 && money(tableData['startAmount'] && tableData['startAmount'])}
-          </div>
+          onClick={() => deleteTable(index)}>Delete table
+        </span>}
+        <TableRow pattern={RowSpread} className="headerRow" round={false} >
+          <div> Age <br /> { tableData['startAge'] && tableData['startAge']} </div>
+          <div> Deposit <br /> { money(tableData['deposit'] && tableData['deposit'])} </div>
+          <div> Interest <br /> { tableData['startInterest'] && tableData['startInterest'] + '%'} </div>
+          <div> Balance <br /> { money(tableData['startAmount'] && tableData['startAmount'])} </div>
         </TableRow>
-        <Collapseable open={index === 0}>
-          {rows}
-        </Collapseable>
+        <Collapseable open={index === 0}> {rows} </Collapseable>
       </div>
-    )
+    )}
+
+    let curAllTotal = 0
+    const procTotalsTable = (TD) => {
+      const formAge = [...filledArray((maxAge - minAge) + 2)]
+      minAge = minAge -1
+      const allRrows = formAge.map((it, ind)=>{
+        let addItems = []
+        const deposit = TD.reduce((amnt, curTable, index) => {
+          if( parseInt(curTable['startAge']) === minAge ) {
+            curAllTotal = curAllTotal + parseFloat(curTable['startAmount'])
+            addItems.push(parseFloat(curTable['startAmount']))
+          }
+          if(index > 0 && curTable[minAge]){
+            curAllTotal = curAllTotal + parseFloat(curTable[minAge].deposit)
+            return amnt = amnt + parseFloat(curTable[minAge].deposit)
+          } else return amnt + 0
+        }, 0)
+
+        const interest = TD.reduce((amnt, curTable, index) => {
+          if(index > 0 && curTable[minAge]){
+            curAllTotal = curAllTotal + parseFloat(curTable[minAge].interest)
+            return amnt = amnt + parseFloat(curTable[minAge].interest)
+          } else return amnt + 0
+        }, 0)
+
+        const allDeposits = <>
+          + {money(deposit)} <br />
+          {addItems.map((additional, index) => 
+            <p key={index} style={
+              { 
+                margin: '5px 0 0 0', 
+                padding: '0 4px',
+                color: '#fff',
+                background: 'green',
+                display: 'inline-block',
+                borderRadius: '4px'
+              }
+            }>
+              {money(additional)}
+            </p>)
+          }
+        </>
+
+        const row = (
+          <TableRow
+            pattern={RowSpread}
+            key={minAge}
+            tData={[
+              minAge,
+              allDeposits,
+              money(interest), 
+              money(curAllTotal)
+            ]} 
+          />
+        )
+        minAge++
+        return row
+      })
+      return(
+        <div className={`${showForm ? 'sm' : 'md'}`} style={{ marginBottom: "20px", position: 'relative'}}>
+        <label style={labelStyles}>Totals</label>
+        <TableRow pattern={RowSpread} className="headerRow" round={false} >
+          <div> Age </div>
+          <div> Deposit </div>
+          <div> Interest </div>
+          <div> Balance </div>
+        </TableRow>
+        <Collapseable open={true}> {allRrows} </Collapseable>
+      </div>
+      )
+    }
+
+    const allTables = allTableData.map((table, index) => index > 0 ? <React.Fragment key={index}>{procTable(table, index)}</React.Fragment> : null)
+    const totalsTable = procTotalsTable(allTableData)
+
+    return(
+      <>
+        {totalsTable}
+        {allTables}
+      </>
+      )
   }
   
   return (
@@ -175,9 +249,14 @@ const SavingsCalc = ({ step }) => {
           Estimate how much you'll have by retirement. <br /> 
           The breakdown of each account will display in a new table. The totals will display in the first table. 
         </p>
-        <div className={step === 0 || showForm ? 'md' : 'sm'}>
+        <div className={showForm ? 'md' : 'sm'}>
           <div className='right md-center'><IP 
-            type={`btn_green_big`} onChange={()=>updateShowForm(!showForm)} label={showForm ? 'Hide form' : 'Show form'}
+            type={`btn_${showForm ? 'red' : 'green'}_big`} 
+            onChange={()=>{
+              const cf = new Promise((resolve, reject)=> resolve(p.selectedAccount && p.addAccountToEstimator(null)))
+              cf.then(()=>updateShowForm(!showForm))
+            }} 
+            label={showForm ? 'Hide form' : 'Show form'}
           /></div>
           { (showForm || p.selectedAccount) && <Form
             defaultFormData={ p.selectedAccount ? {
@@ -228,8 +307,7 @@ const SavingsCalc = ({ step }) => {
             )}
           />}
         </div>
-          {p.savingsTable.length > 1 || step === 0 ?
-            p.savingsTable.map((t, index) => <React.Fragment key={index}> {renderTable(t, index)} </React.Fragment>)
+          {p.savingsTable.length > 1 ? renderTable(p.savingsTable)
             : <h2 className="sm" style={{ textAlign: 'center', marginTop: '75px' }}>Add savings info to calculate</h2>
           }
       </div>
