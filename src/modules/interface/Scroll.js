@@ -3,12 +3,18 @@ import '../../styles/scroll.css'
 
 const Scroll = ({ children, height, width }) => {
   let testHeight = 0
-  if(children && children.length > 0){
+  if(children && Array.isArray(children) && children.length > 0){
     children[1].forEach(element => {
       if(element) testHeight ++
     });
+    testHeight = testHeight * 45
+  }else if(children && !Array.isArray(children) && children.props && children.props.children){
+    children.props.children.forEach(element => {
+      if(element) testHeight ++
+    });
+    testHeight = testHeight * 55
   }
-  testHeight = testHeight * 45
+  
   const containerStyles = {
     width: width ? width + 'px' : '100%',
     height: (testHeight < height ? testHeight : height) + 'px',

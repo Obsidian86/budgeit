@@ -21,7 +21,6 @@ const SavingsCalc = ({ step }) => {
   const processTables = (formDataIn) => {
     let formData = {...formDataIn}
     Object.keys(formData).forEach(fd => formData[fd] = parseFloat(formData[fd]))
-    let totals = { ...p.savingsTable[0] }
     let newTable = {}
     let currentAmount = formData.stAmount
     formData.depAmount = formData.depAmount * (12 / formData.per)
@@ -33,20 +32,6 @@ const SavingsCalc = ({ step }) => {
         deposit: formData.depAmount
       }
       newTable[newAge] = tableRow
-      if (totals[newAge]) {
-        totals[newAge].stAmount = totals[newAge].stAmount + currentAmount;
-        totals[newAge].interest = totals[newAge].interest + (currentAmount * (formData.rate / 100));
-        totals[newAge].deposit = totals[newAge].deposit + formData.depAmount;
-      } else {
-        const lastMaxAge = Math.max(...Object.keys(totals))
-        if(!(!lastMaxAge || lastMaxAge === 0 || Object.keys(totals).length === 0)){
-          const lastAdded = totals[lastMaxAge]
-          totals[newAge] = {}
-          totals[newAge].deposit = tableRow.deposit
-          totals[newAge].interest = tableRow.interest
-          totals[newAge].stAmount = lastAdded.stAmount + lastAdded.deposit + lastAdded.interest
-        }else totals[newAge] = tableRow
-      }
       currentAmount = currentAmount + formData.depAmount + (currentAmount * (formData.rate / 100))
     }
 
@@ -57,7 +42,7 @@ const SavingsCalc = ({ step }) => {
     if(formDataIn.accountName) newTable.accountName = formDataIn.accountName
 
     let combineTables = [...p.savingsTable]
-    combineTables[0] = {...totals}
+    combineTables[0] = {}
     combineTables.push({...newTable})
     p.updateSavingsTables(combineTables)
   }
@@ -68,16 +53,6 @@ const SavingsCalc = ({ step }) => {
       header: 'Delete table', 
       message: <>Are you sure you want to delete this table? <br /> This can not be undone.</>, 
       confirm: ()=>{
-        // const deletedTable = newTables[index]
-        // Object.keys(deletedTable).forEach(it => {
-        //   const {stAmount, interest, deposit} = deletedTable[it]
-        //   if(newTables[0][it]){
-        //     newTables[0][it].stAmount = newTables[0][it].stAmount - stAmount
-        //     newTables[0][it].interest = newTables[0][it].interest - interest
-        //     newTables[0][it].deposit = newTables[0][it].deposit - deposit
-        //     // if(newTables[0][it].interest + newTables[0][it].deposit === 0) delete newTables[0][it]
-        //   }
-        // })
         let newTables = [...p.savingsTable]
         newTables.splice(index, 1)
         if(newTables.length === 1){ newTables = []}
