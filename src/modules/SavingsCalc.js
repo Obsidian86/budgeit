@@ -8,7 +8,7 @@ import ContentBox from "./interface/ContentBox";
 import { validForm, IP } from '../utilities/formUtilities'
 import { filledArray } from './components/calendar/utilities'
 
-const SavingsCalc = ({ step }) => {
+const SavingsCalc = () => {
   const p = useContext(MainContext)
   const [errors, updateErrors] = useState(null)
   const [showForm, updateShowForm] = useState(!(window.innerWidth <= 1000) || !(p.selectedAccount === null))
@@ -218,7 +218,7 @@ const SavingsCalc = ({ step }) => {
   }
   
   return (
-    <ContentBox title="Savings estimator" exClass={step === 0 && p.savingsTable.length < 1 && 'lg'} itemId='savingsModule'>
+    <ContentBox title="Savings estimator" exClass={'lg'} itemId='savingsModule'>
       <div className={`row mt-40`}>
         <p className='sm remark'>
           Estimate how much you'll have by retirement. <br /> 

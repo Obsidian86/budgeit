@@ -112,6 +112,7 @@ class MainProvider extends React.Component {
   updateViewBy = v => this.saveState({ viewBy: v });
   setDialog = dialog => this.setState({ dialog })
   updateView = (view, parent) => {
+    console.log(view)
     let parentTop = 0
     let subTract = 90
     if(parent){

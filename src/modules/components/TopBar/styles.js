@@ -103,6 +103,7 @@ export const styles = (p, isOpen) => {
                     width: calc(33.33% - 25px);
                     text-align: left;
                     padding-left: 20px;
+                    border-radius: 0;
                     @media (max-width: 750px){ 
                         &{
                             width: calc(50% - 25px)

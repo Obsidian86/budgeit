@@ -11,7 +11,8 @@ import CalendarModule from './modules/CalendarModule'
 import Accounts from './modules/Accounts'
 import SaveLoad from './modules/SaveLoad'
 import SnapShots from './modules/SnapShots'
-import { IP } from './utilities/formUtilities'
+import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
+import DashNav from './modules/components/DashNav'
 
 const version = 1.05
 
@@ -19,27 +20,36 @@ function App() {
   const p = useContext(MainContext)
   const [accData, updateAccData] = useState(false)
   const step = (p.amount !== null ? 1 : 0) + (Object.keys(p.budget).length > 0 ? 1 : 0)
-
   return (
     <div className='App container'>
-      <TopBar updateView={p.updateView} step={step} />
+      <Router>
+      <TopBar updateView={p.updateView} step={step} Link={Link} />
       <div className='row'>
-        <div className='right' style={{width: '97%', marginBottom: '17px'}}>
-          <IP type={`btn_narrow${!accData ? '_green' : '_red'}`}
-            style={{marginRight: '0', marginBottom: '13px'}}
-            onChange={()=>updateAccData(!accData)} label='Export / import accounts' />
-        </div>
+        <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} />
         {accData && <SaveLoad />}
-        <IncomeForm />
-        {step > 0 && <Recommended />}
-        {step > 0 && <YourBudget step={step} />}
-        <SavingsCalc step={step} />
-        {step > 1 && <EmergencyFunds />}
-        <Accounts />
-        {step > 1 && <CalendarModule />}
-        <SnapShots />
+        <Route exact path='/'>
+            <IncomeForm />
+        </Route>
+        <Switch>
+          <Route path='/calendar'>
+            {step > 1 && <CalendarModule />}
+            <SnapShots />
+          </Route>
+          <Route path='/budget'>
+            {step > 0 && <Recommended />}
+            {step > 0 && <YourBudget step={step} />}
+          </Route>
+          <Route path='/accounts'>
+            {step > 1 && <EmergencyFunds />}
+            <Accounts />
+          </Route>
+          <Route path='/savings'>
+            <SavingsCalc />
+          </Route>
+        </Switch>
       </div>
       <Footer version={version} />
+      </Router>
     </div>
   )
 }

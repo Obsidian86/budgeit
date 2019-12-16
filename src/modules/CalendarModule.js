@@ -13,7 +13,7 @@ const CalendarModule = () => {
   const [currentItems, updateCurrentItems] = useState(null)
   const [yearlyItems, updateYearlyItems] = useState(null)
   const [calLoaded, updateCalLoaded] = useState(false)
-
+  
   let noLiquBal = 0 // not liquid
   let totalBal = 0 // total
   p.accounts.forEach(a => {

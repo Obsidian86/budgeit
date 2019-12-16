@@ -8,12 +8,12 @@ import { recurrence } from '../../../utilities/constants'
 import { styles } from './styles'
 import SubNav from './SubNav'
 
-const TopBar = ({updateView, step}) => {
+const TopBar = ({updateView, step, Link}) => {
   const p = useContext(MainContext);
   const [isOpen, updateIsOpen] = useState(false);
 
   const changeView = (event, view) => {
-    event.preventDefault()
+    if(event) event.preventDefault()
     updateIsOpen(false)
     updateView(view)
   }
@@ -49,7 +49,7 @@ const TopBar = ({updateView, step}) => {
           />
           <p>{p.amount ? convert(p.amount, "w", p.viewBy, "money") : '$0'}</p>
         </div>
-        {isOpen && <SubNav changeView={changeView} p={p} step={step} />}
+        {isOpen && <SubNav changeView={changeView} p={p} step={step} Link={Link} />}
       </StTopBar>
       {isOpen && <div style={overlay} onClick={()=> updateIsOpen(!isOpen)}></div>}
     </>

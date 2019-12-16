@@ -79,7 +79,7 @@ export const IP = ({type='text', alias, onChange, data, errors, label, options =
         </span>}
   
         {type === 'btn' &&
-            <button onClick={onChange} className={`btn ${exClass}`}>
+            <button onClick={onChange} className={`btn ${exClass}`} style={style}>
                 {label ? label : 'Submit'}
             </button>
         }

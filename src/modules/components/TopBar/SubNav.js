@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faUserMinus, faBan, faDownload, faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import { colors } from '../../../styles/colors'
 
-const SubNav = ({ changeView, p, step }) => {
+const SubNav = ({ changeView, p, step, Link }, props) => {
     const [showList, updateShowList] = useState(false)
     const profileList = p.loadProfiles()
     const s = {
@@ -101,11 +101,14 @@ const SubNav = ({ changeView, p, step }) => {
 
             </div>
             <nav>
+                <Link to='/calendar#snapshots' style={{borderLeft: `5px solid black`}} ><span>Home/Sources</span>
+
+                </Link>
                 <a href='/#' 
                     onClick={event => changeView(event, 'default')}
                     style={{borderLeft: `5px solid ${colors[0]}`}}
                 > 
-                    <span>Top</span>
+                    <span>Home/Sources</span>
                 </a>
 
                 <a href='/#' onClick={event => changeView(event, 'savingsModule')}

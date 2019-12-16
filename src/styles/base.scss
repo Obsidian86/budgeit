@@ -228,3 +228,23 @@ p{
   font-size: 1rem;
   line-height: 1.9rem;
 }
+
+.dashNav nav{
+  padding-top: 10px;
+  padding-bottom: 30px;
+  @media (max-width: 700px){ 
+    display: none;
+  }
+  a{
+    text-decoration: none;
+    margin-right: 10px;
+    padding: 13px 13px;
+    color: #333;
+    font-weight: bold;
+    &:hover{
+      color: #fff;
+      border-radius: 4px;
+      background-color: $green;
+    }
+  }
+}
