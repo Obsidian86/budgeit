@@ -18,6 +18,8 @@ const YourBudget = ({ step }) => {
   const [errors, updateErrors] = useState(null)
   const data = [];
 
+  const moduleName = 'yourBudgetModule'
+
   const amountLeft = convert(p.amount, "w", p.viewBy) - convert(p.total, "m", p.viewBy);
   const percentLeft = (convert(p.total, "m", p.viewBy) / convert(p.amount, "w", p.viewBy)) * 100;
 
@@ -61,7 +63,7 @@ const YourBudget = ({ step }) => {
   });
   const okPercent = percentLeft > -1 && percentLeft !== Infinity
   return (
-    <ContentBox title='Your budget' itemId='yourBudgetModule'>
+    <ContentBox title='Your budget' itemId={moduleName}>
       <div className="row mt-40">
         {/* chart section */}
         <div className="sm">

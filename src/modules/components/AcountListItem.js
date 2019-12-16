@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
+import { Link } from 'react-router-dom'
 
-const AccountListItem = ({s, a, money, interest, Bullet, updateEdittingItem, updateShowForm, showReturns, addAccountToEstimator, updateView}) => {
+const AccountListItem = (props) => {
+    const {s, a, money, interest, Bullet, updateEdittingItem, updateShowForm, showReturns, addAccountToEstimator, updateView} = props
     const [showOptions, updateShowOptions] = useState(false)
     return(
         <li style={{flexWrap: 'wrap', cursor: 'pointer'}} onClick={()=>updateShowOptions(!showOptions)}>
@@ -8,14 +10,9 @@ const AccountListItem = ({s, a, money, interest, Bullet, updateEdittingItem, upd
             <span style={s.intRight}>{a.interest}%</span>
             <span style={s.intRight} className={showOptions ? 'mb-10' : null}>{money(a.amount)}</span>
             {showOptions && <div className='right w-100 mt-10'>
-                <button className='btn narrow blue' onClick={()=>addAccountToEstimator(a)}>Add to estimator</button>
+                <Link to='/savings' className='btn narrow blue' style={{textDecoration: 'none'}} onClick={()=> addAccountToEstimator(a)}>Add to estimator</Link>
                 <button className='btn narrow' onClick={()=> {
-                    const n = new Promise((resolve, reject)=>{
-                        return resolve(
-                            updateEdittingItem(a)
-                            
-                        ); 
-                    })
+                    const n = new Promise((resolve, reject)=> resolve(updateEdittingItem(a)) )
                     n.then(()=>updateShowForm(true))
                     .then(()=>updateView('accountForm', 'accountsModule'))
                 }}>Edit account</button>

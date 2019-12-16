@@ -14,7 +14,7 @@ import SnapShots from './modules/SnapShots'
 import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
 
-const version = 1.05
+const version = 1.10
 
 function App() {
   const p = useContext(MainContext)
@@ -23,32 +23,31 @@ function App() {
   return (
     <div className='App container'>
       <Router>
-      <TopBar updateView={p.updateView} step={step} Link={Link} />
-      <div className='row'>
-        <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} />
-        {accData && <SaveLoad />}
-        <Route exact path='/'>
-            <IncomeForm />
-        </Route>
-        <Switch>
-          <Route path='/calendar'>
-            {step > 1 && <CalendarModule />}
-            <SnapShots />
-          </Route>
-          <Route path='/budget'>
-            {step > 0 && <Recommended />}
-            {step > 0 && <YourBudget step={step} />}
-          </Route>
-          <Route path='/accounts'>
-            {step > 1 && <EmergencyFunds />}
-            <Accounts />
-          </Route>
-          <Route path='/savings'>
-            <SavingsCalc />
-          </Route>
-        </Switch>
-      </div>
-      <Footer version={version} />
+        <TopBar updateView={p.updateView} step={step} Link={Link} />
+        <div className='row'>
+          <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} />
+          {accData && <SaveLoad />}
+          <Route exact path='/' render={()=> <IncomeForm /> } />
+          <Switch>
+            <Route path='/savings' render={() => <SavingsCalc /> } /> 
+            <Route path='/calendar' render={() => 
+              <>
+                {step > 1 && <CalendarModule />}
+                <SnapShots />
+              </> } />
+            <Route path='/budget' render={()=> 
+              <>
+                {step > 0 && <Recommended />}
+                {step > 0 && <YourBudget step={step} />}
+              </> } />
+            <Route path='/accounts' render={()=> 
+              <>
+                {step > 1 && <EmergencyFunds />}
+                <Accounts />
+              </> } />
+          </Switch>
+        </div>
+        <Footer version={version} />
       </Router>
     </div>
   )

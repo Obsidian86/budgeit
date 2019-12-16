@@ -7,12 +7,12 @@ const Scroll = ({ children, height, width }) => {
     children[1].forEach(element => {
       if(element) testHeight ++
     });
-    testHeight = testHeight * 45
+    testHeight = testHeight * 65
   }else if(children && !Array.isArray(children) && children.props && children.props.children){
     children.props.children.forEach(element => {
       if(element) testHeight ++
     });
-    testHeight = testHeight * 55
+    testHeight = testHeight * 65
   }
   
   const containerStyles = {
@@ -22,9 +22,10 @@ const Scroll = ({ children, height, width }) => {
   }
   const scrollStyles = {
     boxShadow: '0 0 3px gray',
-    height: (testHeight < height ? testHeight : height) + 9 + 'px',
+    height: (testHeight < height ? testHeight : height) + 5 + 'px',
     width:  width ? width + 'px' : '100%',
-    overflowX: 'scroll'
+    overflowX: 'hidden',
+    overflowY: 'scroll'
   }
   return (
     <div style={containerStyles}>

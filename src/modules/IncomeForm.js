@@ -37,7 +37,7 @@ const IncomeForm = () => {
       { rec: 'w', date: new Date() }
   
   return (
-    <ContentBox title='Sources' exClass={hasSource ? 'mx row' : 'sm'} exStyles={{ borderTop: `8px solid ${theme.green}` }}>
+    <ContentBox title='Sources' exClass={hasSource ? 'mx row' : 'sm'} exStyles={{ borderTop: `8px solid ${theme.green}` }} itemId='default'>
       <br />
       <div className={`mt-40 ${hasSource ? 'sm' : null}`}>
         <Form

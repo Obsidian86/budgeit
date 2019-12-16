@@ -18,7 +18,7 @@ const s = {
         justifyContent: 'space-between'
     },
     intFirst: {textAlign: 'left', width: '40%'}, 
-    intRight: {textAlign: 'right', width: '30%'}, 
+    intRight: {textAlign: 'right', width: '30%'}
 }
 
 const Accounts = () => {

@@ -12,11 +12,55 @@ const SavingsCalc = () => {
   const p = useContext(MainContext)
   const [errors, updateErrors] = useState(null)
   const [showForm, updateShowForm] = useState(!(window.innerWidth <= 1000) || !(p.selectedAccount === null))
+  const [excludedTables, updateExcludedTables] = useState([])
 
   useEffect(()=>{
     const shouldShowForm = !(window.innerWidth <= 1000) || !(p.selectedAccount === null)
     updateShowForm(shouldShowForm)
   }, [p.selectedAccount, updateShowForm])
+
+  const s = {
+    tablePill: { 
+      margin: '5px 3px 0 0', 
+      padding: '0 4px',
+      color: '#fff',
+      background: 'green',
+      display: 'inline-block',
+      borderRadius: '4px'
+    },
+    tableContainer: { marginBottom: "20px", position: 'relative'},
+    noTables: { textAlign: 'center', marginTop: '75px' },
+    labelStyles: {
+      fontSize: '1.1rem',
+      backgroundColor: p.theme.vBlueDark,
+      color: '#fff',
+      padding: '6px 10px 3px 10px',
+      borderRadius: '5px 5px 0 0',
+      width: '120px',
+      textAlign: 'center',
+      marginLeft: '5px'
+    },
+    deleteStyles: {
+      position: 'absolute',
+      right: '-25px',
+      top: '18px',
+      padding: '5px'
+    },
+    toggleStyles: {
+      position: 'absolute',
+      right: '70px',
+      top: '18px',
+      padding: '5px'
+    } 
+  }
+
+  const toggleExclusions = (index) => {
+    if(excludedTables.includes(index)){
+      const excl = [...excludedTables].filter(item => item !== index)
+      return updateExcludedTables(excl)
+    }
+    return updateExcludedTables([...excludedTables, index])
+  }
 
   const processTables = (formDataIn) => {
     let formData = {...formDataIn}
@@ -81,59 +125,44 @@ const SavingsCalc = () => {
 
   const renderTable = (allTableData) => {
     const RowSpread = [8, 30, 22, 35];
-    const labelStyles = {
-      fontSize: '1.1rem',
-      backgroundColor: p.theme.vBlueDark,
-      color: '#fff',
-      padding: '6px 10px 3px 10px',
-      borderRadius: '5px 5px 0 0',
-      width: '120px',
-      textAlign: 'center',
-      marginLeft: '5px'
-    }
-    const deleteStyles = {
-      position: 'absolute',
-      right: '-25px',
-      top: '15px'
-    } 
+    let minAge = 99
+    let maxAge = 1
+    const procTable = (tableData, index) => {    
+      if (Object.keys(tableData).length === 1 && tableData["0"]) return null
+      let rows = Object.keys(tableData).map((t, i) => {
+        if (t === 0 || t === '0' || isNaN(parseInt(t))) return null
+        if(parseInt(t) < minAge) minAge = parseInt(t)
+        if(parseInt(t) > maxAge) maxAge = parseInt(t)
+        return (<TableRow
+          pattern={RowSpread}
+          key={t}
+          tData={[
+            t, "+ " + money(tableData[t].deposit), money(tableData[t].interest), 
+            money(tableData[t].stAmount + tableData[t].interest + tableData[t].deposit)]} />)
+      })
 
-  let minAge = 99
-  let maxAge = 1
-  const procTable = (tableData, index) => {    
-    if (Object.keys(tableData).length === 1 && tableData["0"]) return null
-    let rows = Object.keys(tableData).map((t, i) => {
-      if (t === 0 || t === '0' || isNaN(parseInt(t))) return null
-      if(parseInt(t) < minAge) minAge = parseInt(t)
-      if(parseInt(t) > maxAge) maxAge = parseInt(t)
-      return (<TableRow
-        pattern={RowSpread}
-        key={t}
-        tData={[
-          t, "+ " + money(tableData[t].deposit), money(tableData[t].interest), 
-          money(tableData[t].stAmount + tableData[t].interest + tableData[t].deposit)]} />)
-    })
-
-    return (
-      <div className={`thr`} style={{ marginBottom: "20px", position: 'relative'}}>
-        <label style={labelStyles}>{
-           tableData['accountName']
-              ? tableData['accountName']
-              : `Table ${index}`
-        }</label>
-        { <span 
-          className='btn narrow red' 
-          style={deleteStyles} 
-          onClick={() => deleteTable(index)}>Delete table
-        </span>}
-        <TableRow pattern={RowSpread} className="headerRow" round={false} >
-          <div> Age <br /> { tableData['startAge'] && tableData['startAge']} </div>
-          <div> Deposit <br /> { money(tableData['deposit'] && tableData['deposit'])} </div>
-          <div> Interest <br /> { tableData['startInterest'] && tableData['startInterest'] + '%'} </div>
-          <div> Balance <br /> { money(tableData['startAmount'] && tableData['startAmount'])} </div>
-        </TableRow>
-        <Collapseable open={index === 0}> {rows} </Collapseable>
-      </div>
-    )}
+      return (
+        <div className={`thr`} style={s.tableContainer}>
+          <label style={s.labelStyles}>{ tableData['accountName'] ? tableData['accountName'] : `Table ${index}` }</label>
+          <span 
+            className='btn narrow blue' 
+            style={s.toggleStyles} 
+            onClick={() => toggleExclusions(index)}> {excludedTables.includes(index) ? "Show" : "Hide" } in totals
+          </span>
+          <span 
+            className='btn narrow red' 
+            style={s.deleteStyles} 
+            onClick={() => deleteTable(index)}> Delete table
+          </span>
+          <TableRow pattern={RowSpread} className="headerRow" round={false} >
+            <div> Age <br /> { tableData['startAge'] && tableData['startAge']} </div>
+            <div> Deposit <br /> { money(tableData['deposit'] && tableData['deposit'])} </div>
+            <div> Interest <br /> { tableData['startInterest'] && tableData['startInterest'] + '%'} </div>
+            <div> Balance <br /> { money(tableData['startAmount'] && tableData['startAmount'])} </div>
+          </TableRow>
+          <Collapseable open={index === 0}> {rows} </Collapseable>
+        </div>
+      )}
 
     let curAllTotal = 0
     const procTotalsTable = (TD) => {
@@ -142,39 +171,27 @@ const SavingsCalc = () => {
       const allRrows = formAge.map((it, ind)=>{
         let addItems = []
         const deposit = TD.reduce((amnt, curTable, index) => {
-          if( curTable['startAge'] && parseInt(curTable['startAge']) === minAge ) {
+          if( curTable['startAge'] && parseInt(curTable['startAge']) === minAge && !excludedTables.includes(index)) {
             curAllTotal = curAllTotal + parseFloat(curTable['startAmount'])
             addItems.push(parseFloat(curTable['startAmount']))
           }
-          if(index > 0 && curTable[minAge]){
+          if(index > 0 && curTable[minAge] && !excludedTables.includes(index)){
             curAllTotal = curAllTotal + parseFloat(curTable[minAge].deposit)
             return amnt = amnt + parseFloat(curTable[minAge].deposit)
           } else return amnt + 0
         }, 0)
 
         const interest = TD.reduce((amnt, curTable, index) => {
-          if(index > 0 && curTable[minAge]){
+          if(index > 0 && curTable[minAge] && !excludedTables.includes(index)){
             curAllTotal = curAllTotal + parseFloat(curTable[minAge].interest)
             return amnt = amnt + parseFloat(curTable[minAge].interest)
           } else return amnt + 0
         }, 0)
 
-        const allDeposits = <>
+        const allDeposits = 
+        <>
           + {money(deposit)} <br />
-          {addItems.map((additional, index) => 
-            <p key={index} style={
-              { 
-                margin: '5px 0 0 0', 
-                padding: '0 4px',
-                color: '#fff',
-                background: 'green',
-                display: 'inline-block',
-                borderRadius: '4px'
-              }
-            }>
-              {money(additional)}
-            </p>)
-          }
+          {addItems.map((additional, index) => <p key={index} style={s.tablePill}> {money(additional)} </p>) }
         </>
 
         const row = (
@@ -193,16 +210,16 @@ const SavingsCalc = () => {
         return row
       })
       return(
-        <div className={`${showForm ? 'sm' : 'md'}`} style={{ marginBottom: "20px", position: 'relative'}}>
-        <label style={labelStyles}>Totals</label>
-        <TableRow pattern={RowSpread} className="headerRow" round={false} >
-          <div> Age </div>
-          <div> Deposit </div>
-          <div> Interest </div>
-          <div> Balance </div>
-        </TableRow>
-        <Collapseable open={true}> {allRrows} </Collapseable>
-      </div>
+        <div className={`${showForm ? 'sm' : 'md'}`} style={s.tableContainer}>
+          <label style={s.labelStyles}>Totals</label>
+          <TableRow pattern={RowSpread} className="headerRow" round={false} >
+            <div> Age </div>
+            <div> Deposit </div>
+            <div> Interest </div>
+            <div> Balance </div>
+          </TableRow>
+          <Collapseable open={true}> {allRrows} </Collapseable>
+        </div>
       )
     }
 
@@ -283,7 +300,7 @@ const SavingsCalc = () => {
           />}
         </div>
           {p.savingsTable.length > 1 ? renderTable(p.savingsTable)
-            : <h2 className="sm" style={{ textAlign: 'center', marginTop: '75px' }}>Add savings info to calculate</h2>
+            : <h2 className="sm" style={s.noTables}>Add savings info to calculate</h2>
           }
       </div>
     </ContentBox>

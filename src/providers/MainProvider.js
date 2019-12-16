@@ -25,7 +25,8 @@ class MainProvider extends React.Component {
       savingsTable: [{ 0: { stAmount: 0, interest: 0, deposit: 0 } }],
       incomeSources: [],
       snapshots: [],
-      selectedAccount: null
+      selectedAccount: null,
+      lastView: null
     }
     this.methods = {
       updateViewBy: this.updateViewBy,
@@ -112,17 +113,19 @@ class MainProvider extends React.Component {
   updateViewBy = v => this.saveState({ viewBy: v });
   setDialog = dialog => this.setState({ dialog })
   updateView = (view, parent) => {
-    console.log(view)
-    let parentTop = 0
-    let subTract = 90
-    if(parent){
-      const parentEl = document.getElementById(parent)
-      parentTop = parentEl.offsetTop || 0
-      subTract = window.innerWidth <= 1000 ? 400 : 200
+    if(parent || (view && view !== this.state.lastView) ){
+      let parentTop = 0
+      let subTract = 90
+      if(parent){
+        const parentEl = document.getElementById(parent)
+        parentTop = parentEl.offsetTop || 0
+        subTract = window.innerWidth <= 1000 ? 400 : 200
+      }
+      const targ = document.getElementById(view)
+      const top = (!view || !targ || view === 'default') ? 0 : targ.offsetTop - subTract + parentTop
+      window.scrollTo(0, top)
+      this.setState({lastView: view})
     }
-    const targ = document.getElementById(view)
-    const top = (!targ || view === 'default') ? 0 : targ.offsetTop - subTract + parentTop
-    window.scrollTo(0, top)
   }
 
   // budget CRUD
