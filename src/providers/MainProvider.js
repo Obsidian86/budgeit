@@ -34,6 +34,7 @@ class MainProvider extends React.Component {
       setDialog: this.setDialog,
       updateView: this.updateView,
       saveState: this.saveState,
+      getLink: this.getLink,
       // Data
       exportData: this.exportData,
       importData: this.importData,
@@ -81,7 +82,6 @@ class MainProvider extends React.Component {
     const { profile, amount, accounts, budget, total, savingsTable, incomeSources, snapshots } = this.state
     return({ profile, amount, accounts, budget, total, savingsTable, incomeSources, snapshots })
   }
-
   // profile tasks
   deleteData = () => {
     mem.deleteData()
@@ -127,7 +127,7 @@ class MainProvider extends React.Component {
       this.setState({lastView: view})
     }
   }
-
+  getLink = (link) => window.location.href.includes('budgeit') ? `/budgeit${link}` : link 
   // budget CRUD
   addBudgetItem = (bi) => this.saveState(bdg.processAddBudgetItem(this.state.budget, bi, colors, this.state.total))
   deleteBudgetItem = (cat, id) => this.saveState(bdg.processDeleteBudgetItem(this.state.budget, cat, id, this.state.total))

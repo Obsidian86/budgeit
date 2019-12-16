@@ -25,22 +25,22 @@ function App() {
       <Router>
         <TopBar updateView={p.updateView} step={step} Link={Link} />
         <div className='row'>
-          <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} />
+          <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} getLink={p.getLink} />
           {accData && <SaveLoad />}
-          <Route exact path='/' render={()=> <IncomeForm /> } />
+          <Route exact path={p.getLink('/')} render={()=> <IncomeForm /> } />
           <Switch>
-            <Route path='/savings' render={() => <SavingsCalc /> } /> 
-            <Route path='/calendar' render={() => 
+            <Route path={p.getLink('/savings')} render={() => <SavingsCalc /> } /> 
+            <Route path={p.getLink('/calendar')} render={() => 
               <>
                 {step > 1 && <CalendarModule />}
                 <SnapShots />
               </> } />
-            <Route path='/budget' render={()=> 
+            <Route path={p.getLink('/budget')} render={()=> 
               <>
                 {step > 0 && <Recommended />}
                 {step > 0 && <YourBudget step={step} />}
               </> } />
-            <Route path='/accounts' render={()=> 
+            <Route path={p.getLink('/accounts')} render={()=> 
               <>
                 {step > 1 && <EmergencyFunds />}
                 <Accounts />

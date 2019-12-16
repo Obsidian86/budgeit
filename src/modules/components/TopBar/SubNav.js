@@ -115,7 +115,7 @@ const SubNav = ({ p, step, Link, toggleNav }) => {
       </div>
       <nav>
         {Links.map((link, index) => 
-          step >= link.step ? <Link to={link.to} style={s.Li(colors[index])} key={link.text} onClick={toggleNav}>
+          step >= link.step ? <Link to={p.getLink(link.to)} style={s.Li(colors[index])} key={link.text} onClick={toggleNav}>
             <span>{link.text}</span>
           </Link> : null)
         }

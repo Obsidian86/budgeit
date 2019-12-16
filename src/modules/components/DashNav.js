@@ -1,7 +1,7 @@
 import React from 'react'
 import { IP } from '../../utilities/formUtilities'
 
-const DashNav = ({Link, step, updateAccData, accData}) =>{
+const DashNav = ({Link, step, updateAccData, accData, getLink}) =>{
     const Links = [
       { to: '/#default', text: 'Home/sources', step: 0 },
       { to: '/savings#savingsModule', text: 'Saving calc', step: 0 },
@@ -21,7 +21,7 @@ const DashNav = ({Link, step, updateAccData, accData}) =>{
     return(
       <>
         <nav style={s.nav} className='dashNavLinks'>
-          {Links.map((link) => step >= link.step ? <Link to={link.to} style={s.lnk} key={link.text}> {link.text} </Link> : null)}
+          {Links.map((link) => step >= link.step ? <Link to={getLink(link.to)} style={s.lnk} key={link.text}> {link.text} </Link> : null)}
         </nav>
         <div className='dashNav right' style={s.dNavCont}>
           <IP type={`btn_narrow${!accData ? '_green' : '_red'}`}
