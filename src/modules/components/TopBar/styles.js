@@ -42,7 +42,7 @@ export const styles = (p, isOpen) => {
                 height: 16px;
                 width: 16px;
                 margin-top: 3px;
-                
+                border-radius: 3px;
             }
             p{
                 margin: 0;

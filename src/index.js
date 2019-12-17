@@ -8,4 +8,4 @@ import App from './App'
 
 ReactDOM.render(<MainProvider><App /></MainProvider>, document.getElementById('root'))
 
-serviceWorker.unregister();
+serviceWorker.register();
