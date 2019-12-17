@@ -15,7 +15,7 @@ const DashNav = ({Link, step, updateAccData, accData, getLink}) =>{
     const s = {
       dNavCont: {width: '97%', padding: '0', marginBottom: '6px'},
       btn: {marginRight: '0', marginTop: '4px', marginBottom: '13px', alignSelf: 'flex-start', minWidth: '178px'},
-      nav: { flexWrap: 'wrap', width: '100%', justifyContent: 'space-between', marginBottom: "24px"},
+      nav: { flexWrap: 'wrap', width: '100%', justifyContent: 'center', marginBottom: "24px"},
       lnk: { margin: '0', display: 'block', fontSize: '.8rem', width: `${100/8}%`, lineHeight: '1.3rem', padding: '10px 0 10px 0' }
     }
     return(
