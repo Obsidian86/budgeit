@@ -14,7 +14,7 @@ import SnapShots from './modules/SnapShots'
 import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
 
-const version = 1.10
+const version = 1.11
 
 function App() {
   const p = useContext(MainContext)
@@ -31,8 +31,8 @@ function App() {
             <Route path={p.getLink('/savings')} render={() => <SavingsCalc /> } /> 
             <Route path={p.getLink('/calendar')} render={() => 
               <>
-                {step > 1 && <CalendarModule />}
                 <SnapShots />
+                {step > 1 && <CalendarModule />}
               </> } />
             <Route path={p.getLink('/budget')} render={()=> 
               <>

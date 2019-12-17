@@ -68,10 +68,10 @@ const IncomeForm = () => {
                 <IP type='btn' onChange={() =>submitForm(formData, !!edittingItem)} />
               </span>
               <Fade time={120}>
-                {(formData.amount && parseFloat(formData.amount) > 0) &&
+                {(formData.amount && parseFloat(formData.amount) && parseFloat(formData.amount) > 0) ?
                   <SoftList split>
                     <IncomeFormLiveList formData={formData} convert={convert} />
-                  </SoftList>
+                  </SoftList> : <></>
                 }
               </Fade>
             </div>
