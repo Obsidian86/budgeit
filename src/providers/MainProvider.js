@@ -127,7 +127,7 @@ class MainProvider extends React.Component {
       this.setState({lastView: view})
     }
   }
-  getLink = (link) => window.location.href.includes('budgeit') ? `/budgeit${link}` : link 
+  getLink = (link) => link 
   // budget CRUD
   addBudgetItem = (bi) => this.saveState(bdg.processAddBudgetItem(this.state.budget, bi, colors, this.state.total))
   deleteBudgetItem = (cat, id) => this.saveState(bdg.processDeleteBudgetItem(this.state.budget, cat, id, this.state.total))

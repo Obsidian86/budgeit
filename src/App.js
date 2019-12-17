@@ -44,7 +44,7 @@ function App() {
                 {step > 1 && <EmergencyFunds />}
                 <Accounts />
               </> } />
-            <Route path={p.getLink('/')} render={()=> <IncomeForm /> } />
+            <Route path={p.getLink('*')} render={()=> <IncomeForm /> } />
           </Switch>
         </div>
         <Footer version={version} />
