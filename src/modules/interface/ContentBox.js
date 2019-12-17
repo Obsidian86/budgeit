@@ -8,7 +8,7 @@ const ContentBox = ({ children, title, exClass = '', itemId, exStyles = {} }) =>
 
   useEffect(() =>{
     const urlPar = window.location.href.split("#")
-    const view = urlPar.length > 1 ? urlPar[1] : null
+    const view = urlPar.length > 1 ? urlPar[urlPar.length - 1] : null
     view === itemId && p.updateView(itemId)
   })
 

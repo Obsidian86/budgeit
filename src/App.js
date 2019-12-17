@@ -11,7 +11,7 @@ import CalendarModule from './modules/CalendarModule'
 import Accounts from './modules/Accounts'
 import SaveLoad from './modules/SaveLoad'
 import SnapShots from './modules/SnapShots'
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
+import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
 
 const version = 1.10
