@@ -10,7 +10,7 @@ const Recommended = () => {
   const p = useContext(MainContext);
 
   return (
-    <ContentBox title='Recommended' exClass='lg' itemId='recommendedModule'>
+    <ContentBox title='Recommended' itemId='recommendedModule'>
       <div className='row mt-40'>
         <p className='sm remark'>Suggested budget categories are based upon recommended percentages pulled from various resources. They are just guidelines. The exact amount will vary based on location, age, situations and lifestyle choices. </p>
         <div className='lg'>

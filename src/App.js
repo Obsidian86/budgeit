@@ -27,7 +27,6 @@ function App() {
         <div className='row'>
           <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} getLink={p.getLink} />
           {accData && <SaveLoad />}
-          <Route exact path={p.getLink('/')} render={()=> <IncomeForm /> } />
           <Switch>
             <Route path={p.getLink('/savings')} render={() => <SavingsCalc /> } /> 
             <Route path={p.getLink('/calendar')} render={() => 
@@ -45,6 +44,7 @@ function App() {
                 {step > 1 && <EmergencyFunds />}
                 <Accounts />
               </> } />
+            <Route path={p.getLink('/')} render={()=> <IncomeForm /> } />
           </Switch>
         </div>
         <Footer version={version} />
