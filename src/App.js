@@ -13,19 +13,22 @@ import SaveLoad from './modules/SaveLoad'
 import SnapShots from './modules/SnapShots'
 import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
+import Stepper from './modules/components/Stepper'
 
-const version = 1.11
+const version = 1.12
 
 function App() {
   const p = useContext(MainContext)
   const [accData, updateAccData] = useState(false)
   const step = (p.amount !== null ? 1 : 0) + (Object.keys(p.budget).length > 0 ? 1 : 0)
+  
   return (
     <div className='App container'>
       <Router>
         <TopBar updateView={p.updateView} step={step} Link={Link} />
         <div className='row'>
           <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} getLink={p.getLink} />
+          {step < 2 && <Stepper step={step} getLink={p.getLink} theme={p.theme} />}
           {accData && <SaveLoad />}
           <Switch>
             <Route path={p.getLink('/savings')} render={() => <SavingsCalc /> } /> 
