@@ -15,7 +15,7 @@ import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
 import Stepper from './modules/components/Stepper'
 
-const version = 1.12
+const version = 1.13
 
 function App() {
   const p = useContext(MainContext)

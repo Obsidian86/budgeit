@@ -36,11 +36,16 @@ const Stepper = ({step, getLink, theme}) => {
         </span>
         Add income 
       </Link>
-      <Link to={getLink('/budget#yourBudgetModule')} style={{...s.link, color: step === 1 ? theme.vBlue : '#444'}}>
+      {step !== 0 ? <Link to={getLink('/budget#yourBudgetModule')} style={{...s.link, color: step === 1 ? theme.vBlue : '#444'}}>
         <span style={{...s.span, borderColor: step === 1 ? theme.vBlue : '#444' }}>
           { step > 1 ? <FontAwesomeIcon icon={faCheck}/> : '2'}</span>
         Add budget item 
-      </Link>
+      </Link> :
+      <span style={{...s.link, color: step === 1 ? theme.vBlue : '#444'}}>
+        <span style={{...s.span, borderColor: step === 1 ? theme.vBlue : '#444' }}>
+          { step > 1 ? <FontAwesomeIcon icon={faCheck}/> : '2'}</span>
+        Add budget item 
+      </span>}
     </div>
   )
 }
