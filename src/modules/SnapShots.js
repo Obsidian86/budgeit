@@ -171,7 +171,7 @@ const SnapShots = () => {
         p.setDialog({
             open: true,
             header: 'Delete snapshot', 
-            message: <>Are you sure you want to <br /> delete this snapshot? <br /> This can not be undone.</>, 
+            message: <>Are you sure you want to delete this snapshot? <br /> This can not be undone.</>, 
             confirm: ()=> p.deleteSnapShot(index),
             reject: ()=> null 
         }) 

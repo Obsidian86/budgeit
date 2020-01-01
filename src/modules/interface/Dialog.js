@@ -39,7 +39,8 @@ const Dialog = ({ data, setDialog }) => {
                 }
                 p{
                     text-align: center;
-                    width: 100%;
+                    width: 90%;
+                    margin: 10px auto;
                     padding: 20px;
                     ${!header && 'padding-top: 36px;'}
                     font-size: 1.05rem;
