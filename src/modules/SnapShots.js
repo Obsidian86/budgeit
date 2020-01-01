@@ -171,7 +171,7 @@ const SnapShots = () => {
         p.setDialog({
             open: true,
             header: 'Delete snapshot', 
-            message: <>Are you sure you want to delete this snapshot? <br /> This can not be undone.</>, 
+            message: <>Are you sure you want to <br /> delete this snapshot? <br /> This can not be undone.</>, 
             confirm: ()=> p.deleteSnapShot(index),
             reject: ()=> null 
         }) 
@@ -194,6 +194,7 @@ const SnapShots = () => {
         })
     }
 
+    let snapShotIndex = p.snapshots.length - 1
     return(
         <ContentBox title='Snapshots' itemId='snapshots' >
             <div className='mt-40 mb-40'>
@@ -225,7 +226,7 @@ const SnapShots = () => {
                         <p style={{...s.p, ...s.d}}>{ sh.date }</p>
                         <p style={{...s.p, ...s.nu}}>{ p.snapshots.length - i }</p>
                         <span style={s.btnContainer}>
-                            <button onClick={()=> handleDelete(i)} className='btn red'>Delete</button>
+                            <button onClick={()=> handleDelete(snapShotIndex - i)} className='btn red'>Delete</button>
                         </span>
                         <div>
                             <p style={{...s.p, ...s.eoy}}>EOY: { money(sh.projectedEndOfYearTotal) }</p>

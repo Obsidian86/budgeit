@@ -5,8 +5,17 @@ import SoftList from '../interface/SoftList'
 import Scroll from '../interface/Scroll'
 
 export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, saveState, eoyTotal, eoyLiquid, selectedDay) => {
-    
-    if(!Array.isArray(procItems) || procItems.length === 0) return <p><br />No items to view for this range<br /></p>
+    let EOYtrackBalance = trackBalance
+    let EOYbalWithLiquid = balWithLiquid
+    if(!Array.isArray(procItems) || procItems.length === 0) return (
+      <>
+        <div className='row mt-40'>
+          <p style={{...s.r, color: 'green'}}>Liquid { money(trackBalance)}</p>
+          <p style={s.r}>Total { money(balWithLiquid)}</p>
+        </div>
+        <p className='mt-20 mb-20'> No items to view for this range </p>
+      </>
+    )
 
     let yearTrack = ''
     let monthTrack = ''
@@ -30,9 +39,19 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
               if(ci.category && ci.amount && ci.category.toLowerCase() === 'income'){
                 trackBalance = trackBalance + parseFloat(ci.amount)
                 balWithLiquid = balWithLiquid + parseFloat(ci.amount)
+                if(yearTrack === tYear()){
+                  EOYtrackBalance = EOYtrackBalance + parseFloat(ci.amount)
+                  EOYbalWithLiquid = EOYbalWithLiquid + parseFloat(ci.amount)
+                }
               } else{
-                if(ci.amount) trackBalance = trackBalance - parseFloat(ci.amount)
-                if(ci.amount) balWithLiquid = balWithLiquid - parseFloat(ci.amount)
+                if(ci.amount){
+                  trackBalance = trackBalance - parseFloat(ci.amount) 
+                  balWithLiquid = balWithLiquid - parseFloat(ci.amount)
+                  if(yearTrack === tYear()){
+                    EOYtrackBalance = EOYtrackBalance - parseFloat(ci.amount)
+                    EOYbalWithLiquid = EOYbalWithLiquid - parseFloat(ci.amount)
+                  }
+                }
               }
               return (
                 <Fr key={i}>
@@ -59,10 +78,10 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
       </>
 
       if(title === 'Yearly summary' && selectedDay && (selectedDay === 'current' || (selectedDay.y && selectedDay.y === tYear()))){
-        if(eoyTotal !== balWithLiquid || eoyLiquid !== trackBalance){
+        if(eoyTotal !== EOYbalWithLiquid || eoyLiquid !== EOYtrackBalance){
           saveState({
-            eoyLiquid: trackBalance,
-            eoyTotal: balWithLiquid
+            eoyLiquid: EOYtrackBalance,
+            eoyTotal: EOYbalWithLiquid
           })
         }
       }
