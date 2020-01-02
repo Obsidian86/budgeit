@@ -3,7 +3,7 @@
     "name": "Budge-it budgeting app",
     "start_url": ".",
     "background_color": "#fff",
-    "display": "fullscreen",
+    "display": "standalone",
     "scope": "/",
     "theme_color": "green",
     "icons": [

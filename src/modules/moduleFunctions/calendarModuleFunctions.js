@@ -8,7 +8,6 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
     let EOYtrackBalance = trackBalance
     let EOYbalWithLiquid = balWithLiquid
     let retItems
-
     if(!Array.isArray(procItems) || procItems.length === 0){
       retItems = <>
         <div className='row mt-40'>
@@ -40,7 +39,7 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
                 if(ci.category && ci.amount && ci.category.toLowerCase() === 'income'){
                   trackBalance = trackBalance + parseFloat(ci.amount)
                   balWithLiquid = balWithLiquid + parseFloat(ci.amount)
-                  if(yearTrack === tYear()){
+                  if(parseInt(yearTrack) === tYear()){
                     EOYtrackBalance = EOYtrackBalance + parseFloat(ci.amount)
                     EOYbalWithLiquid = EOYbalWithLiquid + parseFloat(ci.amount)
                   }
@@ -48,7 +47,7 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
                   if(ci.amount){
                     trackBalance = trackBalance - parseFloat(ci.amount) 
                     balWithLiquid = balWithLiquid - parseFloat(ci.amount)
-                    if(yearTrack === tYear()){
+                    if(parseInt(yearTrack) === tYear()){
                       EOYtrackBalance = EOYtrackBalance - parseFloat(ci.amount)
                       EOYbalWithLiquid = EOYbalWithLiquid - parseFloat(ci.amount)
                     }
@@ -80,7 +79,6 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
       }
 
       if(title === 'Yearly summary' && selectedDay && (selectedDay === 'current' || (selectedDay.y && selectedDay.y === tYear()))){
-        console.log(eoyTotal)
         if(eoyTotal !== EOYbalWithLiquid || eoyLiquid !== EOYtrackBalance){
           saveState({
             eoyLiquid: EOYtrackBalance,
