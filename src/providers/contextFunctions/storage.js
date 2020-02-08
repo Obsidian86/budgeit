@@ -1,4 +1,6 @@
 import { genId } from '../../utilities/functions'
+import { convert } from '../../utilities/convert'
+import { processAddBudgetItem } from './budgetFunctions'
 
 export const getProfiles = () => {
   const getProfs = localStorage.getItem('profiles')
@@ -28,14 +30,36 @@ export const save = (data, profile) =>{
   return profile
 }
 
-export const load = (profile) => {
-  if(!profile){ // load most recent
-    const profiles = getProfiles()
-    if(profiles && profiles.length > 0) profile = profiles[profiles.length -1]
+export const load = async (profile, api) => {
+  const getData = await api({endPoint: 'getUser', username: profile})
+  const data = getData.data[0]
+  const amount = data.sources.reduce((p, c) => {
+    let useAmount = convert(c.amount, c.rec, "m")
+    return(p + useAmount)
+  }, 0)
+
+  let newBudget = {}
+  let newTotal = 0
+  for(const b in data.budgetItems){
+    const {budget, total} = processAddBudgetItem(newBudget, data.budgetItems[b], [], newTotal, true)
+    newBudget = {...budget}
+    newTotal = total
   }
-  let tryProfile = localStorage.getItem(profile)
-  if(tryProfile) return {...JSON.parse(tryProfile), profile}
-  return null
+  const  tableData = data.savingsTable[0].tableData.replace(/'/g, '"')
+  const newTableData = JSON.parse(tableData)
+  let newState = {
+    profile,
+    amount,
+    budget: newBudget,
+    total: newTotal,
+    savingsTable: newTableData,
+    accounts: data.accounts,
+    incomeSources: data.sources,
+    snapshots: data.snapshots,
+    viewBy: 'm',
+  }
+  console.log(newState)
+  return newState
 }
 
 export const deleteCurrent = (profile) => {

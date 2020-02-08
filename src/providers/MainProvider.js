@@ -1,67 +1,20 @@
 import React from 'react'
 import MainContext from './MainContext'
-import theme from '../styles/theme'
 import { colors } from '../styles/colors'
 import * as mem from './contextFunctions/storage'
 import * as bdg from './contextFunctions/budgetFunctions'
 import * as src from './contextFunctions/sourcesFunctions'
 import * as acn from './contextFunctions/accountFunctions'
 import Dialog from '../modules/interface/Dialog'
+import api from '../api'
+import defaultState from './data/defaultState'
+import getMethods from './data/getMethods'
 
 class MainProvider extends React.Component {
   constructor () {
     super()
-    this.defaultVals = {
-      profile: null,
-      amount: null, // income amount set by user
-      accounts: [],
-      eoyTotal: null,
-      eoyLiquid: null,
-      viewBy: 'm',
-      dialog: { open: false },
-      theme: theme,
-      budget: {},
-      total: 0, // total amount budgeted
-      savingsTable: [{ 0: { stAmount: 0, interest: 0, deposit: 0 } }],
-      incomeSources: [],
-      snapshots: [],
-      selectedAccount: null,
-      lastView: null
-    }
-    this.methods = {
-      updateViewBy: this.updateViewBy,
-      updateSavingsTables: this.updateSavingsTables,
-      setDialog: this.setDialog,
-      updateView: this.updateView,
-      saveState: this.saveState,
-      getLink: this.getLink,
-      // Data
-      exportData: this.exportData,
-      importData: this.importData,
-      // Memory
-      applyState: this.applyState,
-      deleteData: this.deleteData,
-      loadData: this.loadData,
-      loadProfiles: this.loadProfiles,
-      saveAndNew: this.saveAndNew,
-      deleteCurrent: this.deleteCurrent,
-      // Budget CRUD
-      addBudgetItem: this.addBudgetItem,
-      deleteBudgetItem: this.deleteBudgetItem,
-      updateBudgetItem: this.updateBudgetItem,
-      // Source CRUD
-      addSource: this.addSource,
-      deleteSource: this.deleteSource,
-      updateSource: this.updateSource,
-      // Accounts CRUD
-      addAccount: this.addAccount,
-      deleteAccount: this.deleteAccount,
-      updateAccount: this.updateAccount,
-      addAccountToEstimator: this.addAccountToEstimator,
-      // snapshots
-      addSnapShot: this.addSnapShot,
-      deleteSnapShot: this.deleteSnapShot
-    }
+    this.defaultVals = defaultState
+    this.methods = getMethods(this)
     this.state = {
       ...this.defaultVals,
       ...this.methods
@@ -91,8 +44,8 @@ class MainProvider extends React.Component {
     mem.deleteCurrent(profile)
     this.setState({...this.defaultVals})
   }
-  loadData = profile => {
-    const hasData = mem.load(profile)
+  loadData = async (profile) => {
+    const hasData = await mem.load('test22', api)
     if(hasData) this.setState(hasData)
   }
 

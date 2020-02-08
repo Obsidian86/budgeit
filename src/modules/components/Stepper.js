@@ -7,9 +7,10 @@ const Stepper = ({step, getLink, theme}) => {
 
   const s = {
     container: {
-      margin: '12px 0 25px 0',
+      margin: '12px 0 35px 0',
       display: 'flex',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      width: '90%'
     },
     link: {
       textDecoration: 'none',

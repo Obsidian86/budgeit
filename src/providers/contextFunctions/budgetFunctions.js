@@ -24,7 +24,8 @@ export const processDeleteBudgetItem = (oldBudget, cat, id, total) => {
   return { budget: newBudget, total }
 }
 
-export const processAddBudgetItem = (oldBudget, bi, colors, total) => {
+export const processAddBudgetItem = (oldBudget, bi, colors, total, isLocal) => {
+  if(!isLocal) console.log("add to db")
   const newBudget = { ...oldBudget }
   bi.id = genId()
   bi.category = (!bi.category || bi.category === undefined || bi.category.replace(' ', '') === '') ? 'No category' : bi.category

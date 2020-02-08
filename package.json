@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "keywords": [],
+  "proxy": "http://localhost:8000/",
   "main": "src/index.js",
   "homepage": "https://Obsidian86.github.io/budgeit/",
   "dependencies": {
