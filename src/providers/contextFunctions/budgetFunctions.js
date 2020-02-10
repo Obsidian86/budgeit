@@ -1,8 +1,13 @@
 import { getObjIndex, genId } from '../../utilities/functions'
 import { convert } from '../../utilities/convert'
 import { getColor } from '../../styles/colors'
+import { saveResource } from './storage'
 
-export const processDeleteBudgetItem = (oldBudget, cat, id, total) => {
+// export const processDeleteBudgetItem = (oldBudget, cat, id, total) => {
+export const processDeleteBudgetItem = async (data, local, oldBudget, total, username, saveState) => {
+  const { cat, id } = data
+  const response = await saveResource("delete", "budgetitems", null, username, id)
+  if(response['error']) console.log(response)
   const newBudget = { ...oldBudget }
   let removeItem
   for(const item in newBudget[cat].items){
@@ -21,13 +26,17 @@ export const processDeleteBudgetItem = (oldBudget, cat, id, total) => {
       total: parseFloat(newBudget[cat].total) - parseFloat(monthAmount)
     }
   }
-  return { budget: newBudget, total }
+  saveState({ budget: newBudget, total })
 }
 
-export const processAddBudgetItem = (oldBudget, bi, colors, total, isLocal) => {
-  if(!isLocal) console.log("add to db")
+export const processAddBudgetItem = async (newBi, local, oldBudget, total, username, saveState) => {
+  if(!newBi['end']) newBi['end'] = ''
+  if(!newBi['noEnd']) newBi['noEnd'] = newBi['noEnd'] = 'on'
+  const response = local ? {data: [newBi]} : await saveResource("save", "budgetitems", newBi, username, null)
+  if(response['error']) console.log(response)
+  const bi = response.data[0]
+  if(bi['end'] === '')delete bi['end']
   const newBudget = { ...oldBudget }
-  bi.id = genId()
   bi.category = (!bi.category || bi.category === undefined || bi.category.replace(' ', '') === '') ? 'No category' : bi.category
   const monthAmount = convert(bi.amount, bi.rec, "m") // conv amnt to month to add to total
   total = parseFloat(total) + parseFloat(monthAmount)
@@ -41,20 +50,22 @@ export const processAddBudgetItem = (oldBudget, bi, colors, total, isLocal) => {
       total: parseFloat(monthAmount)
     }
   }
-  return { budget: newBudget, total }
+  if(local) return ({ budget: newBudget, total }) // for initial rendering
+  else saveState({ budget: newBudget, total })
 }
 
-export const processUpdateBudgetItem = (oldBudget, oldBi, bi, colors, total) => {
+// oldBudget, oldBi, bi, colors, total
+export const processUpdateBudgetItem = async (data, local, oldBudget, total, username, saveState) => {
+  const { bi, oldBi } = data
+  const response = await saveResource("put", "budgetitems", bi, username, bi.id)
+  if(response['error'] || local) console.log(response)
   const newBudget = { ...oldBudget }
   const monthAmount = parseFloat(convert(bi.amount,  bi.rec, "m"))
   const oldMonthAmount = parseFloat(convert(oldBi.amount,  bi.rec, "m"))
   const oldCat = oldBi.category
-  
   bi.category = (!bi.category || bi.category === undefined || bi.category.replace(' ', '') === '') ? 'No category' : bi.category
-
   total = (parseFloat(total) - oldMonthAmount) + monthAmount
   newBudget[oldCat].total = parseFloat(newBudget[oldCat].total) - oldMonthAmount
-
   if (oldCat === bi.category) { // update in place
     const itemIndex = getObjIndex(newBudget[oldCat].items, 'id', bi.id)
     newBudget[bi.category].items[itemIndex] = { ...bi }
@@ -70,7 +81,6 @@ export const processUpdateBudgetItem = (oldBudget, oldBi, bi, colors, total) => 
     }
     if (newBudget[oldCat].items.length < 1) delete newBudget[oldCat]
   }
-
   newBudget[bi.category].total = parseFloat(newBudget[bi.category].total) + parseFloat(monthAmount)
-  return { budget: newBudget, total }
+  saveState({ budget: newBudget, total })
 }

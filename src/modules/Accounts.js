@@ -71,9 +71,9 @@ const Accounts = () => {
     let total = 0
     let liquid = 0
     const accountList = p.accounts.map((a, i) => {
-        total = total + a.amount
-        if(a.liquid) liquid = liquid + a.amount
-        const interest = getInterest(a.amount, a.interest, 10)
+        total = total + parseFloat(a.amount)
+        if(a.liquid) liquid = liquid + parseFloat(a.amount)
+        const interest = getInterest(parseFloat(a.amount), parseFloat(a.interest), 10)
         return (    
             <AccountListItem 
                 key={i} s={s} a={a} Bullet={Bullet}

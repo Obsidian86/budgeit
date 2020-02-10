@@ -1,6 +1,7 @@
 import { genId } from '../../utilities/functions'
 import { convert } from '../../utilities/convert'
 import { processAddBudgetItem } from './budgetFunctions'
+import api from '../../api'
 
 export const getProfiles = () => {
   const getProfs = localStorage.getItem('profiles')
@@ -30,18 +31,35 @@ export const save = (data, profile) =>{
   return profile
 }
 
-export const load = async (profile, api) => {
-  const getData = await api({endPoint: 'getUser', username: profile})
+// Save resource then return resource
+export const saveResource = async (command, targetParam, data, profile, id) => {
+  let endPoint, method
+  if (command === 'save') {
+    endPoint = 'createSource'
+    method = 'POST'
+  } else if (command === 'delete') {
+    endPoint = 'editSource'
+    method = 'DELETE'
+  } else if (command === 'put') {
+    endPoint = 'editSource'
+    method = 'PUT'
+  }
+  const saveData = await api({endPoint, targetParam, username: profile, id, body: data, method, requireAuth: true})
+  return saveData
+}
+
+// Loads all data from API
+export const load = async (profile) => {
+  const getData = await api({endPoint: 'getUser', username: profile, requireAuth: true})
   const data = getData.data[0]
   const amount = data.sources.reduce((p, c) => {
     let useAmount = convert(c.amount, c.rec, "m")
     return(p + useAmount)
   }, 0)
-
   let newBudget = {}
   let newTotal = 0
   for(const b in data.budgetItems){
-    const {budget, total} = processAddBudgetItem(newBudget, data.budgetItems[b], [], newTotal, true)
+    const {budget, total} = await processAddBudgetItem(data.budgetItems[b], true, newBudget, newTotal, "", (r)=>console.log(r))
     newBudget = {...budget}
     newTotal = total
   }
@@ -58,7 +76,6 @@ export const load = async (profile, api) => {
     snapshots: data.snapshots,
     viewBy: 'm',
   }
-  console.log(newState)
   return newState
 }
 
