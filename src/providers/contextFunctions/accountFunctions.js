@@ -1,4 +1,4 @@
-import { genId, getObjIndex } from "../../utilities/functions"
+import { getObjIndex } from "../../utilities/functions"
 import { saveResource } from './storage'
 
 export const processAddAccount = async (ai, accounts, username, saveState) => {

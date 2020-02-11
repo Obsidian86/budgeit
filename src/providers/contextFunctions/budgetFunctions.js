@@ -1,4 +1,4 @@
-import { getObjIndex, genId } from '../../utilities/functions'
+import { getObjIndex } from '../../utilities/functions'
 import { convert } from '../../utilities/convert'
 import { getColor } from '../../styles/colors'
 import { saveResource } from './storage'
