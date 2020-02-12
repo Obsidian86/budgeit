@@ -299,7 +299,7 @@ const SavingsCalc = () => {
             )}
           />}
         </div>
-          {p.savingsTable.length > 1 ? renderTable(p.savingsTable)
+          {p.savingsTable && p.savingsTable.length > 1 ? renderTable(p.savingsTable)
             : <h2 className="sm" style={s.noTables}>Add savings info to calculate</h2>
           }
       </div>

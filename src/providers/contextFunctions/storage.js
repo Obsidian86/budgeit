@@ -63,14 +63,16 @@ export const load = async (profile) => {
     newBudget = {...budget}
     newTotal = total
   }
-  const  tableData = data.savingsTable[0].tableData.replace(/'/g, '"')
-  const newTableData = JSON.parse(tableData)
+  const tableData = data && data.savingsTable && data.savingsTable[0] && data.savingsTable[0].tableData && data.savingsTable[0].tableData.replace(/'/g, '"')
+  const newTableData = tableData ? JSON.parse(tableData) : []
+  const hasTableData = tableData ? data.savingsTable[0].id : false
   let newState = {
     profile,
     amount,
     budget: newBudget,
     total: newTotal,
     savingsTable: newTableData,
+    hasTableData,
     accounts: data.accounts,
     incomeSources: data.sources,
     snapshots: data.snapshots,

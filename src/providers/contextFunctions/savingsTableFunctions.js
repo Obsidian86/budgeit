@@ -1,11 +1,12 @@
 import { saveResource } from './storage'
 
-export const updateSavingsTables = (table, username, saveState) => {
-  const hasData = table.length > 1
-  if(hasData){
-    saveResource('update', 'savingstable', table, username, 1)
+export const updateSavingsTables = async (table, hasTableData, username, saveState) => {
+  let newState = { savingsTable: table }
+  if(hasTableData){
+    await saveResource('put', 'savingstable', table, username, hasTableData)
   }else{
-    saveResource('save', 'savingstable', table, username, null)
+    const response = await saveResource('save', 'savingstable', table, username, null)
+    newState['hasTableData'] = response.data[0].id
   }
-  saveState({ savingsTable: table })
+  saveState(newState)
 }

@@ -7,7 +7,6 @@ export const addSnapShot = async (data, snapshots, username, saveState) => {
 }
 
 export const deleteSnapShot = async (index, snapshots, username, saveState) => {
-  // this.saveState({ snapshots: [...this.state.snapshots.filter((it, ind) => deleteIndex !== ind) ]})
   const id = snapshots[index]
   await saveResource("delete", "snapshots", null, username, id)
   saveState({ snapshots: [...snapshots.filter(snap => snap.id !== id) ]})

@@ -13,5 +13,5 @@ export default {
   ...src,
   ...acn,
   ...vFn,
-  ... sav
+  ...sav
 }

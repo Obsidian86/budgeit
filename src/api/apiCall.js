@@ -1,6 +1,7 @@
 import { endPoints } from './endPoints'
 
 export const makeCall = async (info) => {
+    console.log('CALL MADE')
     const { endPoint, username=null, id=null, targetParam=null, method='GET', requireAuth=false, body } = info
     const url = endPoints[endPoint](...[username, targetParam, id]) || null
     const headers = { 'Content-Type': "application/json" }
@@ -14,7 +15,6 @@ export const makeCall = async (info) => {
         headers: headers,
     }
     if(body) requestData["body"] = JSON.stringify(body)
-    console.log(url)
     return fetch(url, requestData)
     .then(res => res.json())
     .then(res => {

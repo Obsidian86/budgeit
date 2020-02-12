@@ -38,7 +38,7 @@ export const IP = ({type='text', alias, onChange, data, errors, label, options =
     return(<>
         {label && (type !=='checkbox' && !type.includes('btn')) && <label htmlFor={`${alias}`}>{label}</label>}
   
-        {(type ==='text' || type ==='number') && 
+        {(type ==='text' || type ==='number' || type === 'password') && 
         <input
           type={type}
           name={alias}

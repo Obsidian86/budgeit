@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import ModuleTitle from './ModuleTitle'
 import MainContext from '../../providers/MainContext'
 
-const ContentBox = ({ children, title, exClass = '', itemId, exStyles = {} }) => {
+const ContentBox = ({ children, title, exClass = '', itemId, exStyles = {}, hideShrink }) => {
   const [isOpen, updateIsOpen] = useState(true)
   const p = useContext(MainContext)
 
@@ -27,11 +27,11 @@ const ContentBox = ({ children, title, exClass = '', itemId, exStyles = {} }) =>
   }
   return (
     <div className={`contentBox ${exClass}`} style={{...exStyles, alignSelf: !isOpen ? 'flex-start': 'stretch'}} id={itemId}>
-      <span
+      {!hideShrink && <span
         onClick={() => updateIsOpen(!isOpen)}
         style={buttonStyles}
       >{isOpen ? '-' : '+'}
-      </span>
+      </span>}
       <ModuleTitle title={title} />
       {isOpen && children}
     </div>

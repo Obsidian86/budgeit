@@ -40,7 +40,7 @@ class MainProvider extends React.Component {
     conF.deleteCurrent(profile)
     this.setState({...this.defaultVals})
   }
-  loadData = async (profile) => {
+  loadData = async () => {
     const hasData = await conF.load('test22')
     if(hasData) this.setState(hasData)
   }
@@ -77,7 +77,7 @@ class MainProvider extends React.Component {
   updateAccount = (ai) => this.accountReqs(ai, conF.processUpdateAccount)
 
   // savings calulator
-  updateSavingsTables = table => conF.updateSavingsTables(table, this.state.savingsTableId, this.state.profile, this.saveState)
+  updateSavingsTables = table => conF.updateSavingsTables(table, this.state.hasTableData, this.state.profile, this.saveState)
   addAccountToEstimator = (data) => this.setState({selectedAccount: data ? {...data} : null}, ()=> data && this.updateView('savingsModule'))
 
   // Snapshots
