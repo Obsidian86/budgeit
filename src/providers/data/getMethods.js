@@ -9,13 +9,15 @@ const getMethods = (provider) => ({
     exportData: provider.exportData,
     importData: provider.importData,
     // Memory
-    applyState: provider.applyState,
-    deleteData: provider.deleteData,
+    //applyState: provider.applyState,
+    // deleteData: provider.deleteData,
     loadData: provider.loadData,
     setUser: provider.setUser,
-    loadProfiles: provider.loadProfiles,
-    saveAndNew: provider.saveAndNew,
-    deleteCurrent: provider.deleteCurrent,
+    logout: provider.logout,
+    //loadProfiles: provider.loadProfiles,
+    //saveAndNew: provider.saveAndNew,
+    //deleteCurrent: provider.deleteCurrent,
+    
     // Budget CRUD
     addBudgetItem: provider.addBudgetItem,
     deleteBudgetItem: provider.deleteBudgetItem,

@@ -182,8 +182,8 @@ const SnapShots = () => {
         let liquid = 0
         for(const ac in p.accounts){
             let a = p.accounts[ac]
-            total = total + a.amount
-            if(a.liquid) liquid = liquid + a.amount
+            total = total + parseFloat(a.amount)
+            if(a.liquid) liquid = liquid + parseFloat(a.amount)
         }
         p.addSnapShot({
             date: parsedCurrentDate(),

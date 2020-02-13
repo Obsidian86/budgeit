@@ -9,11 +9,13 @@ export const makeCall = async (info) => {
         const token = localStorage.getItem('aKey') ? localStorage.getItem('aKey') : null
         if (token) headers['Authorization'] = `Bearer ${JSON.parse(token)[0]}`
     }
+    
     let requestData = {
         method: method,
         mode: 'cors',
         headers: headers,
     }
+    console.log(requestData)
     if(body) requestData["body"] = JSON.stringify(body)
     return fetch(url, requestData)
     .then(res => res.json())

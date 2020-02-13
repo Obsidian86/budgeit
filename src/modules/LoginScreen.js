@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { IP } from '../utilities/formUtilities'
 import { makeCall } from '../api/apiCall'
 import ContentBox from "./interface/ContentBox"
@@ -13,14 +13,16 @@ const LoginScreen = () => {
     const [formErrors, updateFormErrors] = useState({})
     const [formState, updateFormState] = useState('static')
 
+    const enterPress = event => event.keyCode && event.keyCode === 13 && submitForm() 
 
-    const handleChange = (event) => {
-        console.log(event.target)
-        updateFormData({
-            ...formData,
-            [event.target.id]: event.target.value
+    useEffect(() => {
+        window.addEventListener('keydown', enterPress)
+        return(()=>{
+            window.removeEventListener('keydown', enterPress)
         })
-    }
+    })
+
+    const handleChange = event => updateFormData({ ...formData, [event.target.id]: event.target.value }) 
 
     const submitForm = async () => {
       //test22 tUser123
@@ -49,6 +51,7 @@ const LoginScreen = () => {
           updateFormErrors(errors)
           updateFormState('static')
           localStorage.setItem('aKey', JSON.stringify([loginResponse.access, loginResponse.refresh, Date.now()]))
+          localStorage.setItem('user', username)
           p.setUser(username)
         } else if (loginResponse.detail && loginResponse.detail === "No active account found with the given credentials"){
           errors['message'] = 'Incorrect username or password'
@@ -60,6 +63,11 @@ const LoginScreen = () => {
           updateFormState('static')
         }
       }
+    }
+
+    const s = {
+        btnContainer: {display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', paddingTop: '10px'},
+        link: {textAlign: 'left', position: 'relative', top: '-10px', color: 'gray', cursor: 'pointer'}
     }
 
     return(
@@ -83,11 +91,9 @@ const LoginScreen = () => {
                 label='password'
                 showPH="*******"
             />
-            <span className='grouping right mt-10'>
-                <p onClick={()=>updateFormType(formType === 'login' ? 'register' : 'login')}>
-                  {formType === 'login' ?
-                    'No account? Create account' : 'Have an account? Log in'
-                  }
+            <span className='grouping mt-10' style={s.btnContainer}>
+                <p onClick={()=>updateFormType(formType === 'login' ? 'register' : 'login')} style={s.link} >
+                  {formType === 'login' ? 'No account? Create account' : 'Have an account? Log in' }
                 </p>
                 <IP 
                     type='btn'
