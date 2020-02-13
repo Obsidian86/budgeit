@@ -14,13 +14,7 @@ const LoginScreen = () => {
     const [formState, updateFormState] = useState('static')
 
 
-    const handleChange = (event) => {
-        console.log(event.target)
-        updateFormData({
-            ...formData,
-            [event.target.id]: event.target.value
-        })
-    }
+    const handleChange = (event) => updateFormData({ ...formData, [event.target.id]: event.target.value }) 
 
     const submitForm = async () => {
       //test22 tUser123
@@ -31,17 +25,23 @@ const LoginScreen = () => {
         if(formData['username'].length <= 4) errors['username'] = 'Username must be longer than 4 characters'
       }
       if(!formData['password'] || formData['password'].replace(/ /g, '') === ''){
-        errors['username'] = 'password required'
+        errors['password'] = 'password required'
         if(formData['password'].length <= 4) errors['password'] = 'Password must be longer than 4 characters'
+        if(formType === 'register'){
+          if(!formData['rePassword']) errors['rePassword'] = 'password required' 
+          if(formData['rePassword'] !== formData['password']) errors['rePassword'] = 'passwords do not match' 
+        }
       }
       if( Object.keys(errors).length > 0) return updateFormData(errors)
       else{
         const username = formData['username']
         const password = formData['password']
         // make call to log in
+        const body = { username, password }
+        if(formType === 'register') body['rePassword'] = formData['rePassword'] 
         const loginData = {
-          endPoint: 'token',
-          body: {username, password},
+          endPoint: formType === 'login' ? 'token' : 'createUser',
+          body,
           method: 'POST'
         }
         const loginResponse = await makeCall(loginData)
@@ -83,6 +83,15 @@ const LoginScreen = () => {
                 label='password'
                 showPH="*******"
             />
+            {formType === 'register' && <IP 
+                type={'password'}
+                alias={'rePassword'}
+                onChange={handleChange}
+                data={formData}
+                errors={formErrors}
+                label='re-enter password'
+                showPH="*******"
+            />}
             <span className='grouping right mt-10'>
                 <p onClick={()=>updateFormType(formType === 'login' ? 'register' : 'login')}>
                   {formType === 'login' ?

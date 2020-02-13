@@ -23,7 +23,7 @@ const DashNav = ({Link, step, updateAccData, accData, getLink}) =>{
         <div className='dashNav right' style={s.dNavCont}>
           <IP type={`btn_narrow${!accData ? '_green' : '_red'}`}
               style={s.btn}
-              onChange={()=>updateAccData(!accData)} label='Export / import accounts'
+              onChange={()=>updateAccData(!accData)} label='Export account data'
           />
         </div>
         <nav style={s.nav} className='dashNavLinks'>
