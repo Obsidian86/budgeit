@@ -1,9 +1,10 @@
 export const endPoints = {
+    // login + get token
     token: () => 'api/token/',
     tokenRefresh: () => 'api/token/refresh/',
     // add user data + get data 1 user + delete user
     getUser: (username) => `users/userdata/${username}/`,
-    // login
+    // Create user
     createUser: () => `users/user/createuser/`,
     // create, delete, update data for user
     createSource: (username, targetParam) => `users/sources/${username}/${targetParam}/`,

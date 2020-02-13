@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave, faUserMinus, faBan, faDownload, faUserAlt } from "@fortawesome/free-solid-svg-icons";
+import { faBan, faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import { colors } from '../../../styles/colors'
 
 const SubNav = ({ p, step, Link, toggleNav }) => {
-  const [showList, updateShowList] = useState(false)
-  const profileList = p.loadProfiles()
+  // const profileList = null
   const s = {
     fontSize: { fontSize: '1.2rem' },
     profile: {
@@ -42,74 +41,16 @@ const SubNav = ({ p, step, Link, toggleNav }) => {
     <div>
       <div style={s.fontSize}>
         {p.profile &&
-          <div
-            style={s.profile}
-            onClick={() => p.setDialog({
-              open: true,
-              header: 'Rename profile',
-              message:
-                <>
-                  <input
-                    type='text'
-                    defaultValue={p.profile}
-                    id='newProfileName'
-                    style={s.profName}>
-                  </input>
-                </>,
-              confirm: () => {
-                let newProfile = document.getElementById('newProfileName').value
-                newProfile && newProfile.replace(' ', '') !== '' && newProfile !== p.profile && p.saveState({ profile: newProfile })
-              },
-              reject: () => { return null },
-              yesText: 'Change'
-            })}
-          >
+          <div style={s.profile}>
             <span style={s.profImage}>
               <FontAwesomeIcon icon={faUserAlt} />
             </span>
             &nbsp; {p.profile}
           </div>
         }
-
-        <button onClick={p.saveAndNew}>
-          <FontAwesomeIcon icon={faSave} />
-          <span>Save current + new</span>
-        </button>
-
-        {profileList && <button onClick={() => updateShowList(!showList)}>
-          <FontAwesomeIcon icon={faDownload} />
-          <span>Load profile</span>
-        </button>}
-
-        <div style={s.profList}>
-          {profileList && showList && profileList.map(prof =>
-            <button
-              key={prof}
-              onClick={() => p.loadData(prof)}
-              style={s.profListItem}
-            > {prof} </button>
-          )}
-        </div>
-
-        <button onClick={() => p.setDialog({
-          open: true,
-          header: 'Delete item',
-          message: <>Are you sure you want to delete this item? <br /> This can not be undone.</>,
-          confirm: () => p.deleteCurrent(p.profile),
-          reject: () => { return null }
-        })}>
-          <FontAwesomeIcon icon={faUserMinus} />
-          <span>Delete current</span>
-        </button>
-        <button onClick={() => p.setDialog({
-          open: true,
-          header: 'Delete item',
-          message: <>Are you sure you want to clear all data? <br /> This can not be undone.</>,
-          confirm: () => p.deleteData(),
-          reject: () => { return null }
-        })}>
+        <button onClick={p.logout}>
           <FontAwesomeIcon icon={faBan} />
-          <span>Clear all data</span>
+          <span>Log out</span>
         </button>
 
       </div>

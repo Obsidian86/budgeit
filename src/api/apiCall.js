@@ -1,7 +1,6 @@
 import { endPoints } from './endPoints'
 
 export const makeCall = async (info) => {
-    console.log('CALL MADE')
     const { endPoint, username=null, id=null, targetParam=null, method='GET', requireAuth=false, body } = info
     const url = endPoints[endPoint](...[username, targetParam, id]) || null
     const headers = { 'Content-Type': "application/json" }

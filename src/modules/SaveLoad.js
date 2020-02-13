@@ -1,21 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import MainContext from '../providers/MainContext'
 import ContentBox from './interface/ContentBox'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileExport, faUpload } from "@fortawesome/free-solid-svg-icons";
+import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 
 const SaveLoad = () => {
     const p = useContext(MainContext)
-    const [loadedData, updateLoadedData] = useState(null)
-
-    let fileReader = new FileReader();
-    fileReader.onload = (event) => {
-        const importedData = JSON.parse(event.target.result)
-        if(importedData) {
-            let valid = importedData.profile            
-            if (valid) updateLoadedData(importedData) 
-        }
-    };
 
     // EXPORT
     const makeJson = (input) => {

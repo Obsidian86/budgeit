@@ -10,13 +10,13 @@ import EmergencyFunds from './modules/EmergencyFunds'
 import CalendarModule from './modules/CalendarModule'
 import Accounts from './modules/Accounts'
 import SaveLoad from './modules/SaveLoad'
-import SnapShots from './modules/SnapShots'
-import LoginScreen from './modules/LoginScreen'
+import SnapShots from './modules/SnapShots/SnapShots'
+import LoginScreen from './modules/LoginScreen/LoginScreen'
 import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
 import Stepper from './modules/components/Stepper'
 
-const version = '1.15.01'
+const version = '2.00.00'
 
 function App() {
   const p = useContext(MainContext)

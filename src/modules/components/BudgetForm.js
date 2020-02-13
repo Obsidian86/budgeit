@@ -1,5 +1,5 @@
 import React from 'react'
-import Form from '../Form'
+import Form from '../interface/Form'
 import { recurrence } from '../../utilities/constants'
 import { parsedCurrentDate, stepDate } from '../components/calendar/dateFunctions'
 import { IP } from '../../utilities/formUtilities'

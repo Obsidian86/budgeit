@@ -1,21 +1,15 @@
 const getMethods = (provider) => ({
     updateViewBy: provider.updateViewBy,
-    updateSavingsTables: provider.updateSavingsTables,
     setDialog: provider.setDialog,
     updateView: provider.updateView,
     saveState: provider.saveState,
     getLink: provider.getLink,
-    // Data
-    exportData: provider.exportData,
-    importData: provider.importData,
     // Memory
-    applyState: provider.applyState,
-    deleteData: provider.deleteData,
     loadData: provider.loadData,
     setUser: provider.setUser,
-    loadProfiles: provider.loadProfiles,
-    saveAndNew: provider.saveAndNew,
-    deleteCurrent: provider.deleteCurrent,
+    logout: provider.logout,
+    exportData: provider.exportData,
+    /********* Resources ***********/
     // Budget CRUD
     addBudgetItem: provider.addBudgetItem,
     deleteBudgetItem: provider.deleteBudgetItem,
@@ -29,9 +23,11 @@ const getMethods = (provider) => ({
     deleteAccount: provider.deleteAccount,
     updateAccount: provider.updateAccount,
     addAccountToEstimator: provider.addAccountToEstimator,
-    // snapshots
+    // Snapshots
     addSnapShot: provider.addSnapShot,
-    deleteSnapShot: provider.deleteSnapShot
+    deleteSnapShot: provider.deleteSnapShot,
+    // Savings tables
+    updateSavingsTables: provider.updateSavingsTables,
   })
 
   export default getMethods

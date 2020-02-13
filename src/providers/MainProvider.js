@@ -4,6 +4,7 @@ import conF from './contextFunctions'
 import Dialog from '../modules/interface/Dialog'
 import defaultState from './data/defaultState'
 import getMethods from './data/getMethods'
+import { refreshToken } from './contextFunctions/refreshToken'
 
 class MainProvider extends React.Component {
   constructor () {
@@ -17,20 +18,13 @@ class MainProvider extends React.Component {
   }
 
   // initialize data
-  componentDidMount = () => {}
-  saveState = newState => this.setState(newState, this.applyState)
-  applyState = () => {
-    const tokens = localStorage.getItem('aKey') ? JSON.parse(localStorage.getItem('aKey')) : null
-    if(tokens){
-      const auth = tokens[0]
-      const expire = tokens[2] + 2400
-    } else {
-      this.setState(this.defaultVals)
+  componentDidMount = () => {
+    if(!this.state.profile){
+      const localUser = localStorage.getItem('user') ? localStorage.getItem('user') : null
+      if(localUser) this.setState({profile: localUser}, async () => this.loadData()) 
     }
-
-    const profile = conF.save(this.state, this.state.profile)
-    if(!this.state.profile) this.setState({profile}) 
   }
+  saveState = newState => this.setState(newState, () => refreshToken(this.state.profile))
 
   // Data import / export
   importData = (data) => this.saveState({...this.defaultVals, ...data}) 
@@ -41,29 +35,17 @@ class MainProvider extends React.Component {
   // profile tasks
   setUser = (username) => {
     this.setState({profile: username, loggedIn: true},
-      ()=> this.loadData()
-    )
-  }
-  deleteData = () => {
-    conF.deleteData()
+      async ()=> { await this.loadData() }
+    )}
+  logout = () => {
+    localStorage.clear()
     this.setState(this.defaultVals)
-  }
-  deleteCurrent = (profile) => {
-    conF.deleteCurrent(profile)
-    this.setState({...this.defaultVals})
   }
   loadData = async () => {
     const hasData = await conF.load(this.state.profile)
     if(hasData) this.setState(hasData)
   }
-
-  loadProfiles = () => conF.getProfiles()
-
-  saveAndNew = () => {
-    const profile = conF.saveAndNew(this.state, this.state.profile)
-    this.setState({...this.defaultVals, profile})
-  }
-
+ 
   // View global view changes
   updateViewBy = v => this.saveState({ viewBy: v });
   setDialog = dialog => this.setState({ dialog })

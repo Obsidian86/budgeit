@@ -3,11 +3,13 @@ import styled from 'styled-components'
 
 const Dialog = ({ data, setDialog }) => {
   const [mounted, updateMounted] = useState(false)
-  useEffect(() => {
-    updateMounted(true)
-  }, [])
-
   const { header, message, confirm, reject, yesText = 'Yes', noText = 'Cancel' } = data
+  useEffect(() => { updateMounted(true) }, [])
+  const handleClick = (action) => {
+    action()
+    setDialog({ open: false })
+  }
+
   const StDialog = styled.div`
         .dialogContainer{
             position: fixed;
@@ -55,11 +57,6 @@ const Dialog = ({ data, setDialog }) => {
         }
         
     `
-
-  const handleClick = (action) => {
-    action()
-    setDialog({ open: false })
-  }
 
   return (
     <StDialog>

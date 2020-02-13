@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
-import MainContext from '../providers/MainContext'
-import ContentBox from './interface/ContentBox'
-import { money } from '../utilities/convert'
+import MainContext from '../../providers/MainContext'
+import ContentBox from '../interface/ContentBox'
+import { money } from '../../utilities/convert'
 import LineChart from 'react-linechart';
-import '../../node_modules/react-linechart/dist/styles.css';
-import { parsedCurrentDate } from './components/calendar/dateFunctions'
-import { IP } from '../utilities/formUtilities';
+import '../../../node_modules/react-linechart/dist/styles.css';
+import { parsedCurrentDate } from '../components/calendar/dateFunctions'
+import { IP } from '../../utilities/formUtilities';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-
+import s from './styles'
 const colors = ['green', 'blue', 'gray', 'black', 'salmon', 'orange']
 
 const SnapShotChart = ({inData, parentWidth = 500, showItems}) => {
@@ -79,83 +79,6 @@ const SnapShots = () => {
         'End of year liquid': false,
         'End of year non liquid': false,
     })
-
-    const s = {
-        snapShotsContainer: {
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-            marginTop: '35px',
-        },
-        snapShot: {
-            width: `${100 / (p.snapshots.length < 4 ? p.snapshots.length : 4) - 3}%`,
-            borderRadius: '4px',
-            boxShadow: '0 0 6px #d9d9d9',
-            justifyContent: 'flex-start',
-            marginBottom: '16px',
-            padding: '7px 0',
-            fontWeight: 'bold',
-            color: 'lightgray',
-            minWidth: '150px',
-            position: 'relative',
-            maxWidth: '270px'
-        },
-        btnContainer: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingLeft: '20px',
-            width: '80px'
-        },
-        p: {
-            margin: '0',
-            padding: '0',
-            textAlign: 'left',
-            marginLeft: '10px'
-        },
-        n: {
-            fontSize: '1.2rem',
-            color: 'green'
-        },
-        eoy: {
-            color: '#999'
-        },
-        d: {
-            width: '100%',
-            marginBottom: '4px',
-            marginLeft: '13px'
-        },
-        nu: {
-            position: 'absolute',
-            right: '8px',
-            top: '5px'
-        },
-        cBoxes: {
-            display: 'flex',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-            marginTop: '20px'
-        },
-        cBox: {
-            display: 'block',
-            margin: 0,
-            padding: '9px 0',
-            width: `14%`,
-            minWidth: '175px',
-            fontSize: '.8rem'
-        },
-        remark: {
-            textAlign: 'left',
-            display: 'block',
-            width: '94%',
-            margin: '0 auto',
-            position: 'relative',
-            left: '-4px',
-            marginBottom: '30px',
-            marginTop: '50px'
-        }
-    }
-
     
     useEffect(() => {
         const getWidth = () => {
@@ -182,8 +105,8 @@ const SnapShots = () => {
         let liquid = 0
         for(const ac in p.accounts){
             let a = p.accounts[ac]
-            total = total + a.amount
-            if(a.liquid) liquid = liquid + a.amount
+            total = total + parseFloat(a.amount)
+            if(a.liquid) liquid = liquid + parseFloat(a.amount)
         }
         p.addSnapShot({
             date: parsedCurrentDate(),
@@ -194,6 +117,7 @@ const SnapShots = () => {
         })
     }
 
+    s.snapShot['width'] = `${100 / (p.snapshots.length < 4 ? p.snapshots.length : 4) - 3}%`
     let snapShotIndex = p.snapshots.length - 1
     return(
         <ContentBox title='Snapshots' itemId='snapshots' >
