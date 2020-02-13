@@ -24,9 +24,9 @@ function App() {
   const step = (p.amount !== null ? 1 : 0) + (Object.keys(p.budget).length > 0 ? 1 : 0)
   
   const isLoggedIn = () => {
-    const token = localStorage.getItem('authToken') ? localStorage.getItem('authToken') : null
-    const user = localStorage.getItem('username') ? localStorage.getItem('username') : null
-    if(token && user) return true 
+    const token = localStorage.getItem('aKey') ? localStorage.getItem('aKey') : null
+    const user = p.profile
+    if(user && token) return true 
     else return false
   }
 

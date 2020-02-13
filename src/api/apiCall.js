@@ -6,8 +6,8 @@ export const makeCall = async (info) => {
     const url = endPoints[endPoint](...[username, targetParam, id]) || null
     const headers = { 'Content-Type': "application/json" }
     if(requireAuth) {
-        const token = localStorage.getItem('authToken') ? localStorage.getItem('authToken') : null
-        if (token) headers['Authorization'] = `Bearer ${token}`
+        const token = localStorage.getItem('aKey') ? localStorage.getItem('aKey') : null
+        if (token) headers['Authorization'] = `Bearer ${JSON.parse(token)[0]}`
     }
     let requestData = {
         method: method,

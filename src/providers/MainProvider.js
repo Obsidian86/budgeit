@@ -17,10 +17,17 @@ class MainProvider extends React.Component {
   }
 
   // initialize data
-  componentDidMount = () => this.loadData()
+  componentDidMount = () => {}
   saveState = newState => this.setState(newState, this.applyState)
   applyState = () => {
-    console.log('check token here')
+    const tokens = localStorage.getItem('aKey') ? JSON.parse(localStorage.getItem('aKey')) : null
+    if(tokens){
+      const auth = tokens[0]
+      const expire = tokens[2] + 2400
+    } else {
+      this.setState(this.defaultVals)
+    }
+
     const profile = conF.save(this.state, this.state.profile)
     if(!this.state.profile) this.setState({profile}) 
   }
@@ -32,6 +39,11 @@ class MainProvider extends React.Component {
     return({ profile, amount, accounts, budget, total, savingsTable, incomeSources, snapshots })
   }
   // profile tasks
+  setUser = (username) => {
+    this.setState({profile: username, loggedIn: true},
+      ()=> this.loadData()
+    )
+  }
   deleteData = () => {
     conF.deleteData()
     this.setState(this.defaultVals)
@@ -41,7 +53,7 @@ class MainProvider extends React.Component {
     this.setState({...this.defaultVals})
   }
   loadData = async () => {
-    const hasData = await conF.load('test22')
+    const hasData = await conF.load(this.state.profile)
     if(hasData) this.setState(hasData)
   }
 

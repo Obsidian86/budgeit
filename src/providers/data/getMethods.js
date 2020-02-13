@@ -12,6 +12,7 @@ const getMethods = (provider) => ({
     applyState: provider.applyState,
     deleteData: provider.deleteData,
     loadData: provider.loadData,
+    setUser: provider.setUser,
     loadProfiles: provider.loadProfiles,
     saveAndNew: provider.saveAndNew,
     deleteCurrent: provider.deleteCurrent,
