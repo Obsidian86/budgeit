@@ -16,26 +16,34 @@ export const submitForm = async (formData, formType, updateFormErrors, updateFor
     const password = formData['password']
     const body = { username, password }
     if(formType === 'register') body['rePassword'] = formData['rePassword'] 
-    const loginData = {
+    let loginData = {
       endPoint: formType === 'login' ? 'token' : 'createUser',
       body,
       method: 'POST'
     }
     setDialog({open: true, message: 'Logging in...'})
-    const loginResponse = await makeCall(loginData)
+    let loginResponse = await makeCall(loginData)
+
+    if(formType === 'register'){
+      if(loginResponse && loginResponse.data && loginResponse.data.length > 0 && loginResponse.data[0].id){
+        loginData = { endPoint: 'token', body, method: 'POST' }
+        loginResponse = await makeCall(loginData)
+      }
+    }
+
     setDialog({open: false})
-    if(loginResponse.access && loginResponse.refresh){
+    if(loginResponse && loginResponse.access && loginResponse.refresh){
       updateFormErrors(errors)
       updateFormState('static')
       localStorage.setItem('aKey', JSON.stringify([loginResponse.access, loginResponse.refresh, Date.now()]))
       localStorage.setItem('user', username)
       setUser(username)
-    } else if (loginResponse.detail && loginResponse.detail === "No active account found with the given credentials"){
+    } else if (loginResponse && loginResponse.detail && loginResponse.detail === "No active account found with the given credentials"){
       errors['message'] = 'Incorrect username or password'
       updateFormErrors(errors)
       updateFormState('static')
     } else {
-      errors['message'] = 'Failed to log in'
+      errors['message'] = formType === 'login' ? 'Failed to log in.' : 'Failed to create user.'
       updateFormErrors(errors)
       updateFormState('static')
     }

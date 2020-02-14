@@ -25,7 +25,7 @@ const LoginScreen = () => {
     const handleSubmit = () => submitForm(formData, formType, updateFormErrors, updateFormState, p.setUser, makeCall, p.setDialog)
 
     return(
-        <ContentBox title='Login' itemId='loginModule' hideShrink>
+        <ContentBox title='Login' itemId='loginModule' hideShrink exStyles={{maxWidth: '600px'}}>
         <div className='row mt-40'>
           { formErrors['message'] && <p>{formErrors['message']}</p> }
             <IP

@@ -117,7 +117,6 @@ const SnapShots = () => {
         })
     }
 
-    s.snapShot['width'] = `${100 / (p.snapshots.length < 4 ? p.snapshots.length : 4) - 3}%`
     let snapShotIndex = p.snapshots.length - 1
     return(
         <ContentBox title='Snapshots' itemId='snapshots' >
@@ -146,7 +145,7 @@ const SnapShots = () => {
             <button onClick={() => handleCreate()} className='btn green'><FontAwesomeIcon icon={faCamera} />&nbsp;&nbsp;<span>Create snapshot</span></button>
             <div style={s.snapShotsContainer}>
                 {!hideSnapshots && [...p.snapshots].reverse().map((sh, i) =>
-                    <div key={i} className='row' style={s.snapShot}>
+                    <div key={i} className='row' style={{width: `${100 / (p.snapshots.length < 4 ? p.snapshots.length : 4) - 3}%`, ...s.snapShot}}>
                         <p style={{...s.p, ...s.d}}>{ sh.date }</p>
                         <p style={{...s.p, ...s.nu}}>{ p.snapshots.length - i }</p>
                         <span style={s.btnContainer}>

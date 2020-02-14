@@ -14,7 +14,8 @@ export const makeCall = async (info) => {
         headers: headers,
     }
     if(body) requestData["body"] = JSON.stringify(body)
-    return fetch(url, requestData)
+    console.log(requestData)
+    return fetch('https://bgt-bck.herokuapp.com/' + url, requestData)
     .then(res => res.json())
     .then(res => {
         return(res)

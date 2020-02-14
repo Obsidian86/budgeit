@@ -18,7 +18,7 @@ class MainProvider extends React.Component {
   }
 
   // initialize data
-  componentDidMount = () => {
+  componentDidMount = async () => {
     if(!this.state.profile){
       const localUser = localStorage.getItem('user') ? localStorage.getItem('user') : null
       if(localUser) this.setState({profile: localUser}, async () => this.loadData()) 

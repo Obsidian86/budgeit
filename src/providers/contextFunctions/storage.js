@@ -26,8 +26,10 @@ export const load = async (profile) => {
     return {profile: null}
   }
   const data = getData.data[0]
+  const newIncomeSource = []
   const amount = data.sources.reduce((p, c) => {
     let useAmount = convert(c.amount, c.rec, "m")
+    newIncomeSource.push({...c, category: 'income'})
     return(p + useAmount)
   }, 0)
   let newBudget = {}
@@ -48,7 +50,7 @@ export const load = async (profile) => {
     savingsTable: newTableData,
     hasTableData,
     accounts: data.accounts,
-    incomeSources: data.sources,
+    incomeSources: newIncomeSource,
     snapshots: data.snapshots,
     viewBy: 'm',
   }
