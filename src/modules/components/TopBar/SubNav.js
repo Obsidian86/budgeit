@@ -27,7 +27,7 @@ const SubNav = ({ p, step, Link, toggleNav }) => {
   }
 
   const Links = [
-    { to: '/#default', text: 'Home/sources', step: 0 },
+    { to: '/#default', text: 'Income', step: 0 },
     { to: '/savings#savingsModule', text: 'Savings calc', step: 0 },
     { to: '/accounts#accountsModule', text: 'Accounts', step: 0 },
     { to: '/calendar#calendarModule', text: 'Calendar', step: 2 },

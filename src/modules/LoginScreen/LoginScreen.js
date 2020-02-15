@@ -25,47 +25,48 @@ const LoginScreen = () => {
     const handleSubmit = () => submitForm(formData, formType, updateFormErrors, updateFormState, p.setUser, makeCall, p.setDialog)
 
     return(
-        <ContentBox title='Login' itemId='loginModule' hideShrink exStyles={{maxWidth: '600px', margin: '20px auto'}}>
-        <div className='row mt-40'>
-          { formErrors['message'] && <p>{formErrors['message']}</p> }
-            <IP
-                alias={'username'}
-                onChange={handleChange}
-                data={formData}
-                errors={formErrors}
-                label='username'
-                showPH="Username"
-            />
-            <IP 
-                type={'password'}
-                alias={'password'}
-                onChange={handleChange}
-                data={formData}
-                errors={formErrors}
-                label='password'
-                showPH="*******"
-            />
-            {formType === 'register' && <IP 
-                type={'password'}
-                alias={'rePassword'}
-                onChange={handleChange}
-                data={formData}
-                errors={formErrors}
-                label='re-enter password'
-                showPH="*******"
-            />}
-            <span className='grouping right mt-10' style={s.btnContainer}>
-                <p onClick={()=> updateFormType(formType === 'login' ? 'register' : 'login')} style={s.link}>
-                  {formType === 'login' ? 'No account? Create account' : 'Have an account? Log in' }
-                </p>
-                <IP 
-                    type='btn'
-                    style={{backgroundColor: formState === 'loading' ? 'blue': null}} 
-                    onChange={formState === 'static' ? handleSubmit : null} 
-                    label={formState==='loading' ? 'Loading...' : 'Log in'} 
+        <ContentBox title='Login' itemId='loginModule' hideShrink exStyles={{maxWidth: '600px', margin: '30px auto'}}>
+            <a style={s.externalLink} href='http://www.christopherleebell.com/budgeit/'>No-register version</a>
+            <div className='row mt-40'>
+            { formErrors['message'] && <p>{formErrors['message']}</p> }
+                <IP
+                    alias={'username'}
+                    onChange={handleChange}
+                    data={formData}
+                    errors={formErrors}
+                    label='username'
+                    showPH="Username"
                 />
-            </span>
-        </div>
+                <IP 
+                    type={'password'}
+                    alias={'password'}
+                    onChange={handleChange}
+                    data={formData}
+                    errors={formErrors}
+                    label='password'
+                    showPH="*******"
+                />
+                {formType === 'register' && <IP 
+                    type={'password'}
+                    alias={'rePassword'}
+                    onChange={handleChange}
+                    data={formData}
+                    errors={formErrors}
+                    label='re-enter password'
+                    showPH="*******"
+                />}
+                <span className='grouping right mt-10' style={s.btnContainer}>
+                    <p onClick={()=> updateFormType(formType === 'login' ? 'register' : 'login')} style={s.link}>
+                    {formType === 'login' ? 'No account? Create account' : 'Have an account? Log in' }
+                    </p>
+                    <IP 
+                        type='btn'
+                        style={{backgroundColor: formState === 'loading' ? 'blue': null}} 
+                        onChange={formState === 'static' ? handleSubmit : null} 
+                        label={formState==='loading' ? 'Loading...' : formType === 'register' ? 'Register' : 'Log in'} 
+                    />
+                </span>
+            </div>
         </ContentBox>
       )
   }

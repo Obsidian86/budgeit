@@ -3,7 +3,7 @@ import { IP } from '../../utilities/formUtilities'
 
 const DashNav = ({Link, step, updateAccData, accData, getLink}) =>{
     const Links = [
-      { to: '/#default', text: 'Home/sources', step: 0 },
+      { to: '/#default', text: 'Income', step: 0 },
       { to: '/savings#savingsModule', text: 'Saving calc', step: 0 },
       { to: '/accounts#accountsModule', text: 'Accounts', step: 0 },
       { to: '/calendar#calendarModule', text: 'Calendar', step: 2 },

@@ -5,6 +5,7 @@ import { saveResource } from './storage'
 export const processAddSource = async (data, sources, amount, username, saveState) => {
     const response = await saveResource('save', 'sources', data, username, null)
     const newSource = response.data[0]
+    newSource['category'] = 'income'
     saveState({ 
         amount: parseFloat(amount || 0) + parseFloat( convert(newSource.amount, newSource.rec, 'w') ),
         incomeSources: [...sources, {...newSource}]
@@ -29,6 +30,7 @@ export const processUpdateSource = async(source, sources, amount, username, save
     const oldSource = { ...sources[ind] }
     amount = amount - parseFloat(convert(oldSource.amount, oldSource.rec, 'w'))
     amount = amount + parseFloat(convert(updateSource.amount, updateSource.rec, 'w'))
+    updateSource['category'] = 'income'
     newSources[ind] = updateSource
     saveState({
         incomeSources: [...newSources],

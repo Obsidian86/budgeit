@@ -1,11 +1,9 @@
 import { makeCall } from '../../api/apiCall'
 
-export const refreshToken = async (username) => {
+export const refreshToken = async (username, defaultState, saveState) => {
     const tokens = localStorage.getItem('aKey') ? JSON.parse(localStorage.getItem('aKey')) : null
     if(tokens){
         const refresh = tokens[1]
-        const expire = parseInt(tokens[2]) + 500000
-        if(Date.now() > expire){
         const callData = {
             endPoint: 'tokenRefresh',
             username: username,
@@ -17,7 +15,5 @@ export const refreshToken = async (username) => {
             tokens[0] = response.access
             localStorage.setItem('aKey', JSON.stringify(tokens))
         }
-        }
-
-    } else this.setState(this.defaultVals) 
+    } else saveState(defaultState) 
 }

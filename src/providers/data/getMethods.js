@@ -4,6 +4,7 @@ const getMethods = (provider) => ({
     updateView: provider.updateView,
     saveState: provider.saveState,
     getLink: provider.getLink,
+    refreshToken: provider.refreshToken,
     // Memory
     loadData: provider.loadData,
     setUser: provider.setUser,

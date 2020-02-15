@@ -2,16 +2,16 @@ import styled from 'styled-components';
 
 export const styles = (p, isOpen, isLoggedIn) => {
     return styled.div`
-        box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-        background-color: white;
+        box-shadow: ${ isLoggedIn ? '0 0 3px rgba(0, 0, 0, 0.3)' : 'none'};
+        background-color: ${ isLoggedIn ? 'rgba(255,255,255,.9)' : 'transparent'};
         padding: 0;
         color: ${p.theme.green};
         position: fixed;
         top: 0;
         width: 100%;
         z-index: 100;
-        height: ${isOpen ? 'auto' : '60px'};
-        border-bottom: ${!isOpen ? 'none' : '4px solid green'};
+        height: ${(isOpen && isLoggedIn) ? 'auto' : '60px'};
+        border-bottom: ${(isOpen && isLoggedIn) ? '4px solid green' : 'none'};
         .hamburger{
             position: absolute;
             left: 5px;

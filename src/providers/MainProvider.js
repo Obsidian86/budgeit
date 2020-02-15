@@ -4,7 +4,6 @@ import conF from './contextFunctions'
 import Dialog from '../modules/interface/Dialog'
 import defaultState from './data/defaultState'
 import getMethods from './data/getMethods'
-import { refreshToken } from './contextFunctions/refreshToken'
 
 class MainProvider extends React.Component {
   constructor () {
@@ -24,11 +23,12 @@ class MainProvider extends React.Component {
       if(localUser) this.setState({profile: localUser}, async () => this.loadData()) 
     }
   }
-  saveState = newState => this.setState(newState, () => refreshToken(this.state.profile))
+  saveState = newState => this.setState(newState)
 
   // Data import / export
   importData = (data) => this.saveState({...this.defaultVals, ...data}) 
   exportData = () => conF.exportData(this.state)
+
   // profile tasks
   setUser = (username) => {
     this.setState({profile: username, loggedIn: true},
@@ -42,7 +42,7 @@ class MainProvider extends React.Component {
     const hasData = await conF.load(this.state.profile)
     if(hasData) this.setState(hasData)
   }
- 
+  refreshToken = async () => conF.refreshToken(this.state.username, defaultState, this.saveState)
   // View global view changes
   updateViewBy = v => this.saveState({ viewBy: v });
   setDialog = dialog => this.setState({ dialog })

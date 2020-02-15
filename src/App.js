@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import IncomeForm from './modules/IncomeForm'
 import TopBar from './modules/components/TopBar/TopBar'
 import Recommended from './modules/Recommended'
@@ -16,7 +16,7 @@ import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
 import Stepper from './modules/components/Stepper'
 
-const version = '2.00.00'
+const version = '2.00.0'
 
 function App() {
   const p = useContext(MainContext)
@@ -30,6 +30,13 @@ function App() {
     if(user && token) return true
   }
   const isLoggedIn = loggedIn()
+  useEffect(()=>{
+    let interVal
+    if(isLoggedIn)interVal = setInterval(p.refreshToken, 720000)
+    return(()=>{
+      if(isLoggedIn)clearInterval(interVal)
+    })
+  })
   return (
     <div className='App container'>
         <Router>
