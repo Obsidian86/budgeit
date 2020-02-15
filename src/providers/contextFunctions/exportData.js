@@ -1,0 +1,2 @@
+export const exportData = ({ profile, amount, accounts, budget, total, savingsTable, incomeSources, snapshots }) => 
+  ({ profile, amount, accounts, budget, total, savingsTable, incomeSources, snapshots })

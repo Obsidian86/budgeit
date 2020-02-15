@@ -4,7 +4,7 @@ export const refreshToken = async (username) => {
     const tokens = localStorage.getItem('aKey') ? JSON.parse(localStorage.getItem('aKey')) : null
     if(tokens){
         const refresh = tokens[1]
-        const expire = parseInt(tokens[2]) + 600000
+        const expire = parseInt(tokens[2]) + 500000
         if(Date.now() > expire){
         const callData = {
             endPoint: 'tokenRefresh',

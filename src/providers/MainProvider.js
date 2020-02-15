@@ -28,10 +28,7 @@ class MainProvider extends React.Component {
 
   // Data import / export
   importData = (data) => this.saveState({...this.defaultVals, ...data}) 
-  exportData = () => {
-    const { profile, amount, accounts, budget, total, savingsTable, incomeSources, snapshots } = this.state
-    return({ profile, amount, accounts, budget, total, savingsTable, incomeSources, snapshots })
-  }
+  exportData = () => conF.exportData(this.state)
   // profile tasks
   setUser = (username) => {
     this.setState({profile: username, loggedIn: true},

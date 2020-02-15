@@ -23,47 +23,48 @@ function App() {
   const [accData, updateAccData] = useState(false)
   const step = (p.amount !== null ? 1 : 0) + (Object.keys(p.budget).length > 0 ? 1 : 0)
   
-  const isLoggedIn = () => {
+  const loggedIn = () => {
     const token = localStorage.getItem('aKey') ? localStorage.getItem('aKey') : null
     const user = p.profile
-    if(user && token) return true 
-    else return false
+    if(!user || !token) return false
+    if(user && token) return true
   }
-
+  const isLoggedIn = loggedIn()
   return (
     <div className='App container'>
-      {isLoggedIn() ?
         <Router>
-          <TopBar updateView={p.updateView} step={step} Link={Link} />
+          <TopBar updateView={p.updateView} step={step} Link={Link} isLoggedIn={isLoggedIn} />
           <div className='row'>
-            <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} getLink={p.getLink} />
-            {step < 2 && <Stepper step={step} getLink={p.getLink} theme={p.theme} />}
-            {accData && <SaveLoad />}
-            <Switch>
-              <Route path={p.getLink('/savings')} render={() => <SavingsCalc /> } /> 
-              <Route path={p.getLink('/calendar')} render={() => 
-                <>
-                  <SnapShots />
-                  {step > 1 && <CalendarModule />}
-                </> } />
-              <Route path={p.getLink('/budget')} render={()=> 
-                <>
-                  {step > 0 && <Recommended />}
-                  {step > 0 && <YourBudget step={step} />}
-                </> } />
-              <Route path={p.getLink('/accounts')} render={()=> 
-                <>
-                  {step > 1 && <EmergencyFunds />}
-                  <Accounts />
-                </> } />
-              <Route path={p.getLink('*')} render={()=> <IncomeForm /> } />
-            </Switch>
+            { isLoggedIn ? 
+            <>
+              <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} getLink={p.getLink} />
+              {step < 2 && <Stepper step={step} getLink={p.getLink} theme={p.theme} />}
+              {accData && <SaveLoad />}
+              <Switch>
+                <Route path={p.getLink('/savings')} render={() => <SavingsCalc /> } /> 
+                <Route path={p.getLink('/calendar')} render={() => 
+                  <>
+                    <SnapShots />
+                    {step > 1 && <CalendarModule />}
+                  </> } />
+                <Route path={p.getLink('/budget')} render={()=> 
+                  <>
+                    {step > 0 && <Recommended />}
+                    {step > 0 && <YourBudget step={step} />}
+                  </> } />
+                <Route path={p.getLink('/accounts')} render={()=> 
+                  <>
+                    {step > 1 && <EmergencyFunds />}
+                    <Accounts />
+                  </> } />
+                <Route path={p.getLink('*')} render={()=> <IncomeForm /> } />
+              </Switch>
+            </>
+            : <LoginScreen />
+            }
           </div>
           <Footer version={version} />
         </Router>
-      :
-        <LoginScreen />
-      }
     </div>
   )
 }

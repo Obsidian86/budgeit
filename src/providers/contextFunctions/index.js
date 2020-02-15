@@ -5,6 +5,7 @@ import * as src from './sourcesFunctions'
 import * as acn from './accountFunctions'
 import * as vFn from './viewFunctions'
 import * as sav from './savingsTableFunctions'
+import * as exp from './exportData'
 
 export default {
   ...snS,
@@ -13,5 +14,6 @@ export default {
   ...src,
   ...acn,
   ...vFn,
-  ...sav
+  ...sav,
+  ...exp
 }

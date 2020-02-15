@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const styles = (p, isOpen) => {
+export const styles = (p, isOpen, isLoggedIn) => {
     return styled.div`
         box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
         background-color: white;
@@ -32,7 +32,7 @@ export const styles = (p, isOpen) => {
             padding: 7px 10px 7px 10px;
             border-radius: 4px;
             color: white;
-            margin-left: 38px;
+            margin-left: ${isLoggedIn ? '38px' : '0'};
             display: flex;
             img{
                 border: 1.9px solid #fff;

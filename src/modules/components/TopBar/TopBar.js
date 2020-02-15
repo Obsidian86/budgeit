@@ -8,7 +8,7 @@ import { recurrence } from '../../../utilities/constants'
 import { styles } from './styles'
 import SubNav from './SubNav'
 
-const TopBar = ({updateView, step, Link}) => {
+const TopBar = ({updateView, step, Link, isLoggedIn}) => {
   const p = useContext(MainContext);
   const [isOpen, updateIsOpen] = useState(false)
   const changeView = (event, view) => {
@@ -17,7 +17,7 @@ const TopBar = ({updateView, step, Link}) => {
     updateView(view)
   }
 
-  const StTopBar = styles(p, isOpen);
+  const StTopBar = styles(p, isOpen, isLoggedIn);
 
   const overlay = {
     position: 'fixed',
@@ -32,25 +32,25 @@ const TopBar = ({updateView, step, Link}) => {
   return (
     <>
       <StTopBar>
-        <button onClick={()=> updateIsOpen(!isOpen)} className='hamburger' aria-label='Menu toggle'>
+        {isLoggedIn && <button onClick={()=> updateIsOpen(!isOpen)} className='hamburger' aria-label='Menu toggle'>
           <FontAwesomeIcon icon={faBars} />
-        </button>
+        </button>}
         <div className='mainContainer'>
           <span className="logo">
             <img src='images/favicon-16x16.png' alt='' />
             <p>Budge-it</p>
           </span>
-          <DropDown
+          {isLoggedIn && <DropDown
             icon={<FontAwesomeIcon icon={faCalendarAlt} />}
             options={recurrence}
             isSet={disRec(p.viewBy)}
             callBack={v => p.updateViewBy(v)}
-          />
-          <p>{p.amount ? convert(p.amount, "w", p.viewBy, "money") : '$0'}</p>
+          />}
+          {isLoggedIn && <p>{p.amount ? convert(p.amount, "w", p.viewBy, "money") : '$0'}</p>}
         </div>
-        {isOpen && <SubNav changeView={changeView} p={p} step={step} Link={Link} toggleNav={()=>updateIsOpen(!isOpen)} />}
+        {isOpen && isLoggedIn && <SubNav changeView={changeView} p={p} step={step} Link={Link} toggleNav={()=>updateIsOpen(!isOpen)} />}
       </StTopBar>
-      {isOpen && <div style={overlay} onClick={()=> updateIsOpen(!isOpen)}></div>}
+      {isOpen && isLoggedIn && <div style={overlay} onClick={()=> updateIsOpen(!isOpen)}></div>}
     </>
   );
 };
