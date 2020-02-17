@@ -28,7 +28,7 @@ export const validForm = (fieldList, dataCheck) => {
     return errs
 }
 
-export const IP = ({type='text', alias, onChange, data, errors, label, options = [], style= {}, showPH = null }) => {
+export const IP = ({type='text', alias, onChange, data, errors, label, options = [], style= {}, showPH = null, icon }) => {
     let exClass = ""
     let classes = type.split("_")
     if(classes.length > 1) {
@@ -80,6 +80,11 @@ export const IP = ({type='text', alias, onChange, data, errors, label, options =
   
         {type === 'btn' &&
             <button onClick={onChange} className={`btn ${exClass}`} style={style}>
+                { icon && <i style={{
+                    paddingRight: '10px',
+                    borderRight: '1px solid white',
+                    marginRight: '10px'
+                }}>{icon}</i>}
                 {label ? label : 'Submit'}
             </button>
         }

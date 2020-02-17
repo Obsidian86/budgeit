@@ -50,7 +50,7 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
       top: 100%;
       left: -4px;
       width: 100%;
-      box-shadow: ${open ? '0 5px 5px #c4c4c4' : ''};
+      box-shadow: ${open ? '0 5px 5px rgba(0,0,0,.3)' : ''};
       & li {
         text-align: left;
         padding: 13px 10px;
@@ -66,7 +66,7 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
   `
 
   return (
-    <StDiv onClick={() => toggle()}>
+    <StDiv onClick={() => toggle()} className='drop-menu'>
       {icon && <>{icon} &nbsp;</>}
       <span>{isSet ? getDisplay(isSet, options) : 'Pick one'}</span>
       <Fade time={120}>

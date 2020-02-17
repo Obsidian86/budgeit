@@ -3,7 +3,7 @@ import IncomeForm from './modules/IncomeForm'
 import TopBar from './modules/components/TopBar/TopBar'
 import Recommended from './modules/Recommended'
 import YourBudget from './modules/YourBudget'
-import SavingsCalc from './modules/SavingsCalc'
+import SavingsCalc from './modules/SavingsCalc/SavingsCalc'
 import Footer from './modules/Footer'
 import MainContext from './providers/MainContext'
 import EmergencyFunds from './modules/EmergencyFunds'
@@ -16,7 +16,7 @@ import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
 import Stepper from './modules/components/Stepper'
 
-const version = '2.00.0'
+const version = '2.01.0'
 
 function App() {
   const p = useContext(MainContext)
@@ -45,8 +45,8 @@ function App() {
             { isLoggedIn ? 
             <>
               <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} getLink={p.getLink} />
-              {step < 2 && <Stepper step={step} getLink={p.getLink} theme={p.theme} />}
               {accData && <SaveLoad />}
+              {step < 2 && <Stepper step={step} getLink={p.getLink} theme={p.theme} />}
               <Switch>
                 <Route path={p.getLink('/savings')} render={() => <SavingsCalc /> } /> 
                 <Route path={p.getLink('/calendar')} render={() => 

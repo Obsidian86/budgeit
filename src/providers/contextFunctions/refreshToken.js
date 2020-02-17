@@ -11,7 +11,7 @@ export const refreshToken = async (username, defaultState, saveState) => {
             body: { "refresh": refresh }
         }
         const response = await makeCall(callData)
-        if(response.access){
+        if(response && response.access){
             tokens[0] = response.access
             localStorage.setItem('aKey', JSON.stringify(tokens))
         }

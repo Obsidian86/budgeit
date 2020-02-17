@@ -5,7 +5,9 @@ export const processAddAccount = async (ai, accounts, username, saveState) => {
     if(!ai.liquid) ai.liquid = false
     const response = await saveResource("save", "accounts", ai, username, null)
     if(response['error']) console.log(response)
-    saveState({accounts: [...accounts, {...response.data[0]}]})
+    if(response && response.data && response.data.length > 0){
+        saveState({accounts: [...accounts, {...response.data[0]}]})
+    }
 }
 export const processDeleteAccount = async (aId, accounts, username, saveState) => {
     const response = await saveResource("delete", "accounts", null, username, aId)

@@ -14,11 +14,31 @@ export const makeCall = async (info) => {
         headers: headers,
     }
     if(body) requestData["body"] = JSON.stringify(body)
-    console.log(requestData)
     return fetch('https://bgt-bck.herokuapp.com/' + url, requestData)
     .then(res => res.json())
-    .then(res => {
-        return(res)
+    .then(async (res) => {
+        let mainResp
+        if(res.code && res.code === 'token_not_valid'){
+            const tokens = localStorage.getItem('aKey') ? JSON.parse(localStorage.getItem('aKey')) : null
+            if(tokens && username){
+                const refresh = tokens[1]
+                const response = await fetch('https://bgt-bck.herokuapp.com/api/token/refresh/', {
+                    headers:  { 'Content-Type': "application/json" },
+                    mode: 'cors',
+                    body: { "refresh": refresh }
+                })
+                if(response && response.access){
+                    tokens[0] = response.access
+                    localStorage.setItem('aKey', JSON.stringify(tokens))
+                }
+                const newResp = await fetch('https://bgt-bck.herokuapp.com/' + url, requestData)
+                const respData = await newResp.json()
+                return mainResp = respData
+            }
+        } else {
+            mainResp = res
+        }
+        return(mainResp)
     })
     .catch(err => console.log(err))
 }

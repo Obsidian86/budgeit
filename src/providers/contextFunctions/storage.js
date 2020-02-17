@@ -28,7 +28,7 @@ export const load = async (profile) => {
   const data = getData.data[0]
   const newIncomeSource = []
   const amount = data.sources.reduce((p, c) => {
-    let useAmount = convert(c.amount, c.rec, "m")
+    let useAmount = convert(c.amount, c.rec, "w")
     newIncomeSource.push({...c, category: 'income'})
     return(p + useAmount)
   }, 0)

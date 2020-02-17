@@ -37,7 +37,7 @@ const IncomeForm = () => {
       { rec: 'w', date: new Date() }
   
   return (
-    <ContentBox title='Income sources' exClass={hasSource ? 'mx row' : 'sm'} exStyles={{ borderTop: `8px solid ${theme.green}` }} itemId='default'>
+    <ContentBox title='Income sources' exClass={hasSource ? 'mx row' : 'sm'} itemId='default'>
       <br />
       <div className={`mt-40 ${hasSource ? 'sm' : null}`}>
         <Form
@@ -47,15 +47,7 @@ const IncomeForm = () => {
           render={(updateField, formData, clearData) => (
             <div className='initial-form'>
               <>
-                <IP type='text' showPH='Source name' alias='item' label='Source name' onChange={e => updateField(e)} data={formData} errors={errors} />
-                <IP showPH='Amount' type='number' alias='amount' label='Take home pay' onChange={e => updateField(e)} data={formData} errors={errors} />
-                <IP type='drop' alias='rec' style={{styles: 'width:92%; margin: 20px auto; padding: 12px 10px;'}} options={recurrence} label='Recurrence' onChange={val => {
-                  updateField({ target: { value: val, name: 'rec' } }) }} data={formData} errors={errors} />
-                <IP type='date' alias="date" label='Start date' data={formData} 
-                  onChange={val => updateField({ target: { value: parsedCurrentDate(val), name: 'date' } }) } />
-              </>
-              <span className='grouping right'>
-                {edittingItem && <button className='btn red' onClick={() => setDialog({
+              {edittingItem && <button className='btn red mt-40 mb-10' onClick={() => setDialog({
                   header: 'Delete source', open: true, reject: () => null,
                   message: `Are you sure you want to delete source ${formData.item}`,
                   confirm: () => {
@@ -64,6 +56,14 @@ const IncomeForm = () => {
                     p.updateView('default')
                   }
                 })}>Delete</button>}
+                <IP type='text' showPH='Source name' alias='item' label='Source name' onChange={e => updateField(e)} data={formData} errors={errors} />
+                <IP showPH='Amount' type='number' alias='amount' label='Take home pay' onChange={e => updateField(e)} data={formData} errors={errors} />
+                <IP type='drop' alias='rec' style={{styles: 'width:92%; margin: 20px auto; padding: 12px 10px;'}} options={recurrence} label='Recurrence' onChange={val => {
+                  updateField({ target: { value: val, name: 'rec' } }) }} data={formData} errors={errors} />
+                <IP type='date' alias="date" label='Start date' data={formData} 
+                  onChange={val => updateField({ target: { value: parsedCurrentDate(val), name: 'date' } }) } />
+              </>
+              <span className='grouping right'>
                 <IP type='btn_blue' onChange={() => {updateEdditingItem(null); clearData()} } label={edittingItem ? "Cancel" : "Clear"} />
                 <IP type='btn' onChange={() =>submitForm(formData, !!edittingItem)} />
               </span>

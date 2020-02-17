@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const styles = (p, isOpen, isLoggedIn) => {
     return styled.div`
-        box-shadow: ${ isLoggedIn ? '0 0 3px rgba(0, 0, 0, 0.3)' : 'none'};
-        background-color: ${ isLoggedIn ? 'rgba(255,255,255,.9)' : 'transparent'};
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+        background-color: ${ isLoggedIn ? 'rgba(255,255,255,.9)' : 'rgba(255,255,255,.4)'};
         padding: 0;
         color: ${p.theme.green};
         position: fixed;
@@ -59,6 +59,9 @@ export const styles = (p, isOpen, isLoggedIn) => {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+            p{
+                @media (max-width: 375px){ display: none; }
+            }
         }
         div{
             display: flex;

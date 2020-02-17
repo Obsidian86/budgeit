@@ -34,24 +34,27 @@ export const processAddBudgetItem = async (newBi, local, oldBudget, total, usern
   if(!newBi['noEnd']) newBi['noEnd'] = newBi['noEnd'] = 'on'
   const response = local ? {data: [newBi]} : await saveResource("save", "budgetitems", newBi, username, null)
   if(response['error']) console.log(response)
-  const bi = response.data[0]
-  if(bi['end'] === '')delete bi['end']
-  const newBudget = { ...oldBudget }
-  bi.category = (!bi.category || bi.category === undefined || bi.category.replace(' ', '') === '') ? 'No category' : bi.category
-  const monthAmount = convert(bi.amount, bi.rec, "m") // conv amnt to month to add to total
-  total = parseFloat(total) + parseFloat(monthAmount)
-  if (newBudget[bi.category]) {
-    newBudget[bi.category].total = parseFloat(newBudget[bi.category].total) + parseFloat(monthAmount)
-    newBudget[bi.category].items.push(bi)
-  } else {
-    newBudget[bi.category] = {
-      color: getColor(newBudget),
-      items: [{ ...bi}],
-      total: parseFloat(monthAmount)
+
+  if(response && response.data && response.data.length > 0){
+    const bi = response.data[0]
+    if(bi['end'] === '') delete bi['end']
+    const newBudget = { ...oldBudget }
+    bi.category = (!bi.category || bi.category === undefined || bi.category.replace(' ', '') === '') ? 'No category' : bi.category
+    const monthAmount = convert(bi.amount, bi.rec, "m") // conv amnt to month to add to total
+    total = parseFloat(total) + parseFloat(monthAmount)
+    if (newBudget[bi.category]) {
+      newBudget[bi.category].total = parseFloat(newBudget[bi.category].total) + parseFloat(monthAmount)
+      newBudget[bi.category].items.push(bi)
+    } else {
+      newBudget[bi.category] = {
+        color: getColor(newBudget),
+        items: [{ ...bi}],
+        total: parseFloat(monthAmount)
+      }
     }
+    if(local) return ({ budget: newBudget, total }) // for initial rendering
+    else saveState({ budget: newBudget, total })
   }
-  if(local) return ({ budget: newBudget, total }) // for initial rendering
-  else saveState({ budget: newBudget, total })
 }
 
 // oldBudget, oldBi, bi, colors, total

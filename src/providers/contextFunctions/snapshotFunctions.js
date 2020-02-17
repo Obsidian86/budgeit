@@ -2,8 +2,10 @@ import { saveResource } from './storage'
 
 export const addSnapShot = async (data, snapshots, username, saveState) => {
   const response = await saveResource("save", "snapshots", data, username, null)
-  const newSnapshot = response.data[0]
-  saveState({ snapshots: [...snapshots, {...newSnapshot}]})
+  if(response && response.data && response.data.length > 0){
+    const newSnapshot = response.data[0]
+    saveState({ snapshots: [...snapshots, {...newSnapshot}]})
+  }
 }
 
 export const deleteSnapShot = async (index, snapshots, username, saveState) => {

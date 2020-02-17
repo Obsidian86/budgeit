@@ -16,7 +16,6 @@ const TopBar = ({updateView, step, Link, isLoggedIn}) => {
     updateIsOpen(false)
     updateView(view)
   }
-
   const StTopBar = styles(p, isOpen, isLoggedIn);
 
   const overlay = {

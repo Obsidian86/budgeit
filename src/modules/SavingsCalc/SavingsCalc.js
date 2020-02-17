@@ -1,12 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
-import Form from "./interface/Form";
-import { money } from "../utilities/convert";
-import TableRow from "./interface/TableRow";
-import MainContext from '../providers/MainContext';
-import Collapseable from './interface/Collapseable';
-import ContentBox from "./interface/ContentBox";
-import { validForm, IP } from '../utilities/formUtilities'
-import { filledArray } from './components/calendar/utilities'
+import Form from "../interface/Form";
+import { money } from "../../utilities/convert";
+import TableRow from "../interface/TableRow";
+import MainContext from '../../providers/MainContext';
+import Collapseable from '../interface/Collapseable';
+import ContentBox from "../interface/ContentBox";
+import { validForm, IP } from '../../utilities/formUtilities'
+import { filledArray } from '../components/calendar/utilities'
+import { styles } from './styles'
+import * as SCF from './savingsCalcFunctions'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const SavingsCalc = () => {
   const p = useContext(MainContext)
@@ -19,40 +23,9 @@ const SavingsCalc = () => {
     updateShowForm(shouldShowForm)
   }, [p.selectedAccount, updateShowForm])
 
-  const s = {
-    tablePill: { 
-      margin: '5px 3px 0 0', 
-      padding: '0 4px',
-      color: '#fff',
-      background: 'green',
-      display: 'inline-block',
-      borderRadius: '4px'
-    },
-    tableContainer: { marginBottom: "20px", position: 'relative'},
-    noTables: { textAlign: 'center', marginTop: '75px' },
-    labelStyles: {
-      fontSize: '1.1rem',
-      backgroundColor: p.theme.vBlueDark,
-      color: '#fff',
-      padding: '6px 10px 3px 10px',
-      borderRadius: '5px 5px 0 0',
-      width: '120px',
-      textAlign: 'center',
-      marginLeft: '5px'
-    },
-    deleteStyles: {
-      position: 'absolute',
-      right: '-25px',
-      top: '18px',
-      padding: '5px'
-    },
-    toggleStyles: {
-      position: 'absolute',
-      right: '70px',
-      top: '18px',
-      padding: '5px'
-    } 
-  }
+  const s = styles(p.theme)
+  const processTables = (formDataIn) => SCF.processTables(formDataIn, p.savingsTable, p.updateSavingsTables)
+  const deleteTable = index => SCF.deleteTable(index, p.savingsTable, p.setDialog, p.updateSavingsTables, p.updateView)
 
   const toggleExclusions = (index) => {
     if(excludedTables.includes(index)){
@@ -60,51 +33,6 @@ const SavingsCalc = () => {
       return updateExcludedTables(excl)
     }
     return updateExcludedTables([...excludedTables, index])
-  }
-
-  const processTables = (formDataIn) => {
-    let formData = {...formDataIn}
-    Object.keys(formData).forEach(fd => formData[fd] = parseFloat(formData[fd]))
-    let newTable = {}
-    let currentAmount = formData.stAmount
-    formData.depAmount = formData.depAmount * (12 / formData.per)
-    for (let i = 1; i < (formData.years + 1); i++) {  
-      let newAge = formData.startAge + i
-      let tableRow = {
-        stAmount: currentAmount,
-        interest: currentAmount * (formData.rate / 100),
-        deposit: formData.depAmount
-      }
-      newTable[newAge] = tableRow
-      currentAmount = currentAmount + formData.depAmount + (currentAmount * (formData.rate / 100))
-    }
-
-    newTable.startAmount = formDataIn.stAmount
-    newTable.startInterest = formDataIn.rate
-    newTable.deposit = formData.depAmount
-    newTable.startAge = formData.startAge
-    if(formDataIn.accountName) newTable.accountName = formDataIn.accountName
-
-    let combineTables = [...p.savingsTable]
-    combineTables[0] = {}
-    combineTables.push({...newTable})
-    p.updateSavingsTables(combineTables)
-  }
-
-  const deleteTable = index => {
-    p.setDialog({
-      open: true,
-      header: 'Delete table', 
-      message: <>Are you sure you want to delete this table? <br /> This can not be undone.</>, 
-      confirm: ()=>{
-        let newTables = [...p.savingsTable]
-        newTables.splice(index, 1)
-        if(newTables.length === 1){ newTables = []}
-        p.updateSavingsTables(newTables)
-        p.updateView('savingsModule')
-      },
-      reject: ()=>{ return null }
-    })  
   }
 
   const submitForm = (formData) => {
@@ -241,15 +169,18 @@ const SavingsCalc = () => {
           Estimate how much you'll have by retirement. <br /> 
           The breakdown of each account will display in a new table. The totals will display in the first table. 
         </p>
-        <div className={showForm ? 'md' : 'sm'}>
-          <div className='right md-center'><IP 
-            type={`btn_${showForm ? 'red' : 'green'}_big`} 
-            onChange={()=>{
-              const cf = new Promise((resolve, reject)=> resolve(p.selectedAccount && p.addAccountToEstimator(null)))
-              cf.then(()=>updateShowForm(!showForm))
-            }} 
-            label={showForm ? 'Hide form' : 'Show form'}
-          /></div>
+        <div className={showForm ? 'md' : 'sxm'}>
+          <div className='right md-center'>
+            <IP 
+              type={`btn_${showForm ? 'red' : 'green'}`} 
+              onChange={()=>{
+                const cf = new Promise((resolve, reject)=> resolve(p.selectedAccount && p.addAccountToEstimator(null)))
+                cf.then(()=>updateShowForm(!showForm))
+              }}
+              icon={showForm ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+              label={showForm ? 'Hide form' : 'Show form'}
+            />
+          </div>
           { (showForm || p.selectedAccount) && <Form
             defaultFormData={ p.selectedAccount ? {
               ...p.selectedAccount,

@@ -25,7 +25,7 @@ const LoginScreen = () => {
     const handleSubmit = () => submitForm(formData, formType, updateFormErrors, updateFormState, p.setUser, makeCall, p.setDialog)
 
     return(
-        <ContentBox title='Login' itemId='loginModule' hideShrink exStyles={{maxWidth: '600px', margin: '30px auto'}}>
+        <ContentBox title='Login' itemId='loginModule' hideShrink exStyles={{maxWidth: '600px', margin: '120px auto 30px auto'}}>
             <a style={s.externalLink} href='http://www.christopherleebell.com/budgeit/'>No-register version</a>
             <div className='row mt-40'>
             { formErrors['message'] && <p>{formErrors['message']}</p> }
