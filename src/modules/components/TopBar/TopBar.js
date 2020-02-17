@@ -36,7 +36,7 @@ const TopBar = ({updateView, step, Link, isLoggedIn}) => {
         </button>}
         <div className='mainContainer'>
           <span className="logo">
-            <img src='images/favicon-16x16.png' alt='' />
+            <img src='images/favicon-32x32.png' alt='' />
             <p>Budge-it</p>
           </span>
           {isLoggedIn && <DropDown
