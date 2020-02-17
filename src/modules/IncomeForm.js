@@ -13,7 +13,7 @@ import TableRow from './interface/TableRow'
 
 const IncomeForm = () => {
   const p = useContext(MainContext)
-  const { theme, addSource, updateSource, deleteSource, setDialog } = p
+  const { addSource, updateSource, deleteSource, setDialog } = p
   const [edittingItem, updateEdditingItem] = useState(null)
   const [errors, updateErrors] = useState(null)
 
