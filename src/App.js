@@ -15,8 +15,9 @@ import LoginScreen from './modules/LoginScreen/LoginScreen'
 import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
 import Stepper from './modules/components/Stepper'
+import GlobalLoad from './modules/components/GlobalLoad'
 
-const version = '2.03.0'
+const version = '1.04.0-beta'
 
 function App() {
   const p = useContext(MainContext)
@@ -37,38 +38,43 @@ function App() {
       if(isLoggedIn)clearInterval(interVal)
     })
   })
+
+  console.log(p)
+  const display = p.globalLoad ? <GlobalLoad /> 
+    : isLoggedIn ? 
+    <>
+      <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} getLink={p.getLink} />
+      {accData && <SaveLoad />}
+      {step < 2 && <Stepper step={step} getLink={p.getLink} theme={p.theme} />}
+      <Switch>
+        <Route path={p.getLink('/savings')} render={() => <SavingsCalc /> } /> 
+        <Route path={p.getLink('/calendar')} render={() => 
+          <>
+            <SnapShots />
+            {step > 1 && <CalendarModule />}
+          </> } />
+        <Route path={p.getLink('/budget')} render={()=> 
+          <>
+            {step > 0 && <Recommended />}
+            {step > 0 && <YourBudget step={step} />}
+          </> } />
+        <Route path={p.getLink('/accounts')} render={()=> 
+          <>
+            {step > 1 && <EmergencyFunds />}
+            <Accounts />
+          </> } />
+        <Route path={p.getLink('*')} render={()=> <IncomeForm /> } />
+      </Switch>
+    </>
+    : <LoginScreen />
+  
+
   return (
     <div className='App container'>
         <Router>
           <TopBar updateView={p.updateView} step={step} Link={Link} isLoggedIn={isLoggedIn} />
           <div className='row'>
-            { isLoggedIn ? 
-            <>
-              <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} getLink={p.getLink} />
-              {accData && <SaveLoad />}
-              {step < 2 && <Stepper step={step} getLink={p.getLink} theme={p.theme} />}
-              <Switch>
-                <Route path={p.getLink('/savings')} render={() => <SavingsCalc /> } /> 
-                <Route path={p.getLink('/calendar')} render={() => 
-                  <>
-                    <SnapShots />
-                    {step > 1 && <CalendarModule />}
-                  </> } />
-                <Route path={p.getLink('/budget')} render={()=> 
-                  <>
-                    {step > 0 && <Recommended />}
-                    {step > 0 && <YourBudget step={step} />}
-                  </> } />
-                <Route path={p.getLink('/accounts')} render={()=> 
-                  <>
-                    {step > 1 && <EmergencyFunds />}
-                    <Accounts />
-                  </> } />
-                <Route path={p.getLink('*')} render={()=> <IncomeForm /> } />
-              </Switch>
-            </>
-            : <LoginScreen />
-            }
+            { display }
           </div>
           <Footer version={version} />
         </Router>

@@ -3,6 +3,7 @@ import theme from '../../styles/theme'
 const defaultState = {
     profile: null,
     loggedIn: false,
+    globalLoad: true,
     loaded: false,
     amount: null, // income amount set by user
     accounts: [],

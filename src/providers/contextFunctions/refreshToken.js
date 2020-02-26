@@ -15,5 +15,5 @@ export const refreshToken = async (username, defaultState, saveState) => {
             tokens[0] = response.access
             localStorage.setItem('aKey', JSON.stringify(tokens))
         }
-    } else saveState(defaultState) 
+    } else saveState({...defaultState, globalLoad: false}) 
 }

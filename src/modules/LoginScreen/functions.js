@@ -1,5 +1,4 @@
 export const submitForm = async (formData, formType, updateFormErrors, updateFormState, setUser, makeCall, setDialog) => {
-  //test22 tUser123
   let errors = {}
 
   if(!formData['username'] || formData['username'].replace(/ /g, '') === '') errors['username'] = 'Username required'
@@ -21,7 +20,7 @@ export const submitForm = async (formData, formType, updateFormErrors, updateFor
       body,
       method: 'POST'
     }
-    setDialog({open: true, message: 'Logging in...'})
+    setDialog({open: true, message: formType === 'register' ? 'Registering account...' :'Logging in...'})
     let loginResponse = await makeCall(loginData)
 
     if(formType === 'register'){

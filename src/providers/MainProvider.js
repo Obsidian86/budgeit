@@ -32,16 +32,20 @@ class MainProvider extends React.Component {
 
   // profile tasks
   setUser = (username) => {
-    this.setState({profile: username, loggedIn: true},
+    this.setState({profile: username, loggedIn: true, globalLoad: true},
       async ()=> { await this.loadData() }
     )}
   logout = () => {
     localStorage.clear()
-    this.setState(this.defaultVals)
+    this.setState({...this.defaultVals, globalLoad: false})
   }
   loadData = async () => {
     const hasData = await conF.load(this.state.profile)
-    if(hasData) this.setState(hasData)
+    if(hasData) {
+      this.setState({...hasData, globalLoad: false})
+    } else {
+      this.setState({globalLoad: false})
+    }
   }
   refreshToken = async () => conF.refreshToken(this.state.username, defaultState, this.saveState)
   // View global view changes
