@@ -27,7 +27,7 @@ class MainProvider extends React.Component {
         }
       }) 
     }
-    this.setState({globalLoad: false})
+    if(this.state.globalLoad) this.setState({globalLoad: false})
   }
   saveState = newState => this.setState(newState)
 
@@ -48,9 +48,12 @@ class MainProvider extends React.Component {
     this.setState({...this.defaultVals, globalLoad: false})
   }
   loadData = async () => {
+    this.setState({globalLoad: true})
     const hasData = await conF.load(this.state.profile)
     if(hasData) {
-      this.setState({...hasData})
+      this.setState({...hasData, globalLoad: false})
+    } else {
+      this.setState({globalLoad: false})
     }
   }
   refreshToken = async () => conF.refreshToken(this.state.profile, defaultState, this.saveState)
