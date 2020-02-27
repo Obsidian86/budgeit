@@ -19,7 +19,6 @@ export const makeCall = async (info) => {
     .then(async (res) => {
         let mainResp
         if((res.code && res.code === 'token_not_valid') || (res.status && res.status === 401)){
-            alert('Getting new Token ' + JSON.stringify(res))
             const tokens = localStorage.getItem('aKey') ? JSON.parse(localStorage.getItem('aKey')) : null
             if(tokens && username){
                 const refresh = tokens[1]
@@ -31,11 +30,9 @@ export const makeCall = async (info) => {
                 if(response && response.access){
                     tokens[0] = response.access
                     localStorage.setItem('aKey', JSON.stringify(tokens))
-                    alert('updated token in api call')
                 }
                 const newResp = await fetch('https://bgt-bck.herokuapp.com/' + url, requestData)
                 const respData = await newResp.json()
-                alert('fetchafterrefresh: ', JSON.stringify(respData))
                 return mainResp = respData
             }
         } else {
@@ -43,5 +40,4 @@ export const makeCall = async (info) => {
         }
         return(mainResp)
     })
-    .catch(err => alert(JSON.stringify(err) ))
 }

@@ -35,7 +35,7 @@ export const load = async (profile) => {
   let newBudget = {}
   let newTotal = 0
   for(const b in data.budgetItems){
-    const {budget, total} = await processAddBudgetItem(data.budgetItems[b], true, newBudget, newTotal, "", (r)=>console.log(r))
+    const {budget, total} = await processAddBudgetItem(data.budgetItems[b], true, newBudget, newTotal, "", ()=>{})
     newBudget = {...budget}
     newTotal = total
   }

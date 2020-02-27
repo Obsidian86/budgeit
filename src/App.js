@@ -17,7 +17,7 @@ import DashNav from './modules/components/DashNav'
 import Stepper from './modules/components/Stepper'
 import GlobalLoad from './modules/components/GlobalLoad'
 
-const version = '1.04.1-beta'
+const version = '1.04.2-beta'
 
 function App() {
   const p = useContext(MainContext)
@@ -39,7 +39,6 @@ function App() {
     })
   })
 
-  console.log(p)
   const display = p.globalLoad ? <GlobalLoad /> 
     : isLoggedIn ? 
     <>

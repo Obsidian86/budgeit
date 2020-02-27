@@ -6,8 +6,7 @@ import { saveResource } from './storage'
 // export const processDeleteBudgetItem = (oldBudget, cat, id, total) => {
 export const processDeleteBudgetItem = async (data, local, oldBudget, total, username, saveState) => {
   const { cat, id } = data
-  const response = await saveResource("delete", "budgetitems", null, username, id)
-  if(response['error']) console.log(response)
+  await saveResource("delete", "budgetitems", null, username, id)
   const newBudget = { ...oldBudget }
   let removeItem
   for(const item in newBudget[cat].items){
@@ -33,7 +32,6 @@ export const processAddBudgetItem = async (newBi, local, oldBudget, total, usern
   if(!newBi['end']) newBi['end'] = ''
   if(!newBi['noEnd']) newBi['noEnd'] = newBi['noEnd'] = 'on'
   const response = local ? {data: [newBi]} : await saveResource("save", "budgetitems", newBi, username, null)
-  if(response['error']) console.log(response)
 
   if(response && response.data && response.data.length > 0){
     const bi = response.data[0]
@@ -60,8 +58,7 @@ export const processAddBudgetItem = async (newBi, local, oldBudget, total, usern
 // oldBudget, oldBi, bi, colors, total
 export const processUpdateBudgetItem = async (data, local, oldBudget, total, username, saveState) => {
   const { bi, oldBi } = data
-  const response = await saveResource("put", "budgetitems", bi, username, bi.id)
-  if(response['error'] || local) console.log(response)
+  await saveResource("put", "budgetitems", bi, username, bi.id)
   const newBudget = { ...oldBudget }
   const monthAmount = parseFloat(convert(bi.amount,  bi.rec, "m"))
   const oldMonthAmount = parseFloat(convert(oldBi.amount,  bi.rec, "m"))

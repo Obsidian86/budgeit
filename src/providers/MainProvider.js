@@ -20,9 +20,11 @@ class MainProvider extends React.Component {
   componentDidMount = async () => {
     if(!this.state.profile){
       const localUser = localStorage.getItem('user') ? localStorage.getItem('user') : null
-      if(localUser) this.setState({profile: localUser}, async () => this.loadData()) 
+      if(localUser) this.setState({profile: localUser}, async () => {
+        await this.loadData()
+        await this.refreshToken()
+      }) 
     }
-    this.refreshToken()
   }
   saveState = newState => this.setState(newState)
 
