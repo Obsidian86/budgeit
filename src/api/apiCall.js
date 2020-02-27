@@ -22,12 +22,13 @@ export const makeCall = async (info) => {
             const tokens = localStorage.getItem('aKey') ? JSON.parse(localStorage.getItem('aKey')) : null
             if(tokens && username){
                 const refresh = tokens[1]
-                const response = await fetch('https://bgt-bck.herokuapp.com/api/token/refresh/', {
+                const getResponse = await fetch('https://bgt-bck.herokuapp.com/api/token/refresh/', {
                     headers:  { 'Content-Type': "application/json" },
                     mode: 'cors',
                     method: 'POST',
-                    body: JSON.parse({ "refresh": refresh })
+                    body: JSON.stringify({ "refresh": refresh })
                 })
+                const response = await getResponse.json()
                 if(response && response.access){
                     tokens[0] = response.access
                     localStorage.setItem('aKey', JSON.stringify(tokens))

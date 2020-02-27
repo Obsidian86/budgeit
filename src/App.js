@@ -17,7 +17,7 @@ import DashNav from './modules/components/DashNav'
 import Stepper from './modules/components/Stepper'
 import GlobalLoad from './modules/components/GlobalLoad'
 
-const version = '1.06.2-beta'
+const version = '1.06.3-beta'
 
 function App() {
   const p = useContext(MainContext)
