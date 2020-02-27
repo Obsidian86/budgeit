@@ -26,7 +26,7 @@ export const makeCall = async (info) => {
                     headers:  { 'Content-Type': "application/json" },
                     mode: 'cors',
                     method: 'POST',
-                    body: { "refresh": refresh }
+                    body: JSON.parse({ "refresh": refresh })
                 })
                 if(response && response.access){
                     tokens[0] = response.access
