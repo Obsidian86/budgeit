@@ -22,7 +22,7 @@ class MainProvider extends React.Component {
       const localUser = localStorage.getItem('user') ? localStorage.getItem('user') : null
       if(localUser) this.setState({profile: localUser}, async () => {
         await this.loadData()
-        await this.refreshToken()
+        this.state.profile && this.refreshToken()
       }) 
     }
   }
