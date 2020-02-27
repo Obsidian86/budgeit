@@ -22,9 +22,12 @@ class MainProvider extends React.Component {
       const localUser = localStorage.getItem('user') ? localStorage.getItem('user') : null
       if(localUser) this.setState({profile: localUser}, async () => {
         await this.loadData()
-        this.state.profile && this.refreshToken()
+        if(this.state.profile) {
+          await this.refreshToken()
+        }
       }) 
     }
+    this.setState({globalLoad: false})
   }
   saveState = newState => this.setState(newState)
 
@@ -35,7 +38,10 @@ class MainProvider extends React.Component {
   // profile tasks
   setUser = (username) => {
     this.setState({profile: username, loggedIn: true, globalLoad: true},
-      async ()=> { await this.loadData() }
+      async ()=> { 
+        await this.loadData()
+        this.setState({globalLoad: false})
+      }
     )}
   logout = () => {
     localStorage.clear()
@@ -44,12 +50,10 @@ class MainProvider extends React.Component {
   loadData = async () => {
     const hasData = await conF.load(this.state.profile)
     if(hasData) {
-      this.setState({...hasData, globalLoad: false})
-    } else {
-      this.setState({globalLoad: false})
+      this.setState({...hasData})
     }
   }
-  refreshToken = async () => conF.refreshToken(this.state.username, defaultState, this.saveState)
+  refreshToken = async () => conF.refreshToken(this.state.profile, defaultState, this.saveState)
   // View global view changes
   updateViewBy = v => this.saveState({ viewBy: v });
   setDialog = dialog => this.setState({ dialog })
