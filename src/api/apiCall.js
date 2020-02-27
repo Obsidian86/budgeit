@@ -31,6 +31,7 @@ export const makeCall = async (info) => {
                 if(response && response.access){
                     tokens[0] = response.access
                     localStorage.setItem('aKey', JSON.stringify(tokens))
+                    requestData.headers['Authorization'] = `Bearer ${response.access}`
                 }
                 const newResp = await fetch('https://bgt-bck.herokuapp.com/' + url, requestData)
                 const respData = await newResp.json()
