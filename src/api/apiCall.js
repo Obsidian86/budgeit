@@ -25,6 +25,7 @@ export const makeCall = async (info) => {
                 const response = await fetch('https://bgt-bck.herokuapp.com/api/token/refresh/', {
                     headers:  { 'Content-Type': "application/json" },
                     mode: 'cors',
+                    method: 'POST',
                     body: { "refresh": refresh }
                 })
                 if(response && response.access){

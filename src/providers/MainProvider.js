@@ -22,9 +22,7 @@ class MainProvider extends React.Component {
       const localUser = localStorage.getItem('user') ? localStorage.getItem('user') : null
       if(localUser) this.setState({profile: localUser}, async () => {
         await this.loadData()
-        if(this.state.profile) {
-          await this.refreshToken()
-        }
+        await this.refreshToken()
       }) 
     }
     if(this.state.globalLoad) this.setState({globalLoad: false})
@@ -48,12 +46,9 @@ class MainProvider extends React.Component {
     this.setState({...this.defaultVals, globalLoad: false})
   }
   loadData = async () => {
-    this.setState({globalLoad: true})
     const hasData = await conF.load(this.state.profile)
     if(hasData) {
-      this.setState({...hasData, globalLoad: false})
-    } else {
-      this.setState({globalLoad: false})
+      this.setState({...hasData})
     }
   }
   refreshToken = async () => conF.refreshToken(this.state.profile, defaultState, this.saveState)
