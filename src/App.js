@@ -68,14 +68,44 @@ function App() {
     : <LoginScreen />
   
 
+  const s= {
+    sideBar: {
+      backgroundColor: 'green',
+      position: 'fixed',
+      width: '300px',
+      height: '100%',
+      minHeight: '100vh',
+      paddingTop: '100px'
+    },
+    mainContent: {
+      boxShadow: '0 0 3px red',
+      width: 'calc(100% - 300px)',
+      marginLeft: '300px'
+    },
+    mainWrapper: {
+      display: 'flex',
+      height: '100%'
+    }
+  }
+
   return (
     <div className='App container'>
         <Router>
-          <TopBar updateView={p.updateView} step={step} Link={Link} isLoggedIn={isLoggedIn} />
-          <div className='row'>
-            { display }
+          <div style={s.mainWrapper}>
+            <TopBar updateView={p.updateView} step={step} Link={Link} isLoggedIn={isLoggedIn} />
+            
+            <div style={s.sideBar}>
+              <div>user name</div>
+            </div>
+
+            <div style={s.mainContent}>
+              <div className='row'>
+                { display }
+              </div>
+              <Footer version={version} />
+            </div>
+
           </div>
-          <Footer version={version} />
         </Router>
     </div>
   )
