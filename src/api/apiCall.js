@@ -1,5 +1,8 @@
 import { endPoints } from './endPoints'
 
+let backendUrl = "https://bgt-bck.herokuapp.com/";
+    backendUrl = "http://localhost:8000/";
+
 export const makeCall = async (info) => {
     const { endPoint, username=null, id=null, targetParam=null, method='GET', requireAuth=false, body } = info
     const url = endPoints[endPoint](...[username, targetParam, id]) || null
@@ -14,7 +17,7 @@ export const makeCall = async (info) => {
         headers: headers,
     }
     if(body) requestData["body"] = JSON.stringify(body)
-    return fetch('https://bgt-bck.herokuapp.com/' + url, requestData)
+    return fetch(backendUrl + url, requestData)
     .then(res => res.json())
     .then(async (res) => {
         let mainResp
@@ -22,7 +25,7 @@ export const makeCall = async (info) => {
             const tokens = localStorage.getItem('aKey') ? JSON.parse(localStorage.getItem('aKey')) : null
             if(tokens && username){
                 const refresh = tokens[1]
-                const getResponse = await fetch('https://bgt-bck.herokuapp.com/api/token/refresh/', {
+                const getResponse = await fetch(backendUrl + 'api/token/refresh/', {
                     headers:  { 'Content-Type': "application/json" },
                     mode: 'cors',
                     method: 'POST',
@@ -34,7 +37,7 @@ export const makeCall = async (info) => {
                     localStorage.setItem('aKey', JSON.stringify(tokens))
                     requestData.headers['Authorization'] = `Bearer ${response.access}`
                 }
-                const newResp = await fetch('https://bgt-bck.herokuapp.com/' + url, requestData)
+                const newResp = await fetch(backendUrl + url, requestData)
                 const respData = await newResp.json()
                 return mainResp = respData
             }
