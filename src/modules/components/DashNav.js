@@ -2,18 +2,10 @@ import React from 'react'
 import { IP } from '../../utilities/formUtilities'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileExport } from "@fortawesome/free-solid-svg-icons";
+import { Links } from '../../navData'
 
 const DashNav = ({Link, step, updateAccData, accData, getLink}) =>{
-    const Links = [
-      { to: '/#default', text: 'Income', step: 0 },
-      { to: '/savings#savingsModule', text: 'Saving calc', step: 0 },
-      { to: '/accounts#accountsModule', text: 'Accounts', step: 0 },
-      { to: '/calendar#calendarModule', text: 'Calendar', step: 2 },
-      { to: '/accounts#emergencyFundsModule', text: 'Emergency', step: 2 },
-      { to: '/budget#recommendedModule', text: 'Recommended', step: 1 },
-      { to: '/budget#yourBudgetModule', text: 'Budget', step: 1 },
-      { to: '/calendar#snapshots', text: 'Snapshots', step: 2 }
-    ]
+    
     const s = {
       header: {width: '100%', paddingTop: '80px', marginBottom: '40px', boxShadow: '0 0 3px rgba(0,0,0,.8)', backgroundColor: 'rgba(5, 165, 0, 0.8)'},
       dNavCont: {width: '97%', padding: '0', marginBottom: '6px'},

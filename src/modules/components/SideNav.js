@@ -1,44 +1,74 @@
 import React from 'react'
 import SubNav from './TopBar/SubNav'
 import styled from 'styled-components'
+import { Links } from '../../navData'
+import theme from '../../styles/theme'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserAlt } from "@fortawesome/free-solid-svg-icons";
 
-const Links = [
-    { to: '/#default', text: 'Income', step: 0 },
-    { to: '/savings#savingsModule', text: 'Saving calc', step: 0 },
-    { to: '/accounts#accountsModule', text: 'Accounts', step: 0 },
-    { to: '/calendar#calendarModule', text: 'Calendar', step: 2 },
-    { to: '/accounts#emergencyFundsModule', text: 'Emergency', step: 2 },
-    { to: '/budget#recommendedModule', text: 'Recommended', step: 1 },
-    { to: '/budget#yourBudgetModule', text: 'Budget', step: 1 },
-    { to: '/calendar#snapshots', text: 'Snapshots', step: 2 }
-  ]
-
-
-const SideNav = ({style, Link}) => {
+const SideNav = ({style, Link, step, getLink, user}) => {
     return(
         <div style={style}>
-            <div>user name</div>
             <StyledNav>
-            {
-                Links.map(linkItem => <Link key={linkItem.text}>{linkItem.text}</Link>)
-            }
+                <div className='user'>
+                    <span>
+                        <FontAwesomeIcon icon={faUserAlt} />
+                    </span>
+                    {user}
+                </div>
+                <span className='links-container'>
+                    {Links.map(link => step >= link.step ? 
+                    <Link to={getLink(link.to)} key={link.text} >
+                        {link.icon ? <span>{link.icon}</span> : null}
+                        {link.text}
+                    </Link> : null)}
+                </span>
             </StyledNav>
         </div>
     )
 }
 
-export default SideNav
-
 const StyledNav = styled.nav`
-    margin-top: 30px;
+    font-weight: bold;
+    & .user{
+        padding-top: 82px;
+        padding-bottom: 18px;
+        color: #fff;
+        background-color: ${theme.darkGray};
+        margin-bottom: 13px;
+        span{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 23px;
+            color: ${theme.darkGray};
+            border: 3px solid ${theme.darkGray};
+            box-shadow: 0 0 0 2px #fff;
+            background-color: #fff;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            
+        }
+    }
     & a{
         color: #fff;
         display: block;
         text-decoration: none;
-        padding: 20px;
-        box-shadow: 0 0 3px white;
+        padding: 15px 20px;
+        text-align: left;
+        span{
+            font-size: 1.2rem;
+            margin-right: 16px;
+        }
         &:hover{
-            background-color: limegreen;
+            background-color: ${theme.green};
+            span{
+                margin-right: 28px;
+            }
         }
     }
 `
+
+export default SideNav

@@ -17,6 +17,7 @@ import DashNav from './modules/components/DashNav'
 import Stepper from './modules/components/Stepper'
 import GlobalLoad from './modules/components/GlobalLoad'
 import SideNav from './modules/components/SideNav'
+import appStyles from './appStyles'
 
 const version = '1.06.3-beta'
 
@@ -49,55 +50,27 @@ function App() {
       {step < 2 && <Stepper step={step} getLink={p.getLink} theme={p.theme} />}
       <Switch>
         <Route path={p.getLink('/savings')} render={() => <SavingsCalc /> } /> 
-        <Route path={p.getLink('/calendar')} render={() => 
-          <>
-            <SnapShots />
-            {step > 1 && <CalendarModule />}
-          </> } />
-        <Route path={p.getLink('/budget')} render={()=> 
-          <>
-            {step > 0 && <Recommended />}
-            {step > 0 && <YourBudget step={step} />}
-          </> } />
-        <Route path={p.getLink('/accounts')} render={()=> 
-          <>
-            {step > 1 && <EmergencyFunds />}
-            <Accounts />
-          </> } />
+        <Route path={p.getLink('/snapshots')} render={() => <SnapShots /> } /> 
+        <Route path={p.getLink('/recommended')} render={() => <Recommended /> } /> 
+        <Route path={p.getLink('/calendar')} render={() => <> {step > 1 && <CalendarModule />} </> } />
+        <Route path={p.getLink('/emergency')} render={() => <> {step > 1 && <EmergencyFunds />} </> } />
+        <Route path={p.getLink('/budget')} render={()=> <> {step > 0 && <YourBudget step={step} />} </> } />
+        <Route path={p.getLink('/accounts')} render={()=> <> <Accounts /> </> } />
         <Route path={p.getLink('*')} render={()=> <IncomeForm /> } />
       </Switch>
     </>
     : <LoginScreen />
   
 
-  const s= {
-    sideBar: {
-      backgroundColor: 'green',
-      position: 'fixed',
-      display: sideBarOpen ? 'block' : 'none',
-      width: sideBarOpen ? '300px' : "0",
-      height: '100%',
-      minHeight: '100vh',
-      paddingTop: '100px'
-    },
-    mainContent: {
-      boxShadow: '0 0 3px red',
-      width: sideBarOpen ? 'calc(100% - 300px)' : '100%',
-      marginLeft: sideBarOpen ? '300px' : "0"
-    },
-    mainWrapper: {
-      display: 'flex',
-      height: '100%'
-    }
-  }
+  const s = appStyles(sideBarOpen)
 
-  const navProps = {Link, sideBarOpen, updateSideBarOpen}
+  const navProps = {Link, sideBarOpen, step, updateSideBarOpen}
   return (
     <div className='App container'>
         <Router>
           <div style={s.mainWrapper}>
-              {sideBarOpen && <SideNav style={s.sideBar} {...navProps} />}
-              <TopBar updateView={p.updateView} step={step} isLoggedIn={isLoggedIn} {...navProps} />
+              {sideBarOpen && <SideNav style={s.sideBar} {...navProps} getLink={p.getLink} user={p.profile} />}
+              <TopBar updateView={p.updateView} isLoggedIn={isLoggedIn} {...navProps} />
             <div style={s.mainContent}>
               <div className='row'>
                 { display }
