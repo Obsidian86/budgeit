@@ -8,7 +8,7 @@ import { recurrence } from '../../../utilities/constants'
 import { styles } from './styles'
 import SubNav from './SubNav'
 
-const TopBar = ({updateView, step, Link, isLoggedIn}) => {
+const TopBar = ({updateView, step, Link, isLoggedIn, sideBarOpen, updateSideBarOpen}) => {
   const p = useContext(MainContext);
   const [isOpen, updateIsOpen] = useState(false)
   const changeView = (event, view) => {
@@ -31,7 +31,7 @@ const TopBar = ({updateView, step, Link, isLoggedIn}) => {
   return (
     <>
       <StTopBar>
-        {isLoggedIn && <button onClick={()=> updateIsOpen(!isOpen)} className='hamburger' aria-label='Menu toggle'>
+        {isLoggedIn && <button onClick={()=> updateSideBarOpen(!sideBarOpen)} className='hamburger' aria-label='Menu toggle'>
           <FontAwesomeIcon icon={faBars} />
         </button>}
         <div className='mainContainer'>

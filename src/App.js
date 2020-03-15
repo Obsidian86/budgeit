@@ -16,12 +16,14 @@ import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
 import Stepper from './modules/components/Stepper'
 import GlobalLoad from './modules/components/GlobalLoad'
+import SideNav from './modules/components/SideNav'
 
 const version = '1.06.3-beta'
 
 function App() {
   const p = useContext(MainContext)
   const [accData, updateAccData] = useState(false)
+  const [sideBarOpen, updateSideBarOpen] = useState(true)
   const step = (p.amount !== null ? 1 : 0) + (Object.keys(p.budget).length > 0 ? 1 : 0)
   
   const loggedIn = () => {
@@ -72,15 +74,16 @@ function App() {
     sideBar: {
       backgroundColor: 'green',
       position: 'fixed',
-      width: '300px',
+      display: sideBarOpen ? 'block' : 'none',
+      width: sideBarOpen ? '300px' : "0",
       height: '100%',
       minHeight: '100vh',
       paddingTop: '100px'
     },
     mainContent: {
       boxShadow: '0 0 3px red',
-      width: 'calc(100% - 300px)',
-      marginLeft: '300px'
+      width: sideBarOpen ? 'calc(100% - 300px)' : '100%',
+      marginLeft: sideBarOpen ? '300px' : "0"
     },
     mainWrapper: {
       display: 'flex',
@@ -88,16 +91,13 @@ function App() {
     }
   }
 
+  const navProps = {Link, sideBarOpen, updateSideBarOpen}
   return (
     <div className='App container'>
         <Router>
           <div style={s.mainWrapper}>
-            <TopBar updateView={p.updateView} step={step} Link={Link} isLoggedIn={isLoggedIn} />
-            
-            <div style={s.sideBar}>
-              <div>user name</div>
-            </div>
-
+              {sideBarOpen && <SideNav style={s.sideBar} {...navProps} />}
+              <TopBar updateView={p.updateView} step={step} isLoggedIn={isLoggedIn} {...navProps} />
             <div style={s.mainContent}>
               <div className='row'>
                 { display }

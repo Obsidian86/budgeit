@@ -15,6 +15,7 @@ const defaultState = {
     budget: {},
     total: 0, // total amount budgeted
     savingsTable: [{ 0: { stAmount: 0, interest: 0, deposit: 0 } }],
+    savingsTables: [],
     hasTableData: false,
     incomeSources: [],
     snapshots: [],

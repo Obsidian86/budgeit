@@ -24,6 +24,7 @@ const SavingsCalc = () => {
   }, [p.selectedAccount, updateShowForm])
 
   const s = styles(p.theme)
+
   const processTables = (formDataIn) => SCF.processTables(formDataIn, p.savingsTable, p.updateSavingsTables)
   const deleteTable = index => SCF.deleteTable(index, p.savingsTable, p.setDialog, p.updateSavingsTables, p.updateView)
 
