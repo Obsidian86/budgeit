@@ -6,8 +6,23 @@ import theme from '../../styles/theme'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserAlt } from "@fortawesome/free-solid-svg-icons";
 
-const SideNav = ({style, Link, step, getLink, user}) => {
+const SideNav = ({style, Link, step, getLink, user, isMobile, updateSideBarOpen}) => {
+    const darkCover = <div
+        style={{
+            width: '100%', 
+            height: "100vh",
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            backgroundColor: '#000',
+            opacity: '.5',
+            zIndex: "2",
+        }} 
+        onClick={()=> updateSideBarOpen(false)}
+    />
     return(
+        <>
+        {isMobile && darkCover}
         <div style={style}>
             <StyledNav>
                 <div className='user'>
@@ -18,18 +33,20 @@ const SideNav = ({style, Link, step, getLink, user}) => {
                 </div>
                 <span className='links-container'>
                     {Links.map(link => step >= link.step ? 
-                    <Link to={getLink(link.to)} key={link.text} >
+                    <Link to={getLink(link.to)} key={link.text} onClick={()=> updateSideBarOpen(false)}>
                         {link.icon ? <span>{link.icon}</span> : null}
                         {link.text}
                     </Link> : null)}
                 </span>
             </StyledNav>
         </div>
+        </>
     )
 }
 
 const StyledNav = styled.nav`
     font-weight: bold;
+    font-size: 1.05rem;
     & .user{
         padding-top: 82px;
         padding-bottom: 18px;
@@ -56,17 +73,21 @@ const StyledNav = styled.nav`
         color: #fff;
         display: block;
         text-decoration: none;
-        padding: 15px 20px;
+        padding: 18px 20px;
         text-align: left;
         span{
             font-size: 1.2rem;
-            margin-right: 16px;
+            margin-right: 21px;
+            margin-left: 1px;
         }
         &:hover{
             background-color: ${theme.green};
             span{
-                margin-right: 28px;
+                margin-right: 38px;
             }
+        }
+        &.active{
+            background-color: darkgreen;
         }
     }
 `

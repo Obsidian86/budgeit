@@ -62,14 +62,16 @@ function App() {
     : <LoginScreen />
   
 
-  const s = appStyles(sideBarOpen)
+  let isOpen = p.isMobile ? sideBarOpen : true;
+  if(!isLoggedIn) isOpen = false
+  const s = appStyles(isOpen, p.isMobile)
 
-  const navProps = {Link, sideBarOpen, step, updateSideBarOpen}
+  const navProps = {Link, sideBarOpen, step, isMobile: p.isMobile, updateSideBarOpen}
   return (
     <div className='App container'>
         <Router>
           <div style={s.mainWrapper}>
-              {sideBarOpen && <SideNav style={s.sideBar} {...navProps} getLink={p.getLink} user={p.profile} />}
+              {isOpen && <SideNav style={s.sideBar} {...navProps} getLink={p.getLink} user={p.profile} />}
               <TopBar updateView={p.updateView} isLoggedIn={isLoggedIn} {...navProps} />
             <div style={s.mainContent}>
               <div className='row'>

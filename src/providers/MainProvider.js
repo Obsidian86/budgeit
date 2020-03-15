@@ -17,6 +17,11 @@ class MainProvider extends React.Component {
   }
 
   // initialize data
+  checkIfMobile = () => {
+    const isMobile = window.innerWidth < 1000
+    this.setState({isMobile})
+  }
+
   componentDidMount = async () => {
     if(!this.state.profile){
       const localUser = localStorage.getItem('user') ? localStorage.getItem('user') : null
@@ -26,6 +31,11 @@ class MainProvider extends React.Component {
       }) 
     }
     if(this.state.globalLoad) this.setState({globalLoad: false})
+    window.addEventListener('resize', this.checkIfMobile)
+    this.checkIfMobile()
+  }
+  componentWillUnmount = () =>{
+    window.removeEventListener('resize', this.checkIfMobile)
   }
   saveState = newState => this.setState(newState)
 

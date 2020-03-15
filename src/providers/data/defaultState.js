@@ -20,7 +20,8 @@ const defaultState = {
     incomeSources: [],
     snapshots: [],
     selectedAccount: null,
-    lastView: null
+    lastView: null,
+    isMobile: false
 }
 
 export default defaultState

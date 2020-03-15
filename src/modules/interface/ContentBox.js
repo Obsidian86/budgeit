@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import ModuleTitle from './ModuleTitle'
 import MainContext from '../../providers/MainContext'
 
-const ContentBox = ({ children, title, exClass = '', itemId, exStyles = {}, hideShrink }) => {
+const ContentBox = ({ children, title, exClass = '', itemId, exStyles = {}, hideShrink = true }) => {
   const [isOpen, updateIsOpen] = useState(true)
   const p = useContext(MainContext)
 
