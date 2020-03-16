@@ -6,6 +6,15 @@ export const money = amount => {
   return '$' + parts[0] + '.' + parts[1]
 }
 
+export const calcMoney = (am1, am2, action='add') => {
+  if(action === 'subtract'){
+    return (parseFloat(am1) * 100 - parseFloat(am2) * 100) / 100
+  }
+  if(action === 'add'){
+    return (parseFloat(am1) * 100 + parseFloat(am2) * 100) / 100
+  }
+}
+
 export const percent = (amt, total) => `${((amt / total) * 100).toFixed(2)}%`
 export const getPercent = (amt, total) => (amt / 100) * total
 export const up = (s) => s.charAt(0).toUpperCase() + s.slice(1)
