@@ -16,7 +16,7 @@ import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
 import Stepper from './modules/components/Stepper'
 import GlobalLoad from './modules/components/GlobalLoad'
-import SideNav from './modules/components/SideNav'
+import SideNav from './modules/components/SideNav/SideNav'
 import appStyles from './appStyles'
 
 const version = '1.06.3-beta'
@@ -24,7 +24,7 @@ const version = '1.06.3-beta'
 function App() {
   const p = useContext(MainContext)
   const [accData, updateAccData] = useState(false)
-  const [sideBarOpen, updateSideBarOpen] = useState(true)
+  const [sideBarOpen, updateSideBarOpen] = useState(false)
   const step = (p.amount !== null ? 1 : 0) + (Object.keys(p.budget).length > 0 ? 1 : 0)
   
   const loggedIn = () => {
@@ -33,7 +33,12 @@ function App() {
     if(!user || !token) return false
     if(user && token) return true
   }
+
   const isLoggedIn = loggedIn()
+  let isOpen = p.isMobile ? sideBarOpen : true;
+  if(!isLoggedIn) isOpen = false
+  const s = appStyles(isOpen, p.isMobile)
+
   useEffect(()=>{
     let interVal
     if(isLoggedIn)interVal = setInterval(p.refreshToken, 720000)
@@ -45,7 +50,7 @@ function App() {
   const display = p.globalLoad ? <GlobalLoad /> 
     : isLoggedIn ? 
     <>
-      <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} getLink={p.getLink} />
+      <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} isMobile={p.isMobile} getLink={p.getLink} />
       {accData && <SaveLoad />}
       {step < 2 && <Stepper step={step} getLink={p.getLink} theme={p.theme} />}
       <Switch>
@@ -60,18 +65,13 @@ function App() {
       </Switch>
     </>
     : <LoginScreen />
-  
-
-  let isOpen = p.isMobile ? sideBarOpen : true;
-  if(!isLoggedIn) isOpen = false
-  const s = appStyles(isOpen, p.isMobile)
 
   const navProps = {Link, sideBarOpen, step, isMobile: p.isMobile, updateSideBarOpen}
   return (
     <div className='App container'>
         <Router>
           <div style={s.mainWrapper}>
-              {isOpen && <SideNav style={s.sideBar} {...navProps} getLink={p.getLink} user={p.profile} />}
+              {isOpen && <SideNav style={s.sideBar} {...navProps} getLink={p.getLink} user={p.profile} logout={p.logout} />}
               <TopBar updateView={p.updateView} isLoggedIn={isLoggedIn} {...navProps} />
             <div style={s.mainContent}>
               <div className='row'>

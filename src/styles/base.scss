@@ -5,18 +5,13 @@ $light-gray: #c9c9c9;
 $green: #1bcf21;
 
 body {
+  background-image: url('../images/mainBg.gif');
+  background-size: 18%;
+  background-repeat: repeat;
   font-size: 14px;
   font-family: $font-stack;
   width: 100%;
   color: $dark-gray;
-  background-color: #972121;
-  background: repeating-linear-gradient(
-    48.2deg,
-    rgba(80, 80, 80, 0.1),
-    rgba(80, 80, 80, 0.1) 10px,
-    rgba(80, 80, 80, 0.2) 10px,
-    rgba(80, 80, 80, 0.2) 20px
-  );
 }
 .container{ width: 100%; }
 

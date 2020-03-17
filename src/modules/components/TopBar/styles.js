@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const styles = (p, isOpen, isLoggedIn) => {
+export const styles = (p, isLoggedIn, isMobile) => {
     return styled.div`
         box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
         background-color: ${ isLoggedIn ? 'rgba(255,255,255,.9)' : 'rgba(255,255,255,.4)'};
@@ -10,8 +10,6 @@ export const styles = (p, isOpen, isLoggedIn) => {
         top: 0;
         width: 100%;
         z-index: 100;
-        height: ${(isOpen && isLoggedIn) ? 'auto' : '60px'};
-        border-bottom: ${(isOpen && isLoggedIn) ? '4px solid green' : 'none'};
         .hamburger{
             position: absolute;
             left: 5px;
@@ -32,7 +30,7 @@ export const styles = (p, isOpen, isLoggedIn) => {
             padding: 7px 10px 7px 10px;
             border-radius: 4px;
             color: white;
-            margin-left: ${isLoggedIn ? '38px' : '0'};
+            margin-left: ${isLoggedIn && isMobile ? '38px' : '0'};
             display: flex;
             img{
                 border: 1.9px solid #fff;

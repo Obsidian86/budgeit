@@ -15,6 +15,15 @@ export const updateSavingsTables = async (table, hasTableData, username, saveSta
   saveState(newState)
 }
 
+export const saveSavingsTable = async(data, currentTables, username, saveState) => {
+  const response = await saveResource("save", "savingsTables", data, username, null)
+  if(response && response.data && response.data.length > 0){
+    const tableData = response.data[0]
+    const combineTables = processTables(tableData, currentTables)
+    saveState({ savingsTable: combineTables})
+  }
+}
+
 export const processTables = (formDataIn, savingsTable) => {
   let formData = {...formDataIn}
   Object.keys(formData).forEach(fd => formData[fd] = parseFloat(formData[fd]))
@@ -31,7 +40,6 @@ export const processTables = (formDataIn, savingsTable) => {
     newTable[newAge] = tableRow
     currentAmount = currentAmount + formData.depAmount + (currentAmount * (formData.rate / 100))
   }
-
   newTable.startAmount = formDataIn.stAmount
   newTable.startInterest = formDataIn.rate
   newTable.deposit = formData.depAmount

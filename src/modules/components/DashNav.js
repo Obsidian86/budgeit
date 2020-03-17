@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { Links } from '../../navData'
 
-const DashNav = ({Link, step, updateAccData, accData, getLink}) =>{
+const DashNav = ({Link, step, updateAccData, accData, getLink, isMobile}) =>{
     
     const s = {
       header: {width: '100%', paddingTop: '80px', marginBottom: '40px', boxShadow: '0 0 3px rgba(0,0,0,.8)', backgroundColor: 'rgba(5, 165, 0, 0.8)'},
@@ -22,7 +22,7 @@ const DashNav = ({Link, step, updateAccData, accData, getLink}) =>{
               onChange={()=>updateAccData(!accData)} label='Export account data'
           />
         </div>
-        <nav style={s.nav} className='dashNavLinks'>
+        {isMobile && <nav style={s.nav} className='dashNavLinks'>
           {Links.map((link, index) => step >= link.step ? 
             <Link to={getLink(link.to)} 
               style={{ 
@@ -33,7 +33,7 @@ const DashNav = ({Link, step, updateAccData, accData, getLink}) =>{
               }} 
               key={link.text}
             > {link.text} </Link> : null)}
-        </nav>
+        </nav>}
       </div>
     )}
 

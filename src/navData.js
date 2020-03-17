@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoneyBillWave, faPiggyBank, faUniversity, faCalendarAlt, faAmbulance, faCommentDollar, faStream, faCameraRetro } from "@fortawesome/free-solid-svg-icons";
 
 export const Links = [
-    { to: '/#default', text: 'Income', step: 0, icon: <FontAwesomeIcon icon={faMoneyBillWave} /> },
+    { to: '/default', text: 'Income', step: 0, icon: <FontAwesomeIcon icon={faMoneyBillWave} /> },
     { to: '/savings', text: 'Saving calc', step: 0, icon: <FontAwesomeIcon icon={faPiggyBank} /> },
     { to: '/accounts', text: 'Accounts', step: 0, icon: <FontAwesomeIcon icon={faUniversity} /> },
     { to: '/calendar', text: 'Calendar', step: 2, icon: <FontAwesomeIcon icon={faCalendarAlt} /> },

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { convert, disRec } from "../../../utilities/convert"; 
 import DropDown from "../../interface/DropDown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,32 +6,14 @@ import { faCalendarAlt, faBars } from "@fortawesome/free-solid-svg-icons";
 import MainContext from "../../../providers/MainContext";
 import { recurrence } from '../../../utilities/constants'
 import { styles } from './styles'
-import SubNav from './SubNav'
 
-const TopBar = ({updateView, step, Link, isLoggedIn, sideBarOpen, updateSideBarOpen}) => {
+const TopBar = ({ isLoggedIn, sideBarOpen, updateSideBarOpen, isMobile}) => {
   const p = useContext(MainContext);
-  const [isOpen, updateIsOpen] = useState(false)
-  const changeView = (event, view) => {
-    if(event) event.preventDefault()
-    updateIsOpen(false)
-    updateView(view)
-  }
-  const StTopBar = styles(p, isOpen, isLoggedIn);
-
-  const overlay = {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    height: '100%',
-    width: '100%',
-    backgroundColor: 'rgba(0,0,0,.8)',
-    zIndex: '1'
-  }
-
+  const StTopBar = styles(p, isLoggedIn, isMobile);
   return (
     <>
       <StTopBar>
-        {isLoggedIn && <button onClick={()=> updateSideBarOpen(!sideBarOpen)} className='hamburger' aria-label='Menu toggle'>
+        {isLoggedIn && isMobile && <button onClick={()=> updateSideBarOpen(!sideBarOpen)} className='hamburger' aria-label='Menu toggle'>
           <FontAwesomeIcon icon={faBars} />
         </button>}
         <div className='mainContainer'>
@@ -47,9 +29,7 @@ const TopBar = ({updateView, step, Link, isLoggedIn, sideBarOpen, updateSideBarO
           />}
           {isLoggedIn && <p>{p.amount ? convert(p.amount, "w", p.viewBy, "money") : '$0'}</p>}
         </div>
-        {isOpen && isLoggedIn && <SubNav changeView={changeView} p={p} step={step} Link={Link} toggleNav={()=>updateIsOpen(!isOpen)} />}
       </StTopBar>
-      {isOpen && isLoggedIn && <div style={overlay} onClick={()=> updateIsOpen(!isOpen)}></div>}
     </>
   );
 };
