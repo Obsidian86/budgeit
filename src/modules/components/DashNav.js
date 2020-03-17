@@ -27,8 +27,8 @@ const DashNav = ({Link, step, updateAccData, accData, getLink, isMobile}) =>{
             <Link to={getLink(link.to)} 
               style={{ 
                 borderLeft: index !== 0 ? '1px solid #fff' : null,
-                width: (index === 0 || index === 2 || index === 3 || index === 6) ? '10%' : 
-                  (index === 1 || index === 5) ? '17%' : '12%',
+                width: (index === 0 || index === 1 || index === 3 || index === 5) ? '10%' : 
+                  (index === 2 || index === 6) ? '17%' : '12%',
                 ...s.lnk
               }} 
               key={link.text}

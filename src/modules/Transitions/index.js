@@ -44,7 +44,7 @@ const genStyles = (name, property, start, end, time) => {
 export const Fade = ({ children, time }) => {
   const name = "fade";
   const StFade = styled.span`
-    ${genStyles(name, "opacity", ".1", "1", time)}
+    ${genStyles(name, "opacity", "0", "1", time)}
   `;
   return (
     <StFade>

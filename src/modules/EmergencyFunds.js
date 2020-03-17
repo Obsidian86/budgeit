@@ -5,7 +5,7 @@ import { money, calcMoney } from '../utilities/convert'
 import ContentBox from './interface/ContentBox'
 import { up } from '../utilities/convert'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faExclamation } from "@fortawesome/free-solid-svg-icons";
 
 const EmergencyFunds = () => {
   const p = useContext(MainContext)
@@ -24,13 +24,7 @@ const EmergencyFunds = () => {
 
   for(const account in p.accounts){
     const acc = p.accounts[account]
-    console.log(acc)
-    if(
-      acc.liquid && 
-      (acc.name.toLowerCase().includes('save') ||
-      acc.name.toLowerCase().includes('saving') ||
-      acc.name.toLowerCase().includes('emergency'))
-    ){
+    if( acc.liquid ){
       towardEmergency.push(acc)
     }
   }
@@ -77,7 +71,7 @@ const EmergencyFunds = () => {
                   </div>
   
               : <div className='red icon-box mt-40 mb-10'>
-                  <span><FontAwesomeIcon icon={faCheckCircle} /> </span>
+                  <span><FontAwesomeIcon icon={faExclamation} /> </span>
                   <p> It looks like you need at least { money(calcMoney(livingExpenses * 3, totalAvailable, 'subtract')) } more to cover 3 months of emergency expenses.</p>
                 </div>
               }

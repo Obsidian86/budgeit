@@ -1,26 +1,33 @@
 import { saveResource } from './storage'
+import { getObjIndex } from '../../utilities/functions'
 
-export const updateSavingsTables = async (table, hasTableData, username, saveState) => {
-  let newState = { savingsTable: table }
-  const postData = {tableData: table}
-  let response
-  if(hasTableData){
-    // postData['id'] = hasTableData
-    // response = await saveResource('put', 'savingstable', postData, username, hasTableData)
-  }else{
-    // response = await saveResource('save', 'savingstable', postData, username, null)
-    // newState['hasTableData'] = (response && response.data && response.data.length > 0 && response.data[0].id) || null
-  }
-  // response && !response['error'] && (hasTableData || newState['hasTableData']) && saveState(newState)
-  saveState(newState)
-}
-
-export const saveSavingsTable = async(data, currentTables, username, saveState) => {
-  const response = await saveResource("save", "savingsTables", data, username, null)
+export const addSavingsTables = async(data, currentProcessedTables, currentTables, username, saveState) => {
+  const response = await saveResource("save", "savingstables", data, username, null)
   if(response && response.data && response.data.length > 0){
     const tableData = response.data[0]
-    const combineTables = processTables(tableData, currentTables)
-    saveState({ savingsTable: combineTables})
+    const combineTables = processTables(tableData, currentProcessedTables)
+    saveState({ 
+      savingsTable: combineTables,
+      savingsTables: [...currentTables, tableData]
+    })
+  }
+}
+
+export const deleteSavingsTables = async(tableId, currentProcessedTables, currentTables, username, saveState) => {
+  const response = await saveResource("delete", "savingstables", null, username, tableId)
+  if(response && response.data && response.data.length > 0){
+    const ind = getObjIndex(currentTables, 'id', response.data[0].id)
+    const foundTable = { ...currentTables[ind] }
+    const savingsTables = [...currentTables].filter(s => (s.id + "") !== (foundTable.id + ""))
+ 
+    const processedTables = savingsTables.reduce((curTables, table) => {
+      return processTables(table, curTables)
+    }, [{}]) 
+
+    saveState({
+      savingsTables: [...savingsTables],
+      savingsTable: processedTables
+    })
   }
 }
 
@@ -44,6 +51,7 @@ export const processTables = (formDataIn, savingsTable) => {
   newTable.startInterest = formDataIn.rate
   newTable.deposit = formData.depAmount
   newTable.startAge = formData.startAge
+  newTable.id = formData.id
   if(formDataIn.accountName) newTable.accountName = formDataIn.accountName
 
   let combineTables = [...savingsTable]

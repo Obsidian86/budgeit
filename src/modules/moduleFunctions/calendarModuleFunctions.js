@@ -1,8 +1,9 @@
 import React, { Fragment as Fr } from 'react'
 import { Months, tYear } from '../components/calendar/dateFunctions'
-import { money } from '../../utilities/convert'
+import { money, calcMoney } from '../../utilities/convert'
 import SoftList from '../interface/SoftList'
 import Scroll from '../interface/Scroll'
+
 
 export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, saveState, eoyTotal, eoyLiquid, selectedDay) => {
     let EOYtrackBalance = trackBalance
@@ -37,19 +38,19 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
                   monthTrack = iDate[0]
                 }
                 if(ci.category && ci.amount && ci.category.toLowerCase() === 'income'){
-                  trackBalance = trackBalance + parseFloat(ci.amount)
-                  balWithLiquid = balWithLiquid + parseFloat(ci.amount)
+                  trackBalance = calcMoney(trackBalance, ci.amount)
+                  balWithLiquid = calcMoney(balWithLiquid, ci.amount)
                   if(parseInt(yearTrack) === tYear()){
-                    EOYtrackBalance = EOYtrackBalance + parseFloat(ci.amount)
-                    EOYbalWithLiquid = EOYbalWithLiquid + parseFloat(ci.amount)
+                    EOYtrackBalance = calcMoney(EOYtrackBalance, ci.amount)
+                    EOYbalWithLiquid = calcMoney(EOYbalWithLiquid, ci.amount)
                   }
                 } else{
-                  if(ci.amount){
-                    trackBalance = trackBalance - parseFloat(ci.amount) 
-                    balWithLiquid = balWithLiquid - parseFloat(ci.amount)
+                  if(ci.amount && ci.isTransfer !== 'on'){
+                    trackBalance = calcMoney(trackBalance, ci.amount, 'subtract') 
+                    balWithLiquid = calcMoney(balWithLiquid, ci.amount, 'subtract')
                     if(parseInt(yearTrack) === tYear()){
-                      EOYtrackBalance = EOYtrackBalance - parseFloat(ci.amount)
-                      EOYbalWithLiquid = EOYbalWithLiquid - parseFloat(ci.amount)
+                      EOYtrackBalance = calcMoney(EOYtrackBalance, ci.amount, 'subtract')
+                      EOYbalWithLiquid = calcMoney(EOYbalWithLiquid, ci.amount, 'subtract')
                     }
                   }
                 }
@@ -103,8 +104,10 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
         let isGreen = iter.category && iter.category.toLowerCase() === 'income'
         if(isGreen){
           iter.color = 'green';
-        }else if(!isGreen && iter.amount){
+        }else if(!isGreen && iter.amount && iter.isTransfer !== 'on'){
           iter.color = 'red'
+        }else if(!isGreen && iter.amount && iter.isTransfer === 'on'){
+          iter.color = 'lightblue'
         }else{
           iter.color = 'gray'
         }

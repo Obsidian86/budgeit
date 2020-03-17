@@ -85,7 +85,7 @@ const Accounts = () => {
         )
     })
     return (
-        <ContentBox title='Accounts' exClass='lg row' itemId='accountsModule' >
+        <ContentBox title='Accounts' exClass={'mx row'} itemId='accountsModule' >
             <div className={`mt-40 ${(showForm || accountList.length < 1) ? 'md' : 'max'}`}>
                 { accountList.length < 1 ? <h2 style={{ textAlign: 'center', marginTop: '30px' }}>Add an account</h2>
                 : <>

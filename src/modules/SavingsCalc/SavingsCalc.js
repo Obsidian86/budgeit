@@ -24,9 +24,7 @@ const SavingsCalc = () => {
   }, [p.selectedAccount, updateShowForm])
 
   const s = styles(p.theme)
-
-  const processTables = (formDataIn) => SCF.processTables(formDataIn, p.savingsTable, p.updateSavingsTables)
-  const deleteTable = index => SCF.deleteTable(index, p.savingsTable, p.setDialog, p.updateSavingsTables, p.updateView)
+  const deleteTable = tableId => SCF.deleteTable(tableId, p.setDialog, p.deleteSavingsTables, p.updateView)
 
   const toggleExclusions = (index) => {
     if(excludedTables.includes(index)){
@@ -48,7 +46,7 @@ const SavingsCalc = () => {
     const errs = validForm(fields, formData)
     updateErrors(errs)
     if (Object.keys(errs).length > 0) return errs
-    processTables(formData)
+    p.addSavingsTables(formData)
     p.updateView('savingsModule')
   }
 
@@ -81,7 +79,7 @@ const SavingsCalc = () => {
           <span 
             className='btn narrow red' 
             style={s.deleteStyles} 
-            onClick={() => deleteTable(index)}> Delete table
+            onClick={() => deleteTable(tableData.id)}> Delete table
           </span>
           <TableRow pattern={RowSpread} className="headerRow" round={false} >
             <div> Age <br /> { tableData['startAge'] && tableData['startAge']} </div>

@@ -19,7 +19,7 @@ import GlobalLoad from './modules/components/GlobalLoad'
 import SideNav from './modules/components/SideNav/SideNav'
 import appStyles from './appStyles'
 
-const version = '1.06.3-beta'
+const version = '1.07.0-beta'
 
 function App() {
   const p = useContext(MainContext)
@@ -41,9 +41,9 @@ function App() {
 
   useEffect(()=>{
     let interVal
-    if(isLoggedIn)interVal = setInterval(p.refreshToken, 720000)
+    if(isLoggedIn) interVal = setInterval(p.refreshToken, 720000)
     return(()=>{
-      if(isLoggedIn)clearInterval(interVal)
+      if(isLoggedIn) clearInterval(interVal)
     })
   })
 
@@ -55,9 +55,19 @@ function App() {
       {step < 2 && <Stepper step={step} getLink={p.getLink} theme={p.theme} />}
       <Switch>
         <Route path={p.getLink('/savings')} render={() => <SavingsCalc /> } /> 
-        <Route path={p.getLink('/snapshots')} render={() => <SnapShots /> } /> 
+        <Route path={p.getLink('/snapshots')} render={() => 
+          <> 
+            { step > 1 && <SnapShots /> } 
+            { step > 1 && <CalendarModule /> } 
+          </> 
+        } />
         <Route path={p.getLink('/recommended')} render={() => <Recommended /> } /> 
-        <Route path={p.getLink('/calendar')} render={() => <> {step > 1 && <CalendarModule />} </> } />
+        <Route path={p.getLink('/calendar')} render={() => 
+          <> 
+            { step > 1 && <CalendarModule /> } 
+            { step > 1 && <SnapShots /> } 
+          </> 
+        } />
         <Route path={p.getLink('/emergency')} render={() => <> {step > 1 && <EmergencyFunds />} </> } />
         <Route path={p.getLink('/budget')} render={()=> <> {step > 0 && <YourBudget step={step} />} </> } />
         <Route path={p.getLink('/accounts')} render={()=> <> <Accounts /> </> } />

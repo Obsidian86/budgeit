@@ -8,7 +8,7 @@ import { StyledNav, darkCoverStyles }from './StyledNav'
 const SideNav = ({style, Link, step, getLink, user, isMobile, updateSideBarOpen, logout}) => {
     const loc = useLocation()
     const darkCover = <div
-        style={ darkCoverStyles} 
+        style={darkCoverStyles} 
         onClick={()=> updateSideBarOpen(false)}
     />
     return(

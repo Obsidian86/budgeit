@@ -30,7 +30,8 @@ export const processDeleteBudgetItem = async (data, local, oldBudget, total, use
 
 export const processAddBudgetItem = async (newBi, local, oldBudget, total, username, saveState) => {
   if(!newBi['end']) newBi['end'] = ''
-  if(!newBi['noEnd']) newBi['noEnd'] = newBi['noEnd'] = 'on'
+  if(!newBi['noEnd']) newBi['noEnd'] = 'on'
+  if(!newBi['isTransfer'] || newBi['isTransfer'] === "") newBi['isTransfer'] = 'off' 
   const response = local ? {data: [newBi]} : await saveResource("save", "budgetitems", newBi, username, null)
 
   if(response && response.data && response.data.length > 0){

@@ -34,9 +34,7 @@ class MainProvider extends React.Component {
     window.addEventListener('resize', this.checkIfMobile)
     this.checkIfMobile()
   }
-  componentWillUnmount = () =>{
-    window.removeEventListener('resize', this.checkIfMobile)
-  }
+  componentWillUnmount = () => window.removeEventListener('resize', this.checkIfMobile) 
   saveState = newState => this.setState(newState)
 
   // Data import / export
@@ -87,7 +85,9 @@ class MainProvider extends React.Component {
   updateAccount = (ai) => this.accountReqs(ai, conF.processUpdateAccount)
 
   // savings calulator
-  updateSavingsTables = table => conF.updateSavingsTables(table, this.state.hasTableData, this.state.profile, this.saveState)
+  savingsTablesReqs = (data, fnc) => fnc(data, this.state.savingsTable, this.state.savingsTables, this.state.profile, this.saveState)
+  addSavingsTables = table => this.savingsTablesReqs(table, conF.addSavingsTables)
+  deleteSavingsTables = table => this.savingsTablesReqs(table, conF.deleteSavingsTables)
   addAccountToEstimator = (data) => this.setState({selectedAccount: data ? {...data} : null}, ()=> data && this.updateView('savingsModule'))
 
   // Snapshots

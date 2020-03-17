@@ -64,7 +64,6 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
     }
     ${styles}
   `
-
   return (
     <StDiv onClick={() => toggle()} className='drop-menu'>
       {icon && <>{icon} &nbsp;</>}

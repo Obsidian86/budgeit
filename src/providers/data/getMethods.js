@@ -28,7 +28,8 @@ const getMethods = (provider) => ({
     addSnapShot: provider.addSnapShot,
     deleteSnapShot: provider.deleteSnapShot,
     // Savings tables
-    updateSavingsTables: provider.updateSavingsTables,
+    addSavingsTables: provider.addSavingsTables,
+    deleteSavingsTables: provider.deleteSavingsTables,
   })
 
   export default getMethods

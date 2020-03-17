@@ -11,7 +11,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
         ...editItem, 
         newCategory: 'off', 
         noEnd: editItem.end ? "off" : "on", 
-        end: editItem.end ? editItem.end : stepDate(parsedCurrentDate(new Date()).split("-"), "yearly", 10).join('-'), rec: 'm'} : 
+        end: editItem.end ? editItem.end : stepDate(parsedCurrentDate(new Date()).split("-"), "yearly", 10).join('-')} : 
       { 
         newCategory: 'off',
         date: parsedCurrentDate(new Date()),
@@ -63,8 +63,17 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
                 value: (!formData.noEnd || formData.noEnd === 'off') ? 'on' : 'off'} }) }
             />{' '} <span />No end
           </label>
+          <label className='cu_checkBox'>
+            <input
+              type='checkbox' name='isTransfer'
+              checked={!!formData.isTransfer && formData.isTransfer === "on"}
+              onChange={() => updateField({ 
+                target: { name: 'isTransfer', 
+                value: (!formData.isTransfer || formData.isTransfer === 'off') ? 'on' : 'off'} }) }
+            />{' '} <span />Mark as transfer
+          </label>
 
-          <div className='grouping right mt-40'>
+          <div className='grouping right mt-10' style={{maxWidth: '100%', flexWrap: 'wrap'}}>
             {editItem && <button
               onClick={() => setDialog({
                 open: true,
@@ -77,11 +86,11 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
                 },
                 reject: () => { return null }
               })}
-              className='btn red'
+              className='btn red mt-10'
             >Delete
             </button>}
             <button 
-            className='btn blue'
+            className='btn blue mt-10'
             onClick={()=> {
               clearData()
               updateEditItem(null)
@@ -90,7 +99,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             </button>
             <button
               type='submit'
-              className='btn'
+              className='btn mt-10'
               onClick={() => onSubmit(formData)}
             > Submit </button>
           </div>

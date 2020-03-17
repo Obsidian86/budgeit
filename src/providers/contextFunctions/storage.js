@@ -44,9 +44,9 @@ export const load = async (profile) => {
   const hasTableData = tableData ? data.savingsTable[0].id : false
   const savingsTables = data && data.savingsTables
 
-  const processedTables = savingsTables.reduce((curTables, table) => {
+  const processedTables = savingsTables ? savingsTables.reduce((curTables, table) => {
     return processTables(table, curTables)
-  }, [{}]) 
+  }, [{}]) : [{}]
 
   const newState = {
     profile,

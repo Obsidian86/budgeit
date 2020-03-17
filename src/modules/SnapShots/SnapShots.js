@@ -138,10 +138,10 @@ const SnapShots = () => {
                 </div> </>}
             </div>
             {p.snapshots && p.snapshots.length > 1 && <SnapShotChart inData={p.snapshots} parentWidth={parentWidth} showItems={showItems} />}
-            <button onClick={() => updateHideSnapshots(!hideSnapshots)} className={`btn ${!hideSnapshots ? 'red' : 'blue'}`}>
+            {p.snapshots.length > 0 && <button onClick={() => updateHideSnapshots(!hideSnapshots)} className={`btn ${!hideSnapshots ? 'red' : 'blue'}`}>
                 <FontAwesomeIcon icon={ !hideSnapshots ? faEyeSlash : faEye} />&nbsp;&nbsp;
                 <span>{hideSnapshots ? 'Show' : 'Hide'} snapshots</span>
-            </button>
+            </button>}
             <button onClick={() => handleCreate()} className='btn green'><FontAwesomeIcon icon={faCamera} />&nbsp;&nbsp;<span>Create snapshot</span></button>
             <div style={s.snapShotsContainer}>
                 {!hideSnapshots && [...p.snapshots].reverse().map((sh, i) =>
