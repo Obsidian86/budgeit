@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const Dialog = ({ data, setDialog }) => {
   const [mounted, updateMounted] = useState(false)
-  const { header, message, confirm, reject, yesText = 'Yes', noText = 'Cancel' } = data
+  const { header, message, content, confirm, reject, yesText = 'Yes', noText = 'Cancel' } = data
   useEffect(() => { updateMounted(true) }, [])
   const handleClick = (action) => {
     action()
@@ -64,6 +64,7 @@ const Dialog = ({ data, setDialog }) => {
         <div className='dialogContent'>
           {header && <h3>{header}</h3>}
           {message && <p>{message}</p>}
+          {content && content}
           {(confirm || reject) &&
           <div className='grouping right'>
             {confirm && <button onClick={() => handleClick(confirm)} className='btn'>{yesText}</button>}

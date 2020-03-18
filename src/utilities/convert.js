@@ -29,13 +29,13 @@ export const disRec = re => {
   return convRec[re] ? convRec[re] : re
 }
 
-export const convert = (amount, rec = 'm', disRec = 'm', ...args) => {
+export const convert = (amount, rec = 'm', displayRec = 'm', ...args) => {
   const year = { m: 12, w: 52, bw: 26, y: 1, d: 365 }
   amount = parseFloat(amount)
-  amount = (amount * year[rec]) / year[disRec] 
+  amount = (amount * year[rec]) / year[displayRec] 
   let returnVal = args.includes('money') ? money(amount) : amount
   if (args.includes('appendRec')) {
-    returnVal += ` ${disRec(disRec)}`
+    returnVal += ` ${disRec(displayRec)}`
   }
   return returnVal
 }
