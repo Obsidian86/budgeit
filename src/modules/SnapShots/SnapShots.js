@@ -79,15 +79,14 @@ const SnapShots = () => {
         'End of year liquid': false,
         'End of year non liquid': false,
     })
-    
+    const getWidth = () => {
+      const ss = document.getElementById('snapshots')
+      ss && updateParentWidth(ss.offsetWidth - 30)
+    }
     useEffect(() => {
-        const getWidth = () => {
-            const ss = document.getElementById('snapshots')
-            ss && updateParentWidth(ss.offsetWidth - 30)
-        }
         getWidth()
-        window.addEventListener('resize', () => getWidth())
-        return function(){window.removeEventListener('resize', () => getWidth())}
+        window.addEventListener('resize', getWidth)
+        return function(){window.removeEventListener('resize', getWidth)}
     })
 
     const handleDelete = index => {

@@ -127,7 +127,10 @@ const YourBudget = ({ step }) => {
                       <div className='h-560'>{ pb.date }</div>
                       <div className='h-560'>{ pb.end ? pb.end : 'No end' }</div>
                       <div>{ pb.rec ? disRec(pb.rec) : 'Once'}</div>
-                      <div>{convert(pb.amount, pb.rec, p.viewBy, "money")}</div>
+                      <div>
+                        {convert(pb.amount, pb.rec, p.viewBy, "money")} <br />
+                        <span style={{fontSize: '.9rem', color: '#b9b9b9', fontStyle: 'italic'}}>{disRec(p.viewBy)}</span>
+                      </div>
                     </TableRow>
                   );
                 })}

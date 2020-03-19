@@ -17,19 +17,15 @@ class MainProvider extends React.Component {
   }
 
   // initialize data
-  checkIfMobile = () => {
-    const isMobile = window.innerWidth < 1000
-    this.setState({isMobile})
-  }
+  checkIfMobile = () => this.setState({isMobile: window.innerWidth < 1000}) 
 
   componentDidMount = async () => {
-    if(!this.state.profile){
-      const localUser = localStorage.getItem('user') ? localStorage.getItem('user') : null
-      if(localUser) this.setState({profile: localUser}, async () => {
-        await this.loadData()
-        await this.refreshToken()
-      }) 
-    }
+    this.setState({...defaultState, globalLoad: true})
+    const localUser = localStorage.getItem('user') ? localStorage.getItem('user') : null
+    if(localUser) this.setState({profile: localUser}, async () => {
+      await this.loadData()
+      await this.refreshToken()
+    }) 
     if(this.state.globalLoad) this.setState({globalLoad: false})
     window.addEventListener('resize', this.checkIfMobile)
     this.checkIfMobile()
@@ -83,7 +79,6 @@ class MainProvider extends React.Component {
   addAccount = (ai) =>  this.accountReqs(ai, conF.processAddAccount)
   deleteAccount = (aId) => this.accountReqs(aId, conF.processDeleteAccount)
   updateAccount = (ai) => this.accountReqs(ai, conF.processUpdateAccount)
-
   // savings calulator
   savingsTablesReqs = (data, fnc) => fnc(data, this.state.savingsTable, this.state.savingsTables, this.state.profile, this.saveState)
   addSavingsTables = table => this.savingsTablesReqs(table, conF.addSavingsTables)
