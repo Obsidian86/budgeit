@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 
 const AccountListItem = (props) => {
-    const {s, a, money, interest, Bullet, updateEdittingItem, updateShowForm, showReturns, addAccountToEstimator, updateView, handleLinkBudgetClick} = props
+    const {s, a, money, interest, Bullet, updateEdittingItem, updateShowForm, showReturns, addAccountToEstimator, updateView} = props
     const [showOptions, updateShowOptions] = useState(false)
     return(
         <li style={{flexWrap: 'wrap', cursor: 'pointer'}} onClick={()=>updateShowOptions(!showOptions)}>
@@ -13,7 +13,6 @@ const AccountListItem = (props) => {
                 <Link to='/savings' className='btn narrow blue' style={{textDecoration: 'none'}} onClick={()=> addAccountToEstimator(a)}>
                     Add to estimator
                 </Link>
-                <button className='btn narrow blue' onClick={()=>handleLinkBudgetClick(a)}>Link to budget item</button> 
                 <button className='btn narrow' onClick={(a)=> {
                     const n = new Promise((resolve, reject)=> resolve(updateEdittingItem(a)) )
                     n.then(()=>updateShowForm(true))

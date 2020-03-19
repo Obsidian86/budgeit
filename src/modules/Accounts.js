@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import MainContext from '../providers/MainContext'
 import ContentBox from './interface/ContentBox'
 import SoftList from './interface/SoftList'
-import { money, convert } from '../utilities/convert'
+import { money } from '../utilities/convert'
 import { getInterest } from '../utilities/functions'
 import Form from './interface/Form'
 import { IP, validForm } from '../utilities/formUtilities'
@@ -27,7 +27,6 @@ const Accounts = () => {
     const [showForm, updateShowForm] = useState(false)
     const [errors, updateErrors] = useState({})
     const [edittingItem, updateEdittingItem] = useState(null)
-    const [addItemToLink, updateAddItemToLink] = useState(null)
 
     const handleSubmit = (account) => {
         account.interest = parseFloat(account.interest)
@@ -69,45 +68,6 @@ const Accounts = () => {
         })  
       }
 
-    const handleLinkBudgetClick = (account) => {
-        let availableItems = []
-        Object.keys(p.budget).forEach(item =>{
-            availableItems.push(...p.budget[item].items)
-        })
-        availableItems = availableItems.filter(item => item.isTransfer && item.isTransfer === 'on')
-        console.log(availableItems)
-
-        const biList = availableItems.map((item, index)=> {
-            return(
-                <li key={index} onClick={()=> updateAddItemToLink(account)}>
-                    <span>{item.item} <span style={{color: '#b3b3b3'}}>({item.category})</span></span>
-                    <span>{ convert(item.amount, item.rec, item.rec, 'money', 'appendRec')}</span>
-                </li>
-            )
-        })
-        const dialogContent = 
-        <div 
-            style={{
-                width: '92%',
-                margin: '15px auto'
-            }}
-        >
-            <p>Select item to link to account.</p>
-            <SoftList split>{biList}</SoftList>
-            { addItemToLink && <button onClick={()=>console.log('do main stuff here')}>Confirm link</button> }
-        </div>
-
-        console.log(p)
-        p.setDialog({
-            open: true,
-            header: 'Link budget item to ' + account.name, 
-            content: <>{dialogContent}</>, 
-            // yesText: "Link account",
-            // confirm: ()=>{ console.log(account) },
-            reject: ()=>{ return null }
-          })  
-    }
-
     let total = 0
     let liquid = 0
     const accountList = p.accounts.map((a, i) => {
@@ -120,7 +80,6 @@ const Accounts = () => {
                 money={money} interest={interest} showReturns={showReturns}
                 updateEdittingItem={updateEdittingItem} updateShowForm={updateShowForm}
                 addAccountToEstimator = {p.addAccountToEstimator}
-                handleLinkBudgetClick={handleLinkBudgetClick}
                 updateView = {p.updateView}
             />
         )
