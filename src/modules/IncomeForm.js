@@ -101,7 +101,7 @@ const IncomeForm = () => {
             <TableRow tData={[s.item, disRec(s.rec), money(s.amount)]} key={i} onClick={() => updateEdditingItem(s)} />
           )}
         </div>
-        : <div className='m-lg center-all'> <h2>Add Income source</h2></div>
+        : <div className='m-lg'><div className='center-all'><h2>Add Income source</h2></div></div>
       }
       </div>
     </ContentBox>

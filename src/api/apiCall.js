@@ -1,7 +1,7 @@
 import { endPoints } from './endPoints'
 
 let backendUrl = "https://bgt-bck.herokuapp.com/";
-    backendUrl = "http://localhost:8000/";
+if(window.location.href.includes('localhost')) backendUrl = "http://localhost:8000/";
 
 export const makeCall = async (info) => {
     const { endPoint, username=null, id=null, targetParam=null, method='GET', requireAuth=false, body } = info
