@@ -8,7 +8,7 @@ import Footer from './modules/Footer'
 import MainContext from './providers/MainContext'
 import EmergencyFunds from './modules/EmergencyFunds'
 import CalendarModule from './modules/CalendarModule'
-import Accounts from './modules/Accounts'
+import Accounts from './modules/Accounts/'
 import SaveLoad from './modules/SaveLoad'
 import SnapShots from './modules/SnapShots/SnapShots'
 import LoginScreen from './modules/LoginScreen/LoginScreen'
@@ -19,7 +19,7 @@ import GlobalLoad from './modules/components/GlobalLoad'
 import SideNav from './modules/components/SideNav/SideNav'
 import appStyles from './appStyles'
 
-const version = '1.08.1-beta'
+const version = '1.08.2-beta'
 
 function App() {
   const p = useContext(MainContext)

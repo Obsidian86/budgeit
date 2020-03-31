@@ -1,96 +1,32 @@
 import React, { useContext, useState } from 'react'
-import MainContext from '../providers/MainContext'
-import ContentBox from './interface/ContentBox'
-import SoftList from './interface/SoftList'
-import { money } from '../utilities/convert'
-import { getInterest } from '../utilities/functions'
-import Form from './interface/Form'
-import { IP, validForm } from '../utilities/formUtilities'
-import Bullet from './interface/Bullet'
-import AccountListItem from './components/AcountListItem'
-
-const s = {
-    intRow: {
-        width: '100%', 
-        padding: '3px', 
-        marginTop: '9px',
-        display: 'flex',
-        justifyContent: 'space-between'
-    },
-    intFirst: {textAlign: 'left', width: '40%'}, 
-    intRight: {textAlign: 'right', width: '30%'}
-}
-
+import MainContext from '../../providers/MainContext'
+import ContentBox from '../interface/ContentBox'
+import SoftList from '../interface/SoftList'
+import Form from '../interface/Form'
+import { IP } from '../../utilities/formUtilities'
+import { money } from '../../utilities/convert'
+import * as accountFunctions from './accountsFunctions'
+import s from './styles'
+ 
 const Accounts = () => {
     const p = useContext(MainContext)
     const [showReturns, updateShowReturns] = useState(false)
     const [showForm, updateShowForm] = useState(false)
     const [errors, updateErrors] = useState({})
-    const [edittingItem, updateEdittingItem] = useState(null)
+    const [edittingItem, updateEdittingItem ] = useState(null)
+    const { proccessAccounts, handleSubmit, deleteAccount } = accountFunctions
 
-    const handleSubmit = (account) => {
-        account.interest = parseFloat(account.interest)
-        account.amount = parseFloat(account.amount)
-        const fields = [
-            { name: 'name', req: true, type: 'text' },
-            { name: 'interest', req: true, type: 'float' },
-            { name: 'amount', req: true, type: 'float' }
-          ]
-        const errs = validForm(fields, account)
-        if( Object.keys(errs).length > 0 ){
-            return updateErrors(errs)
-        }
-        if(edittingItem){
-            p.updateAccount(account)
-            updateEdittingItem(false)
-        } else {
-            p.addAccount(account)
-        }
-        updateShowForm(false)
-        updateErrors({})
-        p.updateView('accountsModule')
-    }
+    const handleDelete = (id, clearData) => deleteAccount(id, clearData, p, updateEdittingItem, updateShowForm, updateErrors)
+    const handleSubmitForm = formData => handleSubmit(formData, edittingItem, p, updateEdittingItem, updateShowForm, updateErrors)
+    const {total, liquid, accountList} = proccessAccounts(s, showReturns, p, updateEdittingItem, updateShowForm)
 
-    const deleteAccount = (accountId, clearData) => {
-        p.setDialog({
-          open: true,
-          header: 'Delete account', 
-          message: <>Are you sure you want to delete this account? <br /> This can not be undone.</>, 
-          confirm: ()=>{
-            p.deleteAccount(accountId)
-            updateEdittingItem(null)
-            updateShowForm(false)
-            updateErrors({})
-            clearData()
-            p.updateView('accountsModule')
-          },
-          reject: ()=>{ return null }
-        })  
-      }
-
-    let total = 0
-    let liquid = 0
-    const accountList = p.accounts.map((a, i) => {
-        total = total + parseFloat(a.amount)
-        if(a.liquid) liquid = liquid + parseFloat(a.amount)
-        const interest = getInterest(parseFloat(a.amount), parseFloat(a.interest), 10)
-        return (    
-            <AccountListItem 
-                key={i} s={s} a={a} Bullet={Bullet}
-                money={money} interest={interest} showReturns={showReturns}
-                updateEdittingItem={updateEdittingItem} updateShowForm={updateShowForm}
-                addAccountToEstimator = {p.addAccountToEstimator}
-                updateView = {p.updateView}
-            />
-        )
-    })
     return (
         <ContentBox title='Accounts' exClass={'mx row'} itemId='accountsModule' >
             <div className={`mt-40 ${(showForm || accountList.length < 1) ? 'md' : 'max'}`}>
-                { accountList.length < 1 ? <h2 style={{ textAlign: 'center', marginTop: '30px' }}>Add an account</h2>
+                { accountList.length < 1 ? <div className='center-all'><h2 className='mb-60'>Add an account </h2></div>
                 : <>
                     <SoftList split>
-                        <li style={{fontWeight: 'bold'}}>
+                        <li className='fw-b'>
                             <span style={s.intFirst}>Account name</span>
                             <span style={s.intRight}>Interest rate</span>
                             <span style={s.intRight}>Current balance</span>
@@ -134,7 +70,7 @@ const Accounts = () => {
                                     { edittingItem && 
                                         <button
                                             className='btn red'
-                                            onClick={()=> deleteAccount(formData.id, clearData)}
+                                            onClick={()=> handleDelete(formData.id, clearData)}
                                         >
                                             Delete
                                         </button>
@@ -150,7 +86,7 @@ const Accounts = () => {
                                     >
                                         {edittingItem ? 'Cancel' : 'Clear'}
                                     </button>
-                                    <button className='btn' onClick={()=> handleSubmit(formData) }>Submit</button>
+                                    <button className='btn' onClick={ handleSubmitForm.bind(null, formData) }>Submit</button>
                                 </span>
                             </>
                         )

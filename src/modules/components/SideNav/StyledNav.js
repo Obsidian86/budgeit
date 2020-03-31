@@ -49,10 +49,12 @@ export const StyledNav = styled.nav`
         padding: 16px 20px;
         text-align: left;
         border-top: 1px solid rgba(255,255,255, .3);
+        transition: background-color .3s;
         span{
             font-size: 1.2rem;
             margin-right: 21px;
             margin-left: 1px;
+            transition: margin .3s;
         }
         &:hover{
             background-color: ${theme.green};

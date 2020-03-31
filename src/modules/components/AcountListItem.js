@@ -13,7 +13,7 @@ const AccountListItem = (props) => {
                 <Link to='/savings' className='btn narrow blue' style={{textDecoration: 'none'}} onClick={()=> addAccountToEstimator(a)}>
                     Add to estimator
                 </Link>
-                <button className='btn narrow' onClick={(a)=> {
+                <button className='btn narrow' onClick={()=> {
                     const n = new Promise((resolve, reject)=> resolve(updateEdittingItem(a)) )
                     n.then(()=>updateShowForm(true))
                     .then(()=>updateView('accountForm', 'accountsModule'))
