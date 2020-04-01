@@ -17,10 +17,12 @@ class MainProvider extends React.Component {
   }
 
   // initialize data
-  checkIfMobile = () => this.setState({isMobile: window.innerWidth < 1000}) 
+  checkIfMobile = () => {
+    const isMobile = window.innerWidth < 1000
+    if(isMobile !== this.state.isMobile) this.setState({isMobile}) 
+  }
 
   componentDidMount = async () => {
-    this.setState({...defaultState, globalLoad: true})
     const localUser = localStorage.getItem('user') ? localStorage.getItem('user') : null
     if(localUser) this.setState({profile: localUser}, async () => {
       await this.loadData()
@@ -94,7 +96,7 @@ class MainProvider extends React.Component {
     <>
       {this.state.dialog.open && <Dialog data={this.state.dialog} setDialog={this.setDialog} />}
       <MainContext.Provider value={this.state}>
-        {this.props.children}
+        {this.state.globalLoad ? <p>loading</p> : this.props.children}
       </MainContext.Provider>
     </>
 }

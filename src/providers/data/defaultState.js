@@ -21,7 +21,7 @@ const defaultState = {
     snapshots: [],
     selectedAccount: null,
     lastView: null,
-    isMobile: false
+    isMobile: true
 }
 
 export default defaultState

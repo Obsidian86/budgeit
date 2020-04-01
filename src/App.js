@@ -46,7 +46,6 @@ function App() {
       if(isLoggedIn) clearInterval(interVal)
     })
   })
-
   const display = p.globalLoad ? <GlobalLoad /> 
     : isLoggedIn ? 
     <>

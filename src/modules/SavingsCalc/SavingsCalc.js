@@ -160,7 +160,7 @@ const SavingsCalc = () => {
       </>
       )
   }
-  console.log("RENDER")
+
   return (
     <ContentBox title="Savings estimator" itemId='savingsModule'>
       <div className={`row mt-40`}>
