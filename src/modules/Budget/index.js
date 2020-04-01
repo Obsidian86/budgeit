@@ -1,22 +1,22 @@
 import React, { useContext, useState } from "react";
-import MainContext from "../providers/MainContext";
-import { convert, disRec, percent, up } from "../utilities/convert";
-import ChartContainer from "./components/ChartContainer";
-import TableRow from "./interface/TableRow";
-import Bullet from "./interface/Bullet";
-import ProgressBar from "./interface/ProgressBar";
-import BudgetForm from './components/BudgetForm'
-import suggested from '../utilities/suggested'
-import ContentBox from './interface/ContentBox'
-import { validForm } from '../utilities/formUtilities'
-import { pDate } from './components/calendar/dateFunctions'
+import MainContext from "../../providers/MainContext";
+import { convert, disRec, percent, up } from "../../utilities/convert";
+import TableRow from "../interface/TableRow";
+import Bullet from "../interface/Bullet";
+import BudgetForm from './BudgetForm.jsx'
+import ContentBox from '../interface/ContentBox'
+import ChartSection from './ChartSection'
+import { validForm } from '../../utilities/formUtilities'
+import { pDate } from '../components/calendar/dateFunctions'
+import * as budgetFunctions from './budgetFunctions'
+import s from './styles'
 
 const YourBudget = ({ step }) => {
   const p = useContext(MainContext);
   const [displayForm, toggleForm] = useState(Object.keys(p.budget).length < 1 && window.innerWidth >= 900);
   const [editItem, updateEditItem] = useState(null);
   const [errors, updateErrors] = useState(null)
-  const data = [];
+  
 
   const moduleName = 'yourBudgetModule'
 
@@ -37,71 +37,15 @@ const YourBudget = ({ step }) => {
     return (Object.keys(errs).length === 0)
   }
 
-  const catOptions = [];
-  const track = []
-  Object.keys({ ...p.budget, ...suggested }).forEach(b => {
-    let bI = b.toLowerCase()
-    if (!track.includes(bI)) {
-      catOptions.push({ d: bI, v: bI })
-      track.push(bI)
-    }
-  })
-  data.push({
-    title: "Unallocated",
-    value: isNaN(percentLeft) ? 100 : (100 - percentLeft),
-    color: "gray"
-  });
-  Object.keys(p.budget).forEach(bd => {
-    data.push({
-      title: bd,
-      value:
-        (convert(p.budget[bd].total, "m", p.viewBy) /
-          convert(p.amount, "w", p.viewBy)) *
-        100,
-      color: p.budget[bd].color
-    });
-  });
-  const okPercent = percentLeft > -1 && percentLeft !== Infinity
+  const {catOptions, data} = budgetFunctions.processData(p, percentLeft)
+  const chartProps = {percentLeft, amountLeft, data, p, s}
+  const noItems = <h2 style={{ textAlign: 'center', marginTop: '75px' }}>Add a budget item</h2>
   return (
     <ContentBox title='Your budget' itemId={moduleName}>
-      <div className="row mt-40">
-        {/* chart section */}
-        <div className="sm">
-          {okPercent && <ChartContainer
-            data={data}
-            styles={{ 
-              maxWidth: "400px", 
-              margin: "0 auto",
-              position: 'relative',
-              left: '-3px'
-            }}
-          />}
-          <div
-            className="contentBox row"
-            style={{
-              minWidth: 'auto',
-              padding: "10px",
-              marginTop: "25px",
-              width: '86%'
-            }}
-          >
-            <p className="text-left w-100">
-              <strong>{convert(p.total, "m", p.viewBy, "money")}</strong> budgeted of
-              <strong> {convert(p.amount, "w", p.viewBy, "money")}</strong>
-            </p>
-            <ProgressBar
-              percent={ okPercent ? percentLeft : 0}
-              title={ okPercent ? percentLeft.toFixed(2) + "%" : 0 + '%'}
-            />
-            <p className="text-right w-100">
-              <strong>{convert(amountLeft, p.viewBy, p.viewBy, "money")}</strong> Remianing{" "}
-              {disRec(p.viewBy)}
-            </p>
-          </div>
-        </div>
-        {/* End chart section */}
-        <div className={displayForm ? 'md' : 'm-lg'} >
-          {step < 2 ? <h2 style={{ textAlign: 'center', marginTop: '75px' }}>Add a budget item</h2> : Object.keys(p.budget).map(bud => {
+      <ChartSection {...chartProps} />
+      <div className="row around mt-40">
+        <div className={displayForm ? 'm-lg' : 'lg'} >
+          {step < 2 ?  noItems : Object.keys(p.budget).map(bud => {
             return (
               <div key={bud} style={{ marginBottom: "33px" }}>
                 <TableRow className="headerRow">
@@ -129,7 +73,7 @@ const YourBudget = ({ step }) => {
                       <div>{ pb.rec ? disRec(pb.rec) : 'Once'}</div>
                       <div>
                         {convert(pb.amount, pb.rec, p.viewBy, "money")} <br />
-                        <span style={{fontSize: '.9rem', color: '#b9b9b9', fontStyle: 'italic'}}>{disRec(p.viewBy)}</span>
+                        <span style={s.tableRec}>{disRec(p.viewBy)}</span>
                       </div>
                     </TableRow>
                   );
@@ -138,7 +82,7 @@ const YourBudget = ({ step }) => {
             );
           })}
         </div>
-        <div className={displayForm ? 'sm' : 'xs'} >
+        <div className={displayForm ? 'm-sm' : 'xs'} >
           <span className='right md-center'>
             <button className={`btn big ${displayForm && 'red'}`} onClick={() => {
               updateEditItem(null)

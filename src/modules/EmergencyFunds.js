@@ -49,7 +49,7 @@ const EmergencyFunds = () => {
         <div className='max row'>
           <div className='thr'>
             <SoftList split>
-              <li><strong>Amount available</strong> <span>{money(totalAvailable)}</span></li>
+              <li className='t-blue'><strong>Amount available</strong> <span>{money(totalAvailable)}</span></li>
               { availableAmount }
             </SoftList>
           </div>
@@ -60,7 +60,7 @@ const EmergencyFunds = () => {
                 <li key={b}><strong>{up(b)}</strong> <span>-{money(excluded[b].total)}</span></li>)
               }
               <li><strong>Monthly living expenses</strong>{money(livingExpenses)} </li>
-              <li><strong>Target emergency funds</strong>{money(livingExpenses * 3)} </li>
+              <li className='t-green'><strong>Target emergency funds</strong>{money(livingExpenses * 3)} </li>
             </SoftList>
             
               {

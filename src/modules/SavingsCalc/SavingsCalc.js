@@ -69,7 +69,7 @@ const SavingsCalc = () => {
       })
 
       return (
-        <div className={`thr`} style={s.tableContainer}>
+        <div className={`md`} style={s.tableContainer}>
           <label style={s.labelStyles}>{ tableData['accountName'] ? tableData['accountName'] : `Table ${index}` }</label>
           <span 
             className='btn narrow blue' 
@@ -79,7 +79,7 @@ const SavingsCalc = () => {
           <span 
             className='btn narrow red' 
             style={s.deleteStyles} 
-            onClick={() => deleteTable(tableData.id)}> Delete table
+            onClick={() => deleteTable(tableData.id)}> Delete
           </span>
           <TableRow pattern={RowSpread} className="headerRow" round={false} >
             <div> Age <br /> { tableData['startAge'] && tableData['startAge']} </div>
@@ -137,7 +137,7 @@ const SavingsCalc = () => {
         return row
       })
       return(
-        <div className={`${showForm ? 'sm' : 'md'}`} style={s.tableContainer}>
+        <div className={`${showForm ? 'md' : 'lg'}`} style={s.tableContainer}>
           <label style={s.labelStyles}>Totals</label>
           <TableRow pattern={RowSpread} className="headerRow" round={false} >
             <div> Age </div>
@@ -160,14 +160,16 @@ const SavingsCalc = () => {
       </>
       )
   }
-  
+  console.log("RENDER")
   return (
     <ContentBox title="Savings estimator" itemId='savingsModule'>
       <div className={`row mt-40`}>
-        <p className='sm remark'>
+        <div className='max row center mb-40'>
+        <p className='lg remark'>
           Estimate how much you'll have by retirement. <br /> 
           The breakdown of each account will display in a new table. The totals will display in the first table. 
         </p>
+        </div>
         <div className={showForm ? 'md' : 'sxm'}>
           <div className='right md-center'>
             <IP 
@@ -201,7 +203,7 @@ const SavingsCalc = () => {
                     <IP type='number' alias='startAge' onChange={updateForm} data={formData} errors={errors} label='Starting age' showPH='Start age' />
                   </div>
                   <div className='md-f'>
-                    <IP type='number' alias='years' onChange={updateForm} data={formData} errors={errors} label='For how many years?' showPH='Number of years' />
+                    <IP type='number' alias='years' onChange={updateForm} data={formData} errors={errors} label='# of years?' showPH='Number of years' />
                   </div>
                 </div>
                 

@@ -1,0 +1,36 @@
+.chartContainer { 
+    width: 99%; 
+    justify-content: flex-end; 
+    margin-top: -46px;
+    & > div {
+        width: 70%; 
+        align-items: center;
+        justify-content: flex-end;
+        & .pie-container{
+            width: 30%;
+            margin-top: 20px;
+            margin-right: 2%;
+            max-width: 200px;
+        }
+        & .bar-container{
+            width: 67%;
+            max-width: 600px;
+        }
+    }
+    @media screen and (max-width: 650px){
+        margin-top: 10px;
+        & > div{
+            width: 99%;
+        }
+    }
+    @media screen and (max-width: 500px){
+        margin-top: 20px;
+        & > div{
+            justify-content: center;
+            width: 99%;
+            & .pie-container, & .bar-container{
+                width: 90%;
+            }
+        }
+    }
+}

@@ -62,8 +62,10 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
                         <span style={s.mn}>{money(keepBalance)}</span>
                       </li>}
                     <li style={{color: ci.color ? ci.color : 'gray', fontWeight: 'bold'}}>
-                      <span style={{...s.ri, textAlign: 'left'}}>{ci.item}</span>
-                      <span style={s.ri}>{ci.itemDate}</span>
+                      <span style={{...s.ri, textAlign: 'left'}}>
+                        {ci.item}<br />
+                        <span style={s.lstDate}>{ci.itemDate}</span>
+                      </span>
                       <span style={s.ri}>{ci.amount ? money(ci.amount) : ' '}</span>
                     </li>
                   </Fr>

@@ -1,6 +1,18 @@
 import theme from '../../../styles/theme'
 import styled from 'styled-components'
 
+export const StyledNavContainer = styled.div`
+    background-color: green;
+    position: fixed;
+    width: 276px;
+    height: 100%;
+    min-height: 100vh;
+    z-index: 3;
+    @media screen and (max-height: 650px){
+        overflow-y: scroll;
+    }
+`
+
 export const StyledNav = styled.nav`
     font-weight: bold;
     font-size: 1.05rem;

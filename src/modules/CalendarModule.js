@@ -26,9 +26,10 @@ const CalendarModule = () => {
   const s = { // common styles
     h:  { margin: '0', padding: '0', marginTop: '20px' }, // head
     r:  { margin: '0', padding: '0' }, // reset
-    ri: { width: '30%', textAlign: 'right'}, // right
+    ri: { width: '49%', textAlign: 'right'}, // right
     dt: { fontSize: '1.2rem' }, // date
-    mn: { fontSize: '.8rem', paddingTop: '4px' } // money
+    mn: { fontSize: '.8rem', paddingTop: '4px' }, // money
+    lstDate: {fontSize: '.8rem', display: 'block', paddingTop: '10px', fontWeight: 'normal', color: '#b2b2b2'}
   }
   
   const tabContent = [
@@ -54,8 +55,8 @@ const CalendarModule = () => {
 
   return (
     <ContentBox title='Calendar' itemId='calendarModule'>
-      <div className='row'>
-        <div className='sm mt-40 fw-b'>
+      <div className='row between'>
+        <div className='smPlus mt-40 fw-b'>
           <TabbedView
             rounded
             activeColor={'#d9d9d9'}

@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import IncomeForm from './modules/IncomeForm'
 import TopBar from './modules/components/TopBar/TopBar'
 import Recommended from './modules/Recommended'
-import YourBudget from './modules/YourBudget'
+import YourBudget from './modules/Budget/'
 import SavingsCalc from './modules/SavingsCalc/SavingsCalc'
 import Footer from './modules/Footer'
 import MainContext from './providers/MainContext'
@@ -19,7 +19,7 @@ import GlobalLoad from './modules/components/GlobalLoad'
 import SideNav from './modules/components/SideNav/SideNav'
 import appStyles from './appStyles'
 
-const version = '1.08.2-beta'
+const version = '1.08.3-beta'
 
 function App() {
   const p = useContext(MainContext)

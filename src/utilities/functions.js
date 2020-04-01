@@ -1,3 +1,5 @@
+import { calcMoney } from './convert'
+
 export const getObjIndex = (arr, key, val) => {
   let ind
   for (let i = 0; i < arr.length; i++) {
@@ -24,9 +26,9 @@ export const getInterest = (amount, rate, years) => {
   rate = rate / 100
   let amounts = [{amount: amount, earned: parseFloat((amount * rate))}]
   for(let i=0; i<years; i++){
-    const earned = parseFloat(((amounts[i].amount + amounts[i].earned) * rate)) 
-    const a = parseFloat((amounts[i].earned + amounts[i].amount)) 
-    amounts.push({amount: parseFloat(a.toFixed(2)), earned: parseFloat(earned.toFixed(2))})
+    const earned = calcMoney(amounts[i].amount, amounts[i].earned) * rate
+    const amount = calcMoney(amounts[i].earned, amounts[i].amount)
+    amounts.push({amount, earned })
   }
   return amounts
 }

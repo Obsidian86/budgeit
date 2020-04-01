@@ -49,6 +49,12 @@ body {
   }
 }
 
+.t-green{ color: green; }
+.t-red { color: red; }
+.t-gray {color: gray; }
+.t-lightGray {color: rgb(199, 199, 199); }
+.t-blue { color: blue; }
+
 // FORMS, FIELDS, INPUTS
 input[type=text], input[type=number], input[type=password]{
   display: block;
@@ -153,12 +159,18 @@ label{
 }
 .row{
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   @supports (-ms-ime-align:auto) {
     & { justify-content: space-around; }
   }
-  flex-direction: row;
-  flex-wrap: wrap;
+  &.between{
+    justify-content: space-between;
+  }
+  &.around{
+    justify-content: space-around;
+  }
 }
 
 .c-pad{
@@ -185,6 +197,7 @@ label{
   box-shadow: 0 0 0 6px #fff, 0 0 10px black;
   position: relative;
   &.sm, .sm{ width: calc(24% - 10px); }
+  &.smPlus, .smPlus{ width: 29%; }
   &.thr, .thr{ width: 32%; }
   &.m-sm, .m-sm{ width: 37%; }
   &.md, .md, .md-f{ width: 45%; }
@@ -196,7 +209,7 @@ label{
   @media (max-width: 1000px){ 
     width: 94%; 
     margin: 15px auto;
-    &.md, &.sm, &.lg, .sm, .thr, .md, .lg, .xs, .m-lg, &.m-sm, .m-sm{ 
+    &.md, &.sm, &.lg, .sm, .thr, .md, .lg, .xs, .m-lg, &.m-sm, .m-sm, &.smPlus, .smPlus{ 
       width: 94%;  
       margin: 15px auto;
     }

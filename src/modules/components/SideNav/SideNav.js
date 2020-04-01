@@ -3,7 +3,7 @@ import {  useLocation } from 'react-router-dom'
 import { Links } from '../../../navData'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserAlt, faBan } from "@fortawesome/free-solid-svg-icons";
-import { StyledNav, darkCoverStyles }from './StyledNav'
+import { StyledNavContainer, StyledNav, darkCoverStyles }from './StyledNav'
 
 const SideNav = ({style, Link, step, getLink, user, isMobile, updateSideBarOpen, logout}) => {
     const loc = useLocation()
@@ -14,7 +14,7 @@ const SideNav = ({style, Link, step, getLink, user, isMobile, updateSideBarOpen,
     return(
         <>
         {isMobile && darkCover}
-        <div style={style}>
+        <StyledNavContainer>
             <StyledNav>
                 <div className='user'>
                     <span>
@@ -41,7 +41,7 @@ const SideNav = ({style, Link, step, getLink, user, isMobile, updateSideBarOpen,
                     </button>
                 </span>
             </StyledNav>
-        </div>
+        </StyledNavContainer>
         </>
     )
 }

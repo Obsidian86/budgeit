@@ -7,7 +7,7 @@ export const styles = theme => ({
       display: 'inline-block',
       borderRadius: '4px'
     },
-    tableContainer: { marginBottom: "20px", position: 'relative'},
+    tableContainer: { marginBottom: "20px", position: 'relative', marginTop: '30px'},
     noTables: { textAlign: 'center', marginTop: '75px' },
     labelStyles: {
       fontSize: '1.1rem',
@@ -27,7 +27,7 @@ export const styles = theme => ({
     },
     toggleStyles: {
       position: 'absolute',
-      right: '70px',
+      right: '40px',
       top: '18px',
       padding: '5px'
     } 
