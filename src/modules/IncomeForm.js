@@ -11,7 +11,7 @@ import { IP } from '../utilities/formUtilities'
 import { parsedCurrentDate } from './components/calendar/dateFunctions'
 import TableRow from './interface/TableRow'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faMoneyBillWave } from "@fortawesome/free-solid-svg-icons";
 
 const IncomeForm = () => {
   const p = useContext(MainContext)
@@ -50,7 +50,7 @@ const IncomeForm = () => {
       { rec: 'w', date: new Date() }
   
   return (
-    <ContentBox title='Income sources' exClass='mx row' itemId='default'>
+    <ContentBox title='Income sources' exClass='mx row' itemId='default' icon={<FontAwesomeIcon icon={faMoneyBillWave} />}>
       <div className='c-pad'>
       <div className={`mt-40 m-sm`} >
         <Form

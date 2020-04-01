@@ -6,6 +6,8 @@ import MainContext from '../providers/MainContext'
 import { parsedCurrentDate, tYear, daysInMonth } from './components/calendar/dateFunctions'
 import * as CMF from './moduleFunctions/calendarModuleFunctions'
 import _ from 'lodash'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 const CalendarModule = () => {
   const p = useContext(MainContext)
@@ -54,7 +56,7 @@ const CalendarModule = () => {
   const rangeDate = {start: parsedCurrentDate(), end: endRangeDate}
 
   return (
-    <ContentBox title='Calendar' itemId='calendarModule'>
+    <ContentBox title='Calendar' itemId='calendarModule' icon={<FontAwesomeIcon icon={faCalendar}/>}>
       <div className='row between'>
         <div className='smPlus mt-40 fw-b'>
           <TabbedView

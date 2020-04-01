@@ -10,7 +10,7 @@ import { filledArray } from '../components/calendar/utilities'
 import { styles } from './styles'
 import * as SCF from './savingsCalcFunctions'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faPiggyBank } from "@fortawesome/free-solid-svg-icons";
 
 const SavingsCalc = () => {
   const p = useContext(MainContext)
@@ -162,7 +162,7 @@ const SavingsCalc = () => {
   }
 
   return (
-    <ContentBox title="Savings estimator" itemId='savingsModule'>
+    <ContentBox title="Savings estimator" itemId='savingsModule' icon={<FontAwesomeIcon icon={faPiggyBank} />}>
       <div className={`row mt-40`}>
         <div className='max row center mb-40'>
         <p className='lg remark'>

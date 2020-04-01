@@ -5,7 +5,7 @@ import { money, calcMoney } from '../utilities/convert'
 import ContentBox from './interface/ContentBox'
 import { up } from '../utilities/convert'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle, faExclamation } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faExclamation, faAmbulance } from "@fortawesome/free-solid-svg-icons";
 
 const EmergencyFunds = () => {
   const p = useContext(MainContext)
@@ -39,7 +39,7 @@ const EmergencyFunds = () => {
     })
 
   return (
-    <ContentBox title='Emergency Funds' itemId='emergencyFundsModule'>
+    <ContentBox title='Emergency Funds' itemId='emergencyFundsModule' icon={<FontAwesomeIcon icon={faAmbulance} />}>
       <div className='row mt-40'>
         <p className='remark' style={{minWidth: '150px', width: '80%'}}>
           Having an emergency fund is an important part of financial independence.

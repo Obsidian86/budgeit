@@ -10,6 +10,8 @@ import { validForm } from '../../utilities/formUtilities'
 import { pDate } from '../components/calendar/dateFunctions'
 import * as budgetFunctions from './budgetFunctions'
 import s from './styles'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStream } from "@fortawesome/free-solid-svg-icons";
 
 const YourBudget = ({ step }) => {
   const p = useContext(MainContext);
@@ -41,7 +43,7 @@ const YourBudget = ({ step }) => {
   const chartProps = {percentLeft, amountLeft, data, p, s}
   const noItems = <h2 style={{ textAlign: 'center', marginTop: '75px' }}>Add a budget item</h2>
   return (
-    <ContentBox title='Your budget' itemId={moduleName}>
+    <ContentBox title='Budget' itemId={moduleName} icon={<FontAwesomeIcon icon={faStream} />} >
       <ChartSection {...chartProps} />
       <div className="row around mt-40">
         <div className={displayForm ? 'm-lg' : 'lg'} >

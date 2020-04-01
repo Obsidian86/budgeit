@@ -7,6 +7,8 @@ import { IP } from '../../utilities/formUtilities'
 import { money } from '../../utilities/convert'
 import * as accountFunctions from './accountsFunctions'
 import s from './styles'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUniversity } from "@fortawesome/free-solid-svg-icons";
  
 const Accounts = () => {
     const p = useContext(MainContext)
@@ -21,7 +23,7 @@ const Accounts = () => {
     const {total, liquid, accountList} = proccessAccounts(s, showReturns, p, updateEdittingItem, updateShowForm)
 
     return (
-        <ContentBox title='Accounts' exClass={'mx row'} itemId='accountsModule' >
+        <ContentBox title='Accounts' exClass={'mx row'} itemId='accountsModule' icon={<FontAwesomeIcon icon={faUniversity} />}>
             <div className={`mt-40 ${(showForm || accountList.length < 1) ? 'md' : 'max'}`}>
                 { accountList.length < 1 ? <div className='center-all'><h2 className='mb-60'>Add an account </h2></div>
                 : <>

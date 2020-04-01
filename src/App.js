@@ -12,6 +12,7 @@ import Accounts from './modules/Accounts/'
 import SaveLoad from './modules/SaveLoad'
 import SnapShots from './modules/SnapShots/SnapShots'
 import LoginScreen from './modules/LoginScreen/LoginScreen'
+import Checkbook from './modules/Checkbook/'
 import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
 import Stepper from './modules/components/Stepper'
@@ -25,8 +26,7 @@ function App() {
   const p = useContext(MainContext)
   const [accData, updateAccData] = useState(false)
   const [sideBarOpen, updateSideBarOpen] = useState(false)
-  const step = (p.amount !== null ? 1 : 0) + (Object.keys(p.budget).length > 0 ? 1 : 0)
-  
+  const step = ((p.amount === null || p.amount === 0 || p.amount === '0') ? 0 : 1) + (Object.keys(p.budget).length > 0 ? 1 : 0)
   const loggedIn = () => {
     const token = localStorage.getItem('aKey') ? localStorage.getItem('aKey') : null
     const user = p.profile
@@ -70,6 +70,8 @@ function App() {
         <Route path={p.getLink('/emergency')} render={() => <> {step > 1 && <EmergencyFunds />} </> } />
         <Route path={p.getLink('/budget')} render={()=> <> {step > 0 && <YourBudget step={step} />} </> } />
         <Route path={p.getLink('/accounts')} render={()=> <> <Accounts /> </> } />
+        <Route path={p.getLink('/checkbook')} render={()=> <> <Checkbook /> </> } />
+        <Route path={p.getLink('/profile')} render={()=> <> <Accounts /> </> } />
         <Route path={p.getLink('*')} render={()=> <IncomeForm /> } />
       </Switch>
     </>

@@ -5,6 +5,8 @@ import ContentBox from "../interface/ContentBox"
 import MainContext from '../../providers/MainContext'
 import s from './styles'
 import { submitForm } from './functions'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const LoginScreen = () => {
 
@@ -25,7 +27,13 @@ const LoginScreen = () => {
     const handleSubmit = () => submitForm(formData, formType, updateFormErrors, updateFormState, p.setUser, makeCall, p.setDialog)
 
     return(
-        <ContentBox title={formType === 'login' ? 'Login' : 'Register'} itemId='loginModule' hideShrink exStyles={{maxWidth: '600px', margin: '120px auto 30px auto'}}>
+        <ContentBox 
+            title={formType === 'login' ? 'Login' : 'Register'} 
+            itemId='loginModule' 
+            hideShrink 
+            icon={<FontAwesomeIcon icon={faUser} />}
+            exStyles={{maxWidth: '600px', margin: '120px auto 30px auto'}}
+        >
             <a style={s.externalLink} href='http://www.christopherleebell.com/budgeit/'>No-register version</a>
             <div className='row mt-40'>
             { formErrors['message'] && <p>{formErrors['message']}</p> }

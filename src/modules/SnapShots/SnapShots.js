@@ -7,7 +7,7 @@ import '../../../node_modules/react-linechart/dist/styles.css';
 import { parsedCurrentDate } from '../components/calendar/dateFunctions'
 import { IP } from '../../utilities/formUtilities';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faCamera, faEye, faEyeSlash, faCameraRetro } from "@fortawesome/free-solid-svg-icons";
 import s from './styles'
 const colors = ['green', 'blue', 'gray', 'black', 'salmon', 'orange']
 
@@ -118,7 +118,7 @@ const SnapShots = () => {
 
     let snapShotIndex = p.snapshots.length - 1
     return(
-        <ContentBox title='Snapshots' itemId='snapshots' >
+        <ContentBox title='Snapshots' itemId='snapshots' icon={<FontAwesomeIcon icon={faCameraRetro} />}>
             <div className='mt-40 mb-40'>
                 <p className='remark' style={s.remark}>Create account snapshots to track trends and projected amounts over time.</p>
                 {p.snapshots && p.snapshots.length > 1 && <><label>Toggle chart values</label>
