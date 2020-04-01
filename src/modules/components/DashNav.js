@@ -37,12 +37,12 @@ const DashNav = ({Link, step, updateAccData, accData, getLink, isMobile}) =>{
       <div style={s.header}>
         <div className='dashNav row between' style={s.dNavCont}>
           <div>
-            {/* <Link to='checkbook'>
+            <Link to='checkbook'>
               <CheckbookButton>
                 <FontAwesomeIcon icon={faMoneyCheck} />
                 <span>checkbook</span>
               </CheckbookButton>
-            </Link> */}
+            </Link>
           </div>
           <div>
             <IP type={`btn_narrow${!accData ? '_green' : '_red'}`}

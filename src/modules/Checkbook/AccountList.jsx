@@ -2,7 +2,6 @@ import React from 'react'
 
 const AccountList = ({accounts, selectedAccount, updateSelectedAccount, money}) => {
     const accList = accounts.map(acc => {
-        console.log(acc)
         return (
            <li 
                 key={acc.id}
