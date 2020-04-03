@@ -9,5 +9,9 @@ export const endPoints = {
     // create, delete, update data for user
     createSource: (username, targetParam) => `users/sources/${username}/${targetParam}/`,
     editSource: (username, targetParam, id) => `users/sources/${username}/${targetParam}/${id}/`,
-    allUserData: () => 'auth/allusers/'
+    allUserData: () => 'auth/allusers/',
+
+    // transactions
+    newTransaction: (username) => `users/transactions/${username}/`,
+    loadTransactions: (username, targetParam) => `users/transactions/${username}/${targetParam}/`
 }

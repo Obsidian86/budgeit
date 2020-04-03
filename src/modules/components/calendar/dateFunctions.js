@@ -10,6 +10,12 @@ export const parsedCurrentDate = (inDate) => { // 4-11-2019 format
   return `${tDate.getMonth() + 1}-${tDate.getDate()}-${tDate.getFullYear()}`
 }
 export const pDate = (inDate) => { // return system readable date
+  console.log(inDate)
+  if(inDate.split && inDate.indexOf(':') > 0 && inDate.indexOf('T') > 0 && inDate.indexOf('.') > 0){
+    const spl = inDate.split('T')[0]
+    const split = spl.split('-')
+    return new Date(parseInt(split[0]), parseInt(split[1]) - 1, parseInt(split[2]))
+  }
   if(!inDate) return new Date()
   if(!inDate.split && new Date(inDate)){
     return new Date(inDate)

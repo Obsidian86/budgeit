@@ -30,6 +30,9 @@ const getMethods = (provider) => ({
     // Savings tables
     addSavingsTables: provider.addSavingsTables,
     deleteSavingsTables: provider.deleteSavingsTables,
+    // transactions
+    submitTransaction: provider.submitTransaction,
+    loadTransactions: provider.loadTransactions
   })
 
   export default getMethods

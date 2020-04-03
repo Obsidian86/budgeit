@@ -92,6 +92,13 @@ class MainProvider extends React.Component {
   addSnapShot = (data) => this.snapshotReqs(data, conF.addSnapShot)
   deleteSnapShot = (deleteIndex) => this.snapshotReqs(deleteIndex, conF.deleteSnapShot)
 
+  // transactions
+  submitTransaction = (mode, transaction) => 
+    conF.submitTransaction(mode, transaction, this.state.profile, this.state.transactions, this.saveState)
+
+  loadTransactions = (accountId) =>
+    conF.loadTransactions(accountId, this.state.profile, this.state.transactions, this.saveState)
+  
   render = () =>
     <>
       {this.state.dialog.open && <Dialog data={this.state.dialog} setDialog={this.setDialog} />}

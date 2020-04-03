@@ -18,7 +18,7 @@ body {
 .btn{
   cursor: pointer;
   background-color: $green;
-  color: #fff;
+  color: rgb(230, 230, 230);
   border: 1px solid #fff;
   box-shadow: 0 0 0 2px $green;
   border-radius: 4px;
@@ -173,6 +173,10 @@ label{
   }
 }
 
+.d-block{
+  display: block;
+}
+
 .c-pad{
   width: 100%;
   margin-top: 13px;
@@ -216,9 +220,12 @@ label{
   }
 }
 
-
+.ml-n-15 { margin-left: -15px; }
+.mr-n-15 { margin-right: -15px; }
 .mt-40 { margin-top: 40px; }
 .mt-10 { margin-top: 10px; }
+.mt-60 { margin-top: 60px; }
+.mr-10 { margin-right: 10px; }
 .mt-100 { margin-top: 100px; }
 .mb-10 { margin-bottom: 10px; }
 .mb-40 { margin-bottom: 40px; }
@@ -270,6 +277,36 @@ p{
   color: rgb(44, 44, 44);
   font-size: 1rem;
   line-height: 1.9rem;
+}
+.no-content{
+  font-weight: bold;
+  color: #555;
+  font-size: 1.1rem;
+  margin: 34px auto 14px auto;
+}
+.important{
+  font-size: 1.1rem;
+  color: #fff;
+  padding: 5px 12px 2px 5px;
+  margin: 35px auto;
+  background-color: red;
+  box-shadow: 0 0 0 8px red;
+  font-weight: bold;
+  display: inline-block;
+  border-radius: 3px;
+  font-style: italic;
+  span{
+    background-color: white;
+    color: red;
+    border-radius: 50%;
+    display: block;
+    cursor: pointer;
+    padding: 0;
+    float: left;
+    margin-right: 10px;
+    padding: 0 7px 0 7px;
+    font-style: normal;
+  }
 }
 
 .dashNavLinks{

@@ -7,6 +7,7 @@ import * as vFn from './viewFunctions'
 import * as sav from './savingsTableFunctions'
 import * as exp from './exportData'
 import * as ref from './refreshToken'
+import * as tra from './transactionFunctions'
 
 export default {
   ...snS,
@@ -17,5 +18,6 @@ export default {
   ...vFn,
   ...sav,
   ...exp,
-  ...ref
+  ...ref,
+  ...tra
 }

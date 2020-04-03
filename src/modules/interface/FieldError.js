@@ -1,7 +1,7 @@
 import React from 'react'
 
 const FieldError = ({ error }) =>
-  <span style={{
+  <span className='form-field-error' style={{
     color: 'red',
     fontStyle: 'italic',
     marginTop: '-8px',

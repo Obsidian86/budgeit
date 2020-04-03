@@ -20,6 +20,7 @@ const defaultState = {
     incomeSources: [],
     snapshots: [],
     selectedAccount: null,
+    transactions: {},
     lastView: null,
     isMobile: true
 }

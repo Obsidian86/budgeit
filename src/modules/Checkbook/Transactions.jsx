@@ -1,14 +1,22 @@
 import React, { useState } from 'react'
-import { money, calcMoney } from '../../utilities/convert'
+import { money, } from '../../utilities/convert'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
-const Transaction = ({tr}) => {
+const Transaction = ({tr, filter, setTransactionDialog}) => {
     const [open, updateOpen] = useState(false)
     const date = new Date(tr.date)
-    const showDate = `${date.getMonth()}-${date.getDate()}-${date.getFullYear()}`
+    const showDate = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`
     return(
-        <div className={`transaction-card ${tr.type} ${open ? 'showActions' : ''}`} onClick={()=> updateOpen(!open)}>
+        <div 
+            className={
+                `transaction-card 
+                ${tr.type} ${open ? 'showActions' : ''} 
+                ${(filter.replace(/ /g, '') === '' || tr.name.toLowerCase().includes(filter.toLowerCase())) ? '' : 'hide-transaction'}`
+            } onClick={()=> updateOpen(!open)}>
             <div className='actions'>
-                actions
+                <i onClick={()=>setTransactionDialog('delete', tr)}><FontAwesomeIcon icon={faTrash} /></i>
+                <i onClick={()=>setTransactionDialog('update', tr)}><FontAwesomeIcon icon={faPencilAlt} /></i>
             </div>
             <div className='card'>
                 <div className='row between'>
@@ -16,7 +24,7 @@ const Transaction = ({tr}) => {
                     <span>{showDate}</span>
                 </div>
                 <div className='row between main'>
-                    <span>{tr.payee}</span>
+                    <span>{tr.name}</span>
                     <span>{money(tr.amount)}</span>
                 </div>
                 <div className='row between'>

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const Dialog = ({ data, setDialog }) => {
   const [mounted, updateMounted] = useState(false)
-  const { header, message, content, confirm, reject, yesText = 'Yes', noText = 'Cancel' } = data
+  const { header, message, content, confirm, reject, yesText = 'Yes', noText = 'Cancel', sticky = false } = data
   useEffect(() => { updateMounted(true) }, [])
   const handleClick = (action) => {
     action()
@@ -20,11 +20,11 @@ const Dialog = ({ data, setDialog }) => {
             background-color: rgba(0, 0, 0, .6);
             box-shadow: 0 0 4px #000;
             z-index: 1000 !important;
-            display: flex;
+            display: ${sticky ? 'block' : 'flex'};
             justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 120s;
+            transition: opacity .3s;
             &.mountedDialog{
                 opacity: 1;
             }
@@ -34,6 +34,9 @@ const Dialog = ({ data, setDialog }) => {
                 max-width: 800px;
                 border: 1px solid gray;
                 box-shadow: 0 0 0 8px #fff;
+                margin: ${sticky ? '9px auto' : 'auto'}; 
+                ${sticky ? 'overflow-y: scroll;' : ''};
+                ${sticky ? 'overflow-x: hidden;' : ''};
                 h3{
                     padding-left: 20px;
                     padding-bottom: 17px;

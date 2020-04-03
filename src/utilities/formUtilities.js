@@ -1,8 +1,8 @@
 import React from 'react'
 import FieldError from '../modules/interface/FieldError'
 import DatePicker from 'react-datepicker';
-import DropDown from '../modules/interface/DropDown'
 import "react-datepicker/dist/react-datepicker.css"
+import DropDown from '../modules/interface/DropDown'
 import { pDate } from '../modules/components/calendar/dateFunctions'
 
 export const validForm = (fieldList, dataCheck) => {
@@ -47,7 +47,7 @@ export const IP = ({type='text', alias, onChange, data, errors, label, options =
           className={exClass}
           placeholder={showPH ? showPH : null}
           onChange={e => onChange(e)}
-          value={data && data[alias] ? data[alias] : ''}
+          value={data && (data[alias] || data[alias] === 0 || data[alias] === '0') ? data[alias] : ''}
         />}
   
         {type === 'drop' && 
@@ -74,6 +74,7 @@ export const IP = ({type='text', alias, onChange, data, errors, label, options =
         {type === 'date' && 
         <span>
             <DatePicker
+            className={exClass}
             selected = {data && data[alias] && pDate(data[alias])}
             onChange = {date => onChange(date)}  />
         </span>}

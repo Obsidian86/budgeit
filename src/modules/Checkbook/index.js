@@ -5,59 +5,89 @@ import ContentBox from '../interface/ContentBox'
 import AccountList from './AccountList'
 import StyledAccountModule from './styles'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoneyCheck } from "@fortawesome/free-solid-svg-icons";
+import { faMoneyCheck, faPlusCircle, faUniversity } from "@fortawesome/free-solid-svg-icons";
 import Transaction from './Transactions'
-
-const trans = {
-    before: '111.23',
-    after: '412.23',
-    type: 'widthrawl',
-    amount: '20.23',
-    payee: 'food service',
-    category: 'food',
-    id: null,
-    date: Date.now()
-}
-
-const tempTrans = []
-for(let i=0; i< 20; i++){
-    tempTrans.push({
-        ...trans,
-        id: i,
-        type: i % 5 === 0 ? 'deposit' : i % 7 !== 0 ? 'withdrawl' : 'transfer'
-    })
-}
+import { IP } from '../../utilities/formUtilities'
+import { Link } from 'react-router-dom'
+import transactionDialog from './transactionDialog.js'
 
 const Checkbook = () => {
     const p = useContext(MainContext)
+    const [filter, updateFilter] = useState('')
+    const [message, updateMessage] = useState(null)
     const [selectedAccount, updateSelectedAccount] = useState(null)
-    
-    const accounts = p.accounts.map(element => {
-        return ({...element, transactions: tempTrans})
-    });
 
+    // if no account selected, use first account (id)
     const accountsCount = p.accounts.length
     const useSelected = selectedAccount ? selectedAccount : accountsCount > 0 ? p.accounts[0].id : 0
     const accountListProps = {
-        accounts, 
+        accounts: p.accounts, 
         selectedAccount: useSelected, 
         updateSelectedAccount,
         money
     }
-    const transactionAccount = accounts.filter(acc => acc.id === useSelected)
-    let transactionData = transactionAccount.length > 0 ? transactionAccount[0].transactions : []
+
+    // filter account by selected account id
+    const transactionAccount = p.accounts.filter(acc => acc.id === useSelected)
+
+    // show transactiondata for that account
+    let transactionData = p.transactions[useSelected] ? p.transactions[useSelected] : []
+    const setTransactionDialog = (mode, transaction) => 
+        transactionDialog(p.setDialog, mode, submitDialogForm, transactionAccount[0], p.budget, transaction)
+
+    //load transactions for account
+    const loadTransactions = async () => {
+        updateMessage('Loading transactions')
+        await p.loadTransactions(useSelected)
+        updateMessage(null)
+    }
+    if(
+        useSelected !== 0 
+        && useSelected !== '0' 
+        && !p.transactions[useSelected]
+        && message !== 'Loading transactions'
+    ) loadTransactions()
+
+    const submitDialogForm = async (formData, mode) => {
+        updateMessage('Submitting transaction')
+        const result = await p.submitTransaction(mode, formData)
+        updateMessage(result.message)
+    }
 
     return (
         <ContentBox title='Checkbook' icon={<FontAwesomeIcon icon={faMoneyCheck} />} itemId='checkbookModule'>
+            <div className='d-flex right mt-60'>
+                <div className='controls'>
+                    <Link to='/accounts' className='mr-10'>
+                        <IP type='btn_blue' label='Add account' style={{marginRight: '10px'}} icon={<FontAwesomeIcon icon={faUniversity} />} />
+                    </Link>
+                    <IP 
+                        type='btn' 
+                        label='Add transaction' 
+                        style={{marginRight: '10px'}} 
+                        icon={<FontAwesomeIcon icon={faPlusCircle} />} 
+                        onChange={() => setTransactionDialog('add', null)}
+                    />
+                </div>
+            </div>
+            {message && <p className='important'> <span onClick={()=> updateMessage(null)}>x</span> {message} </p>}
             <StyledAccountModule className='row mx'>
-                <div className='smPlus'>
-                    <strong>Accounts</strong>
+                <div className='smPlus accList ml-n-15' >
                     <AccountList {...accountListProps} />
                 </div>
-                <div className='lg'>
-                    <strong>Transactions</strong>
+                <div className='lg mr-n-15'>
+                    <strong className='d-block' style={{marginTop: '20px'}}>Transactions</strong>
+                    <div className='search-box'>
+                        <span>Search </span>
+                        <input type='text' placeholder='Search transactions' onChange={(e) => updateFilter(e.target.value)} />
+                        <span className='clear-button'>clear</span>
+                    </div> 
                     {
-                        transactionData.map(tr => <Transaction tr={tr} />)
+                        transactionData.length < 1 ? 
+                            <p className='center no-content'>
+                                    No transactions for account { transactionAccount.length > 0 && transactionAccount[0].name}
+                            </p> :
+                            transactionData.map((tr, i) => <Transaction key={i} tr={tr} filter={filter} setTransactionDialog={setTransactionDialog} />)
                     }
                 </div>
             </StyledAccountModule>
