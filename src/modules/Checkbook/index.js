@@ -41,18 +41,18 @@ const Checkbook = () => {
         await p.loadTransactions(useSelected)
         updateMessage(null)
     }
+    const submitDialogForm = async (formData, mode) => {
+        updateMessage('Submitting transaction')
+        const result = await p.submitTransaction(mode, formData, transactionAccount[0])
+        updateMessage(result.message)
+    }
+
     if(
-        useSelected !== 0 
+        useSelected !== 0
         && useSelected !== '0' 
         && !p.transactions[useSelected]
         && message !== 'Loading transactions'
     ) loadTransactions()
-
-    const submitDialogForm = async (formData, mode) => {
-        updateMessage('Submitting transaction')
-        const result = await p.submitTransaction(mode, formData)
-        updateMessage(result.message)
-    }
 
     return (
         <ContentBox title='Checkbook' icon={<FontAwesomeIcon icon={faMoneyCheck} />} itemId='checkbookModule'>
@@ -79,15 +79,15 @@ const Checkbook = () => {
                     <strong className='d-block' style={{marginTop: '20px'}}>Transactions</strong>
                     <div className='search-box'>
                         <span>Search </span>
-                        <input type='text' placeholder='Search transactions' onChange={(e) => updateFilter(e.target.value)} />
-                        <span className='clear-button'>clear</span>
+                        <input type='text' value={filter} placeholder='Search transactions' onChange={(e) => updateFilter(e.target.value)} />
+                        <span className='clear-button' onClick={() => updateFilter('')}>Clear</span>
                     </div> 
                     {
                         transactionData.length < 1 ? 
                             <p className='center no-content'>
                                     No transactions for account { transactionAccount.length > 0 && transactionAccount[0].name}
                             </p> :
-                            transactionData.map((tr, i) => <Transaction key={i} tr={tr} filter={filter} setTransactionDialog={setTransactionDialog} />)
+                            [...transactionData].reverse().map((tr, i) => <Transaction key={i} tr={tr} filter={filter} setTransactionDialog={setTransactionDialog} />)
                     }
                 </div>
             </StyledAccountModule>

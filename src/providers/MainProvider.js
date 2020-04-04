@@ -93,8 +93,8 @@ class MainProvider extends React.Component {
   deleteSnapShot = (deleteIndex) => this.snapshotReqs(deleteIndex, conF.deleteSnapShot)
 
   // transactions
-  submitTransaction = (mode, transaction) => 
-    conF.submitTransaction(mode, transaction, this.state.profile, this.state.transactions, this.saveState)
+  submitTransaction = (mode, transaction, accountData) => 
+    conF.submitTransaction(mode, transaction, this.state.profile, this.state.transactions, this.saveState, accountData, this.updateAccount)
 
   loadTransactions = (accountId) =>
     conF.loadTransactions(accountId, this.state.profile, this.state.transactions, this.saveState)
