@@ -33,12 +33,16 @@ const SideNav = ({style, Link, step, getLink, user, isMobile, updateSideBarOpen,
                         {link.icon ? <span>{link.icon}</span> : null}
                         {link.text}
                     </Link> : null)}
-                    <button onClick={logout} className='f-link'>
-                        <span>
-                            <FontAwesomeIcon icon={faBan} />
-                        </span>
-                        <span>Log out</span>
-                    </button>
+                    <Link 
+                        to={getLink('/')}
+                        onClick={()=> {
+                            updateSideBarOpen(false)
+                            logout()
+                        }}
+                    >
+                        <span> <FontAwesomeIcon icon={faBan} /> </span>
+                        Log out
+                    </Link>
                 </span>
             </StyledNav>
         </StyledNavContainer>
