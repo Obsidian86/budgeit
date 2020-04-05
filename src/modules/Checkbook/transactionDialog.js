@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { IP } from '../../utilities/formUtilities'
-import { money } from '../../utilities/convert'
 import StyledPopUpForm from './StyledPopUpForm'
 import getSubPopupContent from './popupContent/getSubPopupContent'
 import * as popupFucntions from './popupContent/popupFunctions'
@@ -37,7 +36,7 @@ const TransactionForm = ({submitDialogForm, setDialog, accountData, budget, tran
             { popUp && popUpData }
             <div className='row' style={s.rowContainer}>
                 <div className='before-after'>
-                    <span> {money(formData.before)} -> {money(formData.after)} </span>
+                    {' '}
                 </div>
                 <div className='md'>
                     <IP type='text' errors={errors} label='Name' alias='name' data={formData} onChange={handleFieldChange} showPH='transaction name' />

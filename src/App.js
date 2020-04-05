@@ -20,7 +20,7 @@ import GlobalLoad from './modules/components/GlobalLoad'
 import SideNav from './modules/components/SideNav/SideNav'
 import appStyles from './appStyles'
 
-const version = '1.08.3-beta'
+const version = '1.08.4-beta'
 
 function App() {
   const p = useContext(MainContext)

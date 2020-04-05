@@ -13,5 +13,6 @@ export const endPoints = {
 
     // transactions
     newTransaction: (username) => `users/transactions/${username}/`,
-    loadTransactions: (username, targetParam) => `users/transactions/${username}/${targetParam}/`
+    loadTransactions: (username, targetParam) => `users/transactions/${username}/${targetParam}/`,
+    deleteTransaction: (username, targetParam, id) => `users/transactions/${username}/${id}/${targetParam}/`
 }

@@ -43,10 +43,26 @@ const Checkbook = () => {
     }
     const submitDialogForm = async (formData, mode) => {
         updateMessage('Submitting transaction')
-        const result = await p.submitTransaction(mode, formData, transactionAccount[0])
+        const action = mode === 'add' ? p.submitTransaction : p.updateTransaction
+        const result = await action(formData, transactionAccount[0])
         updateMessage(result.message)
     }
-
+    const handleDelete = async (delTransaction) => {
+        p.setDialog({
+            open: true,
+            header: `Delete transaction`,
+            yesText: 'Delete',
+            noText: 'Cancel',
+            message: 'Are you sure you want to delete this transaction for ' + money(delTransaction.amount) + '?',
+            reject: () => null,
+            confirm: async() => {
+                updateMessage('Deleting transaction')
+                const result = await p.deleteTransaction(transactionAccount[0], delTransaction)
+                updateMessage(result.message)
+            }
+          })
+    }
+    
     if(
         useSelected !== 0
         && useSelected !== '0' 
@@ -59,7 +75,7 @@ const Checkbook = () => {
             <div className='d-flex right mt-60'>
                 <div className='controls'>
                     <Link to='/accounts' className='mr-10'>
-                        <IP type='btn_blue' label='Add account' style={{marginRight: '10px'}} icon={<FontAwesomeIcon icon={faUniversity} />} />
+                        <IP type='btn_blue' label='Manage accounts' style={{marginRight: '10px'}} icon={<FontAwesomeIcon icon={faUniversity} />} />
                     </Link>
                     <IP 
                         type='btn' 
@@ -70,8 +86,10 @@ const Checkbook = () => {
                     />
                 </div>
             </div>
-            {message && <p className='important'> <span onClick={()=> updateMessage(null)}>x</span> {message} </p>}
             <StyledAccountModule className='row mx'>
+                <div className={`message-container ${message ? 'message-open' : ''}`}>
+                    <p className='important'> <span onClick={()=> updateMessage(null)}>x</span> {message ? message : ''} </p>
+                </div>
                 <div className='smPlus accList ml-n-15' >
                     <AccountList {...accountListProps} />
                 </div>
@@ -87,7 +105,7 @@ const Checkbook = () => {
                             <p className='center no-content'>
                                     No transactions for account { transactionAccount.length > 0 && transactionAccount[0].name}
                             </p> :
-                            [...transactionData].reverse().map((tr, i) => <Transaction key={i} tr={tr} filter={filter} setTransactionDialog={setTransactionDialog} />)
+                            [...transactionData].reverse().map((tr, i) => <Transaction key={i} tr={tr} filter={filter} handleDelete={handleDelete} setTransactionDialog={setTransactionDialog} />)
                     }
                 </div>
             </StyledAccountModule>

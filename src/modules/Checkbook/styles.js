@@ -3,6 +3,21 @@ import styled from 'styled-components'
 const StyledAccountModule = styled.span`
     text-align: left;
     margin-top: 16px;
+    & .message-container{
+        margin: 0 auto;
+        padding: 0;
+        width: 96%;
+        height: 0;
+        opacity: 0;
+        transition: height .3s, opacity .3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.message-open{
+            height: 99px;
+            opacity: 1;
+        }
+    }
     .search-box{
         margin-top: 5px;
         align-items: center;

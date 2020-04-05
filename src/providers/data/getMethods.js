@@ -32,7 +32,9 @@ const getMethods = (provider) => ({
     deleteSavingsTables: provider.deleteSavingsTables,
     // transactions
     submitTransaction: provider.submitTransaction,
-    loadTransactions: provider.loadTransactions
+    loadTransactions: provider.loadTransactions,
+    deleteTransaction: provider.deleteTransaction,
+    updateTransaction: provider.updateTransaction
   })
 
   export default getMethods

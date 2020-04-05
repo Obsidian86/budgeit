@@ -57,7 +57,7 @@ const CalendarModule = () => {
 
   return (
     <ContentBox title='Calendar' itemId='calendarModule' icon={<FontAwesomeIcon icon={faCalendar}/>}>
-      <div className='row between'>
+      <div className='row between mt-40'>
         <div className='smPlus mt-40 fw-b'>
           <TabbedView
             rounded

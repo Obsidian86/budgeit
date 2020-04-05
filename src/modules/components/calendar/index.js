@@ -106,7 +106,7 @@ const Calendar = (props) => {
                     font-size: 1.3rem;
                     font-weight: bold;
                     color: #b1b1b1;
-                    padding-top: 5px;
+                    padding-top: 17px;
                 } 
             } 
         }
