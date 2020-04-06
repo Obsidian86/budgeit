@@ -100,7 +100,7 @@ class MainProvider extends React.Component {
   deleteTransaction = (accountData, transaction) =>
     conF.deleteTransaction(accountData, transaction, this.state.profile, this.state.transactions, this.updateAccount, this.saveState)
   loadTransactions = (accountId) =>
-    conF.loadTransactions(accountId, this.state.profile, this.state.transactions, this.saveState)
+    conF.loadTransactions(accountId, this.state.profile, this.state.transactions, this.state.hasNoTransactions, this.saveState)
   
   render = () =>
     <>

@@ -69,7 +69,7 @@ const Checkbook = () => {
         && !p.transactions[useSelected]
         && message !== 'Loading transactions'
     ) loadTransactions()
-
+console.log(p.hasNoTransactions)
     return (
         <ContentBox title='Checkbook' icon={<FontAwesomeIcon icon={faMoneyCheck} />} itemId='checkbookModule'>
             <div className='d-flex right mt-60'>
@@ -105,7 +105,17 @@ const Checkbook = () => {
                             <p className='center no-content'>
                                     No transactions for account { transactionAccount.length > 0 && transactionAccount[0].name}
                             </p> :
-                            [...transactionData].reverse().map((tr, i) => <Transaction key={i} tr={tr} filter={filter} handleDelete={handleDelete} setTransactionDialog={setTransactionDialog} />)
+                            [...transactionData].map((tr, i) => <Transaction key={i} tr={tr} filter={filter} handleDelete={handleDelete} setTransactionDialog={setTransactionDialog} />)
+                    }
+                    {!(p.hasNoTransactions.includes(useSelected)) && 
+                        <div className='center mt-40 mb-40'>
+                            <button 
+                                onClick={()=> loadTransactions()}
+                                className='btn green'
+                            >
+                                    Load more transactions
+                            </button>
+                        </div>
                     }
                 </div>
             </StyledAccountModule>

@@ -1,17 +1,35 @@
 import makeCall from "../../api"
 import { calcMoney } from "../../utilities/convert"
 
-export const loadTransactions = async (accountId, username, transactions, saveState) => {
-    const info = { username, requireAuth: true }
+export const loadTransactions = async (accountId, username, transactions, hasNoTransactions, saveState) => {
+    let useId = transactions[accountId] ? transactions[accountId].length : 0
+    const info = { username, requireAuth: true, id: useId }
     info.endPoint = 'loadTransactions'
     info.method = 'GET'
     info.targetParam = accountId
     const response = await makeCall(info)
     if(response.data && response.data.length > 0){
-        let resp = response.data[0]
-        return saveState({transactions: { ...transactions, [accountId]: resp }})
+        const resp = response.data[0]
+        const noTransactions = [...hasNoTransactions]
+        if(response.message && response.message === "No more items"){
+            noTransactions.push(accountId)
+        }
+        if(transactions[accountId]){
+            return saveState({
+                hasNoTransactions: noTransactions,
+                transactions: { ...transactions, [accountId]: [...resp, ...transactions[accountId]] }
+            })
+        } else{
+            return saveState({
+                hasNoTransactions: noTransactions,
+                transactions: { ...transactions, [accountId]: resp }
+            })
+        }
     }
-    saveState({transactions: { ...transactions, [accountId]: [] } })
+    saveState({
+        transactions: { ...transactions, [accountId]: [] },
+        hasNoTransactions: [...hasNoTransactions, accountId]
+    })
 }
 
 export const deleteTransaction = async(accountData, transaction, username, transactions, updateAccount, saveState) => {
@@ -51,7 +69,7 @@ export const submitTransaction = async (transaction, username, transactions, sav
         const resp = response.data[0]
         const accountId = transaction.accountId
         const updatedTransactions = transactions[accountId] ?
-            {...transactions, [accountId]: [...transactions[accountId], resp]}
+            {...transactions, [accountId]: [resp, ...transactions[accountId]]}
             : { ...transactions, [accountId]: [resp] }
         saveState({transactions: updatedTransactions})
 

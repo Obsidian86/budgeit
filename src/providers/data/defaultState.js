@@ -21,6 +21,7 @@ const defaultState = {
     snapshots: [],
     selectedAccount: null,
     transactions: {},
+    hasNoTransactions: [],
     lastView: null,
     isMobile: true
 }
