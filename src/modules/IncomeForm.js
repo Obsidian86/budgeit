@@ -52,7 +52,7 @@ const IncomeForm = () => {
   return (
     <ContentBox title='Income sources' exClass='mx row' itemId='default' icon={<FontAwesomeIcon icon={faMoneyBillWave} />}>
       <div className='c-pad'>
-      <div className={`mt-40 m-sm`} >
+      <div className={`mt-40 m-sm`} style={{paddingTop: '30px'}}>
         <Form
           reDefault
           defaultFormData={defaultFormData}

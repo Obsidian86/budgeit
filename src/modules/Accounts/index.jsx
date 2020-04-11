@@ -24,7 +24,7 @@ const Accounts = () => {
 
     return (
         <ContentBox title='Accounts' exClass={'mx row'} itemId='accountsModule' icon={<FontAwesomeIcon icon={faUniversity} />}>
-            <div className={`mt-40 ${(showForm || accountList.length < 1) ? 'md' : 'max'}`}>
+            <div className={`mt-40 ${(showForm || accountList.length < 1) ? 'md' : 'max'}`} style={{paddingTop: '50px'}}>
                 { accountList.length < 1 ? <div className='center-all'><h2 className='mb-60'>Add an account </h2></div>
                 : <>
                     <SoftList split>

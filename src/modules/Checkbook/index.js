@@ -66,16 +66,17 @@ const Checkbook = () => {
     if(
         useSelected !== 0
         && useSelected !== '0' 
+        && !p.hasNoTransactions.includes(useSelected)
         && !p.transactions[useSelected]
         && message !== 'Loading transactions'
     ) loadTransactions()
-console.log(p.hasNoTransactions)
+
     return (
         <ContentBox title='Checkbook' icon={<FontAwesomeIcon icon={faMoneyCheck} />} itemId='checkbookModule'>
             <div className='d-flex right mt-60'>
                 <div className='controls'>
                     <Link to='/accounts' className='mr-10'>
-                        <IP type='btn_blue' label='Manage accounts' style={{marginRight: '10px'}} icon={<FontAwesomeIcon icon={faUniversity} />} />
+                        <IP type='btn_blue' label='Accounts' style={{marginRight: '10px'}} icon={<FontAwesomeIcon icon={faUniversity} />} />
                     </Link>
                     <IP 
                         type='btn' 
