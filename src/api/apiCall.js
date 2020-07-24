@@ -2,6 +2,7 @@ import { endPoints } from './endPoints'
 
 let backendUrl = "https://www.06designs.com/";
 if(window.location.href.includes(':3000')) backendUrl = "http://localhost:8000/";
+backendUrl = "https://www.06designs.com/";
 
 export const makeCall = async (info) => {
     const { endPoint, username=null, id=null, targetParam=null, method='GET', requireAuth=false, body } = info

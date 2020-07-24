@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "keywords": [],
-  "main": "src/index.js",
-  "homepage": "https://Obsidian86.github.io/budgeit/",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "1.2.25",
     "@fortawesome/free-solid-svg-icons": "5.11.2",
