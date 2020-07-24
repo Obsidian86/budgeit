@@ -34,7 +34,6 @@ const LoginScreen = () => {
             icon={<FontAwesomeIcon icon={faUser} />}
             exStyles={{maxWidth: '600px', margin: '120px auto 30px auto'}}
         >
-            <a style={s.externalLink} href='http://www.christopherleebell.com/budgeit/'>No-register version</a>
             <div className='row mt-40'>
             { formErrors['message'] && <p>{formErrors['message']}</p> }
                 <IP
