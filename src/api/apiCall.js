@@ -28,7 +28,6 @@ export const makeCall = async (info) => {
                 const refresh = tokens[1]
                 const getResponse = await fetch(backendUrl + 'api/token/refresh/', {
                     headers:  { 'Content-Type': "application/json" },
-                    mode: 'cors',
                     method: 'POST',
                     body: JSON.stringify({ "refresh": refresh })
                 })
