@@ -13,7 +13,10 @@ export const submitForm = async (formData, formType, updateFormErrors, updateFor
   else{
     const username = formData['username']
     const password = formData['password']
-    const body = { username, password }
+    const body = { 
+      username: formType === 'login' ? 'bd_' + username : username, 
+      password 
+    }
     if(formType === 'register') body['rePassword'] = formData['rePassword'] 
     let loginData = {
       endPoint: formType === 'login' ? 'token' : 'createUser',
@@ -25,7 +28,11 @@ export const submitForm = async (formData, formType, updateFormErrors, updateFor
 
     if(formType === 'register'){
       if(loginResponse && loginResponse.data && loginResponse.data.length > 0 && loginResponse.data[0].id){
-        loginData = { endPoint: 'token', body, method: 'POST' }
+        loginData = { 
+          endPoint: 'token',
+          body: {...body, username: 'bd_' + username}, 
+          method: 'POST' 
+        }
         loginResponse = await makeCall(loginData)
       }
     }
