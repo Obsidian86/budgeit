@@ -1,6 +1,6 @@
 import { endPoints } from './endPoints'
 
-let backendUrl = "https://www.06designs.com/";
+let backendUrl = "https://06designs.com/";
 if(window.location.href.includes(':3000')) backendUrl = "http://localhost:8000/";
 
 export const makeCall = async (info) => {
