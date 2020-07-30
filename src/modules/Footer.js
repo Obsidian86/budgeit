@@ -8,11 +8,12 @@ const Footer = ({version}) => {
     textAlign: 'center',
     fontSize: '.8rem'
   }
+  const date = new Date()
   return (
     <div style={footerStyles}> <br />
-      &copy; {new Date().getFullYear()}{' '}
+      &copy; {date.getFullYear()}{' '}
       All Rights Reserved.{' '}
-      <a href='https://obsidian86.github.io/budgeit/' target='_blank' rel="noopener noreferrer">{version}</a>
+      <a href='https://jovial-wescoff-607830.netlify.app' target='_blank' rel="noopener noreferrer">{version}</a>
     </div>)
 }
 
