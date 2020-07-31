@@ -43,7 +43,7 @@ const EmergencyFunds = () => {
       <div className='row mt-40'>
         <p className='remark' style={{minWidth: '150px', width: '80%'}}>
           Having an emergency fund is an important part of financial independence.
-          Be adequately prepared for unforeseen circumstances by saving at least 3
+          Be adequately prepared for unforeseen circumstances by saving at least 3 to 6 
           months of monthly expenses.
         </p>
         <div className='max row'>
@@ -60,7 +60,10 @@ const EmergencyFunds = () => {
                 <li key={b}><strong>{up(b)}</strong> <span>-{money(excluded[b].total)}</span></li>)
               }
               <li><strong>Monthly living expenses</strong>{money(livingExpenses)} </li>
-              <li className='t-green'><strong>Target emergency funds</strong>{money(livingExpenses * 3)} </li>
+              <li className='t-green'>
+                <strong>Target emergency funds</strong>
+                {money(livingExpenses * 3)} - {money(livingExpenses * 6)}
+              </li>
             </SoftList>
             
               {

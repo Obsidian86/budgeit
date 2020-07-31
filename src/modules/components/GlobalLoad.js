@@ -5,7 +5,7 @@ const GlobalLoad = () => {
     return(
         <ContentBox title='Loading' exClass='mt-100' temId='loading'>
             <div className={`mt-40`}>
-                <h2>Loading data...</h2>
+                <h2 style={{'textAlign': 'center'}}>Loading data...</h2>
             </div>
         </ContentBox>
     )

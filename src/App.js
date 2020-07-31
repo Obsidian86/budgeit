@@ -1,18 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react'
-import IncomeForm from './modules/IncomeForm'
+import React, { useContext, useState, useEffect, Suspense } from 'react'
 import TopBar from './modules/components/TopBar/TopBar'
-import Recommended from './modules/Recommended'
-import YourBudget from './modules/Budget/'
-import SavingsCalc from './modules/SavingsCalc/SavingsCalc'
 import Footer from './modules/Footer'
 import MainContext from './providers/MainContext'
-import EmergencyFunds from './modules/EmergencyFunds'
-import CalendarModule from './modules/CalendarModule'
-import Accounts from './modules/Accounts/'
 import SaveLoad from './modules/SaveLoad'
-import SnapShots from './modules/SnapShots/SnapShots'
 import LoginScreen from './modules/LoginScreen/LoginScreen'
-import Checkbook from './modules/Checkbook/'
 import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
 import Stepper from './modules/components/Stepper'
@@ -20,7 +11,28 @@ import GlobalLoad from './modules/components/GlobalLoad'
 import SideNav from './modules/components/SideNav/SideNav'
 import appStyles from './appStyles'
 
-const version = '1.08.5-beta'
+const IncomeForm = React.lazy(() => import('./modules/IncomeForm'))
+const SavingsCalc = React.lazy(() => import('./modules/SavingsCalc/SavingsCalc'))
+const YourBudget = React.lazy(() => import('./modules/Budget/'))
+const Recommended = React.lazy(() => import('./modules/Recommended'))
+const EmergencyFunds = React.lazy(() => import('./modules/EmergencyFunds'))
+const Accounts = React.lazy(() => import('./modules/Accounts/'))
+const Checkbook= React.lazy(() => import('./modules/Checkbook/'))
+const SnapShots = React.lazy(() => import('./modules/SnapShots/SnapShots'))
+const CalendarModule = React.lazy(() => import('./modules/CalendarModule'))
+
+const version = '1.08.6-beta'
+
+const routeData = [
+  { link: '/emergency', component: EmergencyFunds, step: 1},
+  { link: '/accounts', component: Accounts},
+  { link: '/checkbook', component: Checkbook},
+  { link: '/profile', component: Accounts},
+  { link: '/savings', component: SavingsCalc},
+  { link: '/recommended', component: Recommended},
+  { link: '/budget', component: YourBudget, step: 0},
+  { link: '*', component: IncomeForm},
+]
 
 function App() {
   const p = useContext(MainContext)
@@ -53,26 +65,33 @@ function App() {
       {accData && <SaveLoad />}
       {step < 2 && <Stepper step={step} getLink={p.getLink} theme={p.theme} />}
       <Switch>
-        <Route path={p.getLink('/savings')} render={() => <SavingsCalc /> } /> 
         <Route path={p.getLink('/snapshots')} render={() => 
-          <> 
+          <Suspense fallback={<GlobalLoad />} >  
             { step > 1 && <SnapShots /> } 
             { step > 1 && <CalendarModule /> } 
-          </> 
+          </Suspense>
         } />
-        <Route path={p.getLink('/recommended')} render={() => <Recommended /> } /> 
         <Route path={p.getLink('/calendar')} render={() => 
-          <> 
+          <Suspense fallback={<GlobalLoad />} >
             { step > 1 && <CalendarModule /> } 
             { step > 1 && <SnapShots /> } 
-          </> 
+          </Suspense> 
         } />
-        <Route path={p.getLink('/emergency')} render={() => <> {step > 1 && <EmergencyFunds />} </> } />
-        <Route path={p.getLink('/budget')} render={()=> <> {step > 0 && <YourBudget step={step} />} </> } />
-        <Route path={p.getLink('/accounts')} render={()=> <> <Accounts /> </> } />
-        <Route path={p.getLink('/checkbook')} render={()=> <> <Checkbook /> </> } />
-        <Route path={p.getLink('/profile')} render={()=> <> <Accounts /> </> } />
-        <Route path={p.getLink('*')} render={()=> <IncomeForm /> } />
+        { routeData.map(rd =>
+          <Route 
+            path={p.getLink(rd.link)} 
+            render={()=> 
+              <Suspense fallback={<GlobalLoad />} >
+                {Object.prototype.hasOwnProperty.call(rd, 'step') ?
+                    step > rd.step ? 
+                    <rd.component step={step} /> : <></>
+                    : <rd.component step={step} />}
+                
+              </Suspense> 
+            } 
+            key={rd.link}
+          />
+        )}
       </Switch>
     </>
     : <LoginScreen />
