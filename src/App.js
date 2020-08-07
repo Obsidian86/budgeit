@@ -21,7 +21,7 @@ const Checkbook= React.lazy(() => import('./modules/Checkbook/'))
 const SnapShots = React.lazy(() => import('./modules/SnapShots/SnapShots'))
 const CalendarModule = React.lazy(() => import('./modules/CalendarModule'))
 
-const version = '1.08.6-beta'
+const version = '1.08.7-beta'
 
 const routeData = [
   { link: '/emergency', component: EmergencyFunds, step: 1},

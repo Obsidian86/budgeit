@@ -11,7 +11,7 @@ import { faCamera, faEye, faEyeSlash, faCameraRetro } from "@fortawesome/free-so
 import s from './styles'
 const colors = ['green', 'blue', 'gray', 'black', 'salmon', 'orange']
 
-const SnapShotChart = ({inData, parentWidth = 500, showItems}) => {
+const SnapShotChart = ({inData, parentWidth = 500, showItems, updateClickedPoint}) => {
 
     let data = [
         {
@@ -47,30 +47,38 @@ const SnapShotChart = ({inData, parentWidth = 500, showItems}) => {
     ]
 
     for(const da in inData){
-        showItems['Totals'] && data[0].points.push({ x:(parseInt(da) + 1), y: parseFloat(inData[da].currentTotal) })
-        showItems['Liquid'] && data[1].points.push({ x:(parseInt(da) + 1), y: parseFloat(inData[da].currentLiquid) })
-        showItems['Non Liquid'] && data[2].points.push({ x:(parseInt(da) + 1), y: parseFloat(inData[da].currentTotal) - parseFloat(inData[da].currentLiquid) })
-        showItems['End of year total'] && data[3].points.push({ x:(parseInt(da) + 1), y: parseFloat(inData[da].projectedEndOfYearTotal) })
-        showItems['End of year liquid'] && data[4].points.push({ x:(parseInt(da) + 1), y: parseFloat(inData[da].projectedEndOfYearLiquid) })
-        showItems['End of year non liquid'] && data[5].points.push({ x:(parseInt(da) + 1), y: parseFloat(inData[da].projectedEndOfYearTotal) - parseFloat(inData[da].projectedEndOfYearLiquid) })
+        const d = inData[da].date.split('-')
+        const useDate = `${d[2]}-${d[0]}-${d[1]}`
+        showItems['Totals'] && data[0].points.push({ x: useDate, y: parseFloat(inData[da].currentTotal) })
+        showItems['Liquid'] && data[1].points.push({ x: useDate, y: parseFloat(inData[da].currentLiquid) })
+        showItems['Non Liquid'] && data[2].points.push({ x: useDate, y: parseFloat(inData[da].currentTotal) - parseFloat(inData[da].currentLiquid) })
+        showItems['End of year total'] && data[3].points.push({ x: useDate, y: parseFloat(inData[da].projectedEndOfYearTotal) })
+        showItems['End of year liquid'] && data[4].points.push({ x: useDate, y: parseFloat(inData[da].projectedEndOfYearLiquid) })
+        showItems['End of year non liquid'] && data[5].points.push({ x: useDate, y: parseFloat(inData[da].projectedEndOfYearTotal) - parseFloat(inData[da].projectedEndOfYearLiquid) })
     }
 
     return(
         <LineChart
+            onPointClick={(event, point)=>updateClickedPoint(point)}
             hideXLabel
             hideYLabel
             yMin='100'
             width={parentWidth}
             height={500}
             data={data}
+            isDate={true}
         />
     )
 }
 
 const SnapShots = ({nonLoad}) => {
     const p = useContext(MainContext)
+    
     const [parentWidth, updateParentWidth] = useState(100)
     const [hideSnapshots, updateHideSnapshots] = useState(true)
+    const [showSH, updateShowSH] = useState(0)
+    const [showPerPage, updateShowPerPage] = useState(p.isMobile ? 5 : 10)
+    const [clickedPont, updateClickedPoint] = useState(null)
     const [showItems, updateShowItems] = useState({
         'Totals': true,
         'Liquid': false,
@@ -79,6 +87,7 @@ const SnapShots = ({nonLoad}) => {
         'End of year liquid': false,
         'End of year non liquid': false,
     })
+
     const getWidth = () => {
       const ss = document.getElementById('snapshots')
       ss && updateParentWidth(ss.offsetWidth - 30)
@@ -98,7 +107,16 @@ const SnapShots = ({nonLoad}) => {
             reject: ()=> null 
         }) 
     }
-
+    const changeCount = (direction) => { console.log(direction)
+        let newShowSH = showSH
+        if(direction === 'backward') newShowSH = newShowSH + 1
+        if(direction === 'forward') newShowSH = newShowSH - 1
+        if(direction === 'current') newShowSH = 0
+        if(newShowSH < 1) newShowSH = 0
+        if(newShowSH > (p.snapshots.length - showPerPage)) newShowSH = p.snapshots.length - showPerPage
+        console.log(newShowSH)
+        updateShowSH(newShowSH)
+    }
     const handleCreate = () => {
         let total = 0
         let liquid = 0
@@ -116,12 +134,17 @@ const SnapShots = ({nonLoad}) => {
         })
     }
 
+
+    const chartSnapShots = (p.snapshots.length <= showPerPage) ?
+        [...p.snapshots] : [...p.snapshots].splice((p.snapshots.length - showPerPage - showSH), showPerPage)
+
+    const displayOptions = [{v: 5, d: 'Show 5'}, {v: 10, d: 'Show 10'}, {v: 15, d: 'Show 15'}, {v: 20, d: 'Show 20'}, {v: 25, d: 'Show 25'}]
     let snapShotIndex = p.snapshots.length - 1
     return(
         <ContentBox title='Snapshots' itemId='snapshots' icon={<FontAwesomeIcon icon={faCameraRetro} />} exClass={nonLoad ? 'hide' : ''} >
             <div className='mt-40 mb-40'>
                 <p className='remark' style={s.remark}>Create account snapshots to track trends and projected amounts over time.</p>
-                {p.snapshots && p.snapshots.length > 1 && <><label>Toggle chart values</label>
+                {p.snapshots && p.snapshots.length > 1 && <><label>Toggle displayed elements</label>
                 <div style={s.cBoxes}>
                     { Object.keys(showItems).map((si, index) => 
                         <IP 
@@ -136,7 +159,32 @@ const SnapShots = ({nonLoad}) => {
                     )}
                 </div> </>}
             </div>
-            {p.snapshots && p.snapshots.length > 1 && <SnapShotChart inData={p.snapshots} parentWidth={parentWidth} showItems={showItems} />}
+            {chartSnapShots.length > 1 && 
+                <div className='container row between info-container'>
+                    <div>
+                        <IP 
+                            type='drop' alias='showCount' 
+                            style={{styles: 'width:92%; margin: 20px auto; padding: 12px 10px;'}} 
+                            options={displayOptions} onChange={(v)=> updateShowPerPage(v)}
+                            data={{'showCount': showPerPage}}
+                        />
+                    </div>
+                    <h3>{ clickedPont ?
+                        `${clickedPont.x.split('-')[1]}-${clickedPont.x.split('-')[2]}-${clickedPont.x.split('-')[0]} | ${money(clickedPont.y)}` 
+                            : 'Click point to view' }
+                    </h3>
+                    <h3> {chartSnapShots[0].date} - {chartSnapShots[chartSnapShots.length -1].date} </h3>
+                </div>}
+            {p.snapshots && p.snapshots.length > 1 && <SnapShotChart inData={chartSnapShots} parentWidth={parentWidth} showItems={showItems} updateClickedPoint={updateClickedPoint} />}
+            {p.snapshots && p.snapshots.length > showPerPage && 
+            <div className='container'>
+                <div className='grouping mt-10 mb-40 controls'>
+                    <button onClick={()=>changeCount('backward')} className='btn' disabled={showSH === (p.snapshots.length - showPerPage)}>Previous</button>
+                    <button onClick={()=>changeCount('forward')} className='btn' disabled={showSH === 0}>Next</button>
+                    <button onClick={()=>changeCount('current')} className='btn' disabled={showSH === 0}>Current</button>
+                </div>
+            </div>
+            }
             {p.snapshots.length > 0 && <button onClick={() => updateHideSnapshots(!hideSnapshots)} className={`btn ${!hideSnapshots ? 'red' : 'blue'}`}>
                 <FontAwesomeIcon icon={ !hideSnapshots ? faEyeSlash : faEye} />&nbsp;&nbsp;
                 <span>{hideSnapshots ? 'Show' : 'Hide'} snapshots</span>

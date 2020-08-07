@@ -15,6 +15,11 @@ body {
 }
 .container{ width: 100%; }
 
+.grouping{
+  width: 95%;
+  margin: 0 auto;
+}
+
 .btn{
   cursor: pointer;
   background-color: $green;
@@ -46,6 +51,40 @@ body {
   }
   &.big{
     padding: 10px 30px;
+  }
+  &:disabled{
+    background-color: rgb(199, 199, 199);
+    box-shadow: 0 0 0 2px rgb(199, 199, 199);
+    cursor: not-allowed;
+  }
+}
+
+.controls{
+  display: inline-block;
+  border: 1px solid #fff;
+  box-shadow: 0 0 0 2px $green;
+  border-radius: 4px;
+  width: auto;
+  .btn {
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    border-left: 1px solid lightgreen;
+    border-right: 1px solid darkgreen;
+    font-size: 1rem;
+    padding: 10px 20px;
+    &:disabled{
+      border-left: 1px solid rgb(255, 255, 255);
+      border-right: 1px solid gray;
+    }
+  }
+  .btn:first-child{
+    border-radius: 4px 0 0 4px;
+    border-left: none;
+  }
+  .btn:last-child{
+    border-radius: 0 4px 4px 0;
+    border-right: none;
   }
 }
 
@@ -135,11 +174,6 @@ label{
       transform: scaleX(-1) rotate(-40deg);
     }
   }
-}
-
-.grouping{
-  width: 95%;
-  margin: 0 auto;
 }
 
 .right{
@@ -364,4 +398,35 @@ p{
     width: 70px;
     font-size: 3rem;
   }
+}
+
+
+.info-container{
+  width: 90%;
+  padding: 0 4%;
+  margin: 0 auto;
+  background-color: rgb(236, 236, 236);
+  border-radius: 5px;
+  .drop-menu{
+    background-color: #fff;
+    box-shadow: 0 0 2px rgba(0, 0, 0, .2);
+  }
+  h3 {
+    text-align: center;
+    padding-top: 12px;
+  }
+  @media screen and (max-width: 600px){
+    div, h3{
+      width: 45%;
+    }
+    h3:nth-child(3){
+      width: 100%;
+      margin-top: 0;
+    }
+  }
+}
+
+#snapshots svg > g:first-child .tick{
+  border: 1px solid red;
+  display: none;
 }
