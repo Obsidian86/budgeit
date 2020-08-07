@@ -24,6 +24,7 @@ body {
   border-radius: 4px;
   padding: 9px 17px;
   transition: background-color .3s;
+  font-weight: bold;
   &.red{
     background-color: red;
     box-shadow: 0 0 0 2px red;
@@ -45,7 +46,6 @@ body {
   }
   &.big{
     padding: 10px 30px;
-
   }
 }
 
@@ -217,6 +217,12 @@ label{
       width: 94%;  
       margin: 15px auto;
     }
+  }
+  &.hide{
+    display: none;
+    height: 0;
+    width: 0;
+    overflow: hidden;
   }
 }
 

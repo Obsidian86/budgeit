@@ -67,7 +67,7 @@ const SnapShotChart = ({inData, parentWidth = 500, showItems}) => {
     )
 }
 
-const SnapShots = () => {
+const SnapShots = ({nonLoad}) => {
     const p = useContext(MainContext)
     const [parentWidth, updateParentWidth] = useState(100)
     const [hideSnapshots, updateHideSnapshots] = useState(true)
@@ -118,7 +118,7 @@ const SnapShots = () => {
 
     let snapShotIndex = p.snapshots.length - 1
     return(
-        <ContentBox title='Snapshots' itemId='snapshots' icon={<FontAwesomeIcon icon={faCameraRetro} />}>
+        <ContentBox title='Snapshots' itemId='snapshots' icon={<FontAwesomeIcon icon={faCameraRetro} />} exClass={nonLoad ? 'hide' : ''} >
             <div className='mt-40 mb-40'>
                 <p className='remark' style={s.remark}>Create account snapshots to track trends and projected amounts over time.</p>
                 {p.snapshots && p.snapshots.length > 1 && <><label>Toggle chart values</label>

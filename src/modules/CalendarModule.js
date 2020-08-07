@@ -9,7 +9,7 @@ import _ from 'lodash'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 
-const CalendarModule = () => {
+const CalendarModule = ({nonLoad}) => {
   const p = useContext(MainContext)
   const [selectedDay, updateSelectedDay] = useState(null)
   const [currentItems, updateCurrentItems] = useState(null)
@@ -56,7 +56,7 @@ const CalendarModule = () => {
   const rangeDate = {start: parsedCurrentDate(), end: endRangeDate}
 
   return (
-    <ContentBox title='Calendar' itemId='calendarModule' icon={<FontAwesomeIcon icon={faCalendar}/>}>
+    <ContentBox title='Calendar' itemId='calendarModule' icon={<FontAwesomeIcon icon={faCalendar}/>} exClass={nonLoad ? 'hide' : ''}>
       <div className='row between mt-40'>
         <div className='smPlus mt-40 fw-b'>
           <TabbedView

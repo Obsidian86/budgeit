@@ -11,7 +11,7 @@ import { pDate } from '../components/calendar/dateFunctions'
 import * as budgetFunctions from './budgetFunctions'
 import s from './styles'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStream } from "@fortawesome/free-solid-svg-icons";
+import { faStream, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const YourBudget = ({ step }) => {
   const p = useContext(MainContext);
@@ -89,8 +89,10 @@ const YourBudget = ({ step }) => {
             <button className={`btn big ${displayForm && 'red'}`} onClick={() => {
               updateEditItem(null)
               toggleForm(!displayForm)
-            }}>{displayForm ? "Hide" : "Show"} form
-        </button>
+            }}>
+              {displayForm ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+              &nbsp; {displayForm ? " Hide" : " Show"} form
+            </button>
           </span>
             {displayForm && <BudgetForm
               catOptions={catOptions}

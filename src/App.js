@@ -68,13 +68,13 @@ function App() {
         <Route path={p.getLink('/snapshots')} render={() => 
           <Suspense fallback={<GlobalLoad />} >  
             { step > 1 && <SnapShots /> } 
-            { step > 1 && <CalendarModule /> } 
+            { step > 1 && <CalendarModule nonLoad /> } 
           </Suspense>
         } />
         <Route path={p.getLink('/calendar')} render={() => 
           <Suspense fallback={<GlobalLoad />} >
             { step > 1 && <CalendarModule /> } 
-            { step > 1 && <SnapShots /> } 
+            { step > 1 && <SnapShots nonLoad /> } 
           </Suspense> 
         } />
         { routeData.map(rd =>

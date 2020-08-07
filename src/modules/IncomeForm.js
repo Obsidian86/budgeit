@@ -11,13 +11,14 @@ import { IP } from '../utilities/formUtilities'
 import { parsedCurrentDate } from './components/calendar/dateFunctions'
 import TableRow from './interface/TableRow'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faMoneyBillWave } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faMoneyBillWave, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const IncomeForm = () => {
   const p = useContext(MainContext)
   const { addSource, updateSource, deleteSource, setDialog } = p
   const [edittingItem, updateEdditingItem] = useState(null)
   const [errors, updateErrors] = useState(null)
+  const [openedForm, updateOpenedform] = useState(false)
 
   const submitForm = (data, editting) => {
     const errs = {}
@@ -30,8 +31,14 @@ const IncomeForm = () => {
       updateEdditingItem(null)
       data.category = 'Income'
       p.updateView('default')
+      openedForm && updateOpenedform(false)
       return editting ? updateSource(data) : addSource(data)
     }
+  }
+
+  const handleCancelClick = () => {
+    updateEdditingItem(null)
+    openedForm && updateOpenedform(false)
   }
 
   const setDeleteSource = formData => setDialog({
@@ -48,11 +55,22 @@ const IncomeForm = () => {
   const defaultFormData = edittingItem ? 
       { ...edittingItem } :
       { rec: 'w', date: new Date() }
-  
+
+  const showForm = !hasSource || (openedForm || !p.isMobile || edittingItem)
+
   return (
     <ContentBox title='Income sources' exClass='mx row' itemId='default' icon={<FontAwesomeIcon icon={faMoneyBillWave} />}>
       <div className='c-pad'>
-      <div className={`mt-40 m-sm`} style={{paddingTop: '30px'}}>
+        <div className='grouping right mt-40'>
+          {!showForm && 
+            <button
+              className='btn'
+              onClick={()=>updateOpenedform(true)}>
+              <FontAwesomeIcon icon={faPlus} /> &nbsp;
+              Add source
+            </button>}
+        </div>
+        {showForm && <div className={`mt-40 m-sm`} style={{paddingTop: '30px'}}>
         <Form
           reDefault
           defaultFormData={defaultFormData}
@@ -78,7 +96,7 @@ const IncomeForm = () => {
                   onChange={val => updateField({ target: { value: parsedCurrentDate(val), name: 'date' } }) } />
               </>
               <span className='grouping right'>
-                <IP type='btn_blue' onChange={() => {updateEdditingItem(null); clearData()} } label={edittingItem ? "Cancel" : "Clear"} />
+                <IP type='btn_blue' onChange={()=> { handleCancelClick(); clearData(); }} label={(edittingItem || p.isMobile) ? "Cancel" : "Clear"} />
                 <IP type='btn' onChange={() =>submitForm(formData, !!edittingItem)} />
               </span>
               <Fade time={120}>
@@ -91,7 +109,7 @@ const IncomeForm = () => {
             </div>
           )}
         />
-      </div>
+      </div>}
       {hasSource ?
         <div className='m-lg mt-40'>
           <TableRow className="headerRow" 
