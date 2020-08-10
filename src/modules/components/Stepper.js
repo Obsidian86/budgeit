@@ -16,7 +16,8 @@ const Stepper = ({step, getLink, theme}) => {
       textDecoration: 'none',
       color: '#444',
       fontWeight: 'bold',
-      marginLeft: '25px'
+      marginLeft: '25px',
+      textAlign: 'center'
     },
     span: {
       border: '3px solid #444',
