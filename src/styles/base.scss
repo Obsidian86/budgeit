@@ -21,6 +21,7 @@ body {
 }
 
 .btn{
+  text-decoration: none;
   cursor: pointer;
   background-color: $green;
   color: #fff;
@@ -88,11 +89,17 @@ body {
   }
 }
 
-.t-green{ color: green; }
+.t-green{ color: $green; }
 .t-red { color: red; }
 .t-gray {color: gray; }
 .t-lightGray {color: rgb(199, 199, 199); }
 .t-blue { color: blue; }
+.t-bold {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 0;
+}
 
 // FORMS, FIELDS, INPUTS
 input[type=text], input[type=number], input[type=password]{
@@ -164,13 +171,14 @@ label{
   input:checked + span{
     &:after{
       position: absolute;
-      top: -9px;
+      top: -10px;
       left: 4px;
       height: 20px;
       width: 20px;
       content: 'L';
+      color: green;
       font-weight: bold;
-      font-size: 25px;
+      font-size: 26px;
       transform: scaleX(-1) rotate(-40deg);
     }
   }
@@ -205,6 +213,9 @@ label{
   &.around{
     justify-content: space-around;
   }
+  &.start{
+    justify-content: flex-start;
+  }
 }
 
 .d-block{
@@ -226,7 +237,6 @@ label{
 
 .contentBox{
   width: 94%;
-  min-width: 300px;
   margin: 0 5px 35px 5px;
   padding: 15px 10px;
   padding-top: 46px;
@@ -234,21 +244,28 @@ label{
   border: 1px solid rgb(163, 143, 143);
   box-shadow: 0 0 0 6px #fff, 0 0 10px black;
   position: relative;
-  &.sm, .sm{ width: calc(24% - 10px); }
-  &.smPlus, .smPlus{ width: 29%; }
+  &.sm, .sm{ width: calc(24% - 40px); }
+  &.smPlus, .smPlus{ width: calc(29% - 40px); }
   &.thr, .thr{ width: 32%; }
   &.m-sm, .m-sm{ width: 37%; }
   &.md, .md, .md-f{ width: 45%; }
   &.m-lg, .m-lg { width: 55%; }
-  &.lg, .lg{ width: 70%; }
+  &.lg, .lg{ width: calc(70% - 40px); }
   &.max, .max{ width: 98%; }
   &.xs, .xs { width: 16%; }
-
+  .content-pad{
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 40px);
+    justify-content: space-between;
+  }
   @media (max-width: 1000px){ 
-    width: 94%; 
+    width: calc(96% - 25px); 
     margin: 15px auto;
     &.md, &.sm, &.lg, .sm, .thr, .md, .lg, .xs, .m-lg, &.m-sm, .m-sm, &.smPlus, .smPlus{ 
-      width: 94%;  
+      width: calc(96% - 25px);   
       margin: 15px auto;
     }
   }
@@ -266,6 +283,7 @@ label{
 .mt-10 { margin-top: 10px; }
 .mt-60 { margin-top: 60px; }
 .mr-10 { margin-right: 10px; }
+.mr-20 { margin-right: 20px; }
 .mt-100 { margin-top: 100px; }
 .mb-10 { margin-bottom: 10px; }
 .mb-40 { margin-bottom: 40px; }
@@ -273,6 +291,7 @@ label{
 .w-100{ width: 100% }
 .fw-b{font-weight: bold;}
 .d-bl{display: block; }
+.pt-10{ padding-top: 10px; }
 
 p{
   line-height: 1.6rem; 
@@ -427,7 +446,50 @@ p{
   }
 }
 
+.w-99 { 
+  margin: 0 auto;
+  width: 99%;
+}
+
 #snapshots svg > g:first-child .tick{
   border: 1px solid red;
   display: none;
+}
+
+.form-group{
+  border-top: 10px solid rgb(204, 204, 204);
+  box-shadow: 0 0 3px rgb(189, 189, 189);
+  padding-bottom: 12px;
+  margin-bottom: 32px;
+  padding-left: 4%;
+  padding-right: 4%;
+  width: 92%;
+  margin-top: 25px;
+}
+
+.break-1155{
+  @media screen and (max-width: 1155px){
+    width: calc(45% - 40px) !important;
+    & .reRow{
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+  }
+  @media screen and (max-width: 800px){
+    width: calc(96% - 26px) !important;
+  }
+}
+
+.spl-500{
+  width: 24%;
+  margin-bottom: 20px;
+  @media screen and (max-width: 1350px){
+    width: 32%;
+  }
+  @media screen and (max-width: 1050px){
+    width: 46%;
+  }
+  @media screen and (max-width: 600px){
+    width: 100%;
+  }
 }

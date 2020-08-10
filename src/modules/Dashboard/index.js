@@ -8,26 +8,23 @@ import { faUniversity, faMoneyBillWave, faStream } from "@fortawesome/free-solid
 
 const Dashboard = () => {
     const p = useContext(MainContext)
-    console.log(p)
-
     const { content: accountContent } = processData.proccessAccountData(p.accounts)
     const { content: sourceContent, total: totalSource } = processData.proccessSourceData(p.incomeSources)
     const { content: budgetContent, total: percent } = processData.proccessbudgetData(p.budget, totalSource, p.viewBy)
-    const x = processData.proccessbudgetData(p.budget, totalSource)
 
     return <div className='row w-99'>
         {percent && <div className='w-99'>
-            <ContentBox exClass={'smPlus'} exStyles={{'padding': '10px'}}>
+            <ContentBox exClass={'lg'} exStyles={{'padding': '10px', maxWidth: '300px'}}>
                 <ProgressBar percent={ percent } title={ percent + '% of income budgeted'} color='green' bg='lightgreen' height={38} />
             </ContentBox>
         </div>}
-        <ContentBox title='Accounts' exClass={'lg'} icon={<FontAwesomeIcon icon={faUniversity} />} >
+        <ContentBox title='Accounts' exClass={'lg break-1155'} icon={<FontAwesomeIcon icon={faUniversity} />} >
             { accountContent }
         </ContentBox>
-        <ContentBox title='Income Sources' exClass={'smPlus'} icon={<FontAwesomeIcon icon={faMoneyBillWave} />} >
+        <ContentBox title='Income' exClass={'smPlus break-1155'} icon={<FontAwesomeIcon icon={faMoneyBillWave} />} exStyles={{minWidth: '230px'}}>
             { sourceContent }
         </ContentBox>
-        <ContentBox title='Budget Items' icon={<FontAwesomeIcon icon={faStream} />}>
+        <ContentBox title='Budget' icon={<FontAwesomeIcon icon={faStream} />}>
             { budgetContent }
         </ContentBox>
     </div>

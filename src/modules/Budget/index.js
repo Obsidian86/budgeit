@@ -102,6 +102,7 @@ const YourBudget = ({ step }) => {
               setDialog={p.setDialog}
               errors={errors}
               updateView={p.updateView}
+              accountList={p.accounts}
               onSubmit={bi => {
                 if(bi.noEnd && bi.noEnd ==='on'){ delete bi.end }
                 if (!validateData(bi)) return null

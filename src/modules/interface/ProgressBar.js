@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ProgressBar = ({ title = ' ', percent = 50, height = 32, color = 'red', bg = 'pink', fontSize= '1.1rem', paddingTop, marks }) => {
+const ProgressBar = ({ title = ' ', hideShadow, percent = 50, height = 32, color = 'red', bg = 'pink', fontSize= '1.1rem', paddingTop, marks, fontColor, inConStyles = {} }) => {
   const containerStyles = {
     border: `1px solid ${color}`,
     height: `${height}px`,
@@ -25,12 +25,12 @@ const ProgressBar = ({ title = ' ', percent = 50, height = 32, color = 'red', bg
     fontWeight: 'bold',
     margin: '0',
     position: 'relative',
-    color: '#fff',
-    textShadow: `0 0 4px ${color}`,
+    color: fontColor ? fontColor : '#fff',
+    textShadow: hideShadow ? 'none' : `0 0 4px ${color}`,
     fontSize: fontSize
   }
   return (
-    <div style={containerStyles}>
+    <div style={{...containerStyles, ...inConStyles}}>
       {
         marks && marks.map((m, i) => 
           <div key={i}
@@ -41,7 +41,7 @@ const ProgressBar = ({ title = ' ', percent = 50, height = 32, color = 'red', bg
                 top: '-2px',
                 left: m + '%',
                 width: '1px',
-                borderRight: '2px solid black'
+                borderRight: '2px solid #999'
               }
             }
           />

@@ -20,25 +20,26 @@ const Accounts = React.lazy(() => import('./modules/Accounts/'))
 const Checkbook= React.lazy(() => import('./modules/Checkbook/'))
 const SnapShots = React.lazy(() => import('./modules/SnapShots/SnapShots'))
 const CalendarModule = React.lazy(() => import('./modules/CalendarModule'))
+const Dashboard = React.lazy(() => import('./modules/Dashboard'))
 
-const version = '1.08.7-beta'
+const version = '1.09.0-beta'
 
 const routeData = [
-  { link: '/emergency', component: EmergencyFunds, step: 1},
+  { link: '/emergency', component: EmergencyFunds },
   { link: '/accounts', component: Accounts},
   { link: '/checkbook', component: Checkbook},
   { link: '/profile', component: Accounts},
   { link: '/savings', component: SavingsCalc},
   { link: '/recommended', component: Recommended},
-  { link: '/budget', component: YourBudget, step: 0},
-  { link: '*', component: IncomeForm},
+  { link: '/budget', component: YourBudget },
+  { link: '/sources', component: IncomeForm},
+  { link: '*', component: Dashboard},
 ]
 
 function App() {
   const p = useContext(MainContext)
   const [accData, updateAccData] = useState(false)
   const [sideBarOpen, updateSideBarOpen] = useState(false)
-  const step = ((p.amount === null || p.amount === 0 || p.amount === '0') ? 0 : 1) + (Object.keys(p.budget).length > 0 ? 1 : 0)
   const loggedIn = () => {
     const token = localStorage.getItem('aKey') ? localStorage.getItem('aKey') : null
     const user = p.profile
@@ -58,23 +59,28 @@ function App() {
       if(isLoggedIn) clearInterval(interVal)
     })
   })
+
+  const hasSource = p.incomeSources.length > 0
+  const hasBudgetItem = Object.keys(p.budget).length > 0
+  const hasAccount = p.accounts.length > 0
+
   const display = p.globalLoad ? <GlobalLoad /> 
     : isLoggedIn ? 
     <>
-      <DashNav step={step} updateAccData={updateAccData} accData={accData} Link={Link} isMobile={p.isMobile} getLink={p.getLink} />
+      <DashNav updateAccData={updateAccData} accData={accData} Link={Link} isMobile={p.isMobile} getLink={p.getLink} />
       {accData && <SaveLoad />}
-      {step < 2 && <Stepper step={step} getLink={p.getLink} theme={p.theme} />}
+      {(!hasSource || !hasBudgetItem || !hasAccount) && <Stepper hasSource={hasSource} hasAccount={hasAccount} hasBudgetItem={hasBudgetItem} getLink={p.getLink} theme={p.theme} />}
       <Switch>
         <Route path={p.getLink('/snapshots')} render={() => 
           <Suspense fallback={<GlobalLoad />} >  
-            { step > 1 && <SnapShots /> } 
-            { step > 1 && <CalendarModule nonLoad /> } 
+            <SnapShots />
+            <CalendarModule nonLoad />
           </Suspense>
         } />
         <Route path={p.getLink('/calendar')} render={() => 
           <Suspense fallback={<GlobalLoad />} >
-            { step > 1 && <CalendarModule /> } 
-            { step > 1 && <SnapShots nonLoad /> } 
+            <CalendarModule />
+            <SnapShots nonLoad />
           </Suspense> 
         } />
         { routeData.map(rd =>
@@ -82,11 +88,7 @@ function App() {
             path={p.getLink(rd.link)} 
             render={()=> 
               <Suspense fallback={<GlobalLoad />} >
-                {Object.prototype.hasOwnProperty.call(rd, 'step') ?
-                    step > rd.step ? 
-                    <rd.component step={step} /> : <></>
-                    : <rd.component step={step} />}
-                
+                <rd.component />
               </Suspense> 
             } 
             key={rd.link}
@@ -96,7 +98,7 @@ function App() {
     </>
     : <LoginScreen />
 
-  const navProps = {Link, sideBarOpen, step, isMobile: p.isMobile, updateSideBarOpen}
+  const navProps = {Link, sideBarOpen, isMobile: p.isMobile, updateSideBarOpen}
   return (
     <div className='App container'>
         <Router>

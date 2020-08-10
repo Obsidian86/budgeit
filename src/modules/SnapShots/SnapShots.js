@@ -107,14 +107,13 @@ const SnapShots = ({nonLoad}) => {
             reject: ()=> null 
         }) 
     }
-    const changeCount = (direction) => { console.log(direction)
+    const changeCount = (direction) => {
         let newShowSH = showSH
         if(direction === 'backward') newShowSH = newShowSH + 1
         if(direction === 'forward') newShowSH = newShowSH - 1
         if(direction === 'current') newShowSH = 0
         if(newShowSH < 1) newShowSH = 0
         if(newShowSH > (p.snapshots.length - showPerPage)) newShowSH = p.snapshots.length - showPerPage
-        console.log(newShowSH)
         updateShowSH(newShowSH)
     }
     const handleCreate = () => {

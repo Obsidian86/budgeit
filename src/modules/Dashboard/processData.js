@@ -1,11 +1,12 @@
 import React from 'react'
 import { calcMoney, money, convert, disRec, up, percent } from '../../utilities/convert'
-import SoftList from '../interface/SoftList'
 import Bullet from '../interface/Bullet'
+import TableRow from '../interface/TableRow'
 import ProgressBar from '../interface/ProgressBar'
 import ChartContainer from '../components/ChartContainer'
 import { colors } from '../../styles/colors'
 import { Link } from 'react-router-dom'
+import percents from '../../utilities/suggested'
 
 const noData = (item, link) => {
     const content = <div className='content-pad'>
@@ -37,26 +38,18 @@ export const proccessAccountData = accounts => {
             title: acc.name,
             value: acc.amount / total
         })
-        return <li key={acc.id}>
-            <span><Bullet color={color} />{ acc.name } </span>
-            <span>{ money(acc.amount) } </span>
-        </li>
+        return <TableRow key={acc.id} tData={[<><Bullet color={color} />{ acc.name }</>, money(acc.amount)]} pattern={[50, 50]} />
     })
     const accountContent = <div className='content-pad'>
         <div className='row between'>
-            <ChartContainer styles={{'width': '190px'}} data={chartData} />
-            <div style={{'width': 'calc(100% - 230px)'}}>
-                <SoftList split>
-                    <li className='header-row'>
-                        <span>Account</span>
-                        <span>value</span>
-                    </li>
-                    {data}
-                    <li><span /><span><p className='t-green t-bold'>{money(total)}</p></span></li>
-                </SoftList>
+            <ChartContainer styles={{'width': '190px', 'margin': '0 auto', 'marginBottom': '20px'}} data={chartData} />
+            <div style={{'width': 'calc(100% - 230px)', 'margin': '0 auto', minWidth: '300px'}} className='smPlus reRow' >
+                <TableRow className='headerRow' tData={['Account', 'Value']} pattern={[50, 50]} />
+                {data}
+                <TableRow className='headerRow' round={false} tData={['', <p className='t-bold'>{money(total)}</p>]} pattern={[50, 50]} />
             </div>
         </div>
-        <div className='right'>
+        <div className='right pt-10'>
             <Link to='/accounts' className='btn'>Edit accounts</Link>
         </div>
     </div>
@@ -69,33 +62,36 @@ export const proccessSourceData = incomeSources => {
     const data = incomeSources.map(acc => {
         const useAmount = convert(acc.amount, acc.rec, 'y')
         total = calcMoney(total, useAmount)
-        return <li key={acc.id}>
-            <span>{ acc.item } </span>
-            <span>
-                { convert(acc.amount, acc.rec, acc.rec, 'money') } <br />
-                { disRec(acc.rec) }
-            </span>
-        </li>
+        return <TableRow 
+            key={acc.id} 
+            tData={[
+                acc.item,
+                <>
+                    { convert(acc.amount, acc.rec, acc.rec, 'money') } <br />
+                    { disRec(acc.rec) }
+                </>
+            ]}
+            pattern={[50, 50]}
+        />
     })
 
     const sourceContent = <div className='content-pad'>
-        <SoftList split>
-            <li className='header-row'>
-                <span>Source</span>
-                <span>Amount</span>
-            </li>
+        <div>
+            <TableRow className='headerRow' tData={['Source', 'Amount']} pattern={[50, 50]}/>
             {data}
-            <li>
-                <span>Total</span>
-                <span>
-                    <p className='t-green t-bold'>
+            <TableRow 
+                pattern={[50, 50]}
+                className='headerRow' 
+                round={false}
+                tData={['total', <>
+                    <p className='t-bold'>
                         {money(total)} <br />
                     </p>
                     {disRec('y')}
-                </span>
-            </li>
-        </SoftList>
-        <div className='right'>
+                </>]}
+            />
+        </div>
+        <div className='right pt-10'>
             <Link to='/sources' className='btn'>Edit Income</Link>
         </div>
     </div>
@@ -108,39 +104,62 @@ export const proccessbudgetData = (budget, total, viewBy) => {
 
     const contentData = Object.keys(budget).map((bi, index) => {
         const bdItem = budget[bi]
-        const mappedBi = bdItem .items.map((biItem, innerIndex)=>
-            <li key={'inner-item-' + innerIndex}>
-                <span>{biItem.item}</span>
-                <span>
-                    {convert(biItem.amount, biItem.rec, viewBy, 'money')} <br />
-                    {disRec(viewBy)}
-                </span>
-            </li>
+        const mappedBi = bdItem.items.map((biItem, innerIndex)=>
+            <TableRow 
+                key={'inner-item-' + innerIndex}
+                pattern={[50, 50]}
+                tData={[
+                    biItem.item,
+                    <>
+                        {convert(biItem.amount, biItem.rec, viewBy, 'money')} <br />
+                        {disRec(viewBy)}
+                    </>
+                ]}
+            />
         )
         const usePercent = (convert(bdItem.total, 'm', 'y') / total) * 100
+        const progBar = <div style={{
+                'width': 'calc(100% - 5px)',
+                'padding': '0',
+                'paddingBottom': '3px'
+            }}>
+                <ProgressBar 
+                    inConStyles={{
+                        'paddingLeft': '0',
+                        'paddingRight': '0',
+                        'paddingTop': '2px',
+                        'paddingBottom': '23px'
+                    }}
+                    marks={percents[up(bi)] || null}
+                    percent={ usePercent } 
+                    hideShadow title={percent(usePercent)} 
+                    color='lightgreen' bg='white' height={3} 
+                    fontColor='green' fontSize='1rem' paddingTop='0' 
+                />
+        </div>
         return(
-            <div key={'outer-item-' + index} className='thr mr-20'>
-                <SoftList split>
-                    <li className='header-row row'>
-                        <span>{ up(bi) }</span>
-                        <span>
-                            { convert(bdItem.total, 'm', viewBy, 'money') } <br />
-                        </span>
-                        <span className='w-99 pt-10'>
-                            <ProgressBar percent={ usePercent } hideShadow title={percent(usePercent)} color='lightgreen' bg='white' height={22} fontColor='green' fontSize='1rem' paddingTop='0' />
-                        </span>
-                    </li>
-                    { mappedBi } 
-                </SoftList>
+            <div key={'outer-item-' + index} className='mb-10 spl-500'>
+                <TableRow 
+                    pattern={[45, 45, 90]}
+                    wrap
+                    headerRow 
+                    tData={[
+                        up(bi), 
+                        convert(bdItem.total, 'm', viewBy, 'money')
+                    ]}
+                >
+                    { progBar }
+                    </TableRow>
+                { mappedBi } 
             </div>
         )
     })
 
     const budgetContent = <div className='content-pad'>
-        <div className='row start'>
+        <div className='row'>
             { contentData }
         </div>
-        <div className='right'>
+        <div className='right pt-10'>
             <Link to='/budget' className='btn'>Edit budget</Link>
         </div>
     </div>
