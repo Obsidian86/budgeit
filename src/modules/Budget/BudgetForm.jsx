@@ -3,7 +3,7 @@ import Form from '../interface/Form'
 import { recurrence } from '../../utilities/constants'
 import { parsedCurrentDate, stepDate } from '../components/calendar/dateFunctions'
 import { IP } from '../../utilities/formUtilities'
-import { money } from '../../utilities/convert'
+// import { money } from '../../utilities/convert'
 
 const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors, updateView, accountList }) => {
   return (<Form

@@ -43,7 +43,7 @@ export const proccessAccountData = accounts => {
     const accountContent = <div className='content-pad'>
         <div className='row between'>
             <ChartContainer styles={{'width': '190px', 'margin': '0 auto', 'marginBottom': '20px'}} data={chartData} />
-            <div style={{'width': 'calc(100% - 230px)', 'margin': '0 auto', minWidth: '300px'}} className='smPlus' className='reRow' >
+            <div style={{'width': 'calc(100% - 230px)', 'margin': '0 auto', minWidth: '300px'}} className='smPlus reRow' >
                 <TableRow className='headerRow' tData={['Account', 'Value']} pattern={[50, 50]} />
                 {data}
                 <TableRow className='headerRow' round={false} tData={['', <p className='t-bold'>{money(total)}</p>]} pattern={[50, 50]} />
