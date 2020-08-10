@@ -101,11 +101,12 @@ export const proccessSourceData = incomeSources => {
 
 export const proccessbudgetData = (budget, total, viewBy) => {
     if(Object.keys(budget).length < 1) return noData('budget', 'budget')
-
+    let totalVals = 0
     const contentData = Object.keys(budget).map((bi, index) => {
         const bdItem = budget[bi]
-        const mappedBi = bdItem.items.map((biItem, innerIndex)=>
-            <TableRow 
+        const mappedBi = bdItem.items.map((biItem, innerIndex)=>{
+            totalVals = calcMoney(totalVals, convert(biItem.amount, biItem.rec, 'y'))
+            return(<TableRow 
                 key={'inner-item-' + innerIndex}
                 pattern={[50, 50]}
                 tData={[
@@ -115,8 +116,8 @@ export const proccessbudgetData = (budget, total, viewBy) => {
                         {disRec(viewBy)}
                     </>
                 ]}
-            />
-        )
+            />)
+        })
         const usePercent = (convert(bdItem.total, 'm', 'y') / total) * 100
         const progBar = <div style={{
                 'width': 'calc(100% - 5px)',
@@ -165,7 +166,7 @@ export const proccessbudgetData = (budget, total, viewBy) => {
     </div>
 
     return ({
-        total: 40,
+        total: ((totalVals / total) * 100).toFixed(2),
         content: budgetContent
     })
 }
