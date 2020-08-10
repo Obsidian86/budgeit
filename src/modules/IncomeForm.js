@@ -95,6 +95,21 @@ const IncomeForm = () => {
                 <IP type='date' alias="date" label='Start date' data={formData} 
                   onChange={val => updateField({ target: { value: parsedCurrentDate(val), name: 'date' } }) } />
               </>
+
+            <label className='cu_checkBox'>
+              <input
+                type='checkbox' name='isTransfer'
+                checked={!!formData.isTransfer && formData.isTransfer === "on"}
+                onChange={() => updateField({ 
+                  target: { name: 'isTransfer', 
+                  value: (!formData.isTransfer || formData.isTransfer === 'off') ? 'on' : 'off'} }) }
+              />{' '} <span />Auto deposit
+            </label>
+
+            {formData.isTransfer && <IP type='drop' options={p.accounts.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))} label='To account'
+              data={formData} style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} alias='rec' 
+              onChange={val => updateField({ target:{ value: val, name: 'rec' } })} /> }
+
               <span className='grouping right'>
                 <IP type='btn_blue' onChange={()=> { handleCancelClick(); clearData(); }} label={(edittingItem || p.isMobile) ? "Cancel" : "Clear"} />
                 <IP type='btn' onChange={() =>submitForm(formData, !!edittingItem)} />

@@ -5,6 +5,11 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const Stepper = ({step, getLink, theme}) => {
 
+  // no step number
+  // just check if has acc + has income + has budget item
+  // dont display if has all three
+
+
   const s = {
     container: {
       margin: '12px 0 35px 0',
@@ -25,7 +30,8 @@ const Stepper = ({step, getLink, theme}) => {
       width: '20px',
       display: 'inline-block',
       borderRadius: '50%',
-      marginRight: '5px'
+      marginRight: '5px',
+      textAlign: 'center'
     }
   }
 

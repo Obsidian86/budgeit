@@ -3,8 +3,9 @@ import Form from '../interface/Form'
 import { recurrence } from '../../utilities/constants'
 import { parsedCurrentDate, stepDate } from '../components/calendar/dateFunctions'
 import { IP } from '../../utilities/formUtilities'
+import { money } from '../../utilities/convert'
 
-const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors, updateView }) => {
+const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors, updateView, accountList }) => {
   return (<Form
     defaultFormData={
       editItem ? { 
@@ -63,6 +64,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
                 value: (!formData.noEnd || formData.noEnd === 'off') ? 'on' : 'off'} }) }
             />{' '} <span />No end
           </label>
+          
           <label className='cu_checkBox'>
             <input
               type='checkbox' name='isTransfer'
@@ -70,8 +72,11 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
               onChange={() => updateField({ 
                 target: { name: 'isTransfer', 
                 value: (!formData.isTransfer || formData.isTransfer === 'off') ? 'on' : 'off'} }) }
-            />{' '} <span />Mark as transfer
+            />{' '} <span />Auto widthdrawl
           </label>
+          {formData.isTransfer && <IP type='drop' options={accountList.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))} label='From account'
+            data={formData} style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} alias='rec' 
+            onChange={val => updateField({ target:{ value: val, name: 'rec' } })} /> }
 
           <div className='grouping right mt-10' style={{maxWidth: '100%', flexWrap: 'wrap'}}>
             {editItem && <button
