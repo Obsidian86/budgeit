@@ -15,7 +15,8 @@ const Stepper = ({step, getLink, theme, hasSource, hasBudgetItem, hasAccount}) =
       textDecoration: 'none',
       color: '#444',
       fontWeight: 'bold',
-      marginLeft: '25px'
+      marginLeft: '25px',
+      textAlign: 'center'
     },
     span: {
       border: '3px solid #444',
