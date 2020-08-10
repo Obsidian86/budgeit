@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserAlt, faBan } from "@fortawesome/free-solid-svg-icons";
 import { StyledNavContainer, StyledNav, darkCoverStyles }from './StyledNav'
 
-const SideNav = ({style, Link, step, getLink, user, isMobile, updateSideBarOpen, logout}) => {
+const SideNav = ({Link, getLink, user, isMobile, updateSideBarOpen, logout}) => {
     const loc = useLocation()
     const darkCover = <div
         style={darkCoverStyles} 
@@ -23,7 +23,7 @@ const SideNav = ({style, Link, step, getLink, user, isMobile, updateSideBarOpen,
                     <p>{user}</p>
                 </div>
                 <span className='links-container'>
-                    {Links.map(link => step >= link.step ? 
+                    {Links.map(link =>
                     <Link 
                         to={getLink(link.to)}
                         key={link.text} 
@@ -32,7 +32,7 @@ const SideNav = ({style, Link, step, getLink, user, isMobile, updateSideBarOpen,
                     >
                         {link.icon ? <span>{link.icon}</span> : null}
                         {link.text}
-                    </Link> : null)}
+                    </Link>)}
                     <Link 
                         to={getLink('/')}
                         onClick={()=> {

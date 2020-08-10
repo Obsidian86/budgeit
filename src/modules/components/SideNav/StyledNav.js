@@ -64,14 +64,17 @@ export const StyledNav = styled.nav`
         transition: background-color .3s;
         span{
             font-size: 1.2rem;
-            margin-right: 21px;
+            margin-right: 5px;
             margin-left: 1px;
+            width: 35px;
+            display: block;
+            float: left;
             transition: margin .3s;
         }
         &:hover{
             background-color: ${theme.green};
             span{
-                margin-right: 38px;
+                margin-right: 20px;
             }
         }
         &.active{

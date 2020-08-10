@@ -106,9 +106,12 @@ const IncomeForm = () => {
               />{' '} <span />Auto deposit
             </label>
 
-            {formData.isTransfer && <IP type='drop' options={p.accounts.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))} label='To account'
-              data={formData} style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} alias='rec' 
-              onChange={val => updateField({ target:{ value: val, name: 'rec' } })} /> }
+            {(formData.isTransfer && formData.isTransfer !== 'off') ?
+              p.accounts.length < 1 ? <p>Acc needed</p> :
+              <IP type='drop' options={p.accounts.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))} label='To account'
+                data={formData} style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} alias='toAccount' 
+                onChange={val => updateField({ target:{ value: val, name: 'toAccount' } })} 
+              /> : null }
 
               <span className='grouping right'>
                 <IP type='btn_blue' onChange={()=> { handleCancelClick(); clearData(); }} label={(edittingItem || p.isMobile) ? "Cancel" : "Clear"} />
