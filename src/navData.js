@@ -1,9 +1,10 @@
 import React from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoneyBillWave, faPiggyBank, faUniversity, faCalendarAlt, faAmbulance, faCommentDollar, faStream, faCameraRetro } from "@fortawesome/free-solid-svg-icons";
+import { faMoneyBillWave, faPiggyBank, faUniversity, faCalendarAlt, faAmbulance, faCommentDollar, faStream, faCameraRetro, faChartBar } from "@fortawesome/free-solid-svg-icons";
 
 export const Links = [
-    { to: '/default', text: 'Income', icon: <FontAwesomeIcon icon={faMoneyBillWave} /> },
+    { to: '/dashboard', text: 'Dashboard', icon: <FontAwesomeIcon icon={faChartBar} /> },
+    { to: '/sources', text: 'Income', icon: <FontAwesomeIcon icon={faMoneyBillWave} /> },
     { to: '/budget', text: 'Budget', icon: <FontAwesomeIcon icon={faStream} />},
     { to: '/recommended', text: 'Recommended', icon: <FontAwesomeIcon icon={faCommentDollar} /> },
     { to: '/accounts', text: 'Accounts', icon: <FontAwesomeIcon icon={faUniversity} /> },

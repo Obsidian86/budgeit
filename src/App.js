@@ -20,6 +20,7 @@ const Accounts = React.lazy(() => import('./modules/Accounts/'))
 const Checkbook= React.lazy(() => import('./modules/Checkbook/'))
 const SnapShots = React.lazy(() => import('./modules/SnapShots/SnapShots'))
 const CalendarModule = React.lazy(() => import('./modules/CalendarModule'))
+const Dashboard = React.lazy(() => import('./modules/Dashboard'))
 
 const version = '1.09.0-beta'
 
@@ -31,7 +32,8 @@ const routeData = [
   { link: '/savings', component: SavingsCalc},
   { link: '/recommended', component: Recommended},
   { link: '/budget', component: YourBudget },
-  { link: '*', component: IncomeForm},
+  { link: '/sources', component: IncomeForm},
+  { link: '*', component: Dashboard},
 ]
 
 function App() {

@@ -65,7 +65,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             />{' '} <span />No end
           </label>
           
-          <label className='cu_checkBox'>
+          {/* <label className='cu_checkBox'>
             <input
               type='checkbox' name='isTransfer'
               checked={!!formData.isTransfer && formData.isTransfer === "on"}
@@ -76,7 +76,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
           </label>
           {formData.isTransfer && <IP type='drop' options={accountList.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))} label='From account'
             data={formData} style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} alias='rec' 
-            onChange={val => updateField({ target:{ value: val, name: 'rec' } })} /> }
+            onChange={val => updateField({ target:{ value: val, name: 'rec' } })} /> } */}
 
           <div className='grouping right mt-10' style={{maxWidth: '100%', flexWrap: 'wrap'}}>
             {editItem && <button

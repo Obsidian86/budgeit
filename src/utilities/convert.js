@@ -15,10 +15,9 @@ export const calcMoney = (am1, am2, action='add') => {
   }
 }
 
-export const percent = (amt, total) => `${((amt / total) * 100).toFixed(2)}%`
+export const percent = (amt, total) => total ? `${((amt / total) * 100).toFixed(2)}%` : amt.toFixed(2) + '%'
 export const getPercent = (amt, total) => (amt / 100) * total
 export const up = (s) => {
-  console.log(s)
   return s.charAt(0).toUpperCase() + s.slice(1)}
 export const disRec = re => {
   const convRec = {
@@ -33,6 +32,7 @@ export const disRec = re => {
 
 export const convert = (amount, rec = 'm', displayRec = 'm', ...args) => {
   const year = { m: 12, w: 52, bw: 26, y: 1, d: 365 }
+  console.log(args)
   amount = parseFloat(amount)
   amount = (amount * year[rec]) / year[displayRec] 
   let returnVal = args.includes('money') ? money(amount) : amount

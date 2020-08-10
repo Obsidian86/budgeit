@@ -32,7 +32,7 @@ const ContentBox = ({ children, title, exClass = '', itemId, exStyles = {}, hide
         style={buttonStyles}
       >{isOpen ? '-' : '+'}
       </span>}
-      <ModuleTitle title={title} icon={icon} />
+      {title && <ModuleTitle title={title} icon={icon} />}
       {isOpen && children}
     </div>
   )

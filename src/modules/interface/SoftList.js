@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const SoftList = ({ children, split, className }) => {
+const SoftList = ({ children, split, className, color }) => {
   const List = styled.ul`
   list-style-type: none;
   padding: 0;
@@ -14,7 +14,16 @@ const SoftList = ({ children, split, className }) => {
     justify-content: space-between;
     background-color: #fff;
     &:nth-child(odd) {
-      background-color: #e9e9e9;
+      background-color: ${color ? color : '#e9e9e9'};
+    }
+    & span:nth-child(2){
+      text-align: right;
+    }
+    &.header-row{
+      background-color: ${color ? color : '#cdcdcd'};
+      border-bottom: 1px solid #888;
+      color: #444;
+      font-weight: bold;
     }
   }
 `

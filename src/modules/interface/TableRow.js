@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import theme from '../../styles/theme'
 
-const TableRow = ({ children, className, pattern = [40, 30], onClick, tData, style, round = true }) => {
+const TableRow = ({ children, className, pattern = [40, 30], onClick, tData, style, round = true, headerRow, wrap }) => {
   const mkStyles = () => {
     let inj = ''
     if (pattern.length > 2) {
@@ -17,6 +17,7 @@ const TableRow = ({ children, className, pattern = [40, 30], onClick, tData, sty
     return `
     cursor: ${onClick ? 'pointer' : ''};
     display: flex;
+    flex-wrap: ${wrap ? 'wrap' : 'no-wrap'};
     justify-content: space-between;
     width: 100%;
     margin: 0 auto;
@@ -26,12 +27,12 @@ const TableRow = ({ children, className, pattern = [40, 30], onClick, tData, sty
       background-color: ${theme.fBlue};
     }
     div {
-      width: ${pattern.length > 1 ? pattern[1] : pattern[0]}%;
+      width: calc(${pattern.length > 1 ? pattern[1] : pattern[0]}% - 20px);
       text-align: right;
       padding: 13px 10px;
       &:first-child {
         text-align: left;
-        width: ${pattern[0]}%;
+        width: calc(${pattern[0]}% - 20px);
       }
       ${inj}
     }
@@ -53,7 +54,7 @@ const TableRow = ({ children, className, pattern = [40, 30], onClick, tData, sty
   const StTableRow = styled.div`${mkStyles()}`
 
   return (
-    <StTableRow className={className} style={style} onClick={onClick || null}>
+    <StTableRow className={`${className} ${headerRow ? 'headerRow' : ''}`} style={style} onClick={onClick || null}>
       {tData && tData.map((td, i) => <div key={i}>{td}</div>)}
       {children}
     </StTableRow>
