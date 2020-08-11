@@ -32,13 +32,13 @@ const Stepper = ({step, getLink, theme, hasSource, hasBudgetItem, hasAccount}) =
 
   return(
     <div style={s.container}>
-      <Link to={getLink('/#default')} style={{...s.link, color: hasSource ? theme.vBlue : '#444'}}>
+      <Link to={getLink('/sources')} style={{...s.link, color: hasSource ? theme.vBlue : '#444'}}>
         <span style={{...s.span, borderColor: hasSource ? theme.vBlue : '#444' }}>
           { hasSource ? <FontAwesomeIcon icon={faCheck}/> : <FontAwesomeIcon icon={faTimes}/>}
         </span>
         Add income 
       </Link>
-      <Link to={getLink('/budget#yourBudgetModule')} style={{...s.link, color: hasBudgetItem ? theme.vBlue : '#444'}}>
+      <Link to={getLink('/budget')} style={{...s.link, color: hasBudgetItem ? theme.vBlue : '#444'}}>
         <span style={{...s.span, borderColor: hasBudgetItem ? theme.vBlue : '#444' }}>
           { hasBudgetItem ? <FontAwesomeIcon icon={faCheck}/> : <FontAwesomeIcon icon={faTimes}/>}</span>
         Add budget item 

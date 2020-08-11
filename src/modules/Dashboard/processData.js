@@ -104,22 +104,11 @@ export const proccessbudgetData = (budget, total, viewBy) => {
     let totalVals = 0
     const contentData = Object.keys(budget).map((bi, index) => {
         const bdItem = budget[bi]
-        const mappedBi = bdItem.items.map((biItem, innerIndex)=>{
-            totalVals = calcMoney(totalVals, convert(biItem.amount, biItem.rec, 'y'))
-            return(<TableRow 
-                key={'inner-item-' + innerIndex}
-                pattern={[50, 50]}
-                tData={[
-                    biItem.item,
-                    <>
-                        {convert(biItem.amount, biItem.rec, viewBy, 'money')} <br />
-                        {disRec(viewBy)}
-                    </>
-                ]}
-            />)
+        const mappedBi = bdItem.items.forEach(biItemsItem =>{
+            totalVals = calcMoney(totalVals, convert(biItemsItem.amount, biItemsItem.rec, 'y'))
         })
         const usePercent = (convert(bdItem.total, 'm', 'y') / total) * 100
-        const progBar = <div style={{
+        const progBar = total > 0 ? <div style={{
                 'width': 'calc(100% - 5px)',
                 'padding': '0',
                 'paddingBottom': '3px'
@@ -137,10 +126,11 @@ export const proccessbudgetData = (budget, total, viewBy) => {
                     color='lightgreen' bg='white' height={3} 
                     fontColor='green' fontSize='1rem' paddingTop='0' 
                 />
-        </div>
+        </div> : <></>
         return(
             <div key={'outer-item-' + index} className='mb-10 spl-500'>
-                <TableRow 
+                <TableRow
+                    round={false}
                     pattern={[45, 45, 90]}
                     wrap
                     headerRow 
@@ -151,7 +141,7 @@ export const proccessbudgetData = (budget, total, viewBy) => {
                 >
                     { progBar }
                     </TableRow>
-                { mappedBi } 
+                { mappedBi }
             </div>
         )
     })

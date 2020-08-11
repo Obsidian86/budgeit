@@ -11,9 +11,8 @@ const Dashboard = () => {
     const { content: accountContent } = processData.proccessAccountData(p.accounts)
     const { content: sourceContent, total: totalSource } = processData.proccessSourceData(p.incomeSources)
     const { content: budgetContent, total: percent } = processData.proccessbudgetData(p.budget, totalSource, p.viewBy)
-
     return <div className='row w-99'>
-        {percent && <div className='w-99'>
+        {percent && totalSource > 0 && <div className='w-99'>
             <ContentBox exClass={'lg'} exStyles={{'padding': '10px', maxWidth: '300px'}}>
                 <ProgressBar percent={ percent } title={ percent + '% of income budgeted'} color='green' bg='lightgreen' height={38} />
             </ContentBox>
