@@ -12,7 +12,6 @@ import s from './styles'
 const colors = ['green', 'blue', 'gray', 'black', 'salmon', 'orange']
 
 const SnapShotChart = ({inData, parentWidth = 500, showItems, updateClickedPoint}) => {
-
     let data = [
         {
             // totals
@@ -64,8 +63,10 @@ const SnapShotChart = ({inData, parentWidth = 500, showItems, updateClickedPoint
             hideYLabel
             yMin='100'
             width={parentWidth}
+            ticks={inData.length}
             height={500}
             data={data}
+            pointRadius={8}
             isDate={true}
         />
     )

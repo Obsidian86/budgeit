@@ -183,10 +183,10 @@ export const proccessSnapshots = (snapShots, width) => {
             <LineChart
                 hideXLabel
                 hideYLabel
-                hideXAxis
                 yMin='500'
                 width={width}
-                height={500}
+                height={400}
+                ticks={5}
                 data={data}
                 isDate={true}
             />
