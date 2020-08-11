@@ -74,14 +74,14 @@ const Checkbook = () => {
     return (
         <ContentBox title='Checkbook' icon={<FontAwesomeIcon icon={faMoneyCheck} />} itemId='checkbookModule'>
             <div className='d-flex right mt-60'>
-                <div className='controls'>
+                <div className='controls' style={{'boxShadow': 'none'}}>
                     <Link to='/accounts' className='mr-10'>
-                        <IP type='btn_blue' label='Accounts' style={{marginRight: '10px'}} icon={<FontAwesomeIcon icon={faUniversity} />} />
+                        <IP type='btn_blue' label='Accounts' style={{marginRight: '10px', 'borderRadius': '4px'}} icon={<FontAwesomeIcon icon={faUniversity} />} />
                     </Link>
                     <IP 
                         type='btn' 
                         label='Add transaction' 
-                        style={{marginRight: '10px'}} 
+                        style={{marginRight: '10px', 'borderRadius': '4px'}} 
                         icon={<FontAwesomeIcon icon={faPlusCircle} />} 
                         onChange={() => setTransactionDialog('add', null)}
                     />

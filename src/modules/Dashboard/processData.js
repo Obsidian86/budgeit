@@ -168,14 +168,11 @@ export const proccessSnapshots = (snapShots, width) => {
     let data = [{ color: 'green', points: [] }]
 
     let useSnapShots = [...snapShots].sort((a, b) => b - a)
-
-    console.log(useSnapShots)
     useSnapShots = [...useSnapShots].reverse().filter((item, index) => index < 6)
 
     useSnapShots.forEach(ss => {
         const d = ss.date.split('-')
         const useDate = `${d[2]}-${d[0]}-${d[1]}`
-        console.log(useDate, ss.currentTotal)
         data[0].points.push({
             x: useDate, y: parseFloat(ss.currentTotal)
         })
