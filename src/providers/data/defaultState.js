@@ -23,7 +23,14 @@ const defaultState = {
     transactions: {},
     hasNoTransactions: [],
     lastView: null,
-    isMobile: true
+    isMobile: true,
+    accountTransfers: [
+        {id: 5, amount: '350.23', date: '8-13-2020', fromAccount: '3', toAccount: '4', rec: 'm'},
+        {id: 1, amount: '350.23', date: '8-15-2020', fromAccount: '3', toAccount: '4', rec: 'm'},
+        {id: 2, amount: '350.23', date: '8-16-2020', fromAccount: '3', toAccount: '4', rec: 'm'},
+        {id: 3, amount: '350.23', date: '8-17-2020', fromAccount: '4', toAccount: '3', rec: 'm'},
+        {id: 4, amount: '350.23', date: '8-18-2020', fromAccount: '4', toAccount: '3', rec: 'm'},
+    ]
 }
 
 export default defaultState

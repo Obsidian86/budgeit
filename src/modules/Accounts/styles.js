@@ -6,6 +6,7 @@ export default {
         display: 'flex',
         justifyContent: 'space-between'
     },
-    intFirst: {textAlign: 'left', width: '40%'}, 
-    intRight: {textAlign: 'right', width: '30%'}
+    intFirst: {textAlign: 'left', width: '30%'}, 
+    intRight: {textAlign: 'right', width: '30%'},
+    intLast: {textAlign: 'right', width: '10%'}
 }

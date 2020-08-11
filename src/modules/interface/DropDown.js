@@ -8,7 +8,7 @@ import { up } from '../../utilities/convert'
 const getDisplay = (isSet, options) => {
   let val = isSet
   for (let i = 0; i < options.length; i++) {
-    if (options[i].v === isSet) {
+    if (options[i].v + '' === isSet + '') {
       val = options[i].d
       break
     }

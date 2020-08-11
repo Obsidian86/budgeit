@@ -246,9 +246,9 @@ label{
   position: relative;
   &.sm, .sm{ width: calc(24% - 40px); }
   &.smPlus, .smPlus{ width: calc(29% - 40px); }
-  &.thr, .thr{ width: 32%; }
+  &.thr, .thr{ width: calc(33% - 40px); }
   &.m-sm, .m-sm{ width: 37%; }
-  &.md, .md, .md-f{ width: 45%; }
+  &.md, .md, .md-f{ width: calc(50% - 30px); }
   &.m-lg, .m-lg { width: 55%; }
   &.lg, .lg{ width: calc(70% - 40px); }
   &.max, .max{ width: 98%; }
@@ -277,10 +277,13 @@ label{
   }
 }
 
+.m-10{ margin: 0px; }
+.m-20{ margin: 20px; }
 .ml-n-15 { margin-left: -15px; }
 .mr-n-15 { margin-right: -15px; }
-.mt-40 { margin-top: 40px; }
 .mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mt-40 { margin-top: 40px; }
 .mt-60 { margin-top: 60px; }
 .mr-10 { margin-right: 10px; }
 .mr-20 { margin-right: 20px; }
@@ -307,6 +310,11 @@ p{
     font-weight: bold;
     color: red;
   }
+}
+
+.muted{
+  color: #444;
+  font-style: italic;
 }
 
 .h-560{
@@ -451,10 +459,10 @@ p{
   width: 99%;
 }
 
-// #snapshots svg > g:first-child .tick{
-//   border: 1px solid red;
-//   display: none;
-// }
+#snapshots svg > g:first-child .tick{
+  border: 1px solid red;
+  display: none;
+}
 
 .form-group{
   border-top: 10px solid rgb(204, 204, 204);
