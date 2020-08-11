@@ -1,43 +1,16 @@
 import React, { useContext } from 'react'
-import MainContext from '../providers/MainContext'
-import SoftList from './interface/SoftList'
-import { money, calcMoney } from '../utilities/convert'
-import ContentBox from './interface/ContentBox'
-import { up } from '../utilities/convert'
+import MainContext from '../../providers/MainContext'
+import SoftList from '../interface/SoftList'
+import { money, calcMoney } from '../../utilities/convert'
+import ContentBox from '../interface/ContentBox'
+import { up } from '../../utilities/convert'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faExclamation, faAmbulance } from "@fortawesome/free-solid-svg-icons";
+import CalcSavingsNeeded from './functions'
 
 const EmergencyFunds = () => {
   const p = useContext(MainContext)
-
-  let livingExpenses = p.total
-  const excluded = {}
-  let towardEmergency = []
-  
-
-  Object.keys(p.budget).forEach(b => { // If savings account, exclude from calculation
-    if (b && (b.toLowerCase().includes('saving') || b.toLowerCase().includes('save'))) {
-      excluded[b] = p.budget[b]
-      livingExpenses = livingExpenses - parseFloat(p.budget[b].total)
-    }
-  })
-
-  for(const account in p.accounts){
-    const acc = p.accounts[account]
-    if( acc.liquid ){
-      towardEmergency.push(acc)
-    }
-  }
-  
-  let totalAvailable = 0
-  const availableAmount = towardEmergency.map((acc, ind) =>{
-      totalAvailable = calcMoney(totalAvailable, acc.amount)
-      return (<li key={ind}>
-        <strong>{up(acc.name)}</strong>
-        <span>{money(acc.amount)}</span>
-      </li>)
-    })
-
+  const {totalAvailable, livingExpenses, excluded, availableAmount} = CalcSavingsNeeded(p.total, p.budget, p.accounts)
   return (
     <ContentBox title='Emergency Funds' itemId='emergencyFundsModule' icon={<FontAwesomeIcon icon={faAmbulance} />}>
       <div className='row mt-40'>

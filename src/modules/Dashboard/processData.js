@@ -7,8 +7,9 @@ import ChartContainer from '../components/ChartContainer'
 import { colors } from '../../styles/colors'
 import { Link } from 'react-router-dom'
 import percents from '../../utilities/suggested'
+import LineChart from 'react-linechart';
 
-const noData = (item, link) => {
+const noData = (item, link, message) => {
     const content = <div className='content-pad'>
         <div className='row between'>
             <h3 style={{
@@ -16,7 +17,7 @@ const noData = (item, link) => {
                 'fontSize': '1.3rem',
                 'textAlign': 'center',
                 'color': '#666'
-            }}>No {item} Created</h3>
+            }}>{message ? message : `No ${item} Created`}</h3>
         </div>
         <div className='right'>
             <Link to={'/' + link} className='btn'>Add / edit {item}</Link>
@@ -158,5 +159,46 @@ export const proccessbudgetData = (budget, total, viewBy) => {
     return ({
         total: ((totalVals / total) * 100).toFixed(2),
         content: budgetContent
+    })
+}
+
+export const proccessSnapshots = (snapShots, width) => {
+    if(Object.keys(snapShots).length < 2) return noData('snapshots', 'snapshots', 'Not enough snapshots created')
+
+    let data = [{ color: 'green', points: [] }]
+
+    let useSnapShots = [...snapShots].sort((a, b) => b - a)
+
+    console.log(useSnapShots)
+    useSnapShots = [...useSnapShots].reverse().filter((item, index) => index < 6)
+
+    useSnapShots.forEach(ss => {
+        const d = ss.date.split('-')
+        const useDate = `${d[2]}-${d[0]}-${d[1]}`
+        console.log(useDate, ss.currentTotal)
+        data[0].points.push({
+            x: useDate, y: parseFloat(ss.currentTotal)
+        })
+    })
+
+    const snapshotData = <div className='content-pad'>
+        <div className='row'>
+            <LineChart
+                hideXLabel
+                hideYLabel
+                hideXAxis
+                yMin='500'
+                width={width}
+                height={500}
+                data={data}
+                isDate={true}
+            />
+        </div>
+        <div className='right pt-10'>
+            <Link to='/snapshots' className='btn'>Edit snapshots</Link>
+        </div>
+    </div>
+    return ({
+        content: snapshotData
     })
 }
