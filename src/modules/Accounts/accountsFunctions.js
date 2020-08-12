@@ -5,7 +5,7 @@ import { getInterest } from '../../utilities/functions'
 import AccountListItem from '../components/AcountListItem'
 import { validForm } from '../../utilities/formUtilities'
 
-export const proccessAccounts = (s, showReturns, p, updateEdittingItem, updateShowForm) => {
+export const proccessAccounts = (s, showReturns, p, updateEdittingItem, updateShowForm, transfers = [], handleEditTransfers) => {
     let total = 0
     let liquid = 0
     const accountList = p.accounts.map((a, i) => {
@@ -14,13 +14,19 @@ export const proccessAccounts = (s, showReturns, p, updateEdittingItem, updateSh
         const interest = getInterest(parseFloat(a.amount), parseFloat(a.interest), 10)
         return (    
             <AccountListItem
-                key={i} s={s} a={a} Bullet={Bullet}
+                handleEditTransfers={handleEditTransfers}
+                accounts={p.accounts}
+                key={i} 
+                s={s} 
+                a={a} 
+                Bullet={Bullet}
                 money={money} interest={interest} 
                 showReturns={showReturns}
                 updateEdittingItem={updateEdittingItem} 
                 updateShowForm={updateShowForm}
                 addAccountToEstimator = {p.addAccountToEstimator}
                 updateView = {p.updateView}
+                transfers={transfers}
             />
         )
     })

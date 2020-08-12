@@ -18,12 +18,28 @@ const YourBudget = ({ step }) => {
   const [displayForm, toggleForm] = useState(Object.keys(p.budget).length < 1 && window.innerWidth >= 900);
   const [editItem, updateEditItem] = useState(null);
   const [errors, updateErrors] = useState(null)
+  const [retainData, updateRetainData] = useState({})
   
 
   const moduleName = 'yourBudgetModule'
 
   const amountLeft = convert(p.amount, "w", p.viewBy) - convert(p.total, "m", p.viewBy);
   const percentLeft = (convert(p.total, "m", p.viewBy) / convert(p.amount, "w", p.viewBy)) * 100;
+
+  const handleFormSubmit = budgetItemIn => {
+    let bi = {...budgetItemIn}
+    updateRetainData({...bi})
+    if(bi.noEnd && bi.noEnd ==='on') delete bi.end 
+    if (!validateData(bi)) return null
+    if(!bi.autoOn || bi.autoOn === 'off') bi.fromAccount = ''
+    if(bi.autoOn) delete bi.autoOn
+    updateRetainData({})
+    !editItem && p.addBudgetItem(bi)
+    editItem && p.updateBudgetItem(editItem, bi)
+    updateEditItem(null)
+    toggleForm(false)
+    p.updateView('yourBudgetModule')
+  }
 
   const validateData = (bi) => {
     const fields = [
@@ -35,6 +51,13 @@ const YourBudget = ({ step }) => {
     if(bi.date && bi.end && pDate(bi.date) > pDate(bi.end)){
       errs['end'] = 'End date can not come before start date'
     }
+
+    if(bi.autoOn && bi.autoOn=== 'on'){
+      if(!bi.fromAccount || bi.fromAccount === ''){
+        errs['fromAccount'] = 'Account required for auto withdraw'
+      }
+    }
+
     updateErrors(errs)
     return (Object.keys(errs).length === 0)
   }
@@ -95,6 +118,7 @@ const YourBudget = ({ step }) => {
             </button>
           </span>
             {displayForm && <BudgetForm
+              retainData={retainData}
               catOptions={catOptions}
               editItem={editItem}
               updateEditItem={updateEditItem}
@@ -103,15 +127,8 @@ const YourBudget = ({ step }) => {
               errors={errors}
               updateView={p.updateView}
               accountList={p.accounts}
-              onSubmit={bi => {
-                if(bi.noEnd && bi.noEnd ==='on'){ delete bi.end }
-                if (!validateData(bi)) return null
-                !editItem && p.addBudgetItem(bi)
-                editItem && p.updateBudgetItem(editItem, bi)
-                updateEditItem(null)
-                toggleForm(false)
-                p.updateView('yourBudgetModule')
-              }}
+              onSubmit={bi => handleFormSubmit(bi)}
+              updateRetainData={updateRetainData}
             />} 
         </div>
       </div>

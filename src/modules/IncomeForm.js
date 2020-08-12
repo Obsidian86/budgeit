@@ -20,13 +20,22 @@ const IncomeForm = () => {
   const [errors, updateErrors] = useState(null)
   const [openedForm, updateOpenedform] = useState(false)
 
-  const submitForm = (data, editting) => {
-    // return console.log(data)
+  const submitForm = (inData, editting) => {
+    let data = { ...inData }
     const errs = {}
     data.date = parsedCurrentDate(data.date)
     if (!data.item) errs.item = 'Please input an item name' 
-    if (!data.amount) errs.amount = 'Please input an amount'
-    else { if (isNaN(data.amount.split(' ').join(''))) errs.amount = 'Please input a number' }
+    if(data.autoOn && data.autoOn === 'on'){
+      if(!data.toAccount) errs.autoOn = "Account required for auto deposit"
+      if(!data.toAccount) errs.toAccount = "Account required for auto deposit"
+    } else {
+      data.toAccount = ''
+    }
+    if (!data.amount) { 
+      errs.amount = 'Please input an amount'
+    } else { 
+      if (isNaN(data.amount.split(' ').join(''))) errs.amount = 'Please input a number' 
+    }
     updateErrors(errs)
     if (Object.keys(errs).length < 1){
       updateEdditingItem(null)
@@ -52,6 +61,10 @@ const IncomeForm = () => {
       }
   })
 
+  const handClickEditItem = item => {
+    updateEdditingItem({...item, autoOn: item.toAccount !== '' ? 'on' : 'off'})
+  }
+
   const hasSource = p.incomeSources.length > 0
   const defaultFormData = edittingItem ? 
       { ...edittingItem } :
@@ -71,7 +84,7 @@ const IncomeForm = () => {
               Add source
             </button>}
         </div>
-        {showForm && <div className={`mt-40 m-sm`} style={{paddingTop: '30px'}}>
+        {showForm && <div className={`mt-10 m-sm`}>
         <Form
           reDefault
           defaultFormData={defaultFormData}
@@ -96,25 +109,30 @@ const IncomeForm = () => {
                 <IP type='date' alias="date" label='Start date' data={formData} 
                   onChange={val => updateField({ target: { value: parsedCurrentDate(val), name: 'date' } }) } />
               </>
-{/* 
+
             <label className='cu_checkBox'>
               <input
-                type='checkbox' name='isTransfer'
-                checked={!!formData.isTransfer && formData.isTransfer === "on"}
+                type='checkbox' name='autoOn'
+                checked={!!formData.autoOn && formData.autoOn === "on"}
                 onChange={() => updateField({ 
-                  target: { name: 'isTransfer', 
-                  value: (!formData.isTransfer || formData.isTransfer === 'off') ? 'on' : 'off'} }) }
+                  target: { name: 'autoOn', 
+                  value: (!formData.autoOn || formData.autoOn === 'off') ? 'on' : 'off'} }) }
               />{' '} <span />Auto deposit
-            </label> */}
-{/* 
-            {(formData.isTransfer && formData.isTransfer !== 'off') ?
-              p.accounts.length < 1 ? <p>Acc needed</p> :
-              <IP type='drop' options={p.accounts.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))} label='To account'
-                data={formData} style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} alias='toAccount' 
-                onChange={val => updateField({ target:{ value: val, name: 'toAccount' } })} 
-              /> : null } */}
+            </label>
 
-              <span className='grouping right'>
+            {(formData.autoOn && formData.autoOn !== 'off') ?
+              p.accounts.length < 1 ? <p>Acc needed</p> :
+              <IP type='drop' 
+                errors={errors}
+                options={p.accounts.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))} 
+                label='To account'
+                data={formData}
+                style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} 
+                alias='toAccount' 
+                onChange={val => updateField({ target:{ value: val, name: 'toAccount' } })} 
+              /> : null }
+
+              <span className='grouping right mt-10'>
                 <IP type='btn_blue' onChange={()=> { handleCancelClick(); clearData(); }} label={(edittingItem || p.isMobile) ? "Cancel" : "Clear"} />
                 <IP type='btn' onChange={() =>submitForm(formData, !!edittingItem)} />
               </span>
@@ -135,7 +153,7 @@ const IncomeForm = () => {
             tData={['Name', 'Recurrence', 'Amount']}
           />
           {p.incomeSources.map((s, i) =>
-            <TableRow tData={[s.item, disRec(s.rec), money(s.amount)]} key={i} onClick={() => updateEdditingItem(s)} />
+            <TableRow tData={[s.item, disRec(s.rec), money(s.amount)]} key={i} onClick={() => handClickEditItem(s)} />
           )}
         </div>
         : <div className='m-lg'><div className='center-all'><h2>Add Income source</h2></div></div>

@@ -3,20 +3,25 @@ import Form from '../interface/Form'
 import { recurrence } from '../../utilities/constants'
 import { parsedCurrentDate, stepDate } from '../components/calendar/dateFunctions'
 import { IP } from '../../utilities/formUtilities'
-// import { money } from '../../utilities/convert'
+import { money } from '../../utilities/convert'
 
-const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors, updateView, accountList }) => {
+const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors, updateView, accountList, retainData = {} }) => {
   return (<Form
     defaultFormData={
       editItem ? { 
         ...editItem, 
         newCategory: 'off', 
         noEnd: editItem.end ? "off" : "on", 
-        end: editItem.end ? editItem.end : stepDate(parsedCurrentDate(new Date()).split("-"), "yearly", 10).join('-')} : 
+        end: editItem.end ? editItem.end : stepDate(parsedCurrentDate(new Date()).split("-"), "yearly", 10).join('-'),
+        autoOn: editItem.fromAccount && editItem.fromAccount !== '' ? 'on' : 'off',
+        ...retainData
+      } : 
       { 
         newCategory: 'off',
         date: parsedCurrentDate(new Date()),
-        end: stepDate(parsedCurrentDate(new Date()).split("-"), "yearly", 10).join('-'), rec: 'm'
+        end: stepDate(parsedCurrentDate(new Date()).split("-"), "yearly", 10).join('-'), rec: 'm',
+        autoOn: 'off',
+        ...retainData
       }
     }
     reDefault
@@ -65,18 +70,20 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             />{' '} <span />No end
           </label>
           
-          {/* <label className='cu_checkBox'>
+          <label className='cu_checkBox'>
             <input
-              type='checkbox' name='isTransfer'
-              checked={!!formData.isTransfer && formData.isTransfer === "on"}
+              type='checkbox' name='autoOn'
+              checked={!!formData.autoOn && formData.autoOn === "on"}
               onChange={() => updateField({ 
-                target: { name: 'isTransfer', 
-                value: (!formData.isTransfer || formData.isTransfer === 'off') ? 'on' : 'off'} }) }
+                target: { name: 'autoOn', 
+                value: (!formData.autoOn || formData.autoOn === 'off') ? 'on' : 'off'} }) }
             />{' '} <span />Auto widthdrawl
           </label>
-          {formData.isTransfer && <IP type='drop' options={accountList.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))} label='From account'
-            data={formData} style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} alias='rec' 
-            onChange={val => updateField({ target:{ value: val, name: 'rec' } })} /> } */}
+
+
+          {formData.autoOn && formData.autoOn === 'on' && <IP type='drop' options={accountList.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))} label='From account'
+            data={formData} style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} alias='fromAccount' 
+            onChange={val => updateField({ target:{ value: val, name: 'fromAccount' } })} /> }
 
           <div className='grouping right mt-10' style={{maxWidth: '100%', flexWrap: 'wrap'}}>
             {editItem && <button
