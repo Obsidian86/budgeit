@@ -25,6 +25,12 @@ const styles = {
     p: {
         padding: '0',
         margin: '0 0 4px 0'
+    },
+    tab: {
+        backgroundColor: 'green', 
+        padding: '4px 6px', 
+        borderRadius: '3px', 
+        color: '#fff'
     }
 }
 
@@ -41,7 +47,7 @@ const AccountListItem = (props) => {
     }
 
     return(
-        <li style={{flexWrap: 'wrap', cursor: 'pointer'}} onClick={()=>updateShowOptions(!showOptions)}>
+        <li style={{flexWrap: 'wrap', cursor: 'pointer', boxShadow: showOptions ? '0 0 2px rgba(0,0,0,.3)' : 'none'}} onClick={()=>updateShowOptions(!showOptions)}>
             <span style={s.intFirst}> <Bullet color={a.liquid ? 'green' : 'orange'} size={12} /> {a.name}</span>
             <span style={s.intRight}>{a.interest}%</span>
             <span style={s.intRight} className={showOptions ? 'mb-10' : null}>{money(a.amount)}</span>
@@ -49,7 +55,7 @@ const AccountListItem = (props) => {
                 {showOptions ? '-' : '+'}
             </span>
 
-            {showOptions && <div className='right w-100 mt-10'>
+            {showOptions && <div className='right w-100' style={{borderTop: '1px solid #d9d9d9', paddingTop: '15px', marginTop: '5px'}}>
                 <Link to='/savings' className='btn narrow blue' style={{textDecoration: 'none'}} onClick={()=> addAccountToEstimator(a)}>
                     Add to estimator
                 </Link>
@@ -61,10 +67,10 @@ const AccountListItem = (props) => {
                 </button>
             </div>}
             <div className='row mb-10 start'>
-                <div className='mt-20 mr-20'>Transfers to account: {transfersTo.length}</div>
-                <div className='mt-20'>Transfers from account: {transfersFrom.length}</div>
+                <div className='mt-20 mr-20' style={styles.tab}>Transfers to account: {transfersTo.length}</div>
+                <div className='mt-20' style={styles.tab}>Transfers from account: {transfersFrom.length}</div>
                 {showOptions && <div className='w-99 row start'>
-                    <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Transfers</h3>
+                    { (transfersTo.length + transfersFrom.length > 0) && <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Transfers</h3> }
                     {transfersTo.map(tr => {
                         return(
                             <div key={tr.id} style={{...styles.transferCard, ...styles.toCard}}>
