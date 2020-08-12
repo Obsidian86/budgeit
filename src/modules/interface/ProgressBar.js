@@ -12,6 +12,8 @@ const ProgressBar = ({ title = ' ', hideShadow, percent = 50, height = 32, color
     backgroundColor: color,
     position: 'absolute',
     left: '0',
+    paddingLeft: '0',
+    paddingRight: '0',
     height: `${height}px`,
     top: '0',
     width: `${percent > 100 ? 100 : percent}%`

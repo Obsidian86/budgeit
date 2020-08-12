@@ -108,7 +108,7 @@ export const proccessbudgetData = (budget, total, viewBy) => {
         const mappedBi = bdItem.items.forEach(biItemsItem =>{
             totalVals = calcMoney(totalVals, convert(biItemsItem.amount, biItemsItem.rec, 'y'))
         })
-        const usePercent = (convert(bdItem.total, 'm', 'y') / total) * 100
+        let usePercent = (convert(bdItem.total, 'm', 'y') / total) * 100
         const progBar = total > 0 ? <div style={{
                 'width': 'calc(100% - 5px)',
                 'padding': '0',
@@ -121,9 +121,10 @@ export const proccessbudgetData = (budget, total, viewBy) => {
                         'paddingTop': '2px',
                         'paddingBottom': '23px'
                     }}
-                    marks={percents[up(bi)] || null}
-                    percent={ usePercent } 
-                    hideShadow title={percent(usePercent)} 
+                    marks={percents[bi] || percents[up(bi)] || null}
+                    percent={ usePercent > 100 ? 100 : usePercent } 
+                    hideShadow 
+                    title={percent(usePercent)} 
                     color='lightgreen' bg='white' height={3} 
                     fontColor='green' fontSize='1rem' paddingTop='0' 
                 />
