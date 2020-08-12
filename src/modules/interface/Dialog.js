@@ -54,7 +54,7 @@ const Dialog = ({ data, setDialog }) => {
                     padding: 16px;
                     padding-right: 0;
                     padding-top: 0;
-                    button { margin-left: 20px; }
+                    button { margin-left: 10px; }
                 }
             }
         }
@@ -70,8 +70,8 @@ const Dialog = ({ data, setDialog }) => {
           {content && content}
           {(confirm || reject) &&
           <div className='grouping right'>
-            {confirm && <button onClick={() => handleClick(confirm)} className='btn'>{yesText}</button>}
             {reject && <button onClick={() => handleClick(reject)} className='btn red'>{noText}</button>}
+            {confirm && <button onClick={() => handleClick(confirm)} className='btn'>{yesText}</button>}
           </div>}
         </div>
       </div>

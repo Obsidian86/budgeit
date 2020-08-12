@@ -19,6 +19,7 @@ const ProgressBar = ({ title = ' ', hideShadow, percent = 50, height = 32, color
     width: `${percent > 100 ? 100 : percent}%`
   }
   const titleStyles = {
+    whiteSpace: 'nowrap',
     zIndex: '2',
     width: '100%',
     textAlign: 'center',

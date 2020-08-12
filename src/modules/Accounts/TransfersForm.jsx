@@ -4,24 +4,24 @@ import { IP } from '../../utilities/formUtilities'
 import { parsedCurrentDate } from '../components/calendar/dateFunctions'
 import { recurrence } from '../../utilities/constants'
 
-const TransfersForm = ({accounts, updateTransfersState, transferState}) => {
+const TransfersForm = ({p, updateTransfersState, transferState}) => {
     const [errors, updateErrors] = useState({})
-    const accountOptions = accounts.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))
+    const accountOptions = p.accounts.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))
 
     const formData = {...transferState}
 
     const updateField = e => updateTransfersState({ ...transferState, [e.target.name]: e.target.value})
     const handlesubmit = () => {
         const errs = {}
-
         if(!formData.toAccount) errs['toAccount'] = 'Field required'
         if(!formData.fromAccount) errs['fromAccount'] = 'Field required'
-
         if(formData.toAccount && formData.fromAccount){
             if(formData.toAccount + '' === formData.fromAccount + ''){
                 errs['fromAccount'] = 'Can not transfer to same account'
                 errs['toAccount'] = 'Can not transfer to same account'
             }
+            formData.toAccount = formData.toAccount + ''
+            formData.fromAccount = formData.fromAccount + ''
         }
 
         if(!formData.amount || formData.amount.replace(/ /g, '') === ''){
@@ -35,7 +35,23 @@ const TransfersForm = ({accounts, updateTransfersState, transferState}) => {
         if(!formData.date) errs['date'] = 'Field required'
         updateErrors(errs)
         if(Object.keys(errs).length > 0) return
-        console.log(transferState.id ? 'UPDATE' : 'CREATE NEW')
+        const handler = transferState.id ? p.updateAccountTransfer : p.addAccountTransfer
+        handler(formData)
+        updateTransfersState(null)
+    }
+
+    const handleDeleteClick = () => {
+        const itemId = transferState.id
+        p.setDialog({
+            open: true,
+            header: 'Delete auto transfer', 
+            message: <>Are you sure you want to delete this transfer? <br /> This can not be undone.</>, 
+            confirm: ()=> {
+                p.deleteAccountTransfer(itemId)
+                updateTransfersState(null)
+            },
+            reject: ()=> null 
+        }) 
     }
 
     return (
@@ -111,6 +127,7 @@ const TransfersForm = ({accounts, updateTransfersState, transferState}) => {
                 </div>
             </div> 
             <div className='w-99 right'>
+                {transferState.id && <button className='btn mt-10 mr-20 red' onClick={handleDeleteClick}>Delete</button>}
                 <button className='btn mt-10 mr-20 green' onClick={handlesubmit}>Submit</button>
             </div>
         </div>

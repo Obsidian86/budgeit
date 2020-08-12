@@ -24,6 +24,10 @@ const getMethods = (provider) => ({
     deleteAccount: provider.deleteAccount,
     updateAccount: provider.updateAccount,
     addAccountToEstimator: provider.addAccountToEstimator,
+    // Account transfer CRUD
+    addAccountTransfer: provider.addAccountTransfer,
+    updateAccountTransfer: provider.updateAccountTransfer,
+    deleteAccountTransfer: provider.deleteAccountTransfer,
     // Snapshots
     addSnapShot: provider.addSnapShot,
     deleteSnapShot: provider.deleteSnapShot,

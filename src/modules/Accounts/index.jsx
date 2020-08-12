@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import MainContext from '../../providers/MainContext'
 import ContentBox from '../interface/ContentBox'
 import SoftList from '../interface/SoftList'
@@ -14,35 +14,53 @@ import { parsedCurrentDate } from '../components/calendar/dateFunctions'
  
 const Accounts = () => {
     const p = useContext(MainContext)
-    const [showReturns, updateShowReturns] = useState(false)
     const [showForm, updateShowForm] = useState(false)
     const [errors, updateErrors] = useState({})
     const [edittingItem, updateEdittingItem ] = useState(null)
     const [transfersState, updateTransfersState] = useState(null)
+    const [parentWidth, updateParentWidth] = useState(500)
+    const [showOptionsParent, updateShowOptions] = useState(null)
     const { proccessAccounts, handleSubmit, deleteAccount } = accountFunctions
+
+    const getWidth = () => {
+        const ss = document.getElementById('accountsModule')
+        ss && updateParentWidth(ss.offsetWidth - 50)
+      }
+      useEffect(() => {
+          getWidth()
+          window.addEventListener('resize', getWidth)
+          return function(){window.removeEventListener('resize', getWidth)}
+      })
 
     const handleEditTransfers = (tr) => updateTransfersState({...tr})
     const handleDelete = (id, clearData) => deleteAccount(id, clearData, p, updateEdittingItem, updateShowForm, updateErrors)
     const handleSubmitForm = formData => handleSubmit(formData, edittingItem, p, updateEdittingItem, updateShowForm, updateErrors)
-    const {total, liquid, accountList} = proccessAccounts(s, showReturns, p, updateEdittingItem, updateShowForm, p.accountTransfers, handleEditTransfers)
+
+    const useShowOptions = (edittingItem || showForm) ? null : showOptionsParent
+    const {total, liquid, accountList} = proccessAccounts(
+        s, false, p, updateEdittingItem, updateShowForm, p.accountTransfers, handleEditTransfers, parentWidth, useShowOptions, updateShowOptions
+    )
 
     return (
         <ContentBox title='Accounts' exClass={'mx row'} itemId='accountsModule' icon={<FontAwesomeIcon icon={faUniversity} />}>
-            <div className={`mt-40 ${(showForm || accountList.length < 1) ? 'md' : 'max'}`} style={{paddingTop: '50px'}}>
-                {!showForm && <div className='right' style={{marginRight: '-17px', marginBottom: '25px'}}>
-                    <button 
-                        className={`btn ${transfersState ? 'red' : 'blue'}`} 
-                        onClick={() => transfersState ? updateTransfersState(null) : updateTransfersState({date: parsedCurrentDate(Date.now())})}
-                    >
-                        <i><FontAwesomeIcon icon={faExchangeAlt} /></i> &nbsp;
-                        { transfersState ? 'Cancel transfer set up' : 'Set up auto transfers'}
-                    </button>
-                </div>}
-
-                {
-                    transfersState && <TransfersForm accounts={p.accounts} updateTransfersState={updateTransfersState} transferState={transfersState} /> 
+            <div className='right w-99 pt-50' style={{marginRight: '-17px' }}>
+                {!showForm && <button 
+                    className={`btn ${transfersState ? 'red' : 'blue'}`} 
+                    onClick={() => transfersState ? updateTransfersState(null) : updateTransfersState({date: parsedCurrentDate(Date.now())})}
+                >
+                    <i><FontAwesomeIcon icon={faExchangeAlt} /></i> &nbsp;
+                    { transfersState ? 'Cancel transfer set up' : 'Set up auto transfers'}
+                </button> }
+                {!transfersState && 
+                    <button className='btn mr-20' onClick={()=> updateShowForm(!showForm)} >
+                        {showForm ? 'Hide form' : 'Add account'}
+                    </button> 
                 }
-
+            </div>
+            <div className={`mt-10 ${(showForm || accountList.length < 1) ? 'md' : 'max'}`}> 
+                { transfersState &&
+                    <TransfersForm updateTransfersState={updateTransfersState} transferState={transfersState} p={p} /> 
+                }
                 { accountList.length < 1 ? <div className='center-all'><h2 className='mb-60'>Add an account </h2></div>
                 : <>
                     <SoftList split>
@@ -59,17 +77,9 @@ const Accounts = () => {
                         <h3 style={{padding: '0px 8px 7px 6px', color: 'orange'}} >Non liquid: {money(total - liquid)} </h3>
                         <h3 style={{padding: '0px 8px 7px 6px'}}>Total: {money(total)}</h3>
                     </div>
-                    {!transfersState && <div className='right'>
-                        <button className='btn blue' onClick={()=> updateShowReturns(!showReturns)}>
-                            {showReturns ? 'Hide' : 'Show'} returns
-                        </button>
-                        <button className='btn' onClick={()=> updateShowForm(!showForm)} >
-                            {showForm ? 'Hide form' : 'Add account'}
-                        </button>
-                    </div>}
                 </>}
             </div>
-            {(showForm || accountList.length < 1)  && <div className='md mt-40' id='accountForm'>
+            {(showForm || accountList.length < 1)  && <div className='md' id='accountForm'>
                 <Form
                     reDefault   
                     defaultFormData = {edittingItem ? edittingItem : {}}

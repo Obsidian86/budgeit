@@ -40,22 +40,24 @@ export const load = async (profile) => {
     newBudget = {...budget}
     newTotal = total
   }
-  const tableData = data && data.savingsTable && data.savingsTable[0] && data.savingsTable[0].tableData && data.savingsTable[0].tableData.replace(/'/g, '"')
-  const hasTableData = tableData ? data.savingsTable[0].id : false
-  const savingsTables = data && data.savingsTables
 
+  const savingsTables = data && data.savingsTables
+  const accountTransfers = (data && data.accountTransfers) || []
+  const userInfo = (data && data.userInfo) || {}
   const processedTables = savingsTables ? savingsTables.reduce((curTables, table) => {
     return processTables(table, curTables)
   }, [{}]) : [{}]
 
+
   const newState = {
     profile,
     amount,
+    userInfo,
+    accountTransfers,
     budget: newBudget,
     savingsTables,
     total: newTotal,
     savingsTable: processedTables,
-    hasTableData,
     accounts: data.accounts,
     incomeSources: newIncomeSource,
     snapshots: data.snapshots,

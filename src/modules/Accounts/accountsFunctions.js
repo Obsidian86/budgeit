@@ -2,10 +2,13 @@ import React from 'react'
 import { money, calcMoney } from '../../utilities/convert'
 import Bullet from '../interface/Bullet'
 import { getInterest } from '../../utilities/functions'
-import AccountListItem from '../components/AcountListItem'
+import AccountListItem from './AcountListItem'
 import { validForm } from '../../utilities/formUtilities'
 
-export const proccessAccounts = (s, showReturns, p, updateEdittingItem, updateShowForm, transfers = [], handleEditTransfers) => {
+export const proccessAccounts = (
+    s, showReturns, p, updateEdittingItem, updateShowForm, transfers = [], handleEditTransfers, parentWidth, showOptionsParent, updateShowOptions
+) => {
+
     let total = 0
     let liquid = 0
     const accountList = p.accounts.map((a, i) => {
@@ -27,6 +30,9 @@ export const proccessAccounts = (s, showReturns, p, updateEdittingItem, updateSh
                 addAccountToEstimator = {p.addAccountToEstimator}
                 updateView = {p.updateView}
                 transfers={transfers}
+                parentWidth={parentWidth}
+                showOptionsParent={showOptionsParent}
+                updateShowOptions={updateShowOptions}
             />
         )
     })

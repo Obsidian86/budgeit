@@ -81,6 +81,13 @@ class MainProvider extends React.Component {
   addAccount = (ai) =>  this.accountReqs(ai, conF.processAddAccount)
   deleteAccount = (aId) => this.accountReqs(aId, conF.processDeleteAccount)
   updateAccount = (ai) => this.accountReqs(ai, conF.processUpdateAccount)
+
+  // account transfers
+  accTraReqs = (data, fnc) => fnc(data, this.state.accountTransfers, this.state.profile, this.saveState)
+  addAccountTransfer = (at) => this.accTraReqs(at, conF.processAddAccountTransfer)
+  deleteAccountTransfer = (at) => this.accTraReqs(at, conF.processDeleteAccountTransfer)
+  updateAccountTransfer = (at) => this.accTraReqs(at, conF.processUpdateAccountTransfer)
+
   // savings calulator
   savingsTablesReqs = (data, fnc) => fnc(data, this.state.savingsTable, this.state.savingsTables, this.state.profile, this.saveState)
   addSavingsTables = table => this.savingsTablesReqs(table, conF.addSavingsTables)

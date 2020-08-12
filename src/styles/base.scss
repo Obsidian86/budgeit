@@ -207,6 +207,9 @@ label{
   @supports (-ms-ime-align:auto) {
     & { justify-content: space-around; }
   }
+  &.noWrap {
+    flex-wrap: nowrap;
+  }
   &.between{
     justify-content: space-between;
   }
@@ -245,11 +248,13 @@ label{
   box-shadow: 0 0 0 6px #fff, 0 0 10px black;
   position: relative;
   &.sm, .sm{ width: calc(24% - 40px); }
-  &.smPlus, .smPlus{ width: calc(29% - 40px); }
+  & .w-30 { width: 30%; }
+  &.smPlus, .smPlus{ width: calc(30% - 40px); }
   &.thr, .thr{ width: calc(33% - 40px); }
   &.m-sm, .m-sm{ width: 37%; }
   &.md, .md, .md-f{ width: calc(50% - 30px); }
   &.m-lg, .m-lg { width: 55%; }
+  & .tt { width: calc(67% - 20px); }
   &.lg, .lg{ width: calc(70% - 40px); }
   &.max, .max{ width: 98%; }
   &.xs, .xs { width: 16%; }
@@ -264,7 +269,7 @@ label{
   @media (max-width: 1000px){ 
     width: calc(96% - 25px); 
     margin: 15px auto;
-    &.md, &.sm, &.lg, .sm, .thr, .md, .lg, .xs, .m-lg, &.m-sm, .m-sm, &.smPlus, .smPlus{ 
+    &.md, &.sm, &.lg, .sm, .thr, .md, .lg, .xs, .m-lg, &.m-sm, .m-sm, &.smPlus, .smPlus, .w-30, .tt{ 
       width: calc(96% - 25px);   
       margin: 15px auto;
     }
@@ -277,24 +282,24 @@ label{
   }
 }
 
-.m-10{ margin: 0px; }
-.m-20{ margin: 20px; }
-.ml-n-15 { margin-left: -15px; }
-.mr-n-15 { margin-right: -15px; }
-.mt-10 { margin-top: 10px; }
-.mt-20 { margin-top: 20px; }
-.mt-40 { margin-top: 40px; }
-.mt-60 { margin-top: 60px; }
-.mr-10 { margin-right: 10px; }
-.mr-20 { margin-right: 20px; }
-.mt-100 { margin-top: 100px; }
-.mb-10 { margin-bottom: 10px; }
-.mb-40 { margin-bottom: 40px; }
-.mb-60 { margin-bottom: 60px; }
+
+@for $i from 0 through 25 {
+  $num: $i * 5;
+  .p-#{$num}{ padding: #{$num}px; }
+  .pt-#{$num}{ padding-top: #{$num}px; }
+  .pl-#{$num}{ padding-left: #{$num}px; }
+  .m-#{$num}{ margin: #{$num}px; }
+  .mt-#{$num}{ margin-top: #{$num}px; }
+  .mr-#{$num}{ margin-right: #{$num}px; }
+  .ml-#{$num}{ margin-left: #{$num}px; }
+  .mb-#{$num}{ margin-bottom: #{$num}px; }
+  .ml-n-#{$num}{ margin-left: -#{$num}px; }
+  .mr-n-#{$num}{ margin-left: -#{$num}px; }
+}
+
 .w-100{ width: 100% }
 .fw-b{font-weight: bold;}
 .d-bl{display: block; }
-.pt-10{ padding-top: 10px; }
 
 p{
   line-height: 1.6rem; 

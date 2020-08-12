@@ -26,7 +26,7 @@ const EmergencyFunds = () => {
               { availableAmount }
             </SoftList>
           </div>
-          <div className='m-lg'>
+          <div className='tt'>
             <SoftList split>
               <li><strong>Monthly expenditure</strong><span>{money(p.total)}</span></li>
               {Object.keys(excluded).map(b =>

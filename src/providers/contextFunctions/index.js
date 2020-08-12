@@ -8,6 +8,7 @@ import * as sav from './savingsTableFunctions'
 import * as exp from './exportData'
 import * as ref from './refreshToken'
 import * as tra from './transactionFunctions'
+import * as act from './accountTransferFunctions'
 
 export default {
   ...snS,
@@ -19,5 +20,6 @@ export default {
   ...sav,
   ...exp,
   ...ref,
-  ...tra
+  ...tra,
+  ...act
 }

@@ -58,7 +58,7 @@ const CalendarModule = ({nonLoad}) => {
   return (
     <ContentBox title='Calendar' itemId='calendarModule' icon={<FontAwesomeIcon icon={faCalendar}/>} exClass={nonLoad ? 'hide' : ''}>
       <div className='row between mt-40'>
-        <div className='smPlus mt-40 fw-b'>
+        <div className='w-30 mt-40 fw-b'>
           <TabbedView
             rounded
             activeColor={'#d9d9d9'}
