@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import LineChart from 'react-linechart'
-import { parsedCurrentDate } from '../components/calendar/dateFunctions'
+import { parsedCurrentDate, stepDate } from '../components/calendar/dateFunctions'
 
 const styles = {
     transferCard: {
@@ -77,9 +77,9 @@ const AccountListItem = (props) => {
         updateShowOptions
     } = props
 
-    console.log(a)
-
     const [selectedPoint, updateSelectedPoint] = useState(null)
+    const [selectedRangePoint, updateSelectedRangePoint] = useState(null)
+    const [range, updateRange] = useState('months')
     const showOptions = showOptionsParent && (a.id + '' === showOptionsParent + '')
 
     const transfersTo = transfers.filter(tr => tr.toAccount + '' === a.id + '')
@@ -95,11 +95,40 @@ const AccountListItem = (props) => {
         else updateShowOptions(a.id)
     }
 
+    const handleRangePointclick = (e, point) => {
+        e.stopPropagation()
+        const spl = point.x.split('-')
+        const useDate = spl[1] + '-' + spl[2] + '-' + spl[0]
+        updateSelectedRangePoint(`Amount: ${money(point.y)} on ${useDate}`)
+    }
     const handlePointclick = (e, point) => {
         e.stopPropagation()
         const spl = point.x.split('-')
         const useDate = spl[1] + '-' + spl[2] + '-' + spl[0]
         updateSelectedPoint(`Amount: ${money(point.y)} on ${useDate}`)
+    }
+    const todaysDate = parsedCurrentDate()
+
+    const getProjectedChartData = () => {
+        console.log(transfers, a.id)
+        let points = []
+
+        let i = 0
+        let date = todaysDate
+        while(i < 100){
+            console.log(date)
+            date = stepDate(date.split('-'), 'd', 1, true)
+            i++
+        }
+
+        points.push({
+            amount: a.amount, 
+            date: todaysDate
+        })
+
+        
+
+        return points
     }
 
     return(
@@ -123,7 +152,7 @@ const AccountListItem = (props) => {
             <span style={{...s.intLast, fontSize: '1.1rem'}} className={showOptions ? 'mb-10' : null}>
                 {showOptions ? '-' : '+'}
             </span>
-            <div className='row mb-10 start'>
+            <div className='row mb-10 start w-100'>
                 <div className='mt-20 mr-20' style={styles.tab}>Transfers to account: {transfersTo.length}</div>
                 <div className='mt-20' style={styles.tab}>Transfers from account: {transfersFrom.length}</div>
                 {showOptions && <div className='w-99 row start'>
@@ -157,21 +186,39 @@ const AccountListItem = (props) => {
                 </div>}
 
                 {/* VALUE OVER TIME */}
-                {showOptions && (a.accountSnapshots && a.accountSnapshots.length > 1) &&
+                {showOptions && (a.accountSnapshots && [...a.accountSnapshots].filter(ash => ash.date !== todaysDate).length > -1) &&
                     <div onClick={e => e.stopPropagation()} style={{ width: '95%', marginLeft: '-4px' }}>
                         <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Value over time</h3>
                         <p className='m-0 pl-5 pt-5'>{
                             selectedPoint ? selectedPoint : 'Click point to view info'
                         }</p>
                         {renderChart(
-                            [...a.accountSnapshots, {amount: a.amount, date: parsedCurrentDate()}],
+                            [...a.accountSnapshots, {
+                                amount: a.amount, 
+                                date: todaysDate
+                            }],
                             handlePointclick,
                             parentWidth
                         )}
                     </div>
                 }
+                {/* PROJECTED VALUE OVER TIME */}
+                {showOptions &&
+                    <div onClick={e => e.stopPropagation()} style={{ width: '95%', marginLeft: '-4px' }}>
+                        <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Projected value over time </h3>
+                        <p className='m-0 pl-5 pt-5'>{
+                            selectedRangePoint ? selectedRangePoint : 'Click point to view info'
+                        }</p>
+                        <div className='mt-5 ml-5'>
+                            <button style={{margin: '5px'}} className={`btn narrow ${range === 'months' ? 'blue' : 'gray'}`} onClick={()=>updateRange('months')}>5 Month</button>
+                            <button style={{margin: '5px'}} className={`btn narrow ${range === 'years' ? 'blue' : 'gray'}`} onClick={()=>updateRange('years')}>5 Years</button>
+                        </div>
+                        {renderChart(getProjectedChartData(), handleRangePointclick, parentWidth)}
+                        <p className='muted ml-5'>Base on interest/transfers/budget items</p>
+                    </div>
+                }
                 {showOptions && 
-                <div className='right' style={{ paddingTop: '15px', marginTop: '5px', width: '98%'}}>
+                <div className='right' style={{ paddingTop: '15px', marginTop: '5px', width: '98%' }}>
                     <Link to='/savings' className='btn blue' style={{textDecoration: 'none'}} onClick={()=> addAccountToEstimator(a)}>
                         Add to estimator
                     </Link>

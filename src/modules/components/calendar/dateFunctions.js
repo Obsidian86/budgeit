@@ -23,7 +23,7 @@ export const pDate = (inDate) => { // return system readable date
   return new Date(splDate[2], parseInt(splDate[0]) - 1, splDate[1])
 }
 
-export const stepDate = (newDate = [], stepAmount = '', incr = 1) => {
+export const stepDate = (newDate = [], stepAmount = '', incr = 1, join = false) => {
   // stepAmount = daily, weekly , biWeekly, monthly, yearly
   newDate = newDate.map(d => parseInt(d))
   if (stepAmount === 'd' || stepAmount === 'daily')  { newDate[1] = newDate[1] + incr }
@@ -39,5 +39,5 @@ export const stepDate = (newDate = [], stepAmount = '', incr = 1) => {
     newDate[0] = 1
     newDate[2]++
   }
-  return newDate
+  return join ? newDate.join('-') : newDate
 }

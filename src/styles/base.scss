@@ -50,6 +50,12 @@ body {
     box-shadow: none;
     border: none;
   }
+  &.gray{
+    background-color: gray;
+    &:hover{
+      background-color: lightgray;
+    }
+  }
   &.big{
     padding: 10px 30px;
   }
