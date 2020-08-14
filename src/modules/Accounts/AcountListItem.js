@@ -90,7 +90,10 @@ const AccountListItem = (props) => {
     const transfersFrom = transfers.filter(tr => tr.fromAccount + '' === a.id + '')
 
     let budgetArr = []
+    console.log(budget)
     Object.keys(budget).forEach(bi => {
+        console.log(budget[bi])
+        console.log(bi)
         if(budget[bi].fromAccount && budget[bi].fromAccount + '' === a.id + ''){
             budgetArr = [...budgetArr, ...budget[bi].items]
         }
