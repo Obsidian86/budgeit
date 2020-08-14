@@ -38,6 +38,8 @@ const styles = {
 }
 
 const renderChart = (inData, handleClick, parentWidth) => {
+    console.log('IN DATA')
+    console.log(inData)
     let data = [{ color: 'green', points: [] }]
     inData.forEach(ss => {
         const d = ss.date.split('-')
@@ -101,6 +103,7 @@ const AccountListItem = (props) => {
         )
     })
 
+    console.log('ALL ITEMS')
     console.log(allItemsArray)
 
 
@@ -151,7 +154,8 @@ const AccountListItem = (props) => {
                 }
             }
         }
- 
+        
+        console.log('MAP')
         console.log(itemMap)
         let logList = []
         let logItems = []
@@ -164,12 +168,12 @@ const AccountListItem = (props) => {
                     const toMatch = tr.toAccount + '' === a.id + ''
                     const fromMatch = tr.fromAccount + '' === a.id + ''
                     if (toMatch) {
-                        logList.push(`add ${amnt} `)
+                        logList.push(`add ${amnt} ${tr.item || '-'}`)
                         logItems.push(item)
                         trackAmount = trackAmount + amnt
                     }
                     if (fromMatch) {
-                        logList.push(`sub ${amnt} `)
+                        logList.push(`sub ${amnt}  ${tr.item || '-'} ${tr.name || '-'}`)
                         logItems.push(item)
                         trackAmount = trackAmount - amnt
                     }
@@ -188,8 +192,11 @@ const AccountListItem = (props) => {
             dateTrack = stepDate(dateTrack.split('-'), 'd', 1, true)
             i++
         }
+        console.log('TRACK AMNT')
         console.log(trackAmount)
+        console.log('log list')
         console.log(logList)
+        console.log('log items')
         console.log(logItems)
         return points
     }
