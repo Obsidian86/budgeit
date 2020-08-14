@@ -117,7 +117,7 @@ const SavingsCalc = () => {
 
         const allDeposits = 
         <>
-          + {money(deposit)} <br />
+          <span style={{color: 'darkblue'}}>{money(deposit)}</span> <br />
           {addItems.map((additional, index) => <p key={index} style={s.tablePill}> {money(additional)} </p>) }
         </>
 
@@ -129,7 +129,7 @@ const SavingsCalc = () => {
               minAge,
               allDeposits,
               money(interest), 
-              money(curAllTotal)
+              <span style={{color: 'darkgreen'}}>{money(curAllTotal)}</span>
             ]} 
           />
         )

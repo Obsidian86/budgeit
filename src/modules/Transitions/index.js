@@ -32,7 +32,7 @@ const genStyles = (name, property, start, end, time) => {
       transition: ${property} ${time}ms ease-in;
     }
     .${name}-leave { 
-      ${property}: ${end}; 
+      ${property}: ${start}; 
     }
     .${name}-leave.${name}-leave-active {
         ${property}:${start};

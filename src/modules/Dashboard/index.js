@@ -41,11 +41,11 @@ const Dashboard = () => {
     return (
     <div className='row w-99'>
         {percent && totalSource > 0 && 
-        <div className='w-99 row noWrap start'>
+        <div className='w-99 row'>
             <ContentBox {...barNodeProps}>
                 <ProgressBar percent={ percent } title={ percent + '% income budgeted'} color='green' bg='lightgreen' height={38} fontSize={'1rem'} />
             </ContentBox>
-            <ContentBox {...{...barNodeProps, exStyles: {...barNodeProps.exStyles, marginLeft: '20px'}}} >
+            <ContentBox {...{...barNodeProps, exStyles: {...barNodeProps.exStyles }}} >
                 <ProgressBar {...emerProps} title={'3-6 month emergency'} height={38} fontSize={'1rem'} />
             </ContentBox>
         </div>}

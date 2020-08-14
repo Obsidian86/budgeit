@@ -1,8 +1,8 @@
-import React, {useState} from 'react'
+import React, {useState } from 'react'
 import { Link } from 'react-router-dom'
 import LineChart from 'react-linechart'
-import { parsedCurrentDate, stepDate } from '../components/calendar/dateFunctions'
-
+import { parsedCurrentDate, stepDate, dMatch, getDateRangeArray } from '../components/calendar/dateFunctions'
+import { Fade } from '../Transitions/index' 
 const styles = {
     transferCard: {
         display: 'flex',
@@ -32,7 +32,8 @@ const styles = {
         backgroundColor: 'green', 
         padding: '4px 6px', 
         borderRadius: '3px', 
-        color: '#fff'
+        color: '#fff',
+        margin: '5px 6px 0 0',
     }
 }
 
@@ -74,16 +75,31 @@ const AccountListItem = (props) => {
         handleEditTransfers, 
         parentWidth,
         showOptionsParent,
-        updateShowOptions
+        updateShowOptions,
+        sources,
+        budget
     } = props
 
     const [selectedPoint, updateSelectedPoint] = useState(null)
     const [selectedRangePoint, updateSelectedRangePoint] = useState(null)
     const [range, updateRange] = useState('months')
     const showOptions = showOptionsParent && (a.id + '' === showOptionsParent + '')
-
     const transfersTo = transfers.filter(tr => tr.toAccount + '' === a.id + '')
     const transfersFrom = transfers.filter(tr => tr.fromAccount + '' === a.id + '')
+
+    let budgetArr = []
+    Object.keys(budget).forEach(bi => {
+        if(budget[bi].fromAccount && budget[bi].fromAccount + '' === a.id + ''){
+            budgetArr = [...budgetArr, ...budget[bi].items]
+        }
+    })
+
+    const allItemsArray = [...sources, ...transfers, ...budgetArr].filter(checkItem => {
+        return (
+            (checkItem.toAccount && checkItem.toAccount + '' === a.id + '') ||
+            (checkItem.fromAccount && checkItem.fromAccount + '' === a.id + '')
+        )
+    })
 
     const getAccount = (id) => {
         const ac = accounts.filter(acc => acc.id + '' === id + '')
@@ -110,24 +126,53 @@ const AccountListItem = (props) => {
     const todaysDate = parsedCurrentDate()
 
     const getProjectedChartData = () => {
-        console.log(transfers, a.id)
         let points = []
+        points.push({ amount: parseFloat(a.amount), date: todaysDate })
 
         let i = 0
-        let date = todaysDate
-        while(i < 100){
-            console.log(date)
-            date = stepDate(date.split('-'), 'd', 1, true)
+        let dateTrack = stepDate(todaysDate, 'd', 1, true)
+        let trackAmount = parseFloat(a.amount)
+        const endDate = range === 'months' ? stepDate(dateTrack.split('-'), 'm', 5, true) : stepDate(dateTrack.split('-'), 'y', 5, true)
+
+        let itemMap = {}
+        for(const allItem in allItemsArray){
+            const item = allItemsArray[allItem]
+            const dateRange = getDateRangeArray(item.rec, item.date, endDate)
+            for(const i in dateRange){
+                if(dateRange[i] !== todaysDate){
+                    if(itemMap[dateRange[i]]){
+                        itemMap[dateRange[i]].push(item)
+                    } else {
+                        itemMap[dateRange[i]] = [item]
+                    }
+                }
+            }
+        }
+ 
+        while(i < 2000 && dateTrack !== stepDate(endDate.split('-'), 'd', 1, true)){
+            if(itemMap[dateTrack]){
+                for(const item in itemMap[dateTrack]){
+                    const tr = itemMap[dateTrack][item]
+                    const amnt = parseFloat(tr.amount)
+                    const toMatch = tr.toAccount + '' === a.id + ''
+                    const fromMatch = tr.fromAccount + '' === a.id + ''
+                    if (toMatch) trackAmount = trackAmount + amnt
+                    if (fromMatch) trackAmount = trackAmount - amnt
+                }
+            }
+            const monthlyMatch = dMatch(dateTrack, todaysDate, ['d'])
+            if(monthlyMatch && a.interest){
+                const percent = parseFloat(a.interest) / 100
+                trackAmount = trackAmount + ((trackAmount * percent) / 12)
+            }
+            const matchM = range === 'months' && monthlyMatch
+            const matchY = range === 'years' && dMatch(dateTrack, todaysDate, ['m', 'd'])
+            if(matchM || matchY){ 
+                points.push({ amount: trackAmount, date: dateTrack })
+            }
+            dateTrack = stepDate(dateTrack.split('-'), 'd', 1, true)
             i++
         }
-
-        points.push({
-            amount: a.amount, 
-            date: todaysDate
-        })
-
-        
-
         return points
     }
 
@@ -152,58 +197,62 @@ const AccountListItem = (props) => {
             <span style={{...s.intLast, fontSize: '1.1rem'}} className={showOptions ? 'mb-10' : null}>
                 {showOptions ? '-' : '+'}
             </span>
-            <div className='row mb-10 start w-100'>
+            <div className='row mb-10 start w-100 mt-10'>
                 <div className='mt-20 mr-20' style={styles.tab}>Transfers to account: {transfersTo.length}</div>
                 <div className='mt-20' style={styles.tab}>Transfers from account: {transfersFrom.length}</div>
-                {showOptions && <div className='w-99 row start'>
-                    { (transfersTo.length + transfersFrom.length > 0) && <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Transfers</h3> }
-                    {transfersTo.map(tr => {
-                        return(
-                            <div key={tr.id} style={{...styles.transferCard, ...styles.toCard}}>
-                                <p style={{...styles.p, color: '#888', margin: '0'}} className='muted'>From account</p>
-                                <p style={styles.p}>{getAccount(tr.fromAccount)}</p>
-                                <p style={styles.p}>{money(tr.amount)}</p>
-                                <button className='btn green narrow' onClick={(e) =>{
-                                    e.stopPropagation()
-                                    handleEditTransfers(tr)
-                                }}>Edit</button>
-                            </div>
-                        )
-                    })}
-                    {transfersFrom.map(tr => {
-                        return(
-                            <div key={tr.id} style={{...styles.transferCard, ...styles.fromCard}}>
-                                <p style={{...styles.p, color: '#888', margin: '0'}} className='muted'>To account</p>
-                                <p style={styles.p}>{getAccount(tr.toAccount)}</p>
-                                <p style={styles.p}>{money(tr.amount)}</p>
-                                <button className='btn green narrow' onClick={(e) =>{
-                                    e.stopPropagation()
-                                    handleEditTransfers(tr)
-                                }}>Edit</button>
-                            </div>
-                        )
-                    })}
-                </div>}
 
-                {/* VALUE OVER TIME */}
-                {showOptions && (a.accountSnapshots && [...a.accountSnapshots].filter(ash => ash.date !== todaysDate).length > -1) &&
-                    <div onClick={e => e.stopPropagation()} style={{ width: '95%', marginLeft: '-4px' }}>
-                        <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Value over time</h3>
-                        <p className='m-0 pl-5 pt-5'>{
-                            selectedPoint ? selectedPoint : 'Click point to view info'
-                        }</p>
-                        {renderChart(
-                            [...a.accountSnapshots, {
-                                amount: a.amount, 
-                                date: todaysDate
-                            }],
-                            handlePointclick,
-                            parentWidth
-                        )}
+
+                {showOptions && 
+                <Fade name='account-item-details' time={400}>
+                    <div className='w-99 row start'>
+                        { (transfersTo.length + transfersFrom.length > 0) && <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Transfers</h3> }
+                        {transfersTo.map(tr => {
+                            return(
+                                <div key={tr.id} style={{...styles.transferCard, ...styles.toCard}}>
+                                    <p style={{...styles.p, color: '#888', margin: '0'}} className='muted'>From account</p>
+                                    <p style={styles.p}>{getAccount(tr.fromAccount)}</p>
+                                    <p style={styles.p}>{money(tr.amount)}</p>
+                                    <button className='btn green narrow' onClick={(e) =>{
+                                        e.stopPropagation()
+                                        handleEditTransfers(tr)
+                                    }}>Edit</button>
+                                </div>
+                            )
+                        })}
+                        {transfersFrom.map(tr => {
+                            return(
+                                <div key={tr.id} style={{...styles.transferCard, ...styles.fromCard}}>
+                                    <p style={{...styles.p, color: '#888', margin: '0'}} className='muted'>To account</p>
+                                    <p style={styles.p}>{getAccount(tr.toAccount)}</p>
+                                    <p style={styles.p}>{money(tr.amount)}</p>
+                                    <button className='btn green narrow' onClick={(e) =>{
+                                        e.stopPropagation()
+                                        handleEditTransfers(tr)
+                                    }}>Edit</button>
+                                </div>
+                            )
+                        })}
                     </div>
-                }
-                {/* PROJECTED VALUE OVER TIME */}
-                {showOptions &&
+
+                    {/* VALUE OVER TIME */}
+                    {(a.accountSnapshots && [...a.accountSnapshots].filter(ash => ash.date !== todaysDate).length > -1) &&
+                        <div onClick={e => e.stopPropagation()} style={{ width: '95%', marginLeft: '-4px' }}>
+                            <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Value over time</h3>
+                            <p className='m-0 pl-5 pt-5'>{
+                                selectedPoint ? selectedPoint : 'Click point to view info'
+                            }</p>
+                            {renderChart(
+                                [...a.accountSnapshots, {
+                                    amount: a.amount, 
+                                    date: todaysDate
+                                }],
+                                handlePointclick,
+                                parentWidth
+                            )}
+                        </div>
+                    }
+                    {/* PROJECTED VALUE OVER TIME */}
+               
                     <div onClick={e => e.stopPropagation()} style={{ width: '95%', marginLeft: '-4px' }}>
                         <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Projected value over time </h3>
                         <p className='m-0 pl-5 pt-5'>{
@@ -216,19 +265,18 @@ const AccountListItem = (props) => {
                         {renderChart(getProjectedChartData(), handleRangePointclick, parentWidth)}
                         <p className='muted ml-5'>Base on interest/transfers/budget items</p>
                     </div>
-                }
-                {showOptions && 
-                <div className='right' style={{ paddingTop: '15px', marginTop: '5px', width: '98%' }}>
-                    <Link to='/savings' className='btn blue' style={{textDecoration: 'none'}} onClick={()=> addAccountToEstimator(a)}>
-                        Add to estimator
-                    </Link>
-                    <button className='btn' onClick={()=> {
-                        const n = new Promise((resolve, reject)=> resolve(updateEdittingItem(a)) )
-                        n.then(()=>updateShowForm(true))
-                        .then(()=>updateView('accountForm', 'accountsModule'))
-                    }}> Edit account
-                    </button>
-                </div>}
+                    <div className='right' style={{ paddingTop: '15px', marginTop: '5px', width: '98%' }}>
+                        <Link to='/savings' className='btn blue' style={{textDecoration: 'none'}} onClick={()=> addAccountToEstimator(a)}>
+                            Add to estimator
+                        </Link>
+                        <button className='btn' onClick={()=> {
+                            const n = new Promise((resolve, reject)=> resolve(updateEdittingItem(a)) )
+                            n.then(()=>updateShowForm(true))
+                            .then(()=>updateView('accountForm', 'accountsModule'))
+                        }}> Edit account
+                        </button>
+                    </div>
+                </Fade>}
             </div>
         </li>
     )

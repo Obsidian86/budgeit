@@ -68,23 +68,23 @@ const TransfersForm = ({p, updateTransfersState, transferState}) => {
                 
             </div>
             <div className='max row'>
-                <div className='md'>
+                <div className='md' style={{margin: '0'}}>
                     <IP type='drop' 
                         options={accountOptions} 
                         label='From account'
                         data={formData} 
-                        style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} 
+                        style={{styles: 'width: 92%; margin: 15px auto 0 auto; padding: 12px 10px'}} 
                         alias='fromAccount' 
                         onChange={val => updateField({ target:{ value: val, name: 'fromAccount' } })} 
                         errors={errors} 
                     />
                 </div>
-                <div className='md'>
+                <div className='md' style={{margin: '0'}}>
                     <IP type='drop' 
                         options={accountOptions} 
                         label='to account'
                         data={formData} 
-                        style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} 
+                        style={{styles: 'width: 92%; margin: 15px auto 0 auto; padding: 12px 10px'}} 
                         alias='toAccount' 
                         onChange={val => updateField({ target:{ value: val, name: 'toAccount' } })}
                         errors={errors}  
@@ -92,7 +92,7 @@ const TransfersForm = ({p, updateTransfersState, transferState}) => {
                 </div>
             </div>
             <div className='max row mt-10'>
-                <div className='thr'>
+                <div className='thr' style={{margin: '0'}}>
                     <IP 
                         type='number' 
                         alias='amount' 
@@ -103,19 +103,19 @@ const TransfersForm = ({p, updateTransfersState, transferState}) => {
                         showPH='00.00'
                     />
                 </div>
-                <div className='thr'>
+                <div className='thr' style={{margin: '0'}}>
                     <IP 
                         type='drop' 
                         options={recurrence} 
                         label='Recurrence'
                         data={formData} 
-                        style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} 
+                        style={{styles: 'width: 92%; margin: 15px auto 0 auto; padding: 12px 10px'}} 
                         alias='rec' 
                         onChange={val => updateField({ target:{ value: val, name: 'rec' } })} 
                         errors={errors} 
                     />
                 </div>
-                <div className='thr'>
+                <div className='thr' style={{margin: '0'}}>
                     <IP 
                         type='date' 
                         alias='date' 

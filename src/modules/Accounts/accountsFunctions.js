@@ -1,7 +1,6 @@
 import React from 'react'
 import { money, calcMoney } from '../../utilities/convert'
 import Bullet from '../interface/Bullet'
-import { getInterest } from '../../utilities/functions'
 import AccountListItem from './AcountListItem'
 import { validForm } from '../../utilities/formUtilities'
 
@@ -14,7 +13,6 @@ export const proccessAccounts = (
     const accountList = p.accounts.map((a, i) => {
         total = calcMoney(total, a.amount)
         if(a.liquid) liquid = calcMoney(liquid, a.amount)
-        const interest = getInterest(parseFloat(a.amount), parseFloat(a.interest), 10)
         return (    
             <AccountListItem
                 handleEditTransfers={handleEditTransfers}
@@ -23,7 +21,7 @@ export const proccessAccounts = (
                 s={s} 
                 a={a} 
                 Bullet={Bullet}
-                money={money} interest={interest} 
+                money={money}
                 showReturns={showReturns}
                 updateEdittingItem={updateEdittingItem} 
                 updateShowForm={updateShowForm}
@@ -33,6 +31,8 @@ export const proccessAccounts = (
                 parentWidth={parentWidth}
                 showOptionsParent={showOptionsParent}
                 updateShowOptions={updateShowOptions}
+                budget={p.budget}
+                sources={p.incomeSources}
             />
         )
     })

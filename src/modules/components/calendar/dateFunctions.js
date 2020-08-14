@@ -23,7 +23,8 @@ export const pDate = (inDate) => { // return system readable date
   return new Date(splDate[2], parseInt(splDate[0]) - 1, splDate[1])
 }
 
-export const stepDate = (newDate = [], stepAmount = '', incr = 1, join = false) => {
+export const stepDate = (inDate = [], stepAmount = '', incr = 1, join = false) => {
+  let newDate = Array.isArray(inDate) ? inDate : inDate.split('-')
   // stepAmount = daily, weekly , biWeekly, monthly, yearly
   newDate = newDate.map(d => parseInt(d))
   if (stepAmount === 'd' || stepAmount === 'daily')  { newDate[1] = newDate[1] + incr }
@@ -40,4 +41,59 @@ export const stepDate = (newDate = [], stepAmount = '', incr = 1, join = false) 
     newDate[2]++
   }
   return join ? newDate.join('-') : newDate
+}
+
+export const dMatch = (date1, date2, match=['d']) => {
+  let isMatch = true
+  const d1 = date1.split('-')
+  const d2 = date2.split('-')
+  if( match.includes('d') ){
+    if(d1[1] !== d2[1]) isMatch = false
+  }
+  if( match.includes('m') ){
+    if(d1[0] !== d2[0]) isMatch = false
+  }
+  if( match.includes('y') ){
+    if(d1[2] !== d2[2]) isMatch = false
+  }
+  return isMatch
+}
+
+export const dGreater = (date1, date2) => {
+  if (date1 === date2) return 0
+  const d1 = date1.split('-')
+  const d2 = date2.split('-')
+  if(parseInt(d1[2]) > parseInt(d2[2]) ) return 1
+  if(parseInt(d1[2]) < parseInt(d2[2]) ) return -1
+  if(parseInt(d1[0]) > parseInt(d2[0]) ) return 1
+  if(parseInt(d1[0]) < parseInt(d2[0]) ) return -1
+  if(parseInt(d1[1]) > parseInt(d2[1]) ) return 1
+  if(parseInt(d1[1]) < parseInt(d2[1]) ) return -1
+  return
+}
+
+export const onDateRange = (rec, date1, date2) => {
+  let track = dGreater(date1, date2)
+  let dateTrack = date1
+  let i = 0
+  while(track === -1 && i < 200){
+    dateTrack = stepDate(dateTrack.split('-'), rec, 1, true)
+    track = dGreater(dateTrack, date2)
+    i++
+  }
+  return track === 0 ? true : false
+}
+
+export const getDateRangeArray = (rec, date1, date2) => {
+  let track = dGreater(date1, date2)
+  let dateTrack = date1
+  let i = 0
+  let arr = []
+  while(track < 1 && i < 200){
+    arr.push(dateTrack)
+    dateTrack = stepDate(dateTrack.split('-'), rec, 1, true)
+    track = dGreater(dateTrack, date2)
+    i++
+  }
+  return arr
 }
