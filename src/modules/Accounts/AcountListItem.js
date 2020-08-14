@@ -38,8 +38,6 @@ const styles = {
 }
 
 const renderChart = (inData, handleClick, parentWidth) => {
-    console.log('IN DATA')
-    console.log(inData)
     let data = [{ color: 'green', points: [] }]
     inData.forEach(ss => {
         const d = ss.date.split('-')
@@ -90,13 +88,8 @@ const AccountListItem = (props) => {
     const transfersFrom = transfers.filter(tr => tr.fromAccount + '' === a.id + '')
 
     let budgetArr = []
-    console.log(budget)
     Object.keys(budget).forEach(bi => {
-        console.log(budget[bi])
-        console.log(bi)
-        if(budget[bi].fromAccount && budget[bi].fromAccount + '' === a.id + ''){
-            budgetArr = [...budgetArr, ...budget[bi].items]
-        }
+        budgetArr = [...budgetArr, ...budget[bi].items]
     })
 
     const allItemsArray = [...sources, ...transfers, ...budgetArr].filter(checkItem => {
@@ -105,9 +98,6 @@ const AccountListItem = (props) => {
             (checkItem.fromAccount && checkItem.fromAccount + '' === a.id + '')
         )
     })
-
-    console.log('ALL ITEMS')
-    console.log(allItemsArray)
 
 
     const getAccount = (id) => {
@@ -157,9 +147,7 @@ const AccountListItem = (props) => {
                 }
             }
         }
-        
-        console.log('MAP')
-        console.log(itemMap)
+
         let logList = []
         let logItems = []
 
@@ -195,12 +183,6 @@ const AccountListItem = (props) => {
             dateTrack = stepDate(dateTrack.split('-'), 'd', 1, true)
             i++
         }
-        console.log('TRACK AMNT')
-        console.log(trackAmount)
-        console.log('log list')
-        console.log(logList)
-        console.log('log items')
-        console.log(logItems)
         return points
     }
 
