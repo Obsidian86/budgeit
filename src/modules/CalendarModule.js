@@ -8,6 +8,7 @@ import * as CMF from './moduleFunctions/calendarModuleFunctions'
 import _ from 'lodash'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { money } from '../utilities/convert'
 
 const CalendarModule = ({nonLoad}) => {
   const p = useContext(MainContext)
@@ -55,6 +56,16 @@ const CalendarModule = ({nonLoad}) => {
   const endRangeDate = `12-${daysInMonth(12, selYear)}-${selYear}`
   const rangeDate = {start: parsedCurrentDate(), end: endRangeDate}
 
+  const transfers = p.accountTransfers.map(at => {
+    return ({
+      date: at.date,
+      rec: at.rec,
+      color: 'blue',
+      itemClass: 'cal-transfer',
+      item: 'transfer ' + money(at.amount)
+    })
+  })
+
   return (
     <ContentBox title='Calendar' itemId='calendarModule' icon={<FontAwesomeIcon icon={faCalendar}/>} exClass={nonLoad ? 'hide' : ''}>
       <div className='row between mt-40'>
@@ -66,7 +77,7 @@ const CalendarModule = ({nonLoad}) => {
           />
         </div>
         <Calendar
-          items={[...CMF.convertToArray(p.budget), ...CMF.convertToArray(p.incomeSources)]}
+          items={[...CMF.convertToArray(p.budget), ...CMF.convertToArray(p.incomeSources), ...transfers ]}
           targetMonth={selectedDay && selectedDay.m ? selectedDay.m : null}
           targetYear={selectedDay && selectedDay.y ? selectedDay.y : null}
           className='lg'

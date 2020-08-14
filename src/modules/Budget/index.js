@@ -19,9 +19,13 @@ const YourBudget = ({ step }) => {
   const [editItem, updateEditItem] = useState(null);
   const [errors, updateErrors] = useState(null)
   const [retainData, updateRetainData] = useState({})
-  
 
   const moduleName = 'yourBudgetModule'
+
+  const handleBudgetItemClick = bItem => {
+    updateEditItem(bItem)
+    document.getElementById('add-budget-form').scrollIntoView({behavior: "smooth"})
+  }
 
   const amountLeft = convert(p.amount, "w", p.viewBy) - convert(p.total, "m", p.viewBy);
   const percentLeft = (convert(p.total, "m", p.viewBy) / convert(p.amount, "w", p.viewBy)) * 100;
@@ -87,7 +91,7 @@ const YourBudget = ({ step }) => {
                   return (
                     <TableRow
                       onClick={() => {
-                        updateEditItem(pb)
+                        handleBudgetItemClick(pb)
                         toggleForm(true)
                       }}
                       key={index + "-" + pb.name}
@@ -107,7 +111,7 @@ const YourBudget = ({ step }) => {
             );
           })}
         </div>
-        <div className={displayForm ? 'm-sm' : 'xs'} >
+        <div className={displayForm ? 'm-sm' : 'xs'} id='add-budget-form'>
           <span className='right md-center'>
             <button className={`btn big ${displayForm && 'red'}`} onClick={() => {
               updateEditItem(null)

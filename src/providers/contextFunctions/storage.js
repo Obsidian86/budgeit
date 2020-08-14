@@ -27,6 +27,7 @@ export const load = async (profile) => {
     return {profile: null}
   }
   const data = getData.data[0]
+  if(!data || !data.sources) return ({profile: null})
   const newIncomeSource = []
   const amount = data.sources.reduce((p, c) => {
     let useAmount = convert(c.amount, c.rec, "w")

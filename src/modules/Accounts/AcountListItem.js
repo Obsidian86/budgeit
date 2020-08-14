@@ -51,7 +51,7 @@ const renderChart = (inData, handleClick, parentWidth) => {
             hideYLabel
             hideXAxis
             width={parentWidth}
-            pointRadius={8}
+            pointRadius={10}
             height={400}
             ticks={5}
             data={data}
@@ -101,6 +101,9 @@ const AccountListItem = (props) => {
         )
     })
 
+    console.log(allItemsArray)
+
+
     const getAccount = (id) => {
         const ac = accounts.filter(acc => acc.id + '' === id + '')
         return ac.length > 0 ? ac[0].name : ''
@@ -149,6 +152,10 @@ const AccountListItem = (props) => {
             }
         }
  
+        console.log(itemMap)
+        let logList = []
+        let logItems = []
+
         while(i < 2000 && dateTrack !== stepDate(endDate.split('-'), 'd', 1, true)){
             if(itemMap[dateTrack]){
                 for(const item in itemMap[dateTrack]){
@@ -156,8 +163,16 @@ const AccountListItem = (props) => {
                     const amnt = parseFloat(tr.amount)
                     const toMatch = tr.toAccount + '' === a.id + ''
                     const fromMatch = tr.fromAccount + '' === a.id + ''
-                    if (toMatch) trackAmount = trackAmount + amnt
-                    if (fromMatch) trackAmount = trackAmount - amnt
+                    if (toMatch) {
+                        logList.push(`add ${amnt} `)
+                        logItems.push(item)
+                        trackAmount = trackAmount + amnt
+                    }
+                    if (fromMatch) {
+                        logList.push(`sub ${amnt} `)
+                        logItems.push(item)
+                        trackAmount = trackAmount - amnt
+                    }
                 }
             }
             const monthlyMatch = dMatch(dateTrack, todaysDate, ['d'])
@@ -173,6 +188,9 @@ const AccountListItem = (props) => {
             dateTrack = stepDate(dateTrack.split('-'), 'd', 1, true)
             i++
         }
+        console.log(trackAmount)
+        console.log(logList)
+        console.log(logItems)
         return points
     }
 
