@@ -1,8 +1,7 @@
 import React, {useState } from 'react'
 import { Link } from 'react-router-dom'
-import LineChart from 'react-linechart'
 import { parsedCurrentDate, stepDate, dMatch, getDateRangeArray } from '../components/calendar/dateFunctions'
-import { Fade } from '../Transitions/index' 
+import RenderLineChart from './LineChart'
 const styles = {
     transferCard: {
         display: 'flex',
@@ -37,28 +36,7 @@ const styles = {
     }
 }
 
-const renderChart = (inData, handleClick, parentWidth) => {
-    let data = [{ color: 'green', points: [] }]
-    inData.forEach(ss => {
-        const d = ss.date.split('-')
-        const useDate = `${d[2]}-${d[0]}-${d[1]}`
-        data[0].points.push({ x: useDate, y: parseFloat(ss.amount) })
-    })
-    return (
-        <LineChart
-            onPointClick={handleClick}
-            hideXLabel
-            hideYLabel
-            hideXAxis
-            width={parentWidth}
-            pointRadius={10}
-            height={400}
-            ticks={5}
-            data={data}
-            isDate={true}
-        />
-    )
-}
+
 
 const AccountListItem = (props) => {
     const {
@@ -210,10 +188,8 @@ const AccountListItem = (props) => {
             <div className='row mb-10 start w-100 mt-10'>
                 <div className='mt-20 mr-20' style={styles.tab}>Transfers to account: {transfersTo.length}</div>
                 <div className='mt-20' style={styles.tab}>Transfers from account: {transfersFrom.length}</div>
-
-
                 {showOptions && 
-                <Fade name='account-item-details' time={400}>
+                <>
                     <div className='w-99 row start'>
                         { (transfersTo.length + transfersFrom.length > 0) && <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Transfers</h3> }
                         {transfersTo.map(tr => {
@@ -246,24 +222,26 @@ const AccountListItem = (props) => {
 
                     {/* VALUE OVER TIME */}
                     {(a.accountSnapshots && [...a.accountSnapshots].filter(ash => ash.date !== todaysDate).length > -1) &&
-                        <div onClick={e => e.stopPropagation()} style={{ width: '95%', marginLeft: '-4px' }}>
+                        <div onClick={e => e.stopPropagation()} style={{ width: '99%', marginLeft: '-4px' }}>
                             <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Value over time</h3>
                             <p className='m-0 pl-5 pt-5'>{
                                 selectedPoint ? selectedPoint : 'Click point to view info'
                             }</p>
-                            {renderChart(
-                                [...a.accountSnapshots, {
+                            <RenderLineChart
+                                parentWidth={parentWidth}
+                                handlePointclick={handlePointclick}
+                                inItemId={'graph-vot' + a.id}
+                                inData= {[...a.accountSnapshots, {
                                     amount: a.amount, 
                                     date: todaysDate
-                                }],
-                                handlePointclick,
-                                parentWidth
-                            )}
+                                }]}
+                                parser={(i) => i.getMonth() + 1 + '-' + i.getDate()}
+                            />
                         </div>
                     }
                     {/* PROJECTED VALUE OVER TIME */}
                
-                    <div onClick={e => e.stopPropagation()} style={{ width: '95%', marginLeft: '-4px' }}>
+                    <div onClick={e => e.stopPropagation()} style={{ width: '99%', marginLeft: '-4px' }}>
                         <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Projected value over time </h3>
                         <p className='m-0 pl-5 pt-5'>{
                             selectedRangePoint ? selectedRangePoint : 'Click point to view info'
@@ -272,7 +250,15 @@ const AccountListItem = (props) => {
                             <button style={{margin: '5px'}} className={`btn narrow ${range === 'months' ? 'blue' : 'gray'}`} onClick={()=>updateRange('months')}>5 Month</button>
                             <button style={{margin: '5px'}} className={`btn narrow ${range === 'years' ? 'blue' : 'gray'}`} onClick={()=>updateRange('years')}>5 Years</button>
                         </div>
-                        {renderChart(getProjectedChartData(), handleRangePointclick, parentWidth)}
+                        {
+                            <RenderLineChart
+                                inItemId={'graph-projected' + a.id}
+                                parentWidth={parentWidth}
+                                handlePointclick={handleRangePointclick}
+                                inData={[...getProjectedChartData()]}
+                                parser={(i) => i.getMonth() + 1 + '-' + i.getDate()}
+                            />
+                        }
                         <p className='muted ml-5'>Base on interest/transfers/budget items</p>
                     </div>
                     <div className='right' style={{ paddingTop: '15px', marginTop: '5px', width: '98%' }}>
@@ -286,7 +272,7 @@ const AccountListItem = (props) => {
                         }}> Edit account
                         </button>
                     </div>
-                </Fade>}
+                </>}
             </div>
         </li>
     )
