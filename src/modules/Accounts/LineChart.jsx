@@ -1,7 +1,7 @@
 import React from 'react'
 import LineChart from 'react-linechart'
 
-const RenderLineChart = ({inData, handleClick, parentWidth, inItemId, parser}) => {
+const RenderLineChart = ({inData, handlePointclick, parentWidth, inItemId, parser}) => {
     let data = [{ color: 'green', points: [] }]
     inData.forEach(ss => {
         const d = ss.date.split('-')
@@ -14,7 +14,7 @@ const RenderLineChart = ({inData, handleClick, parentWidth, inItemId, parser}) =
             labelClass={inItemId + '-l'}
             id={inItemId}
             margins={{left: 70}}
-            onPointClick={handleClick}
+            onPointClick={handlePointclick}
             hideXLabel
             hideYLabel
             xDisplay={parser}
