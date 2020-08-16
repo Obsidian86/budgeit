@@ -37,10 +37,10 @@ const Dashboard = () => {
         bg: useEmerPercent < 50 ? 'pink' : 'lightgreen',
         marks: [50]
     }
- 
+
     return (
     <div className='row w-99'>
-        {percent && totalSource > 0 && 
+        { totalSource > 0 && 
         <div className='w-99 row'>
             <ContentBox {...barNodeProps}>
                 <ProgressBar percent={ percent } title={ percent + '% income budgeted'} color='green' bg='lightgreen' height={38} fontSize={'1rem'} />
