@@ -203,6 +203,30 @@ const StyledAccountModule = styled.span`
             font-style: normal;
         }
     }
+    .choose-account-list-toggle{
+        margin: 0;
+        text-align: center;
+        margin-top: -15px;
+        border-top: 1px solid green;
+        & p{
+            display: inline;
+            border-radius: 0 0 6px 6px;
+            padding: 10px;
+            border-color: green;
+            border-width: 1px;
+            border-style: solid;
+            border-top: none;
+            margin: 0;
+            font-weight: bold;
+            background-color: lightgreen;
+            position: relative;
+            top: 6px;
+            &:hover{
+                background-color: #d8d8d8;
+                cursor: pointer;
+            }
+        }
+    }
 `
 
 export default StyledAccountModule

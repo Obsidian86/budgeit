@@ -15,15 +15,23 @@ const Checkbook = () => {
     const p = useContext(MainContext)
     const [filter, updateFilter] = useState('')
     const [message, updateMessage] = useState(null)
+    const [selectingAccount, updateSelectingAccount] = useState(false)
     const [selectedAccount, updateSelectedAccount] = useState(null)
 
     // if no account selected, use first account (id)
     const accountsCount = p.accounts.length
     const useSelected = selectedAccount ? selectedAccount : accountsCount > 0 ? p.accounts[0].id : 0
+
+    const accountListItemClick = selectedAccount => {
+        updateSelectedAccount(selectedAccount)
+        p.isMobile && updateSelectingAccount(false)
+    }
+
     const accountListProps = {
-        accounts: p.accounts, 
-        selectedAccount: useSelected, 
-        updateSelectedAccount,
+        accounts: p.accounts,
+        minimize: p.isMobile && !selectingAccount, 
+        selectedAccount: useSelected,
+        updateSelectedAccount: accountListItemClick,
         money
     }
 
@@ -93,8 +101,13 @@ const Checkbook = () => {
                 </div>
                 <div className='smPlus accList ml-n-15' >
                     <AccountList {...accountListProps} />
+                    {p.isMobile && p.accounts.length > 1 &&
+                        <div onClick={()=>updateSelectingAccount(!selectingAccount)} className='choose-account-list-toggle'>
+                            <p>{ selectingAccount ? 'Close account list' : 'Choose account (' + p.accounts.length + ')'}</p>
+                        </div>
+                    }
                 </div>
-                <div className='lg mr-n-15'>
+                {p.accounts.length > 0 ? <div className='lg mr-n-15'>
                     <strong className='d-block' style={{marginTop: '20px'}}>Transactions</strong>
                     <div className='search-box'>
                         <span>Search </span>
@@ -118,7 +131,13 @@ const Checkbook = () => {
                             </button>
                         </div>
                     }
+                </div> :
+                <div className='lg mr-n-15'>
+                    <p className='center no-content'>
+                        No accounts created
+                    </p>
                 </div>
+                }
             </StyledAccountModule>
         </ContentBox>
     )

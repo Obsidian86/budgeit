@@ -8,6 +8,7 @@ import { faUniversity, faMoneyBillWave, faStream, faChartLine, faCalendar } from
 import calcEmergency from '../EmergencyFunds/functions'
 import { Link } from 'react-router-dom'
 import { parsedCurrentDate } from '../components/calendar/dateFunctions'
+import StyledTri from './StyledTri'
 
 const Dashboard = () => {
     const p = useContext(MainContext)
@@ -41,7 +42,6 @@ const Dashboard = () => {
     const { content: budgetContent, total: percent } = processData.proccessbudgetData(p.budget, totalSource, p.viewBy)
     const { content: valueOverTime } = processData.proccessSnapshots(p.snapshots, boxWidth)
 
-    const barNodeProps = { exClass: 'lg', exStyles: {'padding': '10px', maxWidth: '300px' }}
     const { livingExpenses, totalAvailable } = calcEmergency(p.total, p.budget, p.accounts)
     const emerPercent = ((totalAvailable / (livingExpenses * 6)) * 100).toFixed(2)
     const useEmerPercent = (emerPercent >= 100) ? 100 : emerPercent
@@ -55,20 +55,20 @@ const Dashboard = () => {
     return (
     <div className='row w-99'>
         { totalSource > 0 && 
-        <div className='w-99 row'>
-            <ContentBox {...barNodeProps}>
-                <ProgressBar percent={ percent } title={ percent + '% income budgeted'} color='green' bg='lightgreen' height={38} fontSize={'1rem'} />
-            </ContentBox>
-            <ContentBox {...{...barNodeProps, exStyles: {...barNodeProps.exStyles }}} >
-                <ProgressBar {...emerProps} title={'3-6 month emergency'} height={38} fontSize={'1rem'} />
-            </ContentBox>
-            <ContentBox {...{...barNodeProps, exStyles: {...barNodeProps.exStyles, maxWidth: '250px' }}} >
+        <StyledTri>
+            <ContentBox>
                 <Link to='/calendar' className='items-today'>
                     <i><FontAwesomeIcon icon={faCalendar} /></i>
                     <span>{itemsToday.length} happening today</span>
                 </Link>
             </ContentBox>
-        </div>}
+            <ContentBox>
+                <ProgressBar percent={ percent } title={ percent + '% income budgeted'} color='green' bg='lightgreen' height={38} fontSize={'1rem'} />
+            </ContentBox>
+            <ContentBox>
+                <ProgressBar {...emerProps} title={'3-6 month emergency'} height={38} fontSize={'1rem'} />
+            </ContentBox>
+        </StyledTri>}
         <ContentBox title='Accounts' exClass={'lg break-1155'} icon={<FontAwesomeIcon icon={faUniversity} />} >
             { accountContent }
         </ContentBox>

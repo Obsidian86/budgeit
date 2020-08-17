@@ -1,10 +1,11 @@
 import React from 'react'
 import { calcMoney } from '../../utilities/convert'
 
-const AccountList = ({accounts, selectedAccount, updateSelectedAccount, money}) => {
+const AccountList = ({accounts, selectedAccount, updateSelectedAccount, money, minimize}) => {
     let total = 0
     const accList = accounts.map(acc => {
         total = calcMoney(acc.amount, total)
+        if(minimize && acc.id !== selectedAccount) return null
         return (
            <li 
                 key={acc.id}
