@@ -28,7 +28,7 @@ const Dashboard = () => {
     for(const item in p.budget){
         allItems.push(...p.budget[item].items)
     }
-    console.log(allItems)
+
     const todaysDate = parsedCurrentDate()
     allItems.forEach(el => {
         if((el.nextAuto && el.nextAuto === todaysDate) || (el.date && el.date === todaysDate)){

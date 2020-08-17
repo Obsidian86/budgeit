@@ -89,7 +89,7 @@ export const getDateRangeArray = (rec, date1, date2) => {
   let dateTrack = date1
   let i = 0
   let arr = []
-  while(track < 1 && i < 200){
+  while(track < 1 && i < 320){
     arr.push(dateTrack)
     dateTrack = stepDate(dateTrack.split('-'), rec, 1, true)
     track = dGreater(dateTrack, date2)

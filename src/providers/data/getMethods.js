@@ -11,6 +11,8 @@ const getMethods = (provider) => ({
     logout: provider.logout,
     exportData: provider.exportData,
     /********* Resources ***********/
+    // User data
+    updateUserData: provider.updateUserData,
     // Budget CRUD
     addBudgetItem: provider.addBudgetItem,
     deleteBudgetItem: provider.deleteBudgetItem,

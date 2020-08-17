@@ -9,6 +9,7 @@ import * as exp from './exportData'
 import * as ref from './refreshToken'
 import * as tra from './transactionFunctions'
 import * as act from './accountTransferFunctions'
+import * as usr from './userData'
 
 export default {
   ...snS,
@@ -21,5 +22,6 @@ export default {
   ...exp,
   ...ref,
   ...tra,
-  ...act
+  ...act,
+  ...usr
 }

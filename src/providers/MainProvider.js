@@ -64,6 +64,9 @@ class MainProvider extends React.Component {
   updateView = (view, parent) => conF.updateView(view, parent, this.state.lastView, this.saveState)
   getLink = (link) => link 
 
+  // User data
+  updateUserData = (data) => conF.updateUserData(data, this.state.profile, this.state.userInfo, this.saveState)
+
   // Income sources
   sourceReqs = (data, fnc) => fnc(data, this.state.incomeSources, this.state.amount, this.state.profile, this.saveState)
   addSource = source => this.sourceReqs(source, conF.processAddSource)

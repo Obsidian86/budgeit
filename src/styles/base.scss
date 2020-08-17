@@ -385,6 +385,13 @@ p{
     padding: 0 7px 0 7px;
     font-style: normal;
   }
+  &.good{
+    background-color: $green;
+    box-shadow: 0 0 0 8px $green;
+    span{
+      color: $green;
+    }
+  }
 }
 
 .dashNavLinks{
