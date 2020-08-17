@@ -16,7 +16,11 @@ const SideNav = ({Link, getLink, user, isMobile, updateSideBarOpen, logout}) => 
         {isMobile && darkCover}
         <StyledNavContainer>
             <StyledNav>
-                <Link to={getLink('/profile')} className='profile-link' >
+                <Link 
+                    to={getLink('/profile')} 
+                    className='profile-link'
+                    onClick={()=> updateSideBarOpen(false)}
+                >
                     <div className='user'>
                             <span>
                                 <FontAwesomeIcon icon={faUserAlt} />
