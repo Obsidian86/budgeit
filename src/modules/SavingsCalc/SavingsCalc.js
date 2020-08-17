@@ -9,6 +9,7 @@ import { validForm, IP } from '../../utilities/formUtilities'
 import { filledArray } from '../components/calendar/utilities'
 import { styles } from './styles'
 import * as SCF from './savingsCalcFunctions'
+import { getAge } from '../components/calendar/dateFunctions'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faPiggyBank } from "@fortawesome/free-solid-svg-icons";
 
@@ -161,6 +162,9 @@ const SavingsCalc = () => {
       )
   }
 
+  const startAge = p.userInfo && p.userInfo.dob && p.userInfo.dob !== '' ? getAge(p.userInfo.dob) : null
+  const years = startAge ? 62 - startAge : null
+
   return (
     <ContentBox title="Savings estimator" itemId='savingsModule' icon={<FontAwesomeIcon icon={faPiggyBank} />}>
       <div className={`row mt-40`}>
@@ -187,10 +191,14 @@ const SavingsCalc = () => {
               ...p.selectedAccount,
               accountName: p.selectedAccount.name,
               rate: p.selectedAccount.interest,
-              stAmount: p.selectedAccount.amount
+              stAmount: p.selectedAccount.amount,
+              startAge,
+              years
             } : {
               stAmount: '',
-              rate: ''
+              rate: '',
+              startAge,
+              years
             }}
             reDefault
             render={(updateForm, formData, clearData) => (

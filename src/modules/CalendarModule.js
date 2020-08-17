@@ -36,8 +36,35 @@ const CalendarModule = ({nonLoad}) => {
   }
   
   const tabContent = [
-    { tab: 'Current month', content: CMF.genTabContent(currentItems, (totalBal - noLiquBal), 'Overview', s, totalBal) },
-    { tab: 'Year', content: CMF.genTabContent(yearlyItems, (totalBal - noLiquBal), 'Yearly summary', s, totalBal, p.saveState, p.eoyTotal, p.eoyLiquid, (selectedDay || 'current')) }
+    { tab: 'Current month', 
+      content: 
+        CMF.genTabContent(
+          currentItems,
+          (totalBal - noLiquBal),
+          'Overview', s, totalBal,
+          p.saveState,
+          p.eoyTotal,
+          p.eoyLiquid,
+          (selectedDay || 'current'),
+          p.accounts
+        )
+    },
+    { 
+      tab: 'Year', 
+      content: 
+        CMF.genTabContent(
+          yearlyItems, 
+          (totalBal - noLiquBal),
+          'Yearly summary', 
+          s, 
+          totalBal,
+          p.saveState,
+          p.eoyTotal, 
+          p.eoyLiquid, 
+          (selectedDay || 'current'),
+          p.accounts
+        )
+    }
   ]
 
   const procUpdateDate = (data) => {
@@ -58,6 +85,7 @@ const CalendarModule = ({nonLoad}) => {
 
   const transfers = p.accountTransfers.map(at => {
     return ({
+      ...at,
       date: at.date,
       rec: at.rec,
       color: 'blue',

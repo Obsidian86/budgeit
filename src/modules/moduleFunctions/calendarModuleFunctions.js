@@ -5,7 +5,7 @@ import SoftList from '../interface/SoftList'
 import Scroll from '../interface/Scroll'
 
 
-export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, saveState, eoyTotal, eoyLiquid, selectedDay) => {
+export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, saveState, eoyTotal, eoyLiquid, selectedDay, accounts) => {
     let EOYtrackBalance = trackBalance
     let EOYbalWithLiquid = balWithLiquid
     let retItems
@@ -32,12 +32,17 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
                 const iDate = ci.itemDate.split('-')
                 let showDate = false
                 const keepBalance = trackBalance
+                const isAccountTransfer = ci.toAccount && ci.toAccount !== '' 
+                  && ci.fromAccount && ci.fromAccount !== '' 
+                  && ci.itemClass === 'cal-transfer'
+
                 if (iDate[2] !== yearTrack || iDate[0] !== monthTrack) {
                   showDate = true
                   yearTrack = iDate[2]
                   monthTrack = iDate[0]
                 }
-                if(ci.category && ci.amount && ci.category.toLowerCase() === 'income'){
+                // INCOME
+                if(!isAccountTransfer && ci.category && ci.amount && ci.category.toLowerCase() === 'income'){
                   trackBalance = calcMoney(trackBalance, ci.amount)
                   balWithLiquid = calcMoney(balWithLiquid, ci.amount)
                   if(parseInt(yearTrack) === tYear()){
@@ -45,12 +50,36 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
                     EOYbalWithLiquid = calcMoney(EOYbalWithLiquid, ci.amount)
                   }
                 } else{
-                  if(ci.amount && ci.isTransfer !== 'on'){
+                  // BUDGET ITEM
+                  if(!isAccountTransfer && ci.amount && ci.isTransfer !== 'on'){
                     trackBalance = calcMoney(trackBalance, ci.amount, 'subtract') 
                     balWithLiquid = calcMoney(balWithLiquid, ci.amount, 'subtract')
                     if(parseInt(yearTrack) === tYear()){
                       EOYtrackBalance = calcMoney(EOYtrackBalance, ci.amount, 'subtract')
                       EOYbalWithLiquid = calcMoney(EOYbalWithLiquid, ci.amount, 'subtract')
+                    }
+                  }
+                  // Handle account transfers
+                  if(accounts && isAccountTransfer){
+                    let fromAcc = accounts.filter(a => a.id + '' === ci.fromAccount + '')
+                    let toAcc = accounts.filter(a => a.id + '' === ci.toAccount + '')
+                    if(fromAcc.length && toAcc.length){
+                      fromAcc = fromAcc[0]
+                      toAcc = toAcc[0]
+                      if(fromAcc.liquid !== toAcc.liquid){
+                        if(fromAcc.liquid && !toAcc.liquid){
+                          trackBalance = calcMoney(trackBalance, ci.amount, 'subtract')
+                          if(parseInt(yearTrack) === tYear()){
+                            EOYtrackBalance = calcMoney(EOYtrackBalance, ci.amount, 'subtract')
+                          }
+                        }
+                        if(!fromAcc.liquid && toAcc.liquid){
+                          trackBalance = calcMoney(trackBalance, ci.amount)
+                          if(parseInt(yearTrack) === tYear()){
+                            EOYtrackBalance = calcMoney(EOYtrackBalance, ci.amount)
+                          }
+                        }
+                      }
                     }
                   }
                 }

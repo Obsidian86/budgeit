@@ -16,12 +16,14 @@ const SideNav = ({Link, getLink, user, isMobile, updateSideBarOpen, logout}) => 
         {isMobile && darkCover}
         <StyledNavContainer>
             <StyledNav>
-                <div className='user'>
-                    <span>
-                        <FontAwesomeIcon icon={faUserAlt} />
-                    </span>
-                    <p>{user}</p>
-                </div>
+                <Link to={getLink('/profile')} className='profile-link' >
+                    <div className='user'>
+                            <span>
+                                <FontAwesomeIcon icon={faUserAlt} />
+                            </span>
+                            <p>{user}</p>
+                    </div>
+                </Link>
                 <span className='links-container'>
                     {Links.map(link =>
                     <Link 

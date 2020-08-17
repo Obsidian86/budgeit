@@ -41,6 +41,14 @@ export const StyledNav = styled.nav`
             border-radius: 50%;
             margin: 0 17px 17px 12px;
         }
+        &:hover{
+            background-color: #777;
+            cursor: pointer;
+            & span{
+                border-color: #777;
+                color: #777;
+            }
+        }
     }
     & .links-container{
         display: block;
@@ -82,6 +90,11 @@ export const StyledNav = styled.nav`
         }
     }
     .f-link span{ font-size: 1.1rem;}
+    a.profile-link{
+        padding: 0;
+        margin: 0;
+
+    }
 `
 
 export const darkCoverStyles = {

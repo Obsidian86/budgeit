@@ -33,9 +33,10 @@ const YourBudget = ({ step }) => {
   const handleFormSubmit = budgetItemIn => {
     let bi = {...budgetItemIn}
     updateRetainData({...bi})
-    if(bi.noEnd && bi.noEnd ==='on') delete bi.end 
+    if(bi.noEnd && bi.noEnd ==='on') delete bi.end
     if (!validateData(bi)) return null
     if(!bi.autoOn || bi.autoOn === 'off') bi.fromAccount = ''
+    if(bi.isTransfer && bi.isTransfer === 'on') bi.fromAccount = ''
     if(bi.autoOn) delete bi.autoOn
     updateRetainData({})
     !editItem && p.addBudgetItem(bi)

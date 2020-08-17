@@ -21,14 +21,14 @@ const Checkbook= React.lazy(() => import('./modules/Checkbook/'))
 const SnapShots = React.lazy(() => import('./modules/SnapShots/SnapShots'))
 const CalendarModule = React.lazy(() => import('./modules/CalendarModule'))
 const Dashboard = React.lazy(() => import('./modules/Dashboard'))
-
-const version = '1.09.3'
+const Profile = React.lazy(() => import('./modules/Profile'))
+const version = '1.09.4'
 
 const routeData = [
   { link: '/emergency', component: EmergencyFunds },
   { link: '/accounts', component: Accounts},
   { link: '/checkbook', component: Checkbook},
-  { link: '/profile', component: Accounts},
+  { link: '/profile', component: Profile},
   { link: '/savings', component: SavingsCalc},
   { link: '/recommended', component: Recommended},
   { link: '/budget', component: YourBudget },

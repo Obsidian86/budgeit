@@ -97,3 +97,14 @@ export const getDateRangeArray = (rec, date1, date2) => {
   }
   return arr
 }
+
+export const getAge = inDate => {
+  const today = new Date();
+  const birthDate = pDate(inDate);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+  }
+  return age;
+}
