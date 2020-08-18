@@ -63,6 +63,18 @@ const YourBudget = ({ step }) => {
       }
     }
 
+    if(bi.createTransfer && bi.createTransfer === 'on'){
+      if(!bi.transferFromAccount || !bi.transferToAccount){
+        errs['transferFromAccount'] = 'Field required to create transfer'
+        errs['transferToAccount'] = 'Field required to create transfer'
+      } else {
+        if(bi.transferFromAccount === bi.transferToAccount) {
+          errs['transferFromAccount'] = 'Transfer to can not match transfer from'
+          errs['transferToAccount'] = 'Transfer to can not match transfer from'
+        }
+      }
+    }
+
     updateErrors(errs)
     return (Object.keys(errs).length === 0)
   }

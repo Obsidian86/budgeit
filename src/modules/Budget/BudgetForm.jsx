@@ -6,6 +6,7 @@ import { IP } from '../../utilities/formUtilities'
 import { money } from '../../utilities/convert'
 
 const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors, updateView, accountList, retainData = {} }) => {
+  const accountOptions = accountList.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))
   return (<Form
     defaultFormData={
       editItem ? { 
@@ -86,7 +87,46 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
               Doesn't subtract from totals.
             </p>
           </label>}
+
+          {/* AUTO CREATE ACCOUNT TRANSFER */}
+          { !!formData.isTransfer && formData.isTransfer === "on" &&
+          <label className='cu_checkBox'>
+            <input
+              type='checkbox' name='createTransfer'
+              checked={!!formData.createTransfer && formData.createTransfer === "on"}
+              onChange={() => updateField({ 
+                target: { name: 'createTransfer', 
+                value: (!formData.createTransfer || formData.createTransfer === 'off') ? 'on' : 'off'} }) }
+            />{' '} 
+            <span />
+            Create account transfer
+          </label>}
+
+          {
+            !!formData.createTransfer && formData.createTransfer === 'on' && !!formData.isTransfer && formData.isTransfer === "on" && <>
+              <IP type='drop' 
+                options={formData.transferToAccount ? [...accountOptions].filter(i => i.v !== formData.transferToAccount) : accountOptions} 
+                label='Transfer from'
+                data={formData} 
+                style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} 
+                alias='transferFromAccount' 
+                onChange={val => updateField({ target:{ value: val, name: 'transferFromAccount' } })}
+                errors={errors}  
+              />
+              <IP type='drop' 
+                options={formData.transferFromAccount ? [...accountOptions].filter(i => i.v !== formData.transferFromAccount) : accountOptions} 
+                label='Transfer to'
+                data={formData} 
+                style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} 
+                alias='transferToAccount' 
+                onChange={val => updateField({ target:{ value: val, name: 'transferToAccount' } })}
+                errors={errors}  
+              />
+            </>
+          }
           
+          {/* ---- END -- AUTO CREATE ACCOUNT TRANSFER */}
+
           { !(!!formData.isTransfer && formData.isTransfer === 'on') &&
             <label className='cu_checkBox'>
               <input
@@ -99,9 +139,8 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             </label>
           }
 
-
           {formData.autoOn && formData.autoOn === 'on' && !(!!formData.isTransfer && formData.isTransfer === 'on') &&
-            <IP type='drop' options={accountList.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))} label='From account'
+            <IP type='drop' options={accountOptions} label='From account'
               data={formData} style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} alias='fromAccount' 
               onChange={val => updateField({ target:{ value: val, name: 'fromAccount' } })} 
             /> }
