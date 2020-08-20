@@ -82,6 +82,10 @@ const YourBudget = ({ step }) => {
   const {catOptions, data} = budgetFunctions.processData(p, percentLeft)
   const chartProps = {percentLeft, amountLeft, data, p, s}
   const noItems = <h2 style={{ textAlign: 'center', marginTop: '75px' }}>Add a budget item</h2>
+
+  const linkedTransfer = editItem && editItem.linkedTransfer
+    && editItem.linkedTransfer !== '' && [...p.accountTransfers].filter(tr => tr.id + '' === editItem.linkedTransfer + '')
+
   return (
     <ContentBox title='Budget' itemId={moduleName} icon={<FontAwesomeIcon icon={faStream} />} >
       <ChartSection {...chartProps} />
@@ -146,6 +150,7 @@ const YourBudget = ({ step }) => {
               accountList={p.accounts}
               onSubmit={bi => handleFormSubmit(bi)}
               updateRetainData={updateRetainData}
+              linkedTransfer={linkedTransfer}
             />} 
         </div>
       </div>

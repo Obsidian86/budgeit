@@ -9,7 +9,7 @@ import { faMoneyCheck, faPlusCircle, faUniversity } from "@fortawesome/free-soli
 import Transaction from './Transactions'
 import { IP } from '../../utilities/formUtilities'
 import { Link } from 'react-router-dom'
-import transactionDialog from './transactionDialog.js'
+import TransactionDialog from './transactionDialog.js'
 
 const Checkbook = () => {
     const p = useContext(MainContext)
@@ -17,7 +17,7 @@ const Checkbook = () => {
     const [message, updateMessage] = useState(null)
     const [selectingAccount, updateSelectingAccount] = useState(false)
     const [selectedAccount, updateSelectedAccount] = useState(null)
-
+    const [showTransactionDialog, updateShowTransactionDialog] = useState({mode: null, transaction: null, show: false})
     // if no account selected, use first account (id)
     const accountsCount = p.accounts.length
     const useSelected = selectedAccount ? selectedAccount : accountsCount > 0 ? p.accounts[0].id : 0
@@ -40,8 +40,7 @@ const Checkbook = () => {
 
     // show transactiondata for that account
     let transactionData = p.transactions[useSelected] ? p.transactions[useSelected] : []
-    const setTransactionDialog = (mode, transaction) => 
-        transactionDialog(p.setDialog, mode, submitDialogForm, transactionAccount[0], p.budget, transaction)
+    const setTransactionDialog = (mode, transaction, show = true) => updateShowTransactionDialog({mode, transaction, show})
 
     //load transactions for account
     const loadTransactions = async () => {
@@ -80,66 +79,78 @@ const Checkbook = () => {
     ) loadTransactions()
 
     return (
-        <ContentBox title='Checkbook' icon={<FontAwesomeIcon icon={faMoneyCheck} />} itemId='checkbookModule'>
-            <div className='d-flex right mt-50'>
-                <div className='controls' style={{'boxShadow': 'none'}}>
-                    <Link to='/accounts' className='mr-10'>
-                        <IP type='btn_blue' label='Accounts' style={{marginRight: '10px', 'borderRadius': '4px'}} icon={<FontAwesomeIcon icon={faUniversity} />} />
-                    </Link>
-                    <IP 
-                        type='btn' 
-                        label='Add transaction' 
-                        style={{marginRight: '10px', 'borderRadius': '4px', marginTop: '13px'}} 
-                        icon={<FontAwesomeIcon icon={faPlusCircle} />} 
-                        onChange={() => setTransactionDialog('add', null)}
-                    />
+        <>
+            <ContentBox title='Checkbook' icon={<FontAwesomeIcon icon={faMoneyCheck} />} itemId='checkbookModule'>
+                <div className='d-flex right mt-50'>
+                    <div className='controls' style={{'boxShadow': 'none'}}>
+                        <Link to='/accounts' className='mr-10'>
+                            <IP type='btn_blue' label='Accounts' style={{marginRight: '10px', 'borderRadius': '4px'}} icon={<FontAwesomeIcon icon={faUniversity} />} />
+                        </Link>
+                        <IP 
+                            type='btn' 
+                            label='Add transaction' 
+                            style={{marginRight: '10px', 'borderRadius': '4px', marginTop: '13px'}} 
+                            icon={<FontAwesomeIcon icon={faPlusCircle} />} 
+                            onChange={() => setTransactionDialog('add', null)}
+                        />
+                    </div>
                 </div>
-            </div>
-            <StyledAccountModule className='row mx'>
-                <div className={`message-container ${message ? 'message-open' : ''}`}>
-                    <p className='important'> <span onClick={()=> updateMessage(null)}>x</span> {message ? message : ''} </p>
-                </div>
-                <div className='smPlus accList ml-n-15' >
-                    <AccountList {...accountListProps} />
-                    {p.isMobile && p.accounts.length > 1 &&
-                        <div onClick={()=>updateSelectingAccount(!selectingAccount)} className='choose-account-list-toggle'>
-                            <p>{ selectingAccount ? 'Close account list' : 'Choose account (' + p.accounts.length + ')'}</p>
-                        </div>
+                <StyledAccountModule className='row mx'>
+                    <div className={`message-container ${message ? 'message-open' : ''}`}>
+                        <p className='important'> <span onClick={()=> updateMessage(null)}>x</span> {message ? message : ''} </p>
+                    </div>
+                    <div className='smPlus accList ml-n-15' >
+                        <AccountList {...accountListProps} />
+                        {p.isMobile && p.accounts.length > 1 &&
+                            <div onClick={()=>updateSelectingAccount(!selectingAccount)} className='choose-account-list-toggle'>
+                                <p>{ selectingAccount ? 'Close account list' : 'Choose account (' + p.accounts.length + ')'}</p>
+                            </div>
+                        }
+                    </div>
+                    {p.accounts.length > 0 ? <div className='lg mr-n-15'>
+                        <strong className='d-block' style={{marginTop: '20px'}}>Transactions</strong>
+                        <div className='search-box'>
+                            <span>Search </span>
+                            <input type='text' value={filter} placeholder='Search transactions' onChange={(e) => updateFilter(e.target.value)} />
+                            <span className='clear-button' onClick={() => updateFilter('')}>Clear</span>
+                        </div> 
+                        {
+                            transactionData.length < 1 ? 
+                                <p className='center no-content'>
+                                        No transactions for account { transactionAccount.length > 0 && transactionAccount[0].name}
+                                </p> :
+                                [...transactionData].map((tr, i) => <Transaction key={i} tr={tr} filter={filter} handleDelete={handleDelete} setTransactionDialog={setTransactionDialog} />)
+                        }
+                        {!(p.hasNoTransactions.includes(useSelected)) && 
+                            <div className='center mt-40 mb-40'>
+                                <button 
+                                    onClick={()=> loadTransactions()}
+                                    className='btn green'
+                                >
+                                        Load more transactions
+                                </button>
+                            </div>
+                        }
+                    </div> :
+                    <div className='lg mr-n-15'>
+                        <p className='center no-content'>
+                            No accounts created
+                        </p>
+                    </div>
                     }
-                </div>
-                {p.accounts.length > 0 ? <div className='lg mr-n-15'>
-                    <strong className='d-block' style={{marginTop: '20px'}}>Transactions</strong>
-                    <div className='search-box'>
-                        <span>Search </span>
-                        <input type='text' value={filter} placeholder='Search transactions' onChange={(e) => updateFilter(e.target.value)} />
-                        <span className='clear-button' onClick={() => updateFilter('')}>Clear</span>
-                    </div> 
-                    {
-                        transactionData.length < 1 ? 
-                            <p className='center no-content'>
-                                    No transactions for account { transactionAccount.length > 0 && transactionAccount[0].name}
-                            </p> :
-                            [...transactionData].map((tr, i) => <Transaction key={i} tr={tr} filter={filter} handleDelete={handleDelete} setTransactionDialog={setTransactionDialog} />)
-                    }
-                    {!(p.hasNoTransactions.includes(useSelected)) && 
-                        <div className='center mt-40 mb-40'>
-                            <button 
-                                onClick={()=> loadTransactions()}
-                                className='btn green'
-                            >
-                                    Load more transactions
-                            </button>
-                        </div>
-                    }
-                </div> :
-                <div className='lg mr-n-15'>
-                    <p className='center no-content'>
-                        No accounts created
-                    </p>
-                </div>
-                }
-            </StyledAccountModule>
-        </ContentBox>
+                </StyledAccountModule>
+            </ContentBox>
+            { showTransactionDialog.show && 
+                <TransactionDialog
+                    setTransactionDialog={setTransactionDialog}
+                    mode={showTransactionDialog.mode} 
+                    submitDialogForm={submitDialogForm} 
+                    accountData={transactionAccount[0]} 
+                    budget={p.budget} 
+                    transaction={showTransactionDialog.transaction}
+                />
+            }
+        </>
     )
 }
 

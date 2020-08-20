@@ -1,7 +1,9 @@
 import React, {useState } from 'react'
 import { Link } from 'react-router-dom'
-import { parsedCurrentDate, stepDate, dMatch, getDateRangeArray } from '../components/calendar/dateFunctions'
+import { parsedCurrentDate, stepDate, dMatch, getDateRangeArray, tMonth } from '../components/calendar/dateFunctions'
 import RenderLineChart from './LineChart'
+import { convert } from '../../utilities/convert'
+
 const styles = {
     transferCard: {
         display: 'flex',
@@ -164,6 +166,26 @@ const AccountListItem = (props) => {
         return points
     }
 
+    const handleAddAccountToEstimator = account => {
+        let addAccount = { ...account}
+        let amount = parseFloat(addAccount.amount)
+        const leftInMonth = 12 - tMonth()
+        const depAmount = allItemsArray.reduce((pr, cv) => {
+            if(cv.toAccount && (cv.toAccount + '' === a.id + '')){
+                return convert(cv.amount, cv.rec, 'm') + pr
+            }
+            if(cv.fromAccount && (cv.fromAccount + '' === a.id + '')){
+                return pr - convert(cv.amount, cv.rec, 'm')
+            }
+            return pr
+        }, 0)
+
+        addAccount.per = 12
+        addAccount.amount = parseFloat((amount + (leftInMonth * depAmount)).toFixed(2))
+        addAccount.depAmount = parseFloat((depAmount * 12).toFixed(2))
+        addAccountToEstimator(addAccount)
+    }
+
     return(
         <li 
             style={{
@@ -262,7 +284,7 @@ const AccountListItem = (props) => {
                         <p className='muted ml-5'>Base on interest/transfers/budget items</p>
                     </div>
                     <div className='right' style={{ paddingTop: '15px', marginTop: '5px', width: '98%' }}>
-                        <Link to='/savings' className='btn blue' style={{textDecoration: 'none'}} onClick={()=> addAccountToEstimator(a)}>
+                        <Link to='/savings' className='btn blue' style={{textDecoration: 'none'}} onClick={()=> handleAddAccountToEstimator(a)}>
                             Add to estimator
                         </Link>
                         <button className='btn' onClick={()=> {

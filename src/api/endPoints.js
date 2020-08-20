@@ -15,5 +15,5 @@ export const endPoints = {
     // transactions
     newTransaction: (username) => `budget-api/transactions/${username}/`,
     loadTransactions: (username, targetParam, id) => `budget-api/transactions/${username}/${targetParam}/${id}/`,
-    deleteTransaction: (username, targetParam, id) => `budget-api/transactions/${username}/${id}/${targetParam}/`
+    deleteTransaction: (username, targetParam, id) => `budget-api/transactions/${username}/${id}/${targetParam}/del/`
 }

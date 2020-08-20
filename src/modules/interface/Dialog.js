@@ -35,8 +35,8 @@ const Dialog = ({ data, setDialog }) => {
                 border: 1px solid gray;
                 box-shadow: 0 0 0 8px #fff;
                 margin: ${sticky ? '9px auto' : 'auto'}; 
-                ${sticky ? 'overflow-y: scroll;' : ''};
-                ${sticky ? 'overflow-x: hidden;' : ''};
+                ${sticky ? 'overflow-y: scroll' : ''};
+                ${sticky ? 'overflow-x: hidden' : ''};
                 h3{
                     padding-left: 20px;
                     padding-bottom: 17px;

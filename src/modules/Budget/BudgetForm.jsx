@@ -5,8 +5,9 @@ import { parsedCurrentDate, stepDate } from '../components/calendar/dateFunction
 import { IP } from '../../utilities/formUtilities'
 import { money } from '../../utilities/convert'
 
-const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors, updateView, accountList, retainData = {} }) => {
+const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors, updateView, accountList, retainData = {}, linkedTransfer }) => {
   const accountOptions = accountList.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))
+  const hasTransfer = linkedTransfer && linkedTransfer.length > 0 
   return (<Form
     defaultFormData={
       editItem ? { 
@@ -16,6 +17,9 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
         end: editItem.end ? editItem.end : stepDate(parsedCurrentDate(new Date()).split("-"), "yearly", 10).join('-'),
         autoOn: editItem.fromAccount && editItem.fromAccount !== '' ? 'on' : 'off',
         isTransfer: editItem.isTransfer,
+        createTransfer: hasTransfer ? 'on' : 'off',
+        transferFromAccount: hasTransfer ? linkedTransfer[0]['fromAccount'] : null,
+        transferToAccount: hasTransfer ? linkedTransfer[0]['toAccount'] : null,
         ...retainData
       } : 
       { 
@@ -105,7 +109,8 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
           {
             !!formData.createTransfer && formData.createTransfer === 'on' && !!formData.isTransfer && formData.isTransfer === "on" && <>
               <IP type='drop' 
-                options={formData.transferToAccount ? [...accountOptions].filter(i => i.v !== formData.transferToAccount) : accountOptions} 
+                options={
+                  formData.transferToAccount ? [...accountOptions].filter(i => i.v + '' !== formData.transferToAccount + '') : accountOptions} 
                 label='Transfer from'
                 data={formData} 
                 style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} 
@@ -114,7 +119,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
                 errors={errors}  
               />
               <IP type='drop' 
-                options={formData.transferFromAccount ? [...accountOptions].filter(i => i.v !== formData.transferFromAccount) : accountOptions} 
+                options={formData.transferFromAccount ? [...accountOptions].filter(i => i.v + '' !== formData.transferFromAccount + '') : accountOptions} 
                 label='Transfer to'
                 data={formData} 
                 style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} 

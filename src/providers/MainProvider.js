@@ -4,6 +4,7 @@ import conF from './contextFunctions'
 import Dialog from '../modules/interface/Dialog'
 import defaultState from './data/defaultState'
 import getMethods from './data/getMethods'
+import InitLoad from '../modules/components/InitLoad'
 
 class MainProvider extends React.Component {
   constructor () {
@@ -44,7 +45,7 @@ class MainProvider extends React.Component {
     this.setState({profile: username, loggedIn: true, globalLoad: true},
       async ()=> { 
         await this.loadData()
-        this.setState({globalLoad: false})
+        this.setState({globalLoad: false}, () => this.checkIfMobile())
       }
     )}
   logout = () => {
@@ -74,7 +75,7 @@ class MainProvider extends React.Component {
   updateSource = newSource => this.sourceReqs(newSource, conF.processUpdateSource)
 
   // budget CRUD
-  budgetReqs = (data, fnc) => fnc(data, false, this.state.budget, this.state.total, this.state.profile, this.saveState)
+  budgetReqs = (data, fnc) => fnc(data, false, this.state.budget, this.state.total, this.state.profile, this.state.accountTransfers,this.saveState)
   addBudgetItem = (bi) => this.budgetReqs(bi, conF.processAddBudgetItem)
   deleteBudgetItem = (cat, id) => this.budgetReqs({cat, id}, conF.processDeleteBudgetItem)
   updateBudgetItem = (oldBi, bi) => this.budgetReqs({oldBi, bi}, conF.processUpdateBudgetItem)
@@ -125,16 +126,3 @@ class MainProvider extends React.Component {
 }
 
 export default MainProvider
-
-const InitLoad = () => {
-  return(
-    <div style={{'height': '100vh', 'display': 'flex', 'alignItems': 'center', 'fontSize': '1.2rem', 'color': 'green', 'width': '100%', 'justifyContent': 'flex-center'}}>
-      <div className="logo" style={{'margin': '0 auto'}}>
-          <img src='images/favicon-32x32.png' alt='' style={{'margin': '0 auto', 'display': 'block'}} />
-          <p style={{'fontWeight': 'bold', 'width': '100%', 'textAlign': 'center'}}>
-            loading...
-          </p>
-      </div>
-    </div>
-  )
-}

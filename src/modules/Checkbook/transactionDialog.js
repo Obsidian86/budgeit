@@ -3,10 +3,10 @@ import { IP } from '../../utilities/formUtilities'
 import StyledPopUpForm from './StyledPopUpForm'
 import getSubPopupContent from './popupContent/getSubPopupContent'
 import * as popupFucntions from './popupContent/popupFunctions'
-import s from './objectStyles'
 import { pDate } from '../components/calendar/dateFunctions'
+import styled from 'styled-components'
 
-const TransactionForm = ({submitDialogForm, setDialog, accountData, budget, transaction, mode}) => {
+const TransactionForm = ({submitDialogForm, accountData, budget, transaction, mode, setTransactionDialog}) => {
     const [errors, updateErrors] = useState({})
     const date = new Date()
     const [formData, updateFormData] = useState({
@@ -25,18 +25,19 @@ const TransactionForm = ({submitDialogForm, setDialog, accountData, budget, tran
     const handleFieldChange = event => 
         popupFucntions.handleFieldChange(event, formData, accountData, updateFormData)
     const handleSubmit = () => 
-        popupFucntions.handleSubmitForm(formData, submitDialogForm, setDialog, updateErrors, mode)
+        popupFucntions.handleSubmitForm(formData, submitDialogForm, setTransactionDialog, updateErrors, mode)
     const handleChangeDate = inDate  => 
         handleFieldChange({ target: { name: 'date', value: inDate } }) 
     const popUpData = 
         getSubPopupContent(popUp, handleFieldChange, updatePopUp, budget)
 
     return (
-        <StyledPopUpForm className='contentBox'>
-            { popUp && popUpData }
-            <div className='row' style={s.rowContainer}>
-                <div className='before-after'>
-                    {' '}
+        <StyledPopUpForm>
+            { popUp ? popUpData :
+            <div className='row'>
+                <div className='date-box'>
+                    <label> Date </label>
+                    <IP type='date' alias='date' data={formData} onChange={(date) => handleChangeDate(date)} />
                 </div>
                 <div className='md'>
                     <IP type='text' errors={errors} label='Name' alias='name' data={formData} onChange={handleFieldChange} showPH='transaction name' />
@@ -59,33 +60,58 @@ const TransactionForm = ({submitDialogForm, setDialog, accountData, budget, tran
                         onChange={() => null}
                     />
                 </div>
-                <div className='md date-box' style={s.dateBox} > Date </div>
-                <div className='md date-box' style={s.btnContainer}>
-                    <IP type='date' alias='date' data={formData} onChange={(date) => handleChangeDate(date)} />
-                </div>
                 <div className='max right btn-group' style={{maxWidth: '93%', marginTop: '20px'}}> 
-                    <IP type='btn_red' onChange={() => setDialog({open: false})} label='Cancel' />
+                    <IP type='btn_red' onChange={() => setTransactionDialog(null, null, false)} label='Cancel' />
                     <IP 
                         type='btn_green' 
                         onChange={() => handleSubmit()} 
-                        label='Add' 
+                        label={transaction && transaction.id ? 'Update': 'Add'}
                     />
                 </div>
-            </div>
+            </div> }
         </StyledPopUpForm>
     )
 }
 
-const transactionDialog = (setDialog, mode = 'add', submitDialogForm, accountData, budget, transaction) => {
-    const header = mode === 'add' ? 'New transaction' :
-        mode === 'delete' ? 'Delete transaction' : 'Update transaction'
-    const formProps = {submitDialogForm, setDialog, accountData, budget, transaction, mode}
-    setDialog({
-        open: true,
-        header: accountData.name + ': ' + header, 
-        sticky: true,
-        content: <TransactionForm {...formProps} />
-      })
+const StyledTransactionPopup = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 60;
+    & .box-title{
+        font-weight: bold;
+        margin: 7px;
+        font-size: 1.1rem;
+    }
+    & .pop-up-content{
+        padding: 6px;
+        background-color: #fff;
+        width: 90%;
+        max-height: 90vh;
+        overflow: auto;
+        margin: 0;
+    }
+`
+
+const TransactionDialog = ({ mode = 'add', submitDialogForm, accountData, budget, transaction, setTransactionDialog}) => {
+    const header = mode === 'add' ?
+        'New transaction' : mode === 'delete' ?
+            'Delete transaction' : 'Update transaction'
+    const formProps = {submitDialogForm, accountData, budget, transaction, mode, setTransactionDialog}
+    return (
+        <StyledTransactionPopup>
+            <div className='pop-up-content contentBox'>
+                <div className='box-title'>{accountData.name + ': ' + header}</div>
+                <TransactionForm {...formProps} />
+            </div>
+        </StyledTransactionPopup>
+    )
 }
 
-export default transactionDialog
+export default TransactionDialog

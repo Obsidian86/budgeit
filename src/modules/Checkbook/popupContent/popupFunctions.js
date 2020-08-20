@@ -19,7 +19,7 @@ export const handleFieldChange = (event, formData, accountData, updateFormData) 
     updateFormData(newState)
 }
 
-export const handleSubmitForm = (formData, submitDialogForm, setDialog, updateErrors, mode) => {
+export const handleSubmitForm = (formData, submitDialogForm, setTransactionDialog, updateErrors, mode) => {
     const fields = [
         { name: 'name', req: true, type: 'text' },
         { name: 'amount', req: true, type: 'number' },
@@ -32,7 +32,7 @@ export const handleSubmitForm = (formData, submitDialogForm, setDialog, updateEr
     let errors = validForm(fields, formData)
     updateErrors(errors)
     if(Object.keys(errors).length < 1){ 
-        setDialog({open: false}) 
+        setTransactionDialog(null, null, false)
         submitDialogForm(formData, mode)
     }
 }

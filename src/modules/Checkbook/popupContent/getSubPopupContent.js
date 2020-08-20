@@ -1,45 +1,39 @@
 import React from 'react'
 
 const getSubPopupContent = (popUp, handleFieldChange, updatePopUp, budget) => {
-    let popUpData = <></>
-    if( popUp === 'category'){
-        popUpData = 
-        <div className='sub-pop-up'>
-            <span className='pop-up-title'>
-                <strong>Choose category</strong>
-            </span>
-            { Object.keys(budget).map((bi, i) =>
-                <div key={i} className='catOption' onClick={
-                    () => {
-                    handleFieldChange({target: { value: bi, name: 'category'}})
-                    updatePopUp(false)
-                }}>
-                    <span>{bi}</span>
-                </div> 
-            )}
-            { <div className='mt-40'><p className='btn red' onClick={()=> updatePopUp(false)} >Cancel</p></div>}
-        </div>
-    }
+    const iterateItems = popUp === 'category' ? Object.keys(budget) : ['withdrawl', 'deposit']
+    const useTitle = popUp === 'category' ? 'Choose category' : 'Choose transaction type'
 
-    if( popUp === 'type'){
-        popUpData =
-        <div className='sub-pop-up'>
-            <span className='pop-up-title'>
-                <strong>Choose transaction type</strong>
-            </span>
-            { ['withdrawl', 'deposit'].map((type, i) =>
-                <div key={i} className='catOption' onClick={
-                    () => {
-                    handleFieldChange({target: { value: type, name: 'type'}})
-                    updatePopUp(false)
-                }}>
-                    <span>{type}</span>
-                </div> 
-            )}
-            { <div className='mt-40'><p className='btn red' onClick={()=> updatePopUp(false)} >Cancel</p></div>}
+    let dTrack = 0
+    const displayList = iterateItems.map((itItem, i) => {
+        if(dTrack > 2) dTrack = 0
+        else dTrack ++
+        return(
+            <div key={i} className={`catOption ${ dTrack >= 2 ? 'dark' : ''}`} onClick={
+                () => {
+                handleFieldChange({target: { value: itItem, name: popUp}})
+                updatePopUp(false)
+            }}>
+                <span>{itItem}</span>
+            </div>
+        ) 
+    })
+
+    return (
+    <div className='sub-pop-up'>
+        <span className='pop-up-title'>
+            <strong>{useTitle}</strong>
+        </span>
+        <div className='cat-list-options'>
+            {displayList}
         </div>
-    }
-    return popUpData
+        {
+            <div className='mt-40 right btn-group'>
+                <p className='btn red' onClick={()=> updatePopUp(false)} >Cancel</p>
+            </div>
+        }
+    </div>
+    )
 }
 
 export default getSubPopupContent
