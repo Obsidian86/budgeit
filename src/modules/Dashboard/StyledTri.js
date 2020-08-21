@@ -21,7 +21,7 @@ justify-content: space-between;
         width: calc(50% - 30px);
         padding: 5px;
         &:first-child{
-            margin: 0 auto 15px auto;
+            margin: 10px auto 23px auto;
             padding-top: 10px;
             padding-bottom: 10px;
             width: calc(100% - 26px);
