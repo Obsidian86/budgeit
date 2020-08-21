@@ -275,7 +275,7 @@ label{
   @media (max-width: 1000px){ 
     width: calc(96% - 25px); 
     margin: 15px auto;
-    &.md, &.sm, &.lg, .sm, .thr, .md, .lg, .xs, .m-lg, &.m-sm, .m-sm, &.smPlus, .smPlus, .w-30, .tt{ 
+    &.max, .max, &.md, &.sm, &.lg, .sm, .thr, .md, .lg, .xs, .m-lg, &.m-sm, .m-sm, &.smPlus, .smPlus, .w-30, .tt{ 
       width: calc(96% - 21px);   
       margin: 15px auto;
     }
@@ -495,7 +495,7 @@ p{
 
 .break-1155{
   @media screen and (max-width: 1155px){
-    width: calc(45% - 40px) !important;
+    width: calc(50% - 40px) !important;
     & .reRow{
       width: 100% !important;
       min-width: 0 !important;

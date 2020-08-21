@@ -75,10 +75,10 @@ const Dashboard = () => {
         <ContentBox title='Income' exClass={'smPlus break-1155'} icon={<FontAwesomeIcon icon={faMoneyBillWave} />} exStyles={{minWidth: '230px'}}>
             { sourceContent }
         </ContentBox>
-        <ContentBox title='Value' icon={<FontAwesomeIcon icon={faChartLine} />} itemId={'value-content'}>
+        <ContentBox title='Value' exClass={'max'} icon={<FontAwesomeIcon icon={faChartLine} />} itemId={'value-content'}>
             { valueOverTime }
         </ContentBox>
-        <ContentBox title='Budget' icon={<FontAwesomeIcon icon={faStream} />}>
+        <ContentBox title='Budget' exClass={'max'} icon={<FontAwesomeIcon icon={faStream} />}>
             { budgetContent }
         </ContentBox>
     </div>

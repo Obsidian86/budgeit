@@ -22,10 +22,9 @@ justify-content: space-between;
         padding: 5px;
         &:first-child{
             margin: 0 auto 15px auto;
-            padding: 5px 0 13px 0;
-            box-shadow: none;
-            border: none;
-            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            width: calc(100% - 26px);
             & i {
                 margin-left: 10px;
             }
