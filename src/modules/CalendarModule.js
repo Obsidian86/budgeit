@@ -32,7 +32,10 @@ const CalendarModule = ({nonLoad}) => {
     ri: { width: '49%', textAlign: 'right'}, // right
     dt: { fontSize: '1.2rem' }, // date
     mn: { fontSize: '.8rem', paddingTop: '4px' }, // money
-    lstDate: {fontSize: '.8rem', display: 'block', paddingTop: '10px', fontWeight: 'normal', color: '#b2b2b2'}
+    lstDate: {
+      fontSize: '.8rem', display: 'flex', paddingTop: '10px', 
+      fontWeight: 'normal', color: '#b2b2b2', justifyContent: 'space-between', width: '100%'
+    }
   }
   
   const tabContent = [

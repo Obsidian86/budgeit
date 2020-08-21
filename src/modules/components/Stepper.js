@@ -6,7 +6,7 @@ import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 const Stepper = ({step, getLink, theme, hasSource, hasBudgetItem, hasAccount}) => {
   const s = {
     container: {
-      margin: '12px 0 35px 0',
+      margin: '10px 0 50px 0',
       display: 'flex',
       justifyContent: 'center',
       width: '90%'
@@ -32,6 +32,11 @@ const Stepper = ({step, getLink, theme, hasSource, hasBudgetItem, hasAccount}) =
 
   return(
     <div style={s.container}>
+      <Link to={getLink('/accounts' )} style={{...s.link, color: hasAccount ? theme.vBlue : '#444'}}>
+        <span style={{...s.span, borderColor: hasAccount ? theme.vBlue : '#444' }}>
+          { hasAccount ? <FontAwesomeIcon icon={faCheck}/> : <FontAwesomeIcon icon={faTimes}/>}</span>
+        Add account
+      </Link>
       <Link to={getLink('/sources')} style={{...s.link, color: hasSource ? theme.vBlue : '#444'}}>
         <span style={{...s.span, borderColor: hasSource ? theme.vBlue : '#444' }}>
           { hasSource ? <FontAwesomeIcon icon={faCheck}/> : <FontAwesomeIcon icon={faTimes}/>}
@@ -42,11 +47,6 @@ const Stepper = ({step, getLink, theme, hasSource, hasBudgetItem, hasAccount}) =
         <span style={{...s.span, borderColor: hasBudgetItem ? theme.vBlue : '#444' }}>
           { hasBudgetItem ? <FontAwesomeIcon icon={faCheck}/> : <FontAwesomeIcon icon={faTimes}/>}</span>
         Add budget item 
-      </Link>
-      <Link to={getLink('/accounts' )} style={{...s.link, color: hasAccount ? theme.vBlue : '#444'}}>
-        <span style={{...s.span, borderColor: hasAccount ? theme.vBlue : '#444' }}>
-          { hasAccount ? <FontAwesomeIcon icon={faCheck}/> : <FontAwesomeIcon icon={faTimes}/>}</span>
-        Add account
       </Link>
     </div>
   )

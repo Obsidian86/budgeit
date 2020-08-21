@@ -9,6 +9,7 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
     let EOYtrackBalance = trackBalance
     let EOYbalWithLiquid = balWithLiquid
     let retItems
+    let accountsWithLinkedTransfers = {}
     if(!Array.isArray(procItems) || procItems.length === 0){
       retItems = <>
         <div className='row mt-40'>
@@ -29,12 +30,23 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
           <Scroll height={600}>
             <SoftList split>
               {procItems && procItems.map((ci, i) => {
+                if(ci.amount && ci.isTransfer && ci.isTransfer === 'on' && ci.linkedTransfer && ci.linkedTransfer !== ''){
+                  accountsWithLinkedTransfers[ci.linkedTransfer + ''] = ci
+                  return null
+                }
                 const iDate = ci.itemDate.split('-')
+                let useInfo = null
                 let showDate = false
                 const keepBalance = trackBalance
-                const isAccountTransfer = ci.toAccount && ci.toAccount !== '' 
-                  && ci.fromAccount && ci.fromAccount !== '' 
-                  && ci.itemClass === 'cal-transfer'
+                const fromAccount = ci.fromAccount && ci.fromAccount !== ''
+                  && accounts && accounts.filter(a => a.id + '' === ci.fromAccount + '')
+                const toAccount = ci.toAccount && ci.toAccount !== ''
+                  && accounts && accounts.filter(a => a.id + '' === ci.toAccount + '')
+                
+                const fromAcc = fromAccount && fromAccount.length && fromAccount[0]
+                const toAcc = toAccount && toAccount.length && toAccount[0]
+
+                const isAccountTransfer = ci.itemClass === 'cal-transfer'
 
                 if (iDate[2] !== yearTrack || iDate[0] !== monthTrack) {
                   showDate = true
@@ -43,30 +55,36 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
                 }
                 // INCOME
                 if(!isAccountTransfer && ci.category && ci.amount && ci.category.toLowerCase() === 'income'){
-                  trackBalance = calcMoney(trackBalance, ci.amount)
+                  if(!toAcc || (toAcc && toAcc.liquid)) {
+                    trackBalance = calcMoney(trackBalance, ci.amount)
+                  }
                   balWithLiquid = calcMoney(balWithLiquid, ci.amount)
                   if(parseInt(yearTrack) === tYear()){
-                    EOYtrackBalance = calcMoney(EOYtrackBalance, ci.amount)
+                    if(!toAcc || (toAcc && toAcc.liquid)) {
+                      EOYtrackBalance = calcMoney(EOYtrackBalance, ci.amount)
+                    }
                     EOYbalWithLiquid = calcMoney(EOYbalWithLiquid, ci.amount)
                   }
                 } else{
                   // BUDGET ITEM
                   if(!isAccountTransfer && ci.amount && ci.isTransfer !== 'on'){
-                    trackBalance = calcMoney(trackBalance, ci.amount, 'subtract') 
+                    if(!fromAcc || (fromAcc && fromAcc.liquid)){
+                      trackBalance = calcMoney(trackBalance, ci.amount, 'subtract') 
+                    }
                     balWithLiquid = calcMoney(balWithLiquid, ci.amount, 'subtract')
                     if(parseInt(yearTrack) === tYear()){
-                      EOYtrackBalance = calcMoney(EOYtrackBalance, ci.amount, 'subtract')
+                      if(!fromAcc || (fromAcc && fromAcc.liquid)){
+                        EOYtrackBalance = calcMoney(EOYtrackBalance, ci.amount, 'subtract')
+                      }
                       EOYbalWithLiquid = calcMoney(EOYbalWithLiquid, ci.amount, 'subtract')
                     }
                   }
                   // Handle account transfers
                   if(accounts && isAccountTransfer){
-                    let fromAcc = accounts.filter(a => a.id + '' === ci.fromAccount + '')
-                    let toAcc = accounts.filter(a => a.id + '' === ci.toAccount + '')
-                    if(fromAcc.length && toAcc.length){
-                      fromAcc = fromAcc[0]
-                      toAcc = toAcc[0]
                       if(fromAcc.liquid !== toAcc.liquid){
+                        if(accountsWithLinkedTransfers[ci.id + '']){
+                          useInfo = accountsWithLinkedTransfers[ci.id + '']
+                        }
                         if(fromAcc.liquid && !toAcc.liquid){
                           trackBalance = calcMoney(trackBalance, ci.amount, 'subtract')
                           if(parseInt(yearTrack) === tYear()){
@@ -80,7 +98,6 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
                           }
                         }
                       }
-                    }
                   }
                 }
                 return (
@@ -90,12 +107,23 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
                         <span  style={s.dt}>{Months[iDate[0] - 1]} {iDate[2]}</span>
                         <span style={s.mn}>{money(keepBalance)}</span>
                       </li>}
-                    <li style={{color: ci.color ? ci.color : 'gray', fontWeight: 'bold'}}>
+                    <li style={{color: ci.color ? ci.color : 'gray', fontWeight: 'bold', flexWrap: 'wrap'}}>
                       <span style={{...s.ri, textAlign: 'left'}}>
-                        {ci.item}<br />
-                        <span style={s.lstDate}>{ci.itemDate}</span>
+                        { useInfo ? useInfo.item : ci.item}<br />
                       </span>
-                      <span style={s.ri}>{ci.amount ? money(ci.amount) : ' '}</span>
+                      <span style={s.ri}>
+                        {ci.amount ? money(ci.amount) : ' '} <br />
+                      </span>
+                      <span style={s.lstDate}>
+                        <span>{ci.itemDate} </span>
+                        <span>
+                          { isAccountTransfer ? 'Transfer'
+                              : fromAcc ? `${fromAcc.liquid ? 'liquid' : 'non-liquid'}`
+                                : toAcc ? `${toAcc.liquid ? 'liquid' : 'non-liquid'}`
+                                  : 'Total only'
+                          }
+                        </span>
+                      </span>
                     </li>
                   </Fr>
                 )

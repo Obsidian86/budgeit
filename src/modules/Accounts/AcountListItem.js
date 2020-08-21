@@ -281,7 +281,7 @@ const AccountListItem = (props) => {
                                 parser={(i) => i.getMonth() + 1 + '-' + i.getDate()}
                             />
                         }
-                        <p className='muted ml-5'>Base on interest/transfers/budget items</p>
+                        <p className='muted ml-5'>Based on interest/transfers/budget items</p>
                     </div>
                     <div className='right' style={{ paddingTop: '15px', marginTop: '5px', width: '98%' }}>
                         <Link to='/savings' className='btn blue' style={{textDecoration: 'none'}} onClick={()=> handleAddAccountToEstimator(a)}>
