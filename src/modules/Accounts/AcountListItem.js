@@ -214,6 +214,17 @@ const AccountListItem = (props) => {
                 <div className='mt-20' style={{...styles.tab, ...styles.tabFrom}}>Transfers from account: {transfersFrom.length}</div>
                 {showOptions && 
                 <>
+                    <div className='right' style={{ paddingTop: '15px', marginTop: '5px', width: '98%' }}>
+                        <Link to='/savings' className='btn blue' style={{textDecoration: 'none'}} onClick={()=> handleAddAccountToEstimator(a)}>
+                            Add to estimator
+                        </Link>
+                        <button className='btn' onClick={()=> {
+                            const n = new Promise((resolve, reject)=> resolve(updateEdittingItem(a)) )
+                            n.then(()=>updateShowForm(true))
+                            .then(()=>updateView('accountForm', 'accountsModule'))
+                        }}> Edit account
+                        </button>
+                    </div>
                     <div className='w-99 row start'>
                         { (transfersTo.length + transfersFrom.length > 0) && <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Transfers</h3> }
                         {transfersTo.map(tr => {
@@ -284,17 +295,6 @@ const AccountListItem = (props) => {
                             />
                         }
                         <p className='muted ml-5'>Based on interest/transfers/budget items</p>
-                    </div>
-                    <div className='right' style={{ paddingTop: '15px', marginTop: '5px', width: '98%' }}>
-                        <Link to='/savings' className='btn blue' style={{textDecoration: 'none'}} onClick={()=> handleAddAccountToEstimator(a)}>
-                            Add to estimator
-                        </Link>
-                        <button className='btn' onClick={()=> {
-                            const n = new Promise((resolve, reject)=> resolve(updateEdittingItem(a)) )
-                            n.then(()=>updateShowForm(true))
-                            .then(()=>updateView('accountForm', 'accountsModule'))
-                        }}> Edit account
-                        </button>
                     </div>
                 </>}
             </div>
