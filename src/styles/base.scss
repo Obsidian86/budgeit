@@ -21,7 +21,9 @@ body {
   width: 95%;
   margin: 0 auto;
 }
-
+button {
+  text-align: center;
+}
 .btn{
   text-decoration: none;
   cursor: pointer;
@@ -33,6 +35,7 @@ body {
   padding: 9px 17px;
   transition: background-color .3s;
   font-weight: bold;
+  text-align: center;
   &.red{
     background-color: red;
     box-shadow: 0 0 0 2px red;

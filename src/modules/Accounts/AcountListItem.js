@@ -30,13 +30,12 @@ const styles = {
         margin: '0 0 4px 0'
     },
     tab: {
-        color: 'green',
+        color: 'gray',
         padding: '4px 6px', 
         borderRadius: '3px',
         margin: '5px 6px 0 0',
     },
-    tabFrom: {
-        color: '#f54745'
+    tabFrom: { 
     }
 }
 
@@ -89,7 +88,16 @@ const AccountListItem = (props) => {
 
     const handleClickItem = () => {
         if(showOptions) { updateShowOptions(null)}
-        else updateShowOptions(a.id)
+        else {
+            updateShowOptions(a.id)
+            setTimeout(()=> {
+                const getItem = document.getElementById('account-list-item-' + a.id)
+                if(getItem && window.scrollTo && getItem.getBoundingClientRect){
+                    const itemStats = getItem.getBoundingClientRect()
+                    window.scrollTo(0, itemStats.top - 200 )
+                }
+            }, 100) 
+        }
     }
 
     const handleRangePointclick = (e, point) => {
@@ -201,6 +209,7 @@ const AccountListItem = (props) => {
                 borderRight: showOptions ? '2px dotted green' : 'none',
                 borderBottom: showOptions ? '7px solid green' : 'none'
             }}
+            id={'account-list-item-' + a.id}
             onClick={handleClickItem}
         >
             <span style={s.intFirst}> <Bullet color={a.liquid ? 'green' : 'orange'} size={12} /> {a.name}</span>
@@ -214,7 +223,7 @@ const AccountListItem = (props) => {
                 <div className='mt-20' style={{...styles.tab, ...styles.tabFrom}}>Transfers from account: {transfersFrom.length}</div>
                 {showOptions && 
                 <>
-                    <div className='right' style={{ paddingTop: '15px', marginTop: '5px', width: '98%' }}>
+                    <div className='right' style={{ paddingTop: '15px', marginTop: '5px', width: '98%', fontSize: '.83rem' }}>
                         <Link to='/savings' className='btn blue' style={{textDecoration: 'none'}} onClick={()=> handleAddAccountToEstimator(a)}>
                             Add to estimator
                         </Link>
