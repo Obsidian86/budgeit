@@ -39,6 +39,9 @@ const StyledPopUpForm = styled.div`
     }
     .date-box{
         width: calc(98% - 30px);
+        & input {
+            width: 100%;
+        }
     }
     .btn-group{
         margin-bottom: 10px;

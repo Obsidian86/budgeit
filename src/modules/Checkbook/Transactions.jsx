@@ -9,6 +9,7 @@ const Transaction = ({tr, filter, setTransactionDialog, handleDelete}) => {
     const showDate = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`
     return(
         <div 
+            style={{'cursor': 'pointer'}}
             className={
                 `transaction-card 
                 ${tr.type} ${open ? 'showActions' : ''} 

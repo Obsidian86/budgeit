@@ -51,7 +51,7 @@ const Accounts = () => {
                     <i><FontAwesomeIcon icon={faExchangeAlt} /></i> &nbsp;
                     { transfersState ? 'Cancel transfer set up' : 'Set up auto transfers'}
                 </button> }
-                {!transfersState && 
+                {!transfersState && accountList.length > 0 &&
                     <button className='btn mr-20' onClick={()=> updateShowForm(!showForm)} >
                         {showForm ? 'Hide form' : 'Add account'}
                     </button> 

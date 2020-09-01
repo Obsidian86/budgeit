@@ -35,8 +35,8 @@ const SaveLoad = () => {
     return (
         <ContentBox title='Export data' exClass='sm'>
             <div>
-                <div className='max'>
-                    <label className='mt-40 d-bl center mb-10'>Export to file and download</label>
+                <div className='max center'>
+                    <label className='mt-50 d-bl center mb-10'>Export to file and download</label>
                     <button 
                         onClick={()=> handleClick()}
                         className='btn mt-10'

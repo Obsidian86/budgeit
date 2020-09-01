@@ -205,22 +205,14 @@ const StyledAccountModule = styled.span`
     }
     .choose-account-list-toggle{
         margin: 0;
+        margin-top: -3px;
         text-align: center;
-        margin-top: -15px;
-        border-top: 1px solid green;
         & p{
             display: inline;
-            border-radius: 0 0 6px 6px;
-            padding: 10px;
-            border-color: green;
-            border-width: 1px;
-            border-style: solid;
-            border-top: none;
+            padding: 5px 10px;
             margin: 0;
             font-weight: bold;
-            background-color: lightgreen;
             position: relative;
-            top: 6px;
             &:hover{
                 background-color: #d8d8d8;
                 cursor: pointer;

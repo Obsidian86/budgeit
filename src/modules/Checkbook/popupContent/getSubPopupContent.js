@@ -1,7 +1,11 @@
 import React from 'react'
 
-const getSubPopupContent = (popUp, handleFieldChange, updatePopUp, budget) => {
+const getSubPopupContent = (popUp, handleFieldChange, updatePopUp, budget, formData) => {
     const iterateItems = popUp === 'category' ? Object.keys(budget) : ['withdrawl', 'deposit']
+    if(!formData.id && popUp !== 'category'){
+        iterateItems.push('adjustment')
+    }
+
     const useTitle = popUp === 'category' ? 'Choose category' : 'Choose transaction type'
 
     let dTrack = 0

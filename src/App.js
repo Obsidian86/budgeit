@@ -22,7 +22,7 @@ const SnapShots = React.lazy(() => import('./modules/SnapShots/SnapShots'))
 const CalendarModule = React.lazy(() => import('./modules/CalendarModule'))
 const Dashboard = React.lazy(() => import('./modules/Dashboard'))
 const Profile = React.lazy(() => import('./modules/Profile'))
-const version = '1.09.6'
+const version = '1.09.7'
 
 const routeData = [
   { link: '/emergency', component: EmergencyFunds },
@@ -69,7 +69,9 @@ function App() {
     <>
       <DashNav updateAccData={updateAccData} accData={accData} Link={Link} isMobile={p.isMobile} getLink={p.getLink} />
       {accData && <SaveLoad />}
-      {(!hasSource || !hasBudgetItem || !hasAccount) && <Stepper hasSource={hasSource} hasAccount={hasAccount} hasBudgetItem={hasBudgetItem} getLink={p.getLink} theme={p.theme} />}
+      {(!hasSource || !hasBudgetItem || !hasAccount) &&
+        <Stepper hasSource={hasSource} hasAccount={hasAccount} hasBudgetItem={hasBudgetItem} getLink={p.getLink} theme={p.theme} />
+      }
       <Switch>
         <Route path={p.getLink('/snapshots')} render={() => 
           <Suspense fallback={<GlobalLoad />} >  

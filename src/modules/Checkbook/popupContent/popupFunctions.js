@@ -15,11 +15,37 @@ export const handleFieldChange = (event, formData, accountData, updateFormData) 
                 calcMoney(accountData.amount, useAmount, 'subtract') :
                 calcMoney(accountData.amount, useAmount)
         }
+        if(event.target.name === 'type' && event.target.value === 'adjustment'){
+            newState.amount = accountData.amount
+            newState.after = accountData.amount
+            newState.name = 'Adjustment'
+            newState.category = 'Adjustment'
+        }
+        if(formData.type === 'adjustment' && event.target.name === 'type' && event.target.value !== 'adjustment'){
+            newState.amount = 0
+            newState.after = accountData.amount
+            newState.name = ''
+            newState.category = ''
+        }
     }
     updateFormData(newState)
 }
 
-export const handleSubmitForm = (formData, submitDialogForm, setTransactionDialog, updateErrors, mode) => {
+export const handleSubmitForm = (formDataIn, submitDialogForm, setTransactionDialog, updateErrors, mode, accountData) => {
+    let formData = {...formDataIn}
+
+    if(formData.type === 'adjustment'){
+        formData.after = formData.amount
+        let useAmount = calcMoney(formData.amount, accountData.amount, 'subtract')
+        if(useAmount >= 0) {
+            formData.type = 'deposit'
+        } else {
+            formData.type = 'withdrawl'
+            useAmount = useAmount * -1
+        }
+        formData.amount = useAmount
+    }
+
     const fields = [
         { name: 'name', req: true, type: 'text' },
         { name: 'amount', req: true, type: 'number' },
@@ -31,6 +57,7 @@ export const handleSubmitForm = (formData, submitDialogForm, setTransactionDialo
       ]
     let errors = validForm(fields, formData)
     updateErrors(errors)
+
     if(Object.keys(errors).length < 1){ 
         setTransactionDialog(null, null, false)
         submitDialogForm(formData, mode)

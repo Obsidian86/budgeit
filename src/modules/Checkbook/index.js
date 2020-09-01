@@ -103,7 +103,7 @@ const Checkbook = () => {
                         <AccountList {...accountListProps} />
                         {p.isMobile && p.accounts.length > 1 &&
                             <div onClick={()=>updateSelectingAccount(!selectingAccount)} className='choose-account-list-toggle'>
-                                <p>{ selectingAccount ? 'Close account list' : 'Choose account (' + p.accounts.length + ')'}</p>
+                                <p>{ selectingAccount ? 'Close account list' : 'Change account (' + p.accounts.length + ')'}</p>
                             </div>
                         }
                     </div>
@@ -127,7 +127,7 @@ const Checkbook = () => {
                                     onClick={()=> loadTransactions()}
                                     className='btn green'
                                 >
-                                        Load more transactions
+                                    Load more transactions
                                 </button>
                             </div>
                         }

@@ -30,11 +30,13 @@ const styles = {
         margin: '0 0 4px 0'
     },
     tab: {
-        backgroundColor: 'green', 
+        color: 'green',
         padding: '4px 6px', 
-        borderRadius: '3px', 
-        color: '#fff',
+        borderRadius: '3px',
         margin: '5px 6px 0 0',
+    },
+    tabFrom: {
+        color: '#f54745'
     }
 }
 
@@ -209,7 +211,7 @@ const AccountListItem = (props) => {
             </span>
             <div className='row mb-10 start w-100 mt-10'>
                 <div className='mt-20 mr-20' style={styles.tab}>Transfers to account: {transfersTo.length}</div>
-                <div className='mt-20' style={styles.tab}>Transfers from account: {transfersFrom.length}</div>
+                <div className='mt-20' style={{...styles.tab, ...styles.tabFrom}}>Transfers from account: {transfersFrom.length}</div>
                 {showOptions && 
                 <>
                     <div className='w-99 row start'>

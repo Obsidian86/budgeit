@@ -42,6 +42,9 @@ const TabbedView = ({
         background-color: ${bodyColor || activeColor};
         height: ${height};
         border-radius: ${rounded ? '0 0 5px 5px' : null};
+        h2 {
+          text-align: center;
+        }
       }
     `
 

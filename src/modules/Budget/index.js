@@ -91,7 +91,7 @@ const YourBudget = ({ step }) => {
       <ChartSection {...chartProps} />
       <div className="row around mt-40">
         <div className={displayForm ? 'm-lg' : 'lg'} >
-          {step < 2 ?  noItems : Object.keys(p.budget).map(bud => {
+          {Object.keys(p.budget).length < 1 ?  noItems : Object.keys(p.budget).map(bud => {
             return (
               <div key={bud} style={{ marginBottom: "33px" }}>
                 <TableRow className="headerRow">
