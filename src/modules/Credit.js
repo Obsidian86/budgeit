@@ -9,6 +9,7 @@ import styled from "styled-components";
 
 const StyledCredit = styled.div`
     & {
+        text-align: left;
         .credit-list-item {
             margin-bottom: 21px;
             & > .title-row {
@@ -112,7 +113,8 @@ const Credit = () => {
         <ContentBox title='Credit' itemId='recommendedModule' icon={<FontAwesomeIcon icon={faCreditCard} />}>
             <StyledCredit className='row mt-40'>
                 <p className='sm remark'>
-                    Maintaining an appropriate amount of credit usage is an important factor in financial independence.
+                    Maintaining an appropriate amount of credit usage is an important factor in financial independence. 
+                    It is generally recommended to keep credit usage under 30%. 
                     See a breakdown of your credit accounts and total credit usage here.
                 </p>
                 <div className='lg mb-20'>

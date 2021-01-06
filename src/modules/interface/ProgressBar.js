@@ -74,7 +74,7 @@ const ProgressBar = ({
         )
       }
       <p style={titleStyles}>{title}</p>
-      <div style={{...fillStyles, width: itemMounted ? '50%' : 0}} />
+      <div style={{...fillStyles, width: itemMounted ? `${percent}%` : 0}} />
     </div>
   )
 }
