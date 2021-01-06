@@ -124,7 +124,10 @@ const IncomeForm = () => {
               p.accounts.length < 1 ? <p>Acc needed</p> :
               <IP type='drop' 
                 errors={errors}
-                options={p.accounts.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))} 
+                options={ p.accounts
+                  .filter(a => a.accountType !== 'Credit')
+                  .map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))
+                } 
                 label='To account'
                 data={formData}
                 style={{styles: 'width: 92%; margin: 20px auto; padding: 12px 10px'}} 

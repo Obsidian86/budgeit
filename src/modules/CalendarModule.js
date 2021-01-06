@@ -8,7 +8,7 @@ import * as CMF from './moduleFunctions/calendarModuleFunctions'
 import _ from 'lodash'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
-import { money } from '../utilities/convert'
+import { money, calcMoney } from '../utilities/convert'
 
 const CalendarModule = ({nonLoad}) => {
   const p = useContext(MainContext)
@@ -18,12 +18,16 @@ const CalendarModule = ({nonLoad}) => {
   const [calLoaded, updateCalLoaded] = useState(false)
   
   let noLiquBal = 0 // not liquid
+  let liquidBal = 0
   let totalBal = 0 // total
   p.accounts.forEach(a => {
-    if(!a.liquid){
-      noLiquBal = noLiquBal + parseFloat(a.amount)
+    if (a.accountType === 'Credit') {
+      totalBal = calcMoney(totalBal, a.amount, 'subtract')
+    } else {
+      if (a.liquid) liquidBal = liquidBal + parseFloat(a.amount)
+      else noLiquBal = noLiquBal + parseFloat(a.amount)
+      totalBal = totalBal + parseFloat(a.amount)
     }
-    totalBal = totalBal + parseFloat(a.amount)
   }) 
 
   const s = { // common styles
@@ -43,7 +47,7 @@ const CalendarModule = ({nonLoad}) => {
       content: 
         CMF.genTabContent(
           currentItems,
-          (totalBal - noLiquBal),
+          liquidBal,
           'Overview', s, totalBal,
           p.saveState,
           p.eoyTotal,
@@ -57,7 +61,7 @@ const CalendarModule = ({nonLoad}) => {
       content: 
         CMF.genTabContent(
           yearlyItems, 
-          (totalBal - noLiquBal),
+          liquidBal,
           'Yearly summary', 
           s, 
           totalBal,

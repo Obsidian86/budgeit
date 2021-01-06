@@ -1,5 +1,6 @@
 import React, {useState } from 'react'
 import { Link } from 'react-router-dom'
+import ProgressBar from '../interface/ProgressBar'
 import { parsedCurrentDate, stepDate, dMatch, getDateRangeArray, tMonth } from '../components/calendar/dateFunctions'
 import RenderLineChart from './LineChart'
 import { convert } from '../../utilities/convert'
@@ -212,21 +213,32 @@ const AccountListItem = (props) => {
             id={'account-list-item-' + a.id}
             onClick={handleClickItem}
         >
-            <span style={s.intFirst}> <Bullet color={a.liquid ? 'green' : 'orange'} size={12} /> {a.name}</span>
+            <span style={s.intFirst}>
+                <Bullet
+                    color={a.accountType && a.accountType === 'Credit' ? 'red' : a.liquid ? 'green' : 'orange'}
+                    size={12}
+                />
+                {a.name}
+            </span>
             <span style={s.intRight}>{a.interest}%</span>
             <span style={s.intRight} className={showOptions ? 'mb-10' : null}>{money(a.amount)}</span>
             <span style={{...s.intLast, fontSize: '1.1rem'}} className={showOptions ? 'mb-10' : null}>
                 {showOptions ? '-' : '+'}
             </span>
             <div className='row mb-10 start w-100 mt-10'>
-                <div className='mt-20 mr-20' style={styles.tab}>Transfers to account: {transfersTo.length}</div>
-                <div className='mt-20' style={{...styles.tab, ...styles.tabFrom}}>Transfers from account: {transfersFrom.length}</div>
+                {a.accountType !== 'Credit' && 
+                    <>
+                        <div className='mt-20 mr-20' style={styles.tab}>Transfers to account: {transfersTo.length}</div>
+                        <div className='mt-20' style={{...styles.tab, ...styles.tabFrom}}>Transfers from account: {transfersFrom.length}</div>
+                    </>}
                 {showOptions && 
                 <>
                     <div className='right' style={{ paddingTop: '15px', marginTop: '5px', width: '98%', fontSize: '.83rem' }}>
-                        <Link to='/savings' className='btn blue' style={{textDecoration: 'none'}} onClick={()=> handleAddAccountToEstimator(a)}>
-                            Add to estimator
-                        </Link>
+                        { a.accountType !== 'Credit' && 
+                            <Link to='/savings' className='btn blue' style={{textDecoration: 'none'}} onClick={()=> handleAddAccountToEstimator(a)}>
+                                Add to estimator
+                            </Link>
+                        }
                         <button className='btn' onClick={()=> {
                             const n = new Promise((resolve, reject)=> resolve(updateEdittingItem(a)) )
                             n.then(()=>updateShowForm(true))
@@ -265,7 +277,7 @@ const AccountListItem = (props) => {
                     </div>
 
                     {/* VALUE OVER TIME */}
-                    {(a.accountSnapshots && [...a.accountSnapshots].filter(ash => ash.date !== todaysDate).length > -1) &&
+                    {(a.accountSnapshots && a.accountType !== 'Credit' && [...a.accountSnapshots].filter(ash => ash.date !== todaysDate).length > -1) &&
                         <div onClick={e => e.stopPropagation()} style={{ width: '99%', marginLeft: '-4px' }}>
                             <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Value over time</h3>
                             <p className='m-0 pl-5 pt-5'>{
@@ -285,26 +297,35 @@ const AccountListItem = (props) => {
                     }
                     {/* PROJECTED VALUE OVER TIME */}
                
-                    <div onClick={e => e.stopPropagation()} style={{ width: '99%', marginLeft: '-4px' }}>
-                        <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Projected value over time </h3>
-                        <p className='m-0 pl-5 pt-5'>{
-                            selectedRangePoint ? selectedRangePoint : 'Click point to view info'
-                        }</p>
-                        <div className='mt-5 ml-5'>
-                            <button style={{margin: '5px'}} className={`btn narrow ${range === 'months' ? 'blue' : 'gray'}`} onClick={()=>updateRange('months')}>5 Month</button>
-                            <button style={{margin: '5px'}} className={`btn narrow ${range === 'years' ? 'blue' : 'gray'}`} onClick={()=>updateRange('years')}>5 Years</button>
+                    {a.accountType !== 'Credit' && 
+                        <div onClick={e => e.stopPropagation()} style={{ width: '99%', marginLeft: '-4px' }}>
+                            <h3 className='w-99 t-green' style={{marginTop: '20px'}}>Projected value over time </h3>
+                            <p className='m-0 pl-5 pt-5'>{
+                                selectedRangePoint ? selectedRangePoint : 'Click point to view info'
+                            }</p>
+                            <div className='mt-5 ml-5'>
+                                <button style={{margin: '5px'}} className={`btn narrow ${range === 'months' ? 'blue' : 'gray'}`} onClick={()=>updateRange('months')}>5 Month</button>
+                                <button style={{margin: '5px'}} className={`btn narrow ${range === 'years' ? 'blue' : 'gray'}`} onClick={()=>updateRange('years')}>5 Years</button>
+                            </div>
+                            {
+                                <RenderLineChart
+                                    inItemId={'graph-projected' + a.id}
+                                    parentWidth={parentWidth}
+                                    handlePointclick={handleRangePointclick}
+                                    inData={[...getProjectedChartData()]}
+                                    parser={(i) => i.getMonth() + 1 + '-' + i.getDate()}
+                                />
+                            }
+                            <p className='muted ml-5'>Based on interest/transfers/budget items</p>
                         </div>
-                        {
-                            <RenderLineChart
-                                inItemId={'graph-projected' + a.id}
-                                parentWidth={parentWidth}
-                                handlePointclick={handleRangePointclick}
-                                inData={[...getProjectedChartData()]}
-                                parser={(i) => i.getMonth() + 1 + '-' + i.getDate()}
-                            />
-                        }
-                        <p className='muted ml-5'>Based on interest/transfers/budget items</p>
-                    </div>
+                    }
+
+                    { a.accountType === 'Credit' &&
+                        <div className='w-99'>
+                            <p>Using { money(a.amount)} of { money(a.creditLimit) } credit</p>
+                            <ProgressBar percent={ a.amount / a.creditLimit * 100 } radius={4} height={10} />
+                        </div>
+                    }
                 </>}
             </div>
         </li>

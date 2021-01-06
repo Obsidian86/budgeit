@@ -14,7 +14,7 @@ const TransactionForm = ({submitDialogForm, accountData, budget, transaction, mo
         name: transaction ? transaction.name : '',
         amount: transaction ? transaction.amount : 0,
         category: transaction ? transaction.category : null,
-        type: transaction ? transaction.type : 'withdrawl',
+        type: transaction ? transaction.type : accountData.accountType === 'Credit' ? 'charge' :'withdraw',
         before: transaction ? transaction.before : accountData.amount,
         after: transaction ? transaction.after : accountData.amount,
         id: transaction ? transaction.id : null,
@@ -30,7 +30,7 @@ const TransactionForm = ({submitDialogForm, accountData, budget, transaction, mo
     const handleChangeDate = inDate  => 
         handleFieldChange({ target: { name: 'date', value: inDate } }) 
     const popUpData = 
-        getSubPopupContent(popUp, handleFieldChange, updatePopUp, budget, formData)
+        getSubPopupContent(popUp, handleFieldChange, updatePopUp, budget, formData, accountData.accountType)
 
     return (
         <StyledPopUpForm>
@@ -61,19 +61,23 @@ const TransactionForm = ({submitDialogForm, accountData, budget, transaction, mo
                     />
                 </div>
                 <div className='md'>
-                    <button className='choose-category' onClick={()=> updatePopUp('category')}>
-                        Choose <br /> existing
-                    </button>
                     <IP type='text' label='Category' errors={errors} alias='category' data={formData} onChange={handleFieldChange} showPH='category' />
+                    <button className='choose-category' onClick={()=> updatePopUp('category')}>
+                        Choose existing
+                    </button>
                 </div>
-                <div className='md' onClick={()=>updatePopUp('type')}>
-                    <IP 
-                        type='text' 
-                        label='Type' 
-                        alias='type' 
-                        data={formData} 
-                        onChange={() => null}
-                    />
+                <div className='md '>
+                    <label>Transaction type</label>
+                    <button className='choose-transaction-type-button' onClick={()=>updatePopUp('type')}>
+                        <span>
+                            {accountData.accountType === 'Credit'
+                                ? formData.type === 'withdraw' 
+                                    ? 'payment' : formData.type === 'deposit' 
+                                        ? 'charge' : formData.type 
+                                : formData.type
+                            }
+                        </span>
+                    </button>
                 </div>
                 <div className='max right btn-group' style={{maxWidth: '93%', marginTop: '20px'}}> 
                     <IP type='btn_red' onChange={() => setTransactionDialog(null, null, false)} label='Cancel' />
@@ -112,6 +116,21 @@ const StyledTransactionPopup = styled.div`
         max-height: 90vh;
         overflow: auto;
         margin: 0;
+    }
+    & .choose-transaction-type-button {
+        display: block;
+        width: 94%;
+        color: #333;
+        padding: 15px 5px;
+        margin: 10px auto 15px auto;
+        border: none;
+        border-left: 4px solid #1bcf21;
+        border-top: 1px solid #fff;
+        border-bottom: 1px solid #1bcf21;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+        background-color: #f5fdff;
+        font-weight: bold;
+        cursor: pointer;
     }
 `
 

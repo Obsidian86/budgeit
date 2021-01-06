@@ -14,6 +14,7 @@ import appStyles from './appStyles'
 const IncomeForm = React.lazy(() => import('./modules/IncomeForm'))
 const SavingsCalc = React.lazy(() => import('./modules/SavingsCalc/SavingsCalc'))
 const YourBudget = React.lazy(() => import('./modules/Budget/'))
+const Credit = React.lazy(() => import('./modules/Credit'))
 const Recommended = React.lazy(() => import('./modules/Recommended'))
 const EmergencyFunds = React.lazy(() => import('./modules/EmergencyFunds/'))
 const Accounts = React.lazy(() => import('./modules/Accounts/'))
@@ -22,7 +23,7 @@ const SnapShots = React.lazy(() => import('./modules/SnapShots/SnapShots'))
 const CalendarModule = React.lazy(() => import('./modules/CalendarModule'))
 const Dashboard = React.lazy(() => import('./modules/Dashboard'))
 const Profile = React.lazy(() => import('./modules/Profile'))
-const version = '1.09.7'
+const version = '1.10.0'
 
 const routeData = [
   { link: '/emergency', component: EmergencyFunds },
@@ -32,6 +33,7 @@ const routeData = [
   { link: '/savings', component: SavingsCalc},
   { link: '/recommended', component: Recommended},
   { link: '/budget', component: YourBudget },
+  { link: '/credit', component: Credit },
   { link: '/sources', component: IncomeForm},
   { link: '*', component: Dashboard},
 ]

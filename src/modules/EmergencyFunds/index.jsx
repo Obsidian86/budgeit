@@ -11,6 +11,8 @@ import CalcSavingsNeeded from './functions'
 const EmergencyFunds = () => {
   const p = useContext(MainContext)
   const {totalAvailable, livingExpenses, excluded, availableAmount} = CalcSavingsNeeded(p.total, p.budget, p.accounts)
+  const creditDebt = p.accounts.reduce((p, c) => c.accountType === 'Credit' ? parseFloat(c.amount) + p : p , 0)
+  const useTotalAvailable = calcMoney(totalAvailable, creditDebt, 'subtract')
   return (
     <ContentBox title='Emergency Funds' itemId='emergencyFundsModule' icon={<FontAwesomeIcon icon={faAmbulance} />}>
       <div className='row mt-40'>
@@ -37,10 +39,15 @@ const EmergencyFunds = () => {
                 <strong>Target emergency funds</strong>
                 {money(livingExpenses * 3)} - {money(livingExpenses * 6)}
               </li>
+              <li><strong>Credit debt</strong>
+                <span style={{color: 'red'}}>
+                  -{ money(creditDebt) }
+                </span>
+              </li>
             </SoftList>
             
               {
-                (totalAvailable >= livingExpenses * 3 ) ? 
+                (useTotalAvailable >= livingExpenses * 3 ) ? 
                   <div className='green icon-box mt-40 mb-10'>
                     <span><FontAwesomeIcon icon={faCheckCircle} /></span>
                     <p>It looks like you have enough to cover at least 3 months of emergency expenses.</p>
@@ -48,7 +55,7 @@ const EmergencyFunds = () => {
   
               : <div className='red icon-box mt-40 mb-10'>
                   <span><FontAwesomeIcon icon={faExclamation} /> </span>
-                  <p> It looks like you need at least { money(calcMoney(livingExpenses * 3, totalAvailable, 'subtract')) } more to cover 3 months of emergency expenses.</p>
+                  <p> It looks like you need at least { money(calcMoney(livingExpenses * 3, useTotalAvailable, 'subtract')) } more to cover 3 months of emergency expenses.</p>
                 </div>
               }
     

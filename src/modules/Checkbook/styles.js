@@ -160,13 +160,13 @@ const StyledAccountModule = styled.span`
                 }
             }
         }
-        &.withdrawl{
+        &.withdraw, &.charge{
             border-left: 5px solid red;
             & .actions{
                 background-color: red;
             }
         }
-        &.deposit{
+        &.deposit, &.payment{
             border-left: 5px solid green;
         }
         &.transfer{

@@ -8,5 +8,6 @@ export default {
     },
     intFirst: {textAlign: 'left', width: '30%'}, 
     intRight: {textAlign: 'right', width: '30%'},
-    intLast: {textAlign: 'right', width: '10%'}
+    intLast: {textAlign: 'right', width: '10%'},
+    total: { padding: '0px 8px 4px 6px' }
 }

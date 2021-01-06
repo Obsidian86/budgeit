@@ -10,9 +10,18 @@ export const proccessAccounts = (
 
     let total = 0
     let liquid = 0
+    let creditDebt = 0
+    let nonLiquid = 0
     const accountList = p.accounts.map((a, i) => {
-        total = calcMoney(total, a.amount)
-        if(a.liquid) liquid = calcMoney(liquid, a.amount)
+        if(a.accountType && a.accountType === 'Credit') {
+            creditDebt = calcMoney(creditDebt, a.amount)
+            total = calcMoney(total, a.amount, 'subtract')
+        } else {
+            total = calcMoney(total, a.amount)
+            if(a.liquid) liquid = calcMoney(liquid, a.amount)
+            else nonLiquid = calcMoney(nonLiquid, a.amount)
+        }
+
         return (    
             <AccountListItem
                 handleEditTransfers={handleEditTransfers}
@@ -36,21 +45,30 @@ export const proccessAccounts = (
             />
         )
     })
-    return { total, liquid, accountList}
+    return { total, liquid, accountList, creditDebt, nonLiquid }
 }
 
-export const handleSubmit = (account, edittingItem, p, updateEdittingItem, updateShowForm, updateErrors) => {
+export const handleSubmit = (inAccount, edittingItem, p, updateEdittingItem, updateShowForm, updateErrors) => {
+    let account = { ...inAccount }
     account.interest = parseFloat(account.interest)
     account.amount = parseFloat(account.amount)
+    if (account.accountType && account.accountType === 'Credit') {
+        account.liquid = false
+    }
     const fields = [
         { name: 'name', req: true, type: 'text' },
         { name: 'interest', req: true, type: 'float' },
-        { name: 'amount', req: true, type: 'float' }
+        { name: 'amount', req: true, type: 'float' },
+        { name: 'accountType', req: true }
       ]
     const errs = validForm(fields, account)
+
     if( Object.keys(errs).length > 0 ){
         return updateErrors(errs)
     }
+
+    if (!account.creditLimit) account.creditLimit = 0
+
     if(edittingItem){
         p.updateAccount(account)
         updateEdittingItem(false)

@@ -3,16 +3,20 @@ import { money, } from '../../utilities/convert'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
-const Transaction = ({tr, filter, setTransactionDialog, handleDelete}) => {
+const Transaction = ({tr, filter, setTransactionDialog, handleDelete, transactionAccount}) => {
     const [open, updateOpen] = useState(false)
     const date = new Date(tr.date)
     const showDate = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`
+    const isCredit = transactionAccount[0].accountType === 'Credit'
+    const useType = isCredit 
+        ? tr.type === 'withdraw' ? 'payment' : 'charge'
+        : tr.type
     return(
         <div 
             style={{'cursor': 'pointer'}}
             className={
                 `transaction-card 
-                ${tr.type} ${open ? 'showActions' : ''} 
+                ${useType} ${open ? 'showActions' : ''} 
                 ${(filter.replace(/ /g, '') === '' || tr.name.toLowerCase().includes(filter.toLowerCase())) ? '' : 'hide-transaction'}`
             } onClick={()=> updateOpen(!open)}>
             <div className='actions'>
@@ -21,7 +25,7 @@ const Transaction = ({tr, filter, setTransactionDialog, handleDelete}) => {
             </div>
             <div className='card'>
                 <div className='row between'>
-                    <span>{tr.type}</span>
+                    <span>{useType}</span>
                     <span>{showDate}</span>
                 </div>
                 <div className='row between main'>

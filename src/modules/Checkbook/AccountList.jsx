@@ -4,7 +4,11 @@ import { calcMoney } from '../../utilities/convert'
 const AccountList = ({accounts, selectedAccount, updateSelectedAccount, money, minimize}) => {
     let total = 0
     const accList = accounts.map(acc => {
-        total = calcMoney(acc.amount, total)
+        if (acc.accountType === 'Credit') {
+            total = calcMoney(total, acc.amount, 'subtract')
+        } else {
+            total = calcMoney(acc.amount, total)
+        }
         if(minimize && acc.id !== selectedAccount) return null
         return (
            <li 
@@ -13,7 +17,14 @@ const AccountList = ({accounts, selectedAccount, updateSelectedAccount, money, m
                 className={`row between ${selectedAccount === acc.id ? 'selected' : ''}`}
             >
                 <div>{acc.name}</div>
-                <div><span>{money(acc.amount)}</span></div>
+                <div>
+                    <span style={{
+                        backgroundColor: acc.accountType === 'Credit' ? 'salmon' : '#fff',
+                        color: '#222', 
+                    }}>
+                        {money(acc.amount)}
+                    </span>
+                </div>
                 <div>{acc.liquid ? 'Liquid' : 'Non-liquid'}</div>
                 <div>{acc.interest}%</div>
             </li>

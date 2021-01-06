@@ -14,7 +14,7 @@ import TransactionDialog from './transactionDialog.js'
 const Checkbook = () => {
     const p = useContext(MainContext)
     const [filter, updateFilter] = useState('')
-    const [message, updateMessage] = useState(null)
+    const [message, updateMessageData] = useState(null)
     const [selectingAccount, updateSelectingAccount] = useState(false)
     const [selectedAccount, updateSelectedAccount] = useState(null)
     const [showTransactionDialog, updateShowTransactionDialog] = useState({mode: null, transaction: null, show: false})
@@ -35,6 +35,14 @@ const Checkbook = () => {
         money
     }
 
+    const updateMessage = (content, color = 'green') => {
+        if (content) {
+            updateMessageData({  content, color })
+        } else {
+            updateMessageData(null)
+        }
+    }
+
     // filter account by selected account id
     const transactionAccount = p.accounts.filter(acc => acc.id === useSelected)
 
@@ -44,15 +52,21 @@ const Checkbook = () => {
 
     //load transactions for account
     const loadTransactions = async () => {
-        updateMessage('Loading transactions')
+        updateMessage('Loading transactions', 'lightblue')
         await p.loadTransactions(useSelected)
         updateMessage(null)
     }
-    const submitDialogForm = async (formData, mode) => {
-        updateMessage('Submitting transaction')
+    const submitDialogForm = async (inFormData, mode) => {
+        let formData = {
+            ...inFormData,
+            type: inFormData.type === 'payment' ? 'withdraw'
+                : inFormData.type === 'charge' ? 'deposit'
+                    : inFormData.type
+        }
+        updateMessage('Submitting transaction', 'lightblue')
         const action = mode === 'add' ? p.submitTransaction : p.updateTransaction
         const result = await action(formData, transactionAccount[0])
-        updateMessage(result.message)
+        updateMessage(result.message, 'green')
     }
     const handleDelete = async (delTransaction) => {
         p.setDialog({
@@ -63,9 +77,9 @@ const Checkbook = () => {
             message: 'Are you sure you want to delete this transaction for ' + money(delTransaction.amount) + '?',
             reject: () => null,
             confirm: async() => {
-                updateMessage('Deleting transaction')
+                updateMessage('Deleting transaction', 'green')
                 const result = await p.deleteTransaction(transactionAccount[0], delTransaction)
-                updateMessage(result.message)
+                updateMessage(result.message, 'green')
             }
           })
     }
@@ -75,7 +89,7 @@ const Checkbook = () => {
         && useSelected !== '0' 
         && !p.hasNoTransactions.includes(useSelected)
         && !p.transactions[useSelected]
-        && message !== 'Loading transactions'
+        && (!message || !message.content || (message.content && message.content !== 'Loading transactions'))
     ) loadTransactions()
 
     return (
@@ -84,7 +98,12 @@ const Checkbook = () => {
                 <div className='d-flex right mt-50'>
                     <div className='controls' style={{'boxShadow': 'none'}}>
                         <Link to='/accounts' className='mr-10'>
-                            <IP type='btn_blue' label='Accounts' style={{marginRight: '10px', 'borderRadius': '4px'}} icon={<FontAwesomeIcon icon={faUniversity} />} />
+                            <IP 
+                                type='btn_blue'
+                                label='Accounts'
+                                style={{marginRight: '10px', 'borderRadius': '4px'}}
+                                icon={<FontAwesomeIcon icon={faUniversity} />}
+                            />
                         </Link>
                         <IP 
                             type='btn' 
@@ -97,7 +116,12 @@ const Checkbook = () => {
                 </div>
                 <StyledAccountModule className='row mx'>
                     <div className={`message-container ${message ? 'message-open' : ''}`}>
-                        <p className='important'> <span onClick={()=> updateMessage(null)}>x</span> {message ? message : ''} </p>
+                        <p className='important' style={{
+                            backgroundColor: message && message.color,
+                            boxShadow: `0 0 0 8px ${message && message.color ? message.color: 'red'}`
+                        }}>
+                            <span onClick={()=> updateMessage(null)}>x</span> {message ? message.content : ''}
+                        </p>
                     </div>
                     <div className='smPlus accList ml-n-15' >
                         <AccountList {...accountListProps} />
@@ -119,7 +143,16 @@ const Checkbook = () => {
                                 <p className='center no-content'>
                                         No transactions for account { transactionAccount.length > 0 && transactionAccount[0].name}
                                 </p> :
-                                [...transactionData].map((tr, i) => <Transaction key={i} tr={tr} filter={filter} handleDelete={handleDelete} setTransactionDialog={setTransactionDialog} />)
+                                [...transactionData].map((tr, i) => 
+                                        <Transaction
+                                            key={i}
+                                            tr={tr}
+                                            filter={filter}
+                                            handleDelete={handleDelete}
+                                            setTransactionDialog={setTransactionDialog}
+                                            transactionAccount={transactionAccount}
+                                        />
+                                    )
                         }
                         {!(p.hasNoTransactions.includes(useSelected)) && 
                             <div className='center mt-40 mb-40'>

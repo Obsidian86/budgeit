@@ -1,12 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-const ProgressBar = ({ title = ' ', hideShadow, percent = 50, height = 32, color = 'red', bg = 'pink', fontSize= '1.1rem', paddingTop, marks, fontColor, inConStyles = {} }) => {
+const ProgressBar = ({
+  title = ' ',
+  hideShadow,
+  percent = 50,
+  height = 32,
+  color = 'red',
+  bg = 'pink',
+  fontSize = '1.1rem',
+  paddingTop,
+  marks,
+  fontColor,
+  inConStyles = {},
+  radius = 0
+}) => {
+
+  const [itemMounted, updateItemMounted] = useState(false)
+
+  useEffect(() => {
+    !itemMounted &&
+      updateItemMounted(true)
+  }, [itemMounted])
+
   const containerStyles = {
     border: `1px solid ${color}`,
     height: `${height}px`,
     width: '100%',
     position: 'relative',
-    backgroundColor: bg
+    backgroundColor: bg,
+    borderRadius: `${radius}px`,
   }
   const fillStyles = {
     backgroundColor: color,
@@ -16,7 +38,8 @@ const ProgressBar = ({ title = ' ', hideShadow, percent = 50, height = 32, color
     paddingRight: '0',
     height: `${height}px`,
     top: '0',
-    width: `${percent > 100 ? 100 : percent}%`
+    transition: 'width .5s',
+    width: `0`
   }
   const titleStyles = {
     whiteSpace: 'nowrap',
@@ -33,9 +56,9 @@ const ProgressBar = ({ title = ' ', hideShadow, percent = 50, height = 32, color
     fontSize: fontSize
   }
   return (
-    <div style={{...containerStyles, ...inConStyles}}>
+    <div style={{ ...containerStyles, ...inConStyles }}>
       {
-        marks && marks.map((m, i) => 
+        marks && marks.map((m, i) =>
           <div key={i}
             style={
               {
@@ -51,7 +74,7 @@ const ProgressBar = ({ title = ' ', hideShadow, percent = 50, height = 32, color
         )
       }
       <p style={titleStyles}>{title}</p>
-      <div style={fillStyles} />
+      <div style={{...fillStyles, width: itemMounted ? '50%' : 0}} />
     </div>
   )
 }

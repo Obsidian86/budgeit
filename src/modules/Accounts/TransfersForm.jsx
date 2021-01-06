@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom'
 
 const TransfersForm = ({p, updateTransfersState, transferState}) => {
     const [errors, updateErrors] = useState({})
-    const accountOptions = p.accounts.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))
+    const accountOptions = p.accounts
+        .filter(a => a.accountType !== 'Credit')
+        .map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))
 
     const formData = {...transferState}
 

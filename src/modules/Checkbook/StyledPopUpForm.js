@@ -15,17 +15,15 @@ const StyledPopUpForm = styled.div`
             margin-bottom: 0;
         }
         & .choose-category{
-            position: absolute;
-            right: 10px;
             bottom: 4px;
-            padding: 4px;
-            color: #fff;
-            background: green;
+            padding: 4px 6px;
+            color: green;
             border-radius: 3px;
             font-size: .82rem;
             border: none;
-            box-shadow: 0 0 3px gray;
-            z-index: 7;
+            margin: 8px 4px 0 auto;
+            display: block;
+            box-shadow: 0 0 2px gray;
             cursor: pointer;
             &:hover{
                 background-color: #999;

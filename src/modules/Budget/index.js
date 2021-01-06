@@ -147,7 +147,7 @@ const YourBudget = ({ step }) => {
               setDialog={p.setDialog}
               errors={errors}
               updateView={p.updateView}
-              accountList={p.accounts}
+              accountList={p.accounts.filter(a => a.accountType !== 'Credit')}
               onSubmit={bi => handleFormSubmit(bi)}
               updateRetainData={updateRetainData}
               linkedTransfer={linkedTransfer}

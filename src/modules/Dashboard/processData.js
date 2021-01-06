@@ -29,17 +29,26 @@ const noData = (item, link, message) => {
 export const proccessAccountData = accounts => {
     if(accounts.length < 1) return noData('accounts', 'accounts') 
     let total = accounts.reduce((prev, cur) => {
+        if (cur.accountType === 'Credit'){
+            return calcMoney(prev, cur.amount, 'subtract')
+        }
         return calcMoney(prev, cur.amount)
     }, 0)
     let chartData = []
     const data = accounts.map((acc, index) => {
         const color = (index + 1 < colors.length) ? colors[index] : '#' + index + '' + index + '' + index
-        chartData.push({
-            color, 
-            title: acc.name,
-            value: acc.amount / total
-        })
-        return <TableRow key={acc.id} tData={[<><Bullet color={color} />{ acc.name }</>, money(acc.amount)]} pattern={[50, 50]} />
+        if (acc.accountType !== 'Credit'){
+            chartData.push({
+                color, 
+                title: acc.name,
+                value: acc.amount / total
+            })
+        }
+        return <TableRow
+            style={{color: acc.accountType === 'Credit' ? 'red' : 'black'}}
+            key={acc.id}
+            tData={[<><Bullet color={color} />{ acc.name }</>, money(acc.amount)]} pattern={[50, 50]}
+        />
     })
     const accountContent = <div className='content-pad'>
         <div className='row between'>

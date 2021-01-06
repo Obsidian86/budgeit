@@ -17,7 +17,7 @@ export default (total, budget, accounts) => {
     const acc = accounts[account]
     if( acc.liquid ){
       towardEmergency.push(acc)
-    }
+    } 
   }
   
   let totalAvailable = 0

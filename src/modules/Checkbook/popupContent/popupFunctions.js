@@ -6,12 +6,13 @@ export const handleFieldChange = (event, formData, accountData, updateFormData) 
 
     let useAmount = event.target.name === 'amount' ? event.target.value : formData.amount
     let useType = event.target.name === 'type' ? event.target.value : formData.type
+    useType = useType === 'charge' ? 'deposit' : useType === 'payment' ? 'withdraw' : useType
 
     if(event.target.name === 'amount' || event.target.name === 'type'){
         if(event.target.name === 'amount' && event.target.value.toString().replace(/ /g, '') === ''){
             newState.after = accountData.amount
         } else{
-            newState.after = useType === 'withdrawl' ? 
+            newState.after = useType === 'withdraw' ? 
                 calcMoney(accountData.amount, useAmount, 'subtract') :
                 calcMoney(accountData.amount, useAmount)
         }
@@ -40,7 +41,7 @@ export const handleSubmitForm = (formDataIn, submitDialogForm, setTransactionDia
         if(useAmount >= 0) {
             formData.type = 'deposit'
         } else {
-            formData.type = 'withdrawl'
+            formData.type = 'withdraw'
             useAmount = useAmount * -1
         }
         formData.amount = useAmount

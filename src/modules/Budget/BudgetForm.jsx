@@ -140,7 +140,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
                 onChange={() => updateField({ 
                   target: { name: 'autoOn', 
                   value: (!formData.autoOn || formData.autoOn === 'off') ? 'on' : 'off'} }) }
-              />{' '} <span />Auto widthdrawl
+              />{' '} <span />Auto withdrawl
             </label>
           }
 
