@@ -2,6 +2,7 @@ import theme from '../../styles/theme'
 
 const defaultState = {
     profile: null,
+    isLocalUser: true,
     loggedIn: false,
     globalLoad: true,
     loaded: false,

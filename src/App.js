@@ -4,7 +4,7 @@ import Footer from './modules/Footer'
 import MainContext from './providers/MainContext'
 import SaveLoad from './modules/SaveLoad'
 import LoginScreen from './modules/LoginScreen/LoginScreen'
-import {HashRouter as Router, Link, Route, Switch} from 'react-router-dom'
+import {HashRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import DashNav from './modules/components/DashNav'
 import Stepper from './modules/components/Stepper'
 import GlobalLoad from './modules/components/GlobalLoad'
@@ -26,6 +26,7 @@ const Profile = React.lazy(() => import('./modules/Profile'))
 const version = '1.10.0'
 
 const routeData = [
+  { link: '/login', component: LoginScreen },
   { link: '/emergency', component: EmergencyFunds },
   { link: '/accounts', component: Accounts},
   { link: '/checkbook', component: Checkbook},
@@ -51,7 +52,6 @@ function App() {
 
   const isLoggedIn = loggedIn()
   let isOpen = p.isMobile ? sideBarOpen : true;
-  if(!isLoggedIn) isOpen = false
   const s = appStyles(isOpen, p.isMobile)
 
   useEffect(()=>{
@@ -67,8 +67,7 @@ function App() {
   const hasAccount = p.accounts.length > 0
 
   const display = p.globalLoad ? <GlobalLoad /> 
-    : isLoggedIn ? 
-    <>
+    : <>
       <DashNav updateAccData={updateAccData} accData={accData} Link={Link} isMobile={p.isMobile} getLink={p.getLink} />
       {accData && <SaveLoad />}
       {(!hasSource || !hasBudgetItem || !hasAccount) &&
@@ -100,7 +99,6 @@ function App() {
         )}
       </Switch>
     </>
-    : <LoginScreen />
 
   const navProps = {Link, sideBarOpen, isMobile: p.isMobile, updateSideBarOpen}
   return (

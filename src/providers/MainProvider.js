@@ -20,21 +20,45 @@ class MainProvider extends React.Component {
   // initialize data
   checkIfMobile = () => {
     const isMobile = window.innerWidth < 1000
+    console.log('IS MOBILE', isMobile)
     if(isMobile !== this.state.isMobile) this.setState({isMobile}) 
   }
 
   componentDidMount = async () => {
-    const localUser = localStorage.getItem('user') ? localStorage.getItem('user') : null
-    if(localUser) this.setState({profile: localUser}, async () => {
-      await this.loadData()
-      await this.refreshToken()
-    }) 
+    const appState = localStorage.getItem('appState')
+    if (appState ) {
+      console.log(appState)
+      const jsonState = JSON.parse(appState)
+      console.log(jsonState)
+      this.setState(jsonState)
+    }
+
+    const localAccount = localStorage.getItem('user') ? localStorage.getItem('user') : null
+    if(localAccount) {
+      this.setState({
+        profile: localAccount,
+        isLocalUser: false
+      }, async () => {
+        await this.loadData()
+        await this.refreshToken()
+      }) 
+    }else {
+      this.setState({
+        profile: null,
+        isLocalUser: true
+      })
+    }
     if(this.state.globalLoad) this.setState({globalLoad: false})
     window.addEventListener('resize', this.checkIfMobile)
     this.checkIfMobile()
   }
   componentWillUnmount = () => window.removeEventListener('resize', this.checkIfMobile) 
-  saveState = newState => this.setState(newState)
+  saveState = newState => {
+    this.setState(newState, () => {
+      console.log(this.state)
+      localStorage.setItem('appState', JSON.stringify(this.state))
+    })
+  }
 
   // Data import / export
   importData = (data) => this.saveState({...this.defaultVals, ...data}) 

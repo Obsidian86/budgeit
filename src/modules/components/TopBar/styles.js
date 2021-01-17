@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const styles = (p, isLoggedIn, isMobile) => {
     return styled.div`
         box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-        background-color: ${ isLoggedIn ? 'rgba(255,255,255,.9)' : 'rgba(255,255,255,.4)'};
+        background-color: rgba(255,255,255,.9);
         padding: 0;
         color: ${p.theme.green};
         position: fixed;
@@ -30,7 +30,7 @@ export const styles = (p, isLoggedIn, isMobile) => {
             padding: 7px 10px 7px 10px;
             border-radius: 4px;
             color: white;
-            margin-left: ${isLoggedIn && isMobile ? '38px' : '0'};
+            margin-left: ${ isMobile ? '38px' : '0'};
             display: flex;
             img{
                 border: 1.9px solid #fff;

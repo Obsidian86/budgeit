@@ -13,7 +13,7 @@ const TopBar = ({ isLoggedIn, sideBarOpen, updateSideBarOpen, isMobile}) => {
   return (
     <>
       <StTopBar>
-        {isLoggedIn && isMobile && <button onClick={()=> updateSideBarOpen(!sideBarOpen)} className='hamburger' aria-label='Menu toggle'>
+        {isMobile && <button onClick={()=> updateSideBarOpen(!sideBarOpen)} className='hamburger' aria-label='Menu toggle'>
           <FontAwesomeIcon icon={faBars} />
         </button>}
         <div className='mainContainer'>
@@ -21,13 +21,13 @@ const TopBar = ({ isLoggedIn, sideBarOpen, updateSideBarOpen, isMobile}) => {
             <img src='images/favicon-32x32.png' alt='' />
             <p>Budge-it</p>
           </span>
-          {isLoggedIn && <DropDown
+           <DropDown
             icon={<FontAwesomeIcon icon={faCalendarAlt} />}
             options={recurrence}
             isSet={disRec(p.viewBy)}
             callBack={v => p.updateViewBy(v)}
-          />}
-          {isLoggedIn && <p>{p.amount ? convert(p.amount, "w", p.viewBy, "money") : '$0'}</p>}
+          />
+            <p>{p.amount ? convert(p.amount, "w", p.viewBy, "money") : '$0'}</p> 
         </div>
       </StTopBar>
     </>

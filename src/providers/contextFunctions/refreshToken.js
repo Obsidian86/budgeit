@@ -1,6 +1,7 @@
 import { makeCall } from '../../api/apiCall'
 
 export const refreshToken = async (username, defaultState, saveState) => {
+    if (!username) return
     const tokens = localStorage.getItem('aKey') ? JSON.parse(localStorage.getItem('aKey')) : null
     if(tokens){
         const refresh = tokens[1]
