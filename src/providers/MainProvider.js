@@ -7,7 +7,7 @@ import getMethods from './data/getMethods'
 import InitLoad from '../modules/components/InitLoad'
 
 class MainProvider extends React.Component {
-  constructor () {
+  constructor() {
     super()
     this.defaultVals = defaultState
     this.methods = getMethods(this)
@@ -18,10 +18,10 @@ class MainProvider extends React.Component {
   }
 
   // initialize data
+  isMobile = () => window.innerWidth < 1000
   checkIfMobile = () => {
-    const isMobile = window.innerWidth < 1000
-    console.log('IS MOBILE', isMobile)
-    if(isMobile !== this.state.isMobile) this.setState({isMobile}) 
+    const isMobile = this.isMobile()
+    if (isMobile !== this.state.isMobile) this.setState({ isMobile })
   }
 
   componentDidMount = async () => {
@@ -29,25 +29,27 @@ class MainProvider extends React.Component {
     appState && this.setState(JSON.parse(appState))
 
     const localAccount = localStorage.getItem('user') ? localStorage.getItem('user') : null
-    if(localAccount) {
+    if (localAccount) {
       this.setState({
         profile: localAccount,
         isLocalUser: false
       }, async () => {
         await this.loadData()
-        await this.refreshToken()
-      }) 
-    }else {
+        if (this.state.profile) {
+          await this.refreshToken()
+        }
+      })
+    } else {
       this.setState({
         profile: null,
         isLocalUser: true
       })
     }
-    if(this.state.globalLoad) this.setState({globalLoad: false})
+    if (this.state.globalLoad) this.setState({ globalLoad: false })
     window.addEventListener('resize', this.checkIfMobile)
     this.checkIfMobile()
   }
-  componentWillUnmount = () => window.removeEventListener('resize', this.checkIfMobile) 
+  componentWillUnmount = () => window.removeEventListener('resize', this.checkIfMobile)
   saveState = newState => {
     this.setState(newState, () => {
       localStorage.setItem('localExpire', JSON.stringify(Date.now()))
@@ -56,25 +58,33 @@ class MainProvider extends React.Component {
   }
 
   // Data import / export
-  importData = (data) => this.saveState({...this.defaultVals, ...data}) 
+  importData = (data) => this.saveState({ ...this.defaultVals, ...data })
   exportData = () => conF.exportData(this.state)
 
   // profile tasks
   setUser = (username) => {
-    this.setState({profile: username, loggedIn: true, globalLoad: true},
-      async ()=> { 
+    this.setState({ profile: username, loggedIn: true, globalLoad: true },
+      async () => {
         await this.loadData()
-        this.setState({globalLoad: false}, () => this.checkIfMobile())
+        this.setState({ globalLoad: false }, () => this.checkIfMobile())
       }
-    )}
+    )
+  }
   logout = () => {
     localStorage.clear()
-    this.setState({...this.defaultVals, globalLoad: false})
+    this.setState({ ...this.defaultVals, globalLoad: false }, () => {
+      this.checkIfMobile()
+      this.saveState()
+    })
   }
   loadData = async () => {
-    const hasData = await conF.load(this.state.profile)
-    if(hasData) {
-      this.setState({...hasData})
+    if (this.state.profile) {
+      const hasData = await conF.load(this.state.profile)
+      if (hasData && hasData.profile) {
+        this.setState({ ...hasData })
+      } else {
+        this.logout()
+      }
     }
   }
   refreshToken = async () => conF.refreshToken(this.state.profile, defaultState, this.saveState)
@@ -82,7 +92,7 @@ class MainProvider extends React.Component {
   updateViewBy = v => this.saveState({ viewBy: v });
   setDialog = dialog => this.setState({ dialog })
   updateView = (view, parent) => conF.updateView(view, parent, this.state.lastView, this.saveState)
-  getLink = (link) => link 
+  getLink = (link) => link
 
   // User data
   updateUserData = (data) => conF.updateUserData(data, this.state.profile, this.state.userInfo, this.saveState)
@@ -94,14 +104,14 @@ class MainProvider extends React.Component {
   updateSource = newSource => this.sourceReqs(newSource, conF.processUpdateSource)
 
   // budget CRUD
-  budgetReqs = (data, fnc) => fnc(data, false, this.state.budget, this.state.total, this.state.profile, this.state.accountTransfers,this.saveState)
+  budgetReqs = (data, fnc) => fnc(data, false, this.state.budget, this.state.total, this.state.profile, this.state.accountTransfers, this.saveState)
   addBudgetItem = (bi) => this.budgetReqs(bi, conF.processAddBudgetItem)
-  deleteBudgetItem = (cat, id) => this.budgetReqs({cat, id}, conF.processDeleteBudgetItem)
-  updateBudgetItem = (oldBi, bi) => this.budgetReqs({oldBi, bi}, conF.processUpdateBudgetItem)
+  deleteBudgetItem = (cat, id) => this.budgetReqs({ cat, id }, conF.processDeleteBudgetItem)
+  updateBudgetItem = (oldBi, bi) => this.budgetReqs({ oldBi, bi }, conF.processUpdateBudgetItem)
 
   // accounts CRUD
   accountReqs = (data, fnc) => fnc(data, this.state.accounts, this.state.profile, this.saveState)
-  addAccount = (ai) =>  this.accountReqs(ai, conF.processAddAccount)
+  addAccount = (ai) => this.accountReqs(ai, conF.processAddAccount)
   deleteAccount = (aId) => this.accountReqs(aId, conF.processDeleteAccount)
   updateAccount = (ai) => this.accountReqs(ai, conF.processUpdateAccount)
 
@@ -115,7 +125,7 @@ class MainProvider extends React.Component {
   savingsTablesReqs = (data, fnc) => fnc(data, this.state.savingsTable, this.state.savingsTables, this.state.profile, this.saveState)
   addSavingsTables = table => this.savingsTablesReqs(table, conF.addSavingsTables)
   deleteSavingsTables = table => this.savingsTablesReqs(table, conF.deleteSavingsTables)
-  addAccountToEstimator = (data) => this.setState({selectedAccount: data ? {...data} : null}, ()=> data && this.updateView('savingsModule'))
+  addAccountToEstimator = (data) => this.setState({ selectedAccount: data ? { ...data } : null }, () => data && this.updateView('savingsModule'))
 
   // Snapshots
   snapshotReqs = (data, fnc) => fnc(data, this.state.snapshots, this.state.profile, this.saveState)
@@ -123,17 +133,22 @@ class MainProvider extends React.Component {
   deleteSnapShot = (deleteIndex) => this.snapshotReqs(deleteIndex, conF.deleteSnapShot)
 
   // transactions
-  submitTransaction = (transaction, accountData) => 
+  submitTransaction = (transaction, accountData) =>
     conF.submitTransaction(transaction, this.state.profile, this.state.transactions, this.saveState, accountData, this.updateAccount)
-  updateTransaction = (transaction, accountData) => 
+  updateTransaction = (transaction, accountData) =>
     conF.updateTransaction(transaction, this.state.profile, this.state.transactions, this.saveState, accountData, this.updateAccount)
   deleteTransaction = (accountData, transaction) =>
     conF.deleteTransaction(accountData, transaction, this.state.profile, this.state.transactions, this.updateAccount, this.saveState)
   loadTransactions = (accountId) =>
     conF.loadTransactions(accountId, this.state.profile, this.state.transactions, this.state.hasNoTransactions, this.saveState)
-  
-  render = () =>
-    <>
+
+  render = () => {
+    console.log(this.state.isMobile)
+    console.log(window.innerWidth)
+    if (this.isMobile() !== this.state.isMobile) {
+      this.checkIfMobile()
+    }
+    return (<>
       {this.state.dialog.open && <Dialog data={this.state.dialog} setDialog={this.setDialog} />}
       <MainContext.Provider value={this.state}>
         {this.state.globalLoad ?
@@ -141,7 +156,8 @@ class MainProvider extends React.Component {
           : this.props.children
         }
       </MainContext.Provider>
-    </>
+    </>)
+  }
 }
 
 export default MainProvider

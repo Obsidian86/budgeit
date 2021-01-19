@@ -105,13 +105,13 @@ const Checkbook = () => {
                                 icon={<FontAwesomeIcon icon={faUniversity} />}
                             />
                         </Link>
-                        <IP 
+                        {accountsCount > 0 && <IP 
                             type='btn' 
                             label='Add transaction' 
                             style={{marginRight: '10px', 'borderRadius': '4px', marginTop: '13px'}} 
                             icon={<FontAwesomeIcon icon={faPlusCircle} />} 
                             onChange={() => setTransactionDialog('add', null)}
-                        />
+                        />}
                     </div>
                 </div>
                 <StyledAccountModule className='row mx'>

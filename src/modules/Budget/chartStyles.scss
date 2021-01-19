@@ -1,11 +1,10 @@
 .chartContainer { 
-    width: 99%; 
-    justify-content: flex-end; 
-    margin-top: -46px;
+    width: 99%;
     & > div {
-        width: 70%; 
+        margin: 20px auto 10px auto;
+        width: 95%; 
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-start;
         & .pie-container{
             width: 30%;
             margin-top: 20px;

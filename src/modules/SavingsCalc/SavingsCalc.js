@@ -174,7 +174,7 @@ const SavingsCalc = () => {
           The breakdown of each account will display in a new table. The totals will display in the first table. 
         </p>
         </div>
-        <div className={showForm ? 'md' : 'sxm'}>
+        <div className={showForm ? 'md' : 'xs'}>
           <div className='right md-center'>
             <IP 
               type={`btn_${showForm ? 'red' : 'green'}`} 

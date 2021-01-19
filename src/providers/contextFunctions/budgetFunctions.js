@@ -31,16 +31,13 @@ export const processDeleteBudgetItem = async (data, local, oldBudget, total, use
 
   let newState = { budget: newBudget, total }
 
-  if (username) {
-    if(response && response.data && response.data.length > 1){
-      const trItem = response.data[1]
-      if (trItem.deleted){
-        newState.accountTransfers = accountTransfers.filter(at => at.id + '' !== trItem.id + '')
-      }
+  // Account transfer
+  if(response && response.data && response.data.length > 1){
+    const trItem = response.data[1]
+    if (trItem.deleted){
+      newState.accountTransfers = accountTransfers.filter(at => at.id + '' !== trItem.id + '')
     }
-  } else {
-    newState.accountTransfers = accountTransfers.filter(at => at.id + '' !== id + '')
-  }
+  } 
 
   saveState(newState)
 }
@@ -48,40 +45,53 @@ export const processDeleteBudgetItem = async (data, local, oldBudget, total, use
 export const processAddBudgetItem = async (newBi, local, oldBudget, total, username, accountTransfers, saveState) => {
   if(!newBi['end']) newBi['end'] = ''
   if(!newBi['noEnd']) newBi['noEnd'] = 'on'
-  if(!newBi['isTransfer'] || newBi['isTransfer'] === "") newBi['isTransfer'] = 'off' 
-  const response = local ? {data: [newBi]} : await saveResource("save", "budgetitems", newBi, username, null)
+  if(!newBi['isTransfer'] || newBi['isTransfer'] === "") newBi['isTransfer'] = 'off'
 
-  if(response && response.data && response.data.length > 0){
-    const bi = response.data[0]
-    if(bi['end'] === '') delete bi['end']
-    const newBudget = { ...oldBudget }
-    bi.category = (!bi.category || bi.category === undefined || bi.category.replace(' ', '') === '') ? 'No category' : bi.category
-    const monthAmount = convert(bi.amount, bi.rec, "m") // conv amnt to month to add to total
-    total = parseFloat(total) + parseFloat(monthAmount)
-    if (newBudget[bi.category]) {
-      newBudget[bi.category].total = parseFloat(newBudget[bi.category].total) + parseFloat(monthAmount)
-      newBudget[bi.category].items.push(bi)
-    } else {
-      newBudget[bi.category] = {
-        color: getColor(newBudget),
-        items: [{ ...bi}],
-        total: parseFloat(monthAmount)
-      }
+  let response = null
+  let bi = { ...newBi, id: Date.now() }
+  if (username) {
+    response = local 
+      ? {data: [newBi]}
+      : await saveResource("save", "budgetitems", newBi, username, null)
+    if(response && response.data && response.data.length > 0){
+      bi = response.data[0]
     }
-    if(local) return ({ budget: newBudget, total }) // for initial rendering
-    else {
-      let newState = { budget: newBudget, total }
-      if(response.data.length > 1){
-        newState.accountTransfers = [...accountTransfers, response.data[1]]
-      }
-      saveState(newState)
+  }
+  
+  if(bi['end'] === '') delete bi['end']
+  const newBudget = { ...oldBudget }
+  bi.category = (!bi.category || bi.category === undefined || bi.category.replace(' ', '') === '') ? 'No category' : bi.category
+  const monthAmount = convert(bi.amount, bi.rec, "m") // conv amnt to month to add to total
+  total = parseFloat(total) + parseFloat(monthAmount)
+  if (newBudget[bi.category]) {
+    newBudget[bi.category].total = parseFloat(newBudget[bi.category].total) + parseFloat(monthAmount)
+    newBudget[bi.category].items.push(bi)
+  } else {
+    newBudget[bi.category] = {
+      color: getColor(newBudget),
+      items: [{ ...bi}],
+      total: parseFloat(monthAmount)
     }
+  }
+  if(local) return ({ budget: newBudget, total }) // for initial rendering
+  else {
+    let newState = { budget: newBudget, total }
+    // Account transfer
+    if(response && response.data && response.data.length > 1){
+      newState.accountTransfers = [...accountTransfers, response.data[1]]
+    }
+    saveState(newState)
   }
 }
 
 export const processUpdateBudgetItem = async (data, local, oldBudget, total, username, accountTransfers, saveState) => {
   const { bi, oldBi } = data
-  const response = await saveResource("put", "budgetitems", bi, username, bi.id)
+
+  let response = null
+  if (username) {
+    response = await saveResource("put", "budgetitems", bi, username, bi.id)
+  }
+
   const newBudget = { ...oldBudget }
   const monthAmount = parseFloat(convert(bi.amount,  bi.rec, "m"))
   const oldMonthAmount = parseFloat(convert(oldBi.amount,  bi.rec, "m"))
@@ -107,6 +117,7 @@ export const processUpdateBudgetItem = async (data, local, oldBudget, total, use
   newBudget[bi.category].total = parseFloat(newBudget[bi.category].total) + parseFloat(monthAmount)
 
   let newState = { budget: newBudget, total }
+  // If is account transfer and data returned
   if(response && response.data && response.data.length > 1){
     const trItem = response.data[1]
     if (trItem.deleted){

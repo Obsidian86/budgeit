@@ -7,9 +7,10 @@ import s from './styles'
 import { submitForm } from './functions'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from 'react-router-dom'
 
 const LoginScreen = () => {
-
+    const history = useHistory()
     const p = useContext(MainContext)
 
     const [formType, updateFormType] = useState('login')
@@ -18,6 +19,9 @@ const LoginScreen = () => {
     const [formState, updateFormState] = useState('static')
 
     useEffect(() => {
+        if (p.profile) {
+            history.push('/dashboard')
+        }
         window.addEventListener('keydown', enterPress)
         return(() => window.removeEventListener('keydown', enterPress))
     })

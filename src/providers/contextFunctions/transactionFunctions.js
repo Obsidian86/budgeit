@@ -2,28 +2,30 @@ import makeCall from "../../api"
 import { calcMoney } from "../../utilities/convert"
 
 export const loadTransactions = async (accountId, username, transactions, hasNoTransactions, saveState) => {
-    let useId = transactions[accountId] ? transactions[accountId].length : 0
-    const info = { username, requireAuth: true, id: useId }
-    info.endPoint = 'loadTransactions'
-    info.method = 'GET'
-    info.targetParam = accountId
-    const response = await makeCall(info)
-    if(response.data && response.data.length > 0){
-        const resp = response.data[0]
-        const noTransactions = [...hasNoTransactions]
-        if(response.message && response.message === "No more items"){
-            noTransactions.push(accountId)
-        }
-        if(transactions[accountId]){
-            return saveState({
-                hasNoTransactions: noTransactions,
-                transactions: { ...transactions, [accountId]: [...resp, ...transactions[accountId]] }
-            })
-        } else{
-            return saveState({
-                hasNoTransactions: noTransactions,
-                transactions: { ...transactions, [accountId]: resp }
-            })
+    if (username) {
+        let useId = transactions[accountId] ? transactions[accountId].length : 0
+        const info = { username, requireAuth: true, id: useId }
+        info.endPoint = 'loadTransactions'
+        info.method = 'GET'
+        info.targetParam = accountId
+        const response = await makeCall(info)
+        if(response.data && response.data.length > 0){
+            const resp = response.data[0]
+            const noTransactions = [...hasNoTransactions]
+            if(response.message && response.message === "No more items"){
+                noTransactions.push(accountId)
+            }
+            if(transactions[accountId]){
+                return saveState({
+                    hasNoTransactions: noTransactions,
+                    transactions: { ...transactions, [accountId]: [...resp, ...transactions[accountId]] }
+                })
+            } else{
+                return saveState({
+                    hasNoTransactions: noTransactions,
+                    transactions: { ...transactions, [accountId]: resp }
+                })
+            }
         }
     }
     saveState({
@@ -41,7 +43,13 @@ export const deleteTransaction = async(accountData, transaction, username, trans
         method: 'DELETE',
         requireAuth: true
     }
-    const response = await makeCall(info)
+
+    let response;
+    if (username) {
+        response = await makeCall(info)
+    } else {
+        response = { data: [transaction] }
+    }
     if(response.data && response.data.length > 0){
         let updatedTransactions = {
             ...transactions,
@@ -49,7 +57,7 @@ export const deleteTransaction = async(accountData, transaction, username, trans
         }
         saveState({ transactions: updatedTransactions })
         // update account after transaction
-        let action = transaction.type === 'deposit' ? 'add' : 'subtract'
+        let action = transaction.type === 'deposit' ? 'subtract' : 'add'
         let updatedAccount = { 
             ...accountData, 
             amount: calcMoney(accountData['amount'], transaction['amount'], action)
@@ -64,7 +72,13 @@ export const submitTransaction = async (transaction, username, transactions, sav
     info.endPoint = 'newTransaction'
     info.method = 'POST'
     info.body = transaction
-    const response = await makeCall(info)
+
+    let response;
+    if (username) {
+        response = await makeCall(info)
+    } else {
+        response = { data: [{...transaction, id: Date.now()}] }
+    }
     if(response.data && response.data.length > 0){
         const resp = response.data[0]
         const accountId = transaction.accountId
@@ -89,7 +103,13 @@ export const updateTransaction = async (transaction, username, transactions, sav
     info.endPoint = 'newTransaction'
     info.method = 'PUT'
     info.body = transaction
-    const response = await makeCall(info)
+
+    let response = null
+    if (username) {
+        response = await makeCall(info)
+    } else {
+        response = { data: [{...transaction}] }
+    }
     if(response.data && response.data.length > 0){
         const accountId = transaction.accountId
         let oldTransaction

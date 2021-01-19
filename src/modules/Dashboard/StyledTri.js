@@ -1,25 +1,26 @@
 import styled from 'styled-components'
 
 export default styled.div`
-width: 98%;
+width: 100%;
 display: flex;
 justify-content: space-between;
 .contentBox{
     padding: 0;
-    width: calc(50% - 190px);
+    width: calc((100% - 265px) / 2);
     padding: 5px;
     &:first-child{
-        width: 260px;
+        width: 265px;
     }
 }
 @media screen and (max-width: 1150px){
     flex-wrap: wrap;
-    width: 100%;
+    width: 99%;
     margin-top: -28px;
     .contentBox{
         padding: 0;
         width: calc(50% - 30px);
         padding: 5px;
+        margin-top: 0;
         &:first-child{
             margin: 10px auto 23px auto;
             padding-top: 10px;
@@ -36,13 +37,11 @@ justify-content: space-between;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: flex-start;
-    width: 100%;
     margin-top: -25px;
     background-color: #fff;
-    width: 95%;
+    width: calc(100% - 20px);
     margin-bottom: 7px;
-    border: 1px solid #a38f8f;
-    box-shadow: 0 0 0 8px #fff, 0 0 10px #000;
+    border-radius: 4px;
     & .contentBox{
         margin: 0 auto 0 auto;
         padding: 5px 0 13px 0;

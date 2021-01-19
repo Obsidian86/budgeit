@@ -2,7 +2,13 @@ import { saveResource } from './storage'
 import { getObjIndex } from '../../utilities/functions'
 
 export const addSavingsTables = async(data, currentProcessedTables, currentTables, username, saveState) => {
-  const response = await saveResource("save", "savingstables", data, username, null)
+  let response 
+  if (username) {
+    response = await saveResource("save", "savingstables", data, username, null)
+  } else {
+    response = { data: [{ ...data, id: Date.now() }] }
+  }
+
   if(response && response.data && response.data.length > 0){
     const tableData = response.data[0]
     const combineTables = processTables(tableData, currentProcessedTables)
@@ -14,7 +20,12 @@ export const addSavingsTables = async(data, currentProcessedTables, currentTable
 }
 
 export const deleteSavingsTables = async(tableId, currentProcessedTables, currentTables, username, saveState) => {
-  const response = await saveResource("delete", "savingstables", null, username, tableId)
+  let response 
+  if (username) {
+    response = await saveResource("delete", "savingstables", null, username, tableId)
+  } else {
+    response = { data: [{ id: tableId }] }
+  }
   if(response && response.data && response.data.length > 0){
     const ind = getObjIndex(currentTables, 'id', response.data[0].id)
     const foundTable = { ...currentTables[ind] }

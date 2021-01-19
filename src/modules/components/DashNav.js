@@ -24,7 +24,7 @@ const CheckbookButton = styled.button`
   }
 `
 
-const DashNav = ({Link, step, updateAccData, accData, getLink, isMobile}) =>{
+const DashNav = ({Link, step, updateAccData, accData, getLink, isMobile, profile}) =>{
     
     const s = {
       header: {width: '100%', paddingTop: '80px', marginBottom: '40px', boxShadow: '0 0 3px rgba(0,0,0,.8)', backgroundColor: 'rgba(5, 165, 0, 0.8)'},
@@ -44,12 +44,12 @@ const DashNav = ({Link, step, updateAccData, accData, getLink, isMobile}) =>{
               </CheckbookButton>
             </Link>
           </div>
-          <div>
-            <IP type={`btn_narrow${!accData ? '_green' : '_red'}`}
+         <div>
+          {profile ? <IP type={`btn_narrow${!accData ? '_green' : '_red'}`}
                 icon={<FontAwesomeIcon icon={faFileExport} />}
                 style={s.btn}
                 onChange={()=>updateAccData(!accData)} label='Export account data'
-            />
+            /> : <div style={{ height: '53px' }} /> }
           </div>
         </div>
         {isMobile && <nav style={s.nav} className='dashNavLinks'>

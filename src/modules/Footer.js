@@ -6,7 +6,8 @@ const Footer = ({version}) => {
     paddingTop: '1px',
     paddingBottom: '25px',
     textAlign: 'center',
-    fontSize: '.8rem'
+    fontSize: '.8rem',
+    color: '#fff'
   }
   const date = new Date()
   return (
