@@ -26,12 +26,7 @@ class MainProvider extends React.Component {
 
   componentDidMount = async () => {
     const appState = localStorage.getItem('appState')
-    if (appState ) {
-      console.log(appState)
-      const jsonState = JSON.parse(appState)
-      console.log(jsonState)
-      this.setState(jsonState)
-    }
+    appState && this.setState(JSON.parse(appState))
 
     const localAccount = localStorage.getItem('user') ? localStorage.getItem('user') : null
     if(localAccount) {
@@ -55,7 +50,7 @@ class MainProvider extends React.Component {
   componentWillUnmount = () => window.removeEventListener('resize', this.checkIfMobile) 
   saveState = newState => {
     this.setState(newState, () => {
-      console.log(this.state)
+      localStorage.setItem('localExpire', JSON.stringify(Date.now()))
       localStorage.setItem('appState', JSON.stringify(this.state))
     })
   }

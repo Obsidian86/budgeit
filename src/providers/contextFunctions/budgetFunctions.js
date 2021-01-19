@@ -3,9 +3,13 @@ import { convert } from '../../utilities/convert'
 import { getColor } from '../../styles/colors'
 import { saveResource } from './storage'
 
+// Local is for processing items in initial rendering
 export const processDeleteBudgetItem = async (data, local, oldBudget, total, username, accountTransfers, saveState) => {
   const { cat, id } = data
-  const response = await saveResource("delete", "budgetitems", null, username, id)
+  let response
+  if (username) {
+    response = await saveResource("delete", "budgetitems", null, username, id)
+  }
   const newBudget = { ...oldBudget }
   let removeItem
   for(const item in newBudget[cat].items){
@@ -27,12 +31,17 @@ export const processDeleteBudgetItem = async (data, local, oldBudget, total, use
 
   let newState = { budget: newBudget, total }
 
-  if(response && response.data && response.data.length > 1){
-    const trItem = response.data[1]
-    if (trItem.deleted){
-      newState.accountTransfers = accountTransfers.filter(at => at.id + '' !== trItem.id + '')
+  if (username) {
+    if(response && response.data && response.data.length > 1){
+      const trItem = response.data[1]
+      if (trItem.deleted){
+        newState.accountTransfers = accountTransfers.filter(at => at.id + '' !== trItem.id + '')
+      }
     }
+  } else {
+    newState.accountTransfers = accountTransfers.filter(at => at.id + '' !== id + '')
   }
+
   saveState(newState)
 }
 
