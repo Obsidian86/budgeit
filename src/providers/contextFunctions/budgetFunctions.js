@@ -63,12 +63,32 @@ export const processAddBudgetItem = async (newBi, local, oldBudget, total, usern
 
   let response = null
   let bi = { ...newBi, id: Date.now() }
+  let useAccountTransfer = null
   if (username) {
-    response = local 
-      ? {data: [newBi]}
-      : await saveResource("save", "budgetitems", newBi, username, null)
+    if (local) {
+      response = { data: [newBi] }
+    } else {
+      response = await saveResource("save", "budgetitems", newBi, username, null)
+    }
     if(response && response.data && response.data.length > 0){
       bi = response.data[0]
+      if (response.data.length > 1){
+        useAccountTransfer = response.data[1]
+      }
+    }
+  } else {
+    if (bi.isTransfer === 'on') {
+      let useId = Date.now()
+      useAccountTransfer = {
+        amount: bi.amount,
+        date: bi.date,
+        id: useId,
+        nextAuto: "2-20-3000",
+        rec: bi.rec,
+        fromAccount: bi.transferFromAccount,
+        toAccount: bi.transferToAccount
+      }
+      bi.linkedTransfer = useId
     }
   }
   
@@ -91,8 +111,8 @@ export const processAddBudgetItem = async (newBi, local, oldBudget, total, usern
   else {
     let newState = { budget: newBudget, total }
     // Account transfer
-    if(response && response.data && response.data.length > 1){
-      newState.accountTransfers = [...accountTransfers, response.data[1]]
+    if(useAccountTransfer){
+      newState.accountTransfers = [...accountTransfers, useAccountTransfer]
     }
     saveState(newState)
   }
