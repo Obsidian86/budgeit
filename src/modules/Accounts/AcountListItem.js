@@ -90,6 +90,8 @@ const AccountListItem = (props) => {
     const handleClickItem = () => {
         if(showOptions) { updateShowOptions(null)}
         else {
+            updateShowForm(false)
+            updateEdittingItem(null)
             updateShowOptions(a.id)
             setTimeout(()=> {
                 const getItem = document.getElementById('account-list-item-' + a.id)

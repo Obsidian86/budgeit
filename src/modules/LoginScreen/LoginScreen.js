@@ -31,14 +31,23 @@ const LoginScreen = () => {
     const handleSubmit = () => submitForm(formData, formType, updateFormErrors, updateFormState, p.setUser, makeCall, p.setDialog)
 
     return(
-        <ContentBox 
-            title={formType === 'login' ? 'Login' : 'Register'} 
+        <ContentBox
             itemId='loginModule' 
-            hideShrink 
-            icon={<FontAwesomeIcon icon={faUser} />}
-            exStyles={{maxWidth: '600px', margin: '120px auto 30px auto'}}
+            hideShrink
+            exClass="new-content-box"
+            exStyles={{maxWidth: '600px', margin: '120px auto 30px auto', overflow: 'hidden'}}
         >
-            <div className='row mt-40'>
+            <h4 className='section-title pl-20 pt-10'><FontAwesomeIcon icon={faUser} />
+                &nbsp; {formType === 'login' ? 'Login' : 'Register'}
+            </h4>
+            <div
+                className='new-form'
+                style={{ 
+                    borderRadius: '0px',
+                    padding: '10px',
+                    width: 'calc(100% - 20px)'
+                }}
+            >
             { formErrors['message'] && <p>{formErrors['message']}</p> }
                 <IP
                     alias={'username'}
@@ -71,7 +80,7 @@ const LoginScreen = () => {
                     {formType === 'login' ? 'No account? Create account' : 'Have an account? Log in' }
                     </p>
                     <IP 
-                        type='btn'
+                        type='btn_white'
                         style={{backgroundColor: formState === 'loading' ? 'blue': null}} 
                         onChange={formState === 'static' ? handleSubmit : null} 
                         label={formState==='loading' ? 'Loading...' : formType === 'register' ? 'Register' : 'Log in'} 

@@ -31,9 +31,6 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
   }
 
   const StDiv = styled.ul`
-    border-bottom: 1px solid #1bcf21;
-    border-left: 4px solid #1bcf21;
-    box-shadow: ${open ? '0 3px 5px #c4c4c4' : ''};
     position: relative;
     padding: 10px 20px;
     text-align: left;
@@ -41,15 +38,16 @@ const DropDown = ({ options, callBack, isSet, icon, styles }) => {
     cursor: pointer;
     & ul {
       z-index: 1;
-      border-left: 4px solid #1bcf21;
       list-style-type: none;
       list-style-position: outside;
       margin: 0;
       padding: 0;
       position: absolute;
       top: 100%;
-      left: -4px;
       width: 100%;
+      left: 0;
+      border-radius: 6px;
+      overflow: hidden;
       box-shadow: ${open ? '0 5px 5px rgba(0,0,0,.3)' : ''};
       & li {
         text-align: left;

@@ -14,21 +14,24 @@ const EmergencyFunds = () => {
   const creditDebt = p.accounts.reduce((p, c) => c.accountType === 'Credit' ? parseFloat(c.amount) + p : p , 0)
   const useTotalAvailable = calcMoney(totalAvailable, creditDebt, 'subtract')
   return (
-    <ContentBox title='Emergency Funds' itemId='emergencyFundsModule' icon={<FontAwesomeIcon icon={faAmbulance} />}>
-      <div className='row mt-40'>
-        <p className='remark' style={{minWidth: '150px', width: '80%'}}>
+    <ContentBox
+      exClass="new-content-box row"
+      title='Emergency Funds' itemId='emergencyFundsModule' icon={<FontAwesomeIcon icon={faAmbulance} />}
+    >
+        <p className='remark'>
           Having an emergency fund is an important part of financial independence.
           Be adequately prepared for unforeseen circumstances by saving at least 3 to 6 
           months of monthly expenses.
         </p>
-        <div className='max row'>
-          <div className='thr'>
+        <div className='lg'>
+          <div>
+            <h4 class='section-title'>Available funds</h4>
             <SoftList split>
               <li className='t-blue'><strong>Amount available</strong> <span>{money(totalAvailable)}</span></li>
               { availableAmount }
             </SoftList>
-          </div>
-          <div className='tt'>
+
+            <h4 class='section-title'>Amount needed</h4>
             <SoftList split>
               <li><strong>Monthly expenditure</strong><span>{money(p.total)}</span></li>
               {Object.keys(excluded).map(b =>
@@ -58,10 +61,8 @@ const EmergencyFunds = () => {
                   <p> It looks like you need at least { money(calcMoney(livingExpenses * 3, useTotalAvailable, 'subtract')) } more to cover 3 months of emergency expenses.</p>
                 </div>
               }
-    
           </div>
         </div>
-      </div>
     </ContentBox>
   )
 }

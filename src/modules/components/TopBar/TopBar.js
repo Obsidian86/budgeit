@@ -22,6 +22,7 @@ const TopBar = ({ isLoggedIn, sideBarOpen, updateSideBarOpen, isMobile}) => {
             <p>Budge-it</p>
           </span>
            <DropDown
+            styles={{borderTop: '5px solid transparent' }}
             icon={<FontAwesomeIcon icon={faCalendarAlt} />}
             options={recurrence}
             isSet={disRec(p.viewBy)}

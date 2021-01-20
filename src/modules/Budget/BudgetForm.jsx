@@ -66,7 +66,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
           {(!formData.noEnd || !(formData.noEnd && formData.noEnd === 'on')) && <IP type='date' alias='end' label='End date' errors={errors} data={formData} 
             onChange={date => updateField({ target: { value: parsedCurrentDate(date), name: 'end' }})} /> }
 
-          <label className='cu_checkBox'>
+          <label className='cu_checkBox' style={{paddingBottom: '10px'}}>
             <input
               type='checkbox' name='noEnd'
               checked={!!formData.noEnd && formData.noEnd === "on"}
@@ -87,7 +87,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             />{' '} 
             <span />
             Retain funds
-            <p className='muted' style={{width: '100%', margin: '8px 0 0 45px', color: '#c9c9c9'}}>
+            <p className='muted' style={{width: '100%', margin: '8px 0 0 45px', color: '#e9e9e9'}}>
               Doesn't subtract from totals.
             </p>
           </label>}
@@ -176,7 +176,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             </button>
             <button
               type='submit'
-              className='btn mt-10'
+              className='btn mt-10 white'
               onClick={() => onSubmit(formData)}
             > Submit </button>
           </div>

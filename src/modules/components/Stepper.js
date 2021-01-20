@@ -7,7 +7,7 @@ const Stepper = ({step, getLink, theme, hasSource, hasBudgetItem, hasAccount}) =
   const textColor = '#fff'
   const s = {
     container: {
-      margin: '10px 0 50px 0',
+      margin: '10px 0 30px 0',
       display: 'flex',
       justifyContent: 'center',
       width: '90%'

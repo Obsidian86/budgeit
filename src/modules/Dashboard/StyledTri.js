@@ -22,7 +22,7 @@ justify-content: space-between;
         padding: 5px;
         margin-top: 0;
         &:first-child{
-            margin: 10px auto 23px auto;
+            margin: 45px auto 23px auto;
             padding-top: 10px;
             padding-bottom: 10px;
             width: calc(100% - 26px);
@@ -37,13 +37,12 @@ justify-content: space-between;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: flex-start;
-    margin-top: -25px;
     background-color: #fff;
     width: calc(100% - 20px);
+    margin-top: 15px;
     margin-bottom: 7px;
     border-radius: 4px;
     & .contentBox{
-        margin: 0 auto 0 auto;
         padding: 5px 0 13px 0;
         box-shadow: none;
         border: none;

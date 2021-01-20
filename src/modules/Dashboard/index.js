@@ -36,7 +36,6 @@ const Dashboard = () => {
             itemsToday.push(el)
         }
     });
-
     const { content: accountContent } = processData.proccessAccountData(p.accounts)
     const { content: sourceContent, total: totalSource } = processData.proccessSourceData(p.incomeSources)
     const { content: budgetContent, total: percent } = processData.proccessbudgetData(p.budget, totalSource, p.viewBy)
@@ -69,16 +68,20 @@ const Dashboard = () => {
                 <ProgressBar {...emerProps} title={'3-6 month emergency'} height={38} fontSize={'1rem'} />
             </ContentBox>
         </StyledTri>}
-        <ContentBox title='Accounts' exClass={'lg break-1155'} icon={<FontAwesomeIcon icon={faUniversity} />} >
+        <ContentBox exClass={'lg break-1155'} icon={<FontAwesomeIcon icon={faUniversity} />} >
+            <h4 className='section-title'>Accounts</h4>
             { accountContent }
         </ContentBox>
-        <ContentBox title='Income' exClass={'smPlus break-1155'} icon={<FontAwesomeIcon icon={faMoneyBillWave} />} exStyles={{minWidth: '230px'}}>
+        <ContentBox exClass={'smPlus break-1155'} icon={<FontAwesomeIcon icon={faMoneyBillWave} />} exStyles={{minWidth: '230px'}}>
+            <h4 className='section-title'>Income</h4>
             { sourceContent }
         </ContentBox>
-        <ContentBox title='Value' exClass={'max'} icon={<FontAwesomeIcon icon={faChartLine} />} itemId={'value-content'}>
+        <ContentBox exClass={'max'} icon={<FontAwesomeIcon icon={faChartLine} />} itemId={'value-content'}>
+            <h4 className='section-title'>Value</h4>
             { valueOverTime }
         </ContentBox>
-        <ContentBox title='Budget' exClass={'max'} icon={<FontAwesomeIcon icon={faStream} />}>
+        <ContentBox exClass={'max'} icon={<FontAwesomeIcon icon={faStream} />}>
+            <h4 className='section-title'>Budget</h4>
             { budgetContent }
         </ContentBox>
     </div>

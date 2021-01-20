@@ -6,7 +6,7 @@ const ModuleTitle = ({ title, icon }) => {
   const p = useContext(MainContext)
 
   const StH2 = styled.h2`
-    color: ${p.theme.green};
+    color: #fff;
     font-size: 1.4rem;
     border-top: none;
     border-left: none;
@@ -26,8 +26,8 @@ const ModuleTitle = ({ title, icon }) => {
       align-items: center;
       justify-content: center;
       display: flex;
-      color: #fff;
-      background-color: ${p.theme.green};
+      color: ${p.theme.darkGray};
+      background-color: #fff;
     }
   `
 

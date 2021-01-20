@@ -27,7 +27,7 @@ const CheckbookButton = styled.button`
 const DashNav = ({Link, step, updateAccData, accData, getLink, isMobile, profile}) =>{
     
     const s = {
-      header: {width: '100%', paddingTop: '80px', marginBottom: '40px', boxShadow: '0 0 3px rgba(0,0,0,.8)', backgroundColor: 'rgba(5, 165, 0, 0.8)'},
+      header: {width: '100%', paddingTop: '80px', marginBottom: '10px', boxShadow: '0 0 3px rgba(0,0,0,.8)', backgroundColor: 'rgba(5, 165, 0, 0.8)'},
       dNavCont: {width: '97%', padding: '0', marginBottom: '6px'},
       btn: { marginLeft: '20px', marginTop: '4px', marginBottom: '17px', background: `${accData ? 'red':'none'}`, minWidth: '178px', border: '2px solid #fff'},
       nav: { flexWrap: 'wrap', width: '100%', justifyContent: 'center', marginBottom: "10px"},

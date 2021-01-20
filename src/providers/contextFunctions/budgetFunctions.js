@@ -7,9 +7,8 @@ import { saveResource } from './storage'
 export const processDeleteBudgetItem = async (data, local, oldBudget, total, username, accountTransfers, saveState) => {
   const { cat, id } = data
   let response
-  if (username) {
-    response = await saveResource("delete", "budgetitems", null, username, id)
-  }
+  let useAccountTransfer = null
+
   const newBudget = { ...oldBudget }
   let removeItem
   for(const item in newBudget[cat].items){
@@ -18,6 +17,21 @@ export const processDeleteBudgetItem = async (data, local, oldBudget, total, use
       break
     }
   }
+
+  if (username) {
+    response = await saveResource("delete", "budgetitems", null, username, id)
+    if (response && response.data && response.data.length > 1) {
+      useAccountTransfer = response.data[1]
+    }
+  } else {
+    if (removeItem.linkedTransfer && removeItem.linkedTransfer !== '') {
+      useAccountTransfer = {
+        deleted: true,
+        id: removeItem.linkedTransfer
+      }
+    }
+  }
+
   const monthAmount = convert(removeItem.amount, removeItem.rec, "m")
   total = parseFloat(total) - parseFloat(monthAmount)
   if (newBudget[cat].items.length === 1) delete newBudget[cat]
@@ -32,8 +46,8 @@ export const processDeleteBudgetItem = async (data, local, oldBudget, total, use
   let newState = { budget: newBudget, total }
 
   // Account transfer
-  if(response && response.data && response.data.length > 1){
-    const trItem = response.data[1]
+  if(useAccountTransfer){
+    const trItem = useAccountTransfer
     if (trItem.deleted){
       newState.accountTransfers = accountTransfers.filter(at => at.id + '' !== trItem.id + '')
     }
@@ -85,11 +99,38 @@ export const processAddBudgetItem = async (newBi, local, oldBudget, total, usern
 }
 
 export const processUpdateBudgetItem = async (data, local, oldBudget, total, username, accountTransfers, saveState) => {
-  const { bi, oldBi } = data
+  let { bi, oldBi } = data
 
   let response = null
+  let useAccountTransfer = null
   if (username) {
     response = await saveResource("put", "budgetitems", bi, username, bi.id)
+    if (response && response.data && response.data.length > 0) {
+      bi = {...response.data[0]}
+      if (response.data.length > 1) {
+        useAccountTransfer = response.data[1]
+      }
+    }
+  } else {
+    if (oldBi.isTransfer === 'on' && bi.isTransfer === 'off'){ 
+      useAccountTransfer = {
+        id: bi.linkedTransfer,
+        deleted: true
+      }
+    }
+    if (bi.isTransfer === 'on') {
+      let useId = Date.now()
+      useAccountTransfer = {
+        amount: bi.amount,
+        date: bi.date,
+        id: useId,
+        nextAuto: "2-20-3000",
+        rec: bi.rec,
+        fromAccount: bi.transferFromAccount,
+        toAccount: bi.transferToAccount
+      }
+      bi.linkedTransfer = useId
+    }
   }
 
   const newBudget = { ...oldBudget }
@@ -118,8 +159,8 @@ export const processUpdateBudgetItem = async (data, local, oldBudget, total, use
 
   let newState = { budget: newBudget, total }
   // If is account transfer and data returned
-  if(response && response.data && response.data.length > 1){
-    const trItem = response.data[1]
+  if(useAccountTransfer){
+    const trItem = useAccountTransfer
     if (trItem.deleted){
       newState.accountTransfers = accountTransfers.filter(at => at.id + '' !== trItem.id + '')
     } else {

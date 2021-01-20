@@ -33,7 +33,8 @@ const SaveLoad = () => {
     }
 
     return (
-        <ContentBox title='Export data' exClass='sm'>
+        <ContentBox exClass='sm'>
+            <h4 className='section-title'>Export data</h4>
             <div>
                 <div className='max center'>
                     <label className='mt-50 d-bl center mb-10'>Export to file and download</label>

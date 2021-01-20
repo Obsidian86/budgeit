@@ -24,7 +24,7 @@ const YourBudget = ({ step }) => {
 
   const handleBudgetItemClick = bItem => {
     updateEditItem(bItem)
-    document.getElementById('add-budget-form').scrollIntoView({behavior: "smooth"})
+    // document.getElementById('add-budget-form').scrollIntoView({behavior: "smooth"})
   }
 
   const amountLeft = convert(p.amount, "w", p.viewBy) - convert(p.total, "m", p.viewBy);
@@ -81,16 +81,55 @@ const YourBudget = ({ step }) => {
 
   const {catOptions, data} = budgetFunctions.processData(p, percentLeft)
   const chartProps = {percentLeft, amountLeft, data, p, s}
-  const noItems = <h2 style={{ textAlign: 'center', marginTop: '75px' }}>Add a budget item</h2>
+  const noItems = <h2 style={{ textAlign: 'center', marginTop: '75px', paddingBottom: '40px' }}>Add a budget item</h2>
 
   const linkedTransfer = editItem && editItem.linkedTransfer
     && editItem.linkedTransfer !== '' && [...p.accountTransfers].filter(tr => tr.id + '' === editItem.linkedTransfer + '')
 
+  const controls = 
+    <button className={`btn big ${displayForm && 'red'}`} onClick={() => {
+      updateEditItem(null)
+      toggleForm(!displayForm)
+    }}>
+      {displayForm ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+      &nbsp; {displayForm ? " Hide" : " Show"} form
+    </button>
+
   return (
-    <ContentBox title='Budget' itemId={moduleName} icon={<FontAwesomeIcon icon={faStream} />} >
-      <ChartSection {...chartProps} />
-      <div className="row around mt-40">
-        <div className={displayForm ? 'm-lg' : 'lg'} >
+    <ContentBox
+      title='Budget'
+      itemId={moduleName}
+      exClass="new-content-box row"
+      icon={<FontAwesomeIcon icon={faStream} />}
+      controls={controls}
+    >
+      {displayForm &&
+        <div className={'m-sm new-form'} id='add-budget-form'>
+          <h4 className='section-title'>{ editItem ? 'Editing budget item' : 'Add budget item' }</h4>
+          <BudgetForm
+            retainData={retainData}
+            catOptions={catOptions}
+            editItem={editItem}
+            updateEditItem={updateEditItem}
+            deleteBudgetItem={p.deleteBudgetItem}
+            setDialog={p.setDialog}
+            errors={errors}
+            updateView={p.updateView}
+            accountList={p.accounts.filter(a => a.accountType !== 'Credit')}
+            onSubmit={bi => handleFormSubmit(bi)}
+            updateRetainData={updateRetainData}
+            linkedTransfer={linkedTransfer}
+          />
+        </div> }
+      <div className={ displayForm ? "m-lg": 'max' }>
+        {
+          Object.keys(p.budget).length > 0 && <>
+            <h4 className='section-title'>Budget usage</h4>
+            <ChartSection {...chartProps} />
+          </>
+        }
+        <h4 className='section-title'>Budget items</h4>
+        <div>
           {Object.keys(p.budget).length < 1 ?  noItems : Object.keys(p.budget).map(bud => {
             return (
               <div key={bud} style={{ marginBottom: "33px" }}>
@@ -127,31 +166,6 @@ const YourBudget = ({ step }) => {
               </div>
             );
           })}
-        </div>
-        <div className={displayForm ? 'm-sm' : 'xs'} id='add-budget-form'>
-          <span className='right md-center'>
-            <button className={`btn big ${displayForm && 'red'}`} onClick={() => {
-              updateEditItem(null)
-              toggleForm(!displayForm)
-            }}>
-              {displayForm ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
-              &nbsp; {displayForm ? " Hide" : " Show"} form
-            </button>
-          </span>
-            {displayForm && <BudgetForm
-              retainData={retainData}
-              catOptions={catOptions}
-              editItem={editItem}
-              updateEditItem={updateEditItem}
-              deleteBudgetItem={p.deleteBudgetItem}
-              setDialog={p.setDialog}
-              errors={errors}
-              updateView={p.updateView}
-              accountList={p.accounts.filter(a => a.accountType !== 'Credit')}
-              onSubmit={bi => handleFormSubmit(bi)}
-              updateRetainData={updateRetainData}
-              linkedTransfer={linkedTransfer}
-            />} 
         </div>
       </div>
     </ContentBox>

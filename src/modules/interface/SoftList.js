@@ -1,9 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const SoftList = ({ children, split, className, color }) => {
+const SoftList = ({ children, split, className, color, radius }) => {
   const List = styled.ul`
+  border-radius: ${ radius ? radius : '0px'};
   list-style-type: none;
+  overflow: hidden;
   padding: 0;
   margin-bottom: 20px;
   & li {

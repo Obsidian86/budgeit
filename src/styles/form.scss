@@ -1,0 +1,193 @@
+$input-Width: calc(96% - 10px);
+
+input[type=text], input[type=number], input[type=password], .form-input{
+    display: block;
+    width: $input-Width;
+    color: #333;
+    padding: 16px 5px;
+    margin: 10px auto 15px auto;
+    border: none;
+    border-bottom: 1px solid $green;
+    border-left: 4px solid $green;
+    background-color: $field-bg;
+    box-shadow: $field-shadow;
+    font-weight: bold;
+    &:focus{
+      border: 1px solid white;
+      width: 100%;
+      margin: 10px 0 15px -7px;
+      box-shadow: 0 0 12px $light-gray;
+    }
+    &::placeholder{
+      color: #555;
+      font-weight: normal;
+      font-style: italic;
+    }
+  }
+  
+  .react-datepicker-wrapper{
+    width: 100%;
+  }
+  
+  label{
+    font-weight: bold;
+    color: $med-gray;
+    position: relative;
+    left: -5px;
+    width: 94%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    font-size: .9rem;
+    text-align: left;
+    span{
+      display: block;
+      color: $light-gray;
+      margin-top: 6px;
+      font-style: italic;
+      font-size: .9rem;
+      position: relative;
+      left: -2px;
+    }
+  }
+  
+  .cu_checkBox{
+    padding: 0 0px 25px 0;
+    margin: 0;
+    margin-left: -10px;
+    cursor: pointer;
+    input{ opacity: 0; }
+    span{
+      height: 18px;
+      width: 18px;
+      display: inline-block;
+      margin-right: 10px;
+      position: relative;
+      bottom: -4px;
+      border-radius: 50%;
+      border: 1px solid #fff;
+      box-shadow: 0 0 0 2px #e4e4e4;
+      background-color: #e4e4e4;
+      margin-left: 5px;
+    }
+    input:checked + span{
+      &:after{
+        position: absolute;
+        top: -10px;
+        left: 2px;
+        height: 20px;
+        width: 20px;
+        content: 'L';
+        color: green;
+        font-weight: bold;
+        font-size: 26px;
+        transform: scaleX(-1) rotate(-40deg);
+      }
+    }
+  }
+
+button {
+    text-align: center;
+  }
+  .btn{
+    text-decoration: none;
+    cursor: pointer;
+    background-color: $green;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 19px;
+    transition: background-color .3s;
+    font-weight: bold;
+    text-align: center;
+    &.white {
+      background-color: #fff;
+      color: green;
+      &:hover { color: #fff; }
+    }
+    &.red{
+      background-color: red;
+      box-shadow: 0 0 0 2px red;
+      margin-right: 22px;
+    }
+    &.blue{
+      background-color: blue;
+      margin-right: 22px;
+    }
+    &:hover{
+      background-color: $dark-gray;
+    }
+    &.narrow{
+      padding: 6px 10px;
+      box-shadow: none;
+      border: none;
+    }
+    &.gray{
+      background-color: gray;
+      &:hover{
+        background-color: lightgray;
+      }
+    }
+    &.big{
+      padding: 10px 30px;
+    }
+    &:disabled{
+      background-color: rgb(199, 199, 199);
+      box-shadow: 0 0 0 2px rgb(199, 199, 199);
+      cursor: not-allowed;
+    }
+  }
+
+.new-form {
+    border-radius: $content-radius 0 0 $content-radius;
+    background-color: rgb(100, 212, 100);
+    width: 100%;
+    & label {
+        color: rgb(0, 75, 10);
+        margin-top: 24px;
+        margin-bottom: 10px;
+    }
+    & input[type=text], & input[type=number], & input[type=password] {
+        background-color: rgb(60, 143, 60);
+        border: none;
+        border-radius: $content-radius;
+        color: #fff;
+        box-shadow: none;
+        &:focus {
+            width: $input-Width;
+            margin: 10px auto 15px auto;
+        }
+        &::placeholder{
+          color: #bfffa1;
+          font-weight: normal;
+          font-style: italic;
+        }
+    }
+    & .drop-menu {
+        background-color: rgb(60, 143, 60);
+        border: none;
+        border-radius: $content-radius;
+        color: rgb(0, 48, 0);
+        box-shadow: none;
+        color: #fff;
+        padding: 16px 5px;
+        width: $input-Width;
+        & li, & span {
+            color: #fff;
+            background-color: rgb(60, 143, 60); 
+        }
+        ul {
+            border-radius: $content-radius;
+        }
+    }
+    .cu_checkBox {
+      display: block;
+      margin: 10px auto 0 auto;
+      width: 100%;
+      padding: 0;
+      text-align: left;
+      & span {
+        margin: 0 10px 0 0;
+      }
+    }
+}

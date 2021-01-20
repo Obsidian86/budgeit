@@ -67,15 +67,16 @@ const TransfersForm = ({p, updateTransfersState, transferState}) => {
     }
 
     return (
-        <div className='row max' style={{
+        <div className='row max new-form' style={{
             padding: '20px 0',
+            borderRadius: '6px',
             marginBottom: '30px'
         }}>
             <div className='w-99 t-green'>
                 {
                     transferState.id ? 
-                        <h2>Updating auto transfer</h2> :
-                        <h2>Adding auto transfer</h2>
+                        <h4 className='section-title'>Updating auto transfer</h4> :
+                        <h4 className='section-title'>Adding auto transfer</h4>
                 }
                 
             </div>
@@ -141,14 +142,14 @@ const TransfersForm = ({p, updateTransfersState, transferState}) => {
             {!linkedBi || linkedBi.length < 1 ?
                 <div className='w-99 right'>
                     {transferState.id && <button className='btn mt-10 mr-20 red' onClick={handleDeleteClick}>Delete</button>}
-                    <button className='btn mt-10 mr-20 green' onClick={handlesubmit}>Submit</button>
+                    <button className='btn mt-10 mr-20 white' onClick={handlesubmit}>Submit</button>
                 </div>
                 : <>
-                    <div className='center t-bold t-green' style={{fontSize: '1.1rem'}}>
+                    <div className='center t-bold' style={{fontSize: '1.1rem'}}>
                         <p> This transfer is set up through budgets: { linkedBi[0].item }  </p>
                     </div>
                     <div className='w-99 right'>
-                        <Link to="/budget" className='btn mt-10 mr-20 green'>Edit budget</Link>
+                        <Link to="/budget" className='btn mt-10 mr-20 white'>Edit budget</Link>
                     </div>
                 </>
             }

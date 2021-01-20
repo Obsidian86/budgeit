@@ -139,7 +139,7 @@ export const proccessbudgetData = (budget, total, viewBy) => {
                 />
         </div> : <></>
         return(
-            <div key={'outer-item-' + index} className='mb-10 spl-500'>
+            <div key={'outer-item-' + index} className='mb-10 spl-500 mr-15'>
                 <TableRow
                     round={false}
                     pattern={[45, 45, 90]}
@@ -158,7 +158,7 @@ export const proccessbudgetData = (budget, total, viewBy) => {
     })
 
     const budgetContent = <div className='content-pad'>
-        <div className='row'>
+        <div className='row' style={{ justifyContent: 'flex-start'}}>
             { contentData }
         </div>
         <div className='right pt-10'>
