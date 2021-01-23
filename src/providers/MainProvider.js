@@ -143,8 +143,6 @@ class MainProvider extends React.Component {
     conF.loadTransactions(accountId, this.state.profile, this.state.transactions, this.state.hasNoTransactions, this.saveState)
 
   render = () => {
-    console.log(this.state.isMobile)
-    console.log(window.innerWidth)
     if (this.isMobile() !== this.state.isMobile) {
       this.checkIfMobile()
     }

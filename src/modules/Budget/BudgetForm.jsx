@@ -4,10 +4,25 @@ import { recurrence } from '../../utilities/constants'
 import { parsedCurrentDate, stepDate } from '../components/calendar/dateFunctions'
 import { IP } from '../../utilities/formUtilities'
 import { money } from '../../utilities/convert'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEditItem, setDialog, errors, updateView, accountList, retainData = {}, linkedTransfer }) => {
   const accountOptions = accountList.map(acc => ({d: acc.name + ' - ' + money(acc.amount), v: acc.id}))
   const hasTransfer = linkedTransfer && linkedTransfer.length > 0 
+  const showDeleteConfirm = (formData) => {
+    setDialog({
+      open: true,
+      header: 'Delete item',
+      message: <>Are you sure you want to delete "{formData.item}"? <br /> This can not be undone.</>,
+      confirm: () => {
+        updateEditItem(null)
+        deleteBudgetItem(formData.category, formData.id)
+        updateView('yourBudgetModule')
+      },
+      reject: () => { return null }
+    })
+  }
   return (<Form
     defaultFormData={
       editItem ? { 
@@ -34,6 +49,30 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
     render={(updateField, formData, clearData) => {
       return (
         <>
+          <div className='grouping left'>
+              <IP
+                onChange={() => showDeleteConfirm(formData)}
+                type='btn_red_mb-10'
+                label={`Delete budget item`}
+                icon={<FontAwesomeIcon icon={faTimes} />}
+              />
+            </div>
+
+            {/* {editItem && <button
+              onClick={() => setDialog({
+                open: true,
+                header: 'Delete item',
+                message: <>Are you sure you want to delete this item? <br /> This can not be undone.</>,
+                confirm: () => {
+                  updateEditItem(null)
+                  deleteBudgetItem(formData.category, formData.id)
+                  updateView('yourBudgetModule')
+                },
+                reject: () => { return null }
+              })}
+              className='btn red mt-10'
+            >Delete
+            </button>} */}
           <label>Category</label>
           {formData.newCategory === 'on' ? 
             <IP type='text' alias='category' onChange={e => updateField(e)} data={formData} errors={errors} /> 
@@ -151,21 +190,6 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             /> }
 
           <div className='grouping right mt-10' style={{maxWidth: '100%', flexWrap: 'wrap'}}>
-            {editItem && <button
-              onClick={() => setDialog({
-                open: true,
-                header: 'Delete item',
-                message: <>Are you sure you want to delete this item? <br /> This can not be undone.</>,
-                confirm: () => {
-                  updateEditItem(null)
-                  deleteBudgetItem(formData.category, formData.id)
-                  updateView('yourBudgetModule')
-                },
-                reject: () => { return null }
-              })}
-              className='btn red mt-10'
-            >Delete
-            </button>}
             <button 
             className='btn blue mt-10'
             onClick={()=> {

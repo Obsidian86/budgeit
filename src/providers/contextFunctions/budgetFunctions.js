@@ -64,6 +64,7 @@ export const processAddBudgetItem = async (newBi, local, oldBudget, total, usern
   let response = null
   let bi = { ...newBi, id: Date.now() }
   let useAccountTransfer = null
+
   if (username) {
     if (local) {
       response = { data: [newBi] }

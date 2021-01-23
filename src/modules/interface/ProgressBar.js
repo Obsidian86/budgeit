@@ -55,6 +55,7 @@ const ProgressBar = ({
     textShadow: hideShadow ? 'none' : `0 0 4px ${color}`,
     fontSize: fontSize
   }
+  const usePercent = percent > 50 ? 100 : percent
   return (
     <div style={{ ...containerStyles, ...inConStyles }}>
       {
@@ -74,7 +75,7 @@ const ProgressBar = ({
         )
       }
       <p style={titleStyles}>{title}</p>
-      <div style={{...fillStyles, width: itemMounted ? `${percent}%` : 0}} />
+      <div style={{...fillStyles, width: itemMounted ? `${usePercent}%` : 0}} />
     </div>
   )
 }
