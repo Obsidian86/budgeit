@@ -50,29 +50,13 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
       return (
         <>
           <div className='grouping left'>
-              <IP
+              {editItem && <IP
                 onChange={() => showDeleteConfirm(formData)}
                 type='btn_red_mb-10'
                 label={`Delete budget item`}
                 icon={<FontAwesomeIcon icon={faTimes} />}
-              />
+              />}
             </div>
-
-            {/* {editItem && <button
-              onClick={() => setDialog({
-                open: true,
-                header: 'Delete item',
-                message: <>Are you sure you want to delete this item? <br /> This can not be undone.</>,
-                confirm: () => {
-                  updateEditItem(null)
-                  deleteBudgetItem(formData.category, formData.id)
-                  updateView('yourBudgetModule')
-                },
-                reject: () => { return null }
-              })}
-              className='btn red mt-10'
-            >Delete
-            </button>} */}
           <label>Category</label>
           {formData.newCategory === 'on' ? 
             <IP type='text' alias='category' onChange={e => updateField(e)} data={formData} errors={errors} /> 

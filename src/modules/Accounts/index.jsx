@@ -8,7 +8,7 @@ import { money } from '../../utilities/convert'
 import * as accountFunctions from './accountsFunctions'
 import s from './styles'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUniversity, faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
+import { faUniversity, faExchangeAlt, faTimes } from "@fortawesome/free-solid-svg-icons";
 import TransfersForm from './TransfersForm'
 import { parsedCurrentDate } from '../components/calendar/dateFunctions'
 import accountTypes from '../../utilities/accountTypes'
@@ -70,12 +70,21 @@ const Accounts = () => {
                     <h4 className='section-title'>{
                         edittingItem ? 'Edit account' : 'Add new account'
                     }</h4>
+                   
                     <Form
                         reDefault
                         defaultFormData={edittingItem ? edittingItem : {}}
                         render={(updateField, formData, clearData) => {
                             return (
+                                
                                 <>
+                                 { edittingItem && 
+                                    <IP
+                                        onChange={() => handleDelete(formData.id, clearData)}
+                                        type='btn_red_mb-10'
+                                        label={`Delete account`}
+                                        icon={<FontAwesomeIcon icon={faTimes} />}
+                                    />}
                                     <IP type='text' alias='name' data={formData} label='Account name' errors={errors} onChange={e => updateField(e)} showPH='Account name' />
                                     <IP type='number' alias='interest' data={formData} label='Interest rate' errors={errors} onChange={e => updateField(e)} showPH='0%' />
                                     <IP type='number' alias='amount' data={formData} label='Amount' errors={errors} onChange={e => updateField(e)} showPH='Amount' />
@@ -106,14 +115,6 @@ const Accounts = () => {
                                         : <IP type='number' alias='creditLimit' data={formData} label='Credit limit' errors={errors} onChange={e => updateField(e)} showPH='Credit limit' />
                                     }
                                     <span className='right mt-40'>
-                                        {edittingItem &&
-                                            <button
-                                                className='btn red'
-                                                onClick={() => handleDelete(formData.id, clearData)}
-                                            >
-                                                Delete
-                                        </button>
-                                        }
                                         <button
                                             className='btn blue'
                                             onClick={() => {

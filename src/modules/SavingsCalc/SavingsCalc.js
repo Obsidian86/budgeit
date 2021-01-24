@@ -164,28 +164,20 @@ const SavingsCalc = () => {
 
   const startAge = p.userInfo && p.userInfo.dob && p.userInfo.dob !== '' ? getAge(p.userInfo.dob) : null
   const years = startAge ? 62 - startAge : null
-
+  const controls = <IP 
+      type={`btn_${showForm ? 'red' : 'green'}`} 
+      onChange={()=>{
+        const cf = new Promise((resolve, reject)=> resolve(p.selectedAccount && p.addAccountToEstimator(null)))
+        cf.then(()=>updateShowForm(!showForm))
+      }}
+      icon={showForm ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+      label={showForm ? 'Hide form' : 'Show form'}
+    />
   return (
-    <ContentBox title="Savings estimator" itemId='savingsModule' icon={<FontAwesomeIcon icon={faPiggyBank} />}>
+    <ContentBox title="Savings estimator" itemId='savingsModule' controls={controls} icon={<FontAwesomeIcon icon={faPiggyBank} />} exClass={'mx row new-content-box'}>
       <div className={`row mt-40`}>
-        <div className='max row center mb-40'>
-        <p className='lg remark'>
-          Estimate how much you'll have by retirement. <br /> 
-          The breakdown of each account will display in a new table. The totals will display in the first table. 
-        </p>
-        </div>
-        <div className={showForm ? 'md' : 'xs'}>
-          <div className='right md-center'>
-            <IP 
-              type={`btn_${showForm ? 'red' : 'green'}`} 
-              onChange={()=>{
-                const cf = new Promise((resolve, reject)=> resolve(p.selectedAccount && p.addAccountToEstimator(null)))
-                cf.then(()=>updateShowForm(!showForm))
-              }}
-              icon={showForm ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
-              label={showForm ? 'Hide form' : 'Show form'}
-            />
-          </div>
+        <div className='mt-10 m-sm new-form'>
+          <h4 className='section-title'> New savings estimate </h4>
           { (showForm || p.selectedAccount) && <Form
             defaultFormData={ p.selectedAccount ? {
               ...p.selectedAccount,
@@ -239,6 +231,10 @@ const SavingsCalc = () => {
             )}
           />}
         </div>
+        <p className='lg remark'>
+          Estimate how much you'll have by retirement. <br /> 
+          The breakdown of each account will display in a new table. The totals will display in the first table. 
+        </p>
           {p.savingsTable && p.savingsTable.length > 1 ? renderTable(p.savingsTable)
             : <h2 className="sm" style={s.noTables}>Add savings info to calculate</h2>
           }
