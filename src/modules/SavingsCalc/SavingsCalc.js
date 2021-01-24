@@ -70,7 +70,7 @@ const SavingsCalc = () => {
       })
 
       return (
-        <div className={`md`} style={s.tableContainer}>
+        <div className={`max`} style={s.tableContainer}>
           <label style={s.labelStyles}>{ tableData['accountName'] ? tableData['accountName'] : `Table ${index}` }</label>
           <span 
             className='btn narrow blue' 
@@ -138,7 +138,7 @@ const SavingsCalc = () => {
         return row
       })
       return(
-        <div className={`${showForm ? 'md' : 'lg'}`} style={s.tableContainer}>
+        <div className={`max`} style={s.tableContainer}>
           <label style={s.labelStyles}>Totals</label>
           <TableRow pattern={RowSpread} className="headerRow" round={false} >
             <div> Age </div>
@@ -164,6 +164,7 @@ const SavingsCalc = () => {
 
   const startAge = p.userInfo && p.userInfo.dob && p.userInfo.dob !== '' ? getAge(p.userInfo.dob) : null
   const years = startAge ? 62 - startAge : null
+  const formOpen = showForm || p.selectedAccount
   const controls = <IP 
       type={`btn_${showForm ? 'red' : 'green'}`} 
       onChange={()=>{
@@ -174,11 +175,16 @@ const SavingsCalc = () => {
       label={showForm ? 'Hide form' : 'Show form'}
     />
   return (
-    <ContentBox title="Savings estimator" itemId='savingsModule' controls={controls} icon={<FontAwesomeIcon icon={faPiggyBank} />} exClass={'mx row new-content-box'}>
-      <div className={`row mt-40`}>
-        <div className='mt-10 m-sm new-form'>
+    <ContentBox 
+      title="Savings estimator" 
+      itemId='savingsModule' 
+      controls={controls} 
+      icon={<FontAwesomeIcon icon={faPiggyBank} />} 
+      exClass={'mx row new-content-box'}
+    >
+       {formOpen && <div className='mt-10 m-sm new-form'>
           <h4 className='section-title'> New savings estimate </h4>
-          { (showForm || p.selectedAccount) && <Form
+          <Form
             defaultFormData={ p.selectedAccount ? {
               ...p.selectedAccount,
               accountName: p.selectedAccount.name,
@@ -222,23 +228,24 @@ const SavingsCalc = () => {
                     clearData(formData)
                     p.selectedAccount && p.addAccountToEstimator(null)
                     }} label='Cancel' />
-                  <IP type='btn' onChange={()=>{
+                  <IP type='btn_white' onChange={()=>{
                     submitForm(formData);
                     p.selectedAccount && p.addAccountToEstimator(null)
                     }} />
                 </div>
               </>
             )}
-          />}
-        </div>
-        <p className='lg remark'>
-          Estimate how much you'll have by retirement. <br /> 
-          The breakdown of each account will display in a new table. The totals will display in the first table. 
-        </p>
+          />
+        </div> }
+        <div className={formOpen ? 'm-lg' : 'max'}>
+          <p className='max remark'>
+            Estimate how much you'll have by retirement. <br /> 
+            The breakdown of each account will display in a new table.
+          </p>
           {p.savingsTable && p.savingsTable.length > 1 ? renderTable(p.savingsTable)
-            : <h2 className="sm" style={s.noTables}>Add savings info to calculate</h2>
+            : <h2 className="max" style={s.noTables}>Add savings info to calculate</h2>
           }
-      </div>
+        </div>
     </ContentBox>
   );
 };
