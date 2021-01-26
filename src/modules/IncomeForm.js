@@ -132,6 +132,7 @@ const IncomeForm = () => {
                 <input
                   type='checkbox' name='autoOn'
                   checked={!!formData.autoOn && formData.autoOn === "on"}
+                  disabled={p.accounts.length < 1}
                   onChange={() => updateField({
                     target: {
                       name: 'autoOn',
@@ -139,10 +140,12 @@ const IncomeForm = () => {
                     }
                   })}
                 />{' '} <span />Auto deposit
-            </label>
-
+              </label>
+              {
+                p.accounts.length < 1 && <p className='pl-10'>Account needed for auto deposit</p>
+              }
               {(formData.autoOn && formData.autoOn !== 'off') ?
-                p.accounts.length < 1 ? <p>Acc needed</p> :
+                p.accounts.length > 0 &&
                   <IP type='drop'
                     errors={errors}
                     options={p.accounts

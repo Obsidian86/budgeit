@@ -71,17 +71,21 @@ const SavingsCalc = () => {
 
       return (
         <div className={`max`} style={s.tableContainer}>
-          <label style={s.labelStyles}>{ tableData['accountName'] ? tableData['accountName'] : `Table ${index}` }</label>
-          <span 
-            className='btn narrow blue' 
-            style={s.toggleStyles} 
-            onClick={() => toggleExclusions(index)}> {excludedTables.includes(index) ? "Show" : "Hide" } in totals
-          </span>
-          <span 
-            className='btn narrow red' 
-            style={s.deleteStyles} 
-            onClick={() => deleteTable(tableData.id)}> Delete
-          </span>
+          <div style={s.controlsContainer}>
+            <label style={s.labelStyles}>{ tableData['accountName'] ? tableData['accountName'] : `Table ${index}` }</label>
+            <span style={s.buttonsContainer}>
+              <span 
+                className='btn narrow blue' 
+                style={s.toggleStyles} 
+                onClick={() => toggleExclusions(index)}> {excludedTables.includes(index) ? "Show" : "Hide" } in totals
+              </span>
+              <span 
+                className='btn narrow red' 
+                style={s.deleteStyles} 
+                onClick={() => deleteTable(tableData.id)}> Delete
+              </span>
+            </span>
+          </div>
           <TableRow pattern={RowSpread} className="headerRow" round={false} >
             <div> Age <br /> { tableData['startAge'] && tableData['startAge']} </div>
             <div> Deposit <br /> { money(tableData['deposit'] && tableData['deposit'])} </div>

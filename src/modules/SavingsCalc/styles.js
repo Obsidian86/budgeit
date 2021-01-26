@@ -19,16 +19,20 @@ export const styles = theme => ({
       textAlign: 'center',
       marginLeft: '5px'
     },
-    deleteStyles: {
-      position: 'absolute',
-      right: '-25px',
-      top: '18px',
-      padding: '5px'
+    deleteStyles: { 
+      padding: '5px',
+      marginRight: '0'
     },
-    toggleStyles: {
-      position: 'absolute',
-      right: '40px',
-      top: '18px',
-      padding: '5px'
-    } 
+    toggleStyles: { 
+      padding: '5px',
+      marginRight: '10px'
+    },
+    controlsContainer: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'flex-end'
+    },
+    buttonsContainer: {
+      paddingBottom: '10px'
+    }
   })
