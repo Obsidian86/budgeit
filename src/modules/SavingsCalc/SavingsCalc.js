@@ -12,6 +12,8 @@ import * as SCF from './savingsCalcFunctions'
 import { getAge } from '../components/calendar/dateFunctions'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faPiggyBank } from "@fortawesome/free-solid-svg-icons";
+import ProcTable from './ProcTable'
+
 
 const SavingsCalc = () => {
   const p = useContext(MainContext)
@@ -26,7 +28,7 @@ const SavingsCalc = () => {
 
   const s = styles(p.theme)
   const deleteTable = tableId => SCF.deleteTable(tableId, p.setDialog, p.deleteSavingsTables, p.updateView)
-
+  const RowSpread = [8, 30, 22, 35];
   const toggleExclusions = (index) => {
     if(excludedTables.includes(index)){
       const excl = [...excludedTables].filter(item => item !== index)
@@ -52,49 +54,17 @@ const SavingsCalc = () => {
   }
 
   const renderTable = (allTableData) => {
-    const RowSpread = [8, 30, 22, 35];
-    let minAge = 99
-    let maxAge = 1
-    const procTable = (tableData, index) => {    
-      if (Object.keys(tableData).length === 1 && tableData["0"]) return null
-      let rows = Object.keys(tableData).map((t, i) => {
-        if (t === 0 || t === '0' || isNaN(parseInt(t))) return null
-        if(parseInt(t) < minAge) minAge = parseInt(t)
-        if(parseInt(t) > maxAge) maxAge = parseInt(t)
-        return (<TableRow
-          pattern={RowSpread}
-          key={t}
-          tData={[
-            t, "+ " + money(tableData[t].deposit), money(tableData[t].interest), 
-            money(tableData[t].stAmount + tableData[t].interest + tableData[t].deposit)]} />)
-      })
 
-      return (
-        <div className={`max`} style={s.tableContainer}>
-          <div style={s.controlsContainer}>
-            <label style={s.labelStyles}>{ tableData['accountName'] ? tableData['accountName'] : `Table ${index}` }</label>
-            <span style={s.buttonsContainer}>
-              <span 
-                className='btn narrow blue' 
-                style={s.toggleStyles} 
-                onClick={() => toggleExclusions(index)}> {excludedTables.includes(index) ? "Show" : "Hide" } in totals
-              </span>
-              <span 
-                className='btn narrow red' 
-                style={s.deleteStyles} 
-                onClick={() => deleteTable(tableData.id)}> Delete
-              </span>
-            </span>
-          </div>
-          <TableRow pattern={RowSpread} className="headerRow" round={false} >
-            <div> Age <br /> { tableData['startAge'] && tableData['startAge']} </div>
-            <div> Deposit <br /> { money(tableData['deposit'] && tableData['deposit'])} </div>
-            <div> Interest <br /> { tableData['startInterest'] && tableData['startInterest'] + '%'} </div>
-            <div> Balance <br /> { money(tableData['startAmount'] && tableData['startAmount'])} </div>
-          </TableRow>
-          <Collapseable open={index === 0}> {rows} </Collapseable>
-        </div>
-      )}
+    const allAges = [...new Set(allTableData
+      .reduce((p, c) => {
+      return [...p, ...Object.keys(c)
+        .filter(k => parseInt(k) ? true: false )]
+    }, []))]
+    .map(age => parseInt(age))
+    .sort()
+  
+    let minAge = allAges[0]
+    let maxAge = allAges[allAges.length - 1]
 
     let curAllTotal = 0
     const procTotalsTable = (TD) => {
@@ -155,7 +125,35 @@ const SavingsCalc = () => {
       )
     }
 
-    const allTables = allTableData.map((table, index) => index > 0 ? <React.Fragment key={index}>{procTable(table, index)}</React.Fragment> : null)
+    const allTables = allTableData.map((table, index) => index > 0
+      ? <>
+        <div style={s.controlsContainer}>
+            <label style={s.labelStyles}>{table['accountName'] ? table['accountName'] : `Table ${index}`}</label>
+            <span style={s.buttonsContainer}>
+                <span
+                    className='btn narrow blue'
+                    style={s.toggleStyles}
+                    onClick={() => toggleExclusions(index)}> {excludedTables.includes(index) ? "Show" : "Hide"} in totals
+                </span>
+                <span
+                    className='btn narrow red'
+                    style={s.deleteStyles}
+                    onClick={() => deleteTable(table.id)}> Delete
+                </span>
+            </span>
+        </div>
+        <ProcTable
+          tableData={table}
+          index={index}
+          s={s}
+          key={'table-' + index}
+          toggleExclusions={toggleExclusions}
+          tableHidden={excludedTables.includes(index)}
+          deleteTable={deleteTable}
+          RowSpread={RowSpread}
+        />
+      </>
+      : null)
     const totalsTable = procTotalsTable(allTableData)
 
     return(
@@ -172,7 +170,7 @@ const SavingsCalc = () => {
   const controls = <IP 
       type={`btn_${showForm ? 'red' : 'green'}`} 
       onChange={()=>{
-        const cf = new Promise((resolve, reject)=> resolve(p.selectedAccount && p.addAccountToEstimator(null)))
+        const cf = new Promise(resolve => resolve(p.selectedAccount && p.addAccountToEstimator(null)))
         cf.then(()=>updateShowForm(!showForm))
       }}
       icon={showForm ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}

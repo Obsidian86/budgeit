@@ -7,7 +7,7 @@ export const styles = theme => ({
       display: 'inline-block',
       borderRadius: '4px'
     },
-    tableContainer: { marginBottom: "20px", position: 'relative', marginTop: '30px'},
+    tableContainer: { marginBottom: "20px", position: 'relative', marginTop: '0'},
     noTables: { textAlign: 'center', marginTop: '75px' },
     labelStyles: {
       fontSize: '1.1rem',
@@ -28,6 +28,8 @@ export const styles = theme => ({
       marginRight: '10px'
     },
     controlsContainer: {
+      width: '98%',
+      margin: '0 auto',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'flex-end'
