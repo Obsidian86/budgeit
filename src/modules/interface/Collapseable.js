@@ -3,7 +3,7 @@ import theme from '../../styles/theme'
 import { Fade } from '../Transitions'
 import Scroll from './Scroll'
 
-const Collapseable = ({ open, message, children }) => {
+const Collapseable = ({ open, message, children, maxHeight }) => {
   const [isOpen, updateIsOpen] = useState(true)
   const [defaultSet, updateDefaultSet] = useState(false)
 
@@ -43,7 +43,7 @@ const Collapseable = ({ open, message, children }) => {
         Click to hide content
         <span style={switchStyles}>-</span>
       </p>}
-      {!isOpen ? <Fade time={320}><Scroll height={650}>{children}</Scroll></Fade> : displayMessage}
+      {!isOpen ? <Fade time={320}><Scroll height={maxHeight || 650}>{children}</Scroll></Fade> : displayMessage}
 
     </span>
   )

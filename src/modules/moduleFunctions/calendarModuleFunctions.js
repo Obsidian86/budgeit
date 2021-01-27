@@ -16,7 +16,7 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
           <p style={{...s.r, color: 'green'}}>Liquid { money(trackBalance)}</p>
           <p style={s.r}>Total { money(balWithLiquid)}</p>
         </div>
-        <p className='mt-20 mb-20'> No items to view for this range </p>
+        <p className='mt-20 mb-20 center'> No items to view for this range </p>
       </>
     }else{
       let yearTrack = ''
@@ -27,7 +27,7 @@ export const genTabContent = (procItems, trackBalance, title, s, balWithLiquid, 
             <p style={{...s.r, color: 'green'}}>Liquid { money(trackBalance)}</p>
             <p style={s.r}>Total { money(balWithLiquid)}</p>
           </div>
-          <Scroll height={600}>
+          <Scroll height={500}>
             <SoftList split>
               {procItems && procItems.map((ci, i) => {
                 if(ci.amount && ci.isTransfer && ci.isTransfer === 'on' && ci.linkedTransfer && ci.linkedTransfer !== ''){

@@ -25,7 +25,7 @@ const ProcTable = ({tableData, index, s, RowSpread}) => {
                 <div> Interest <br /> {tableData['startInterest'] && tableData['startInterest'] + '%'} </div>
                 <div> Balance <br /> {money(tableData['startAmount'] && tableData['startAmount'])} </div>
             </TableRow>
-            <Collapseable open={index === 0}> {rows} </Collapseable>
+            <Collapseable open={index === 0} maxHeight={500}> {rows} </Collapseable>
         </div>
     )
 }

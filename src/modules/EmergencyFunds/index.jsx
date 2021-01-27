@@ -25,13 +25,13 @@ const EmergencyFunds = () => {
         </p>
         <div className='lg'>
           <div>
-            <h4 class='section-title'>Available funds</h4>
+            <h4 className='section-title'>Available funds</h4>
             <SoftList split>
               <li className='t-blue'><strong>Amount available</strong> <span>{money(totalAvailable)}</span></li>
               { availableAmount }
             </SoftList>
 
-            <h4 class='section-title'>Amount needed</h4>
+            <h4 className='section-title'>Amount needed</h4>
             <SoftList split>
               <li><strong>Monthly expenditure</strong><span>{money(p.total)}</span></li>
               {Object.keys(excluded).map(b =>
