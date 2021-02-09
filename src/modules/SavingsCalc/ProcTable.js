@@ -4,8 +4,6 @@ import { money } from "../../utilities/convert";
 import TableRow from "../interface/TableRow";
 
 const ProcTable = ({tableData, index, s, RowSpread}) => {
-    console.log(tableData)
-    console.log('RERENDER ' + index)
     if (Object.keys(tableData).length === 1 && tableData["0"]) return null
     let rows = Object.keys(tableData).map(t => {
         if (t === 0 || t === '0' || isNaN(parseInt(t))) return null

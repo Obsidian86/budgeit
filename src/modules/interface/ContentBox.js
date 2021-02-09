@@ -33,7 +33,7 @@ const ContentBox = ({ children, title, exClass = '', itemId, exStyles = {}, hide
       <div>
         { title && <ModuleTitle title={title} icon={icon} />  }
       </div>
-      <div>
+      <div className='module-controls'>
         { controls && controls}
       </div>
     </div>}

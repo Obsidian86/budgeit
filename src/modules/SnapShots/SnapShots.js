@@ -185,11 +185,15 @@ const SnapShots = ({nonLoad}) => {
                 </div>
             </div>
             }
-            {p.snapshots.length > 0 && <button onClick={() => updateHideSnapshots(!hideSnapshots)} className={`btn ${!hideSnapshots ? 'red' : 'blue'}`}>
-                <FontAwesomeIcon icon={ !hideSnapshots ? faEyeSlash : faEye} />&nbsp;&nbsp;
-                <span>{hideSnapshots ? 'Show' : 'Hide'} snapshots</span>
-            </button>}
-            <button onClick={() => handleCreate()} className='btn green'><FontAwesomeIcon icon={faCamera} />&nbsp;&nbsp;<span>Create snapshot</span></button>
+            <div className='center-all' style={{height: 'auto'}}>
+                {p.snapshots.length > 0 && <button onClick={() => updateHideSnapshots(!hideSnapshots)} className={`btn ${!hideSnapshots ? 'red' : 'blue'}`}>
+                    <FontAwesomeIcon icon={ !hideSnapshots ? faEyeSlash : faEye} />&nbsp;&nbsp;
+                    <span>{hideSnapshots ? 'Show' : 'Hide'} snapshots</span>
+                </button>}
+                <button onClick={() => handleCreate()} className='btn green'><FontAwesomeIcon icon={faCamera} />
+                    &nbsp;&nbsp;<span>Create snapshot</span>
+                </button>
+            </div>
             <div style={s.snapShotsContainer}>
                 {!hideSnapshots && [...p.snapshots].reverse().map((sh, i) =>
                     <div key={i} className='row' style={{width: `${100 / (p.snapshots.length < 4 ? p.snapshots.length : 4) - 3}%`, ...s.snapShot}}>
