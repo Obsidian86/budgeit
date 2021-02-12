@@ -102,7 +102,12 @@ const CalendarModule = ({nonLoad}) => {
   })
 
   return (
-    <ContentBox title='Calendar' itemId='calendarModule' icon={<FontAwesomeIcon icon={faCalendar}/>} exClass={nonLoad ? 'hide' : ''}>
+    <ContentBox
+      title='Calendar'
+      itemId='calendarModule'
+      icon={<FontAwesomeIcon icon={faCalendar}/>}
+      exClass={`new-content-box ${nonLoad ? 'hide' : ''}`}
+    >
       <div className='row between mt-40'>
         <div className='w-30 mt-40 fw-b'>
           <TabbedView

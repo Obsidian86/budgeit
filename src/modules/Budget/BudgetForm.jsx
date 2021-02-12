@@ -110,7 +110,7 @@ const BudgetForm = ({ editItem, onSubmit, catOptions, deleteBudgetItem, updateEd
             />{' '} 
             <span />
             Retain funds
-            <p className='muted' style={{width: '100%', margin: '8px 0 0 45px', color: '#e9e9e9'}}>
+            <p className='muted' style={{width: '100%', margin: '6px 0 0 45px', color: '#ffffff'}}>
               Doesn't subtract from totals.
             </p>
           </label>}

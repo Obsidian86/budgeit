@@ -103,7 +103,7 @@ const Checkbook = () => {
         </Link>
         {accountsCount > 0 && <IP
             type='btn'
-            label='Add transaction'
+            label='Transaction'
             style={{ marginRight: '10px', 'borderRadius': '4px', marginTop: '13px' }}
             icon={<FontAwesomeIcon icon={faPlusCircle} />}
             onChange={() => setTransactionDialog('add', null)}

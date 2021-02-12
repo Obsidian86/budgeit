@@ -23,7 +23,7 @@ const SnapShots = React.lazy(() => import('./modules/SnapShots/SnapShots'))
 const CalendarModule = React.lazy(() => import('./modules/CalendarModule'))
 const Dashboard = React.lazy(() => import('./modules/Dashboard'))
 const Profile = React.lazy(() => import('./modules/Profile'))
-const version = '1.10.0'
+const version = '1.10.01'
 
 const routeData = [
   { link: '/login', component: LoginScreen },
